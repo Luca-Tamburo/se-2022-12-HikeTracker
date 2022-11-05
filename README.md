@@ -60,7 +60,9 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 ### Test
 
 ```names
-- TO BE DEFINED
+- JEST
+- MOCHA
+- CYPRESS
 ````
 
 ## Source Directory Structure
