@@ -60,9 +60,9 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 ### Test
 
 ```names
-- JEST
-- MOCHA
-- CYPRESS
+- Jest
+- Mocha
+- Cypress
 ````
 
 ## Source Directory Structure
@@ -79,6 +79,17 @@ Here you can find a visual schema of source directory structure by means the tre
           |--- /manifest.json
           |--- /robots.txt
      |--- /src
+          |--- /assets
+               |--- /carousel
+                    |--- /first.jpg
+                    |--- /second.jpg
+                    |--- /third.jpg
+                    |--- /fourth.jpg
+               |--- /logo
+                    |--- /logo-black.svg
+                    |--- /logo-color.svg
+                    |--- /logo-no-background.svg
+                    |--- /logo-white.svg
           |--- /components
                |--- /ui-core
                     |--- /index.js
@@ -103,6 +114,11 @@ Here you can find a visual schema of source directory structure by means the tre
      |--- /package.json
      |--- /README.md
 |--- /mocks
+     |--- /homePage
+          |--- /Homepage_1.png
+          |--- /Homepage_2.png
+          |--- /Homepage_3.png
+          |--- /Homepage_4.png
 |--- /retrospective
 |--- /server
      |--- /db
@@ -119,13 +135,17 @@ Here you can find a visual schema of source directory structure by means the tre
 
 ## Mocks
 
+### HomePage Carousel
+
+![HomePage Carousel - 4](./mocks/homePage/Homepage_4.png)
+
 ## Team members
 
 | Matricola   |   Surname   | Name        |
 | :---------: | :---------  | :---------- |
-| s301146     | COLELLI     | ANTONIO     |
-| s294427     | HEVIA       | ADRIANA     |
-| s305925     | MICCONO     | EDOARDO     |
-| s303399     | SAMBIN      | GABRIELE    |
-| s303907     | TAMBURO     | LUCA        |
-| s301587     | TROVERO     | FABIO       |
+| s301146     | Colelli     | Antonio     |
+| s294427     | Hevia       | Adriana     |
+| s305925     | Miccono     | Edoardo     |
+| s303399     | Sambin      | Gabriele    |
+| s303907     | Tamburo     | Luca        |
+| s301587     | Trovero     | Fabio       |
