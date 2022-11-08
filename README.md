@@ -20,13 +20,12 @@ Project developed by ***Team-12*** for the course "Software Engineering II," att
 
 All routes available are listed below
 
-- **`/`** : Home Page 
-- **`/login`** : Login Page
-- **`/signup`** : Registration Form
+- **`/`** : Home Page
+- **`/login`** : In this route you can find the login form.
+- **`/signup`** : In this route you can find the signup form.
 - **`/hikes`** : Visitor Page
 - **`/hikes/:${id}`** : Page with details and Map
-- **`/*`** : 404 Not found 
-
+- **`/*`** : Any other route is matched by this one where the application shows a page not found error.
 
 ## API Server
 
@@ -36,50 +35,52 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
 ### The tables used in this project are
 
-#### _Hike_ includes all hikes specifications
+#### *Hike* includes all hikes specifications
+
 ```
-Hike(id,title,lenght,expectedTime,ascent,difficulty,description,startPointId,endPointId,userId,gpxFilePath)
+Hike(id, title, lenght, expectedTime, ascent, difficulty, description, startPointId, endPointId, userId, gpxFilePath)
      PRIMARY KEY ( Id )
      FOREIGN KEY (userId, startPointId, endPointId) REFERENCES User ( id ) , Point ( id ) , Point ( id )
 ```
 
-#### _HikePoint_ includes relation between Hike and Point
+#### *HikePoint* includes relation between Hike and Point
+
 ```
-HikePoint( hikeId,pointId)
+HikePoint( hikeId, pointId)
      PRIMARY KEY ( hikeId , pointId )
      FOREIGN KEY (hikeId , pointId ) REFERENCES Point ( id ) , Point ( id )
 ```
 
-#### _Point_ includes all Points specifications
+#### *Point* includes all Points specifications
+
 ```
 HikePoint( id, name, description*, type, longitude, latitude, altitude, city, province )
      PRIMARY KEY ( id )
 ```
 
-#### _Hut_ includes all Huts specification
+#### *Hut* includes all Huts specification
+
 ```
 HikePoint( id, name, roomNumber, bedNumber, pointId, photosPath )
      PRIMARY KEY ( id )
      FOREIGN KEY ( pointId ) REFERENCES Point ( id )
 ```
 
-#### _User_ includes all Users specification
+#### *User* includes all Users specification
+
 ```
 HikePoint( id, username, email, type, salt, hash, name*, surname*, phoneNumber*, verified )
      PRIMARY KEY ( id )
 ```
 
-#### _Preferences_ includes preferences specified by the user
+#### *Preferences* includes preferences specified by the user
+
 ```
 HikePoint( id, duration, altitude, ascent, length, difficulty, userId )
      PRIMARY KEY ( id )
       FOREIGN KEY ( userId ) REFERENCES User ( id )
 
 ```
-
-
-
-
 
 ## Test
 
@@ -177,11 +178,25 @@ Here you can find a visual schema of source directory structure by means the tre
      |--- /package.json
      |--- /README.md
 |--- /mocks
+     |--- /hikeVisitor
+          |--- /HikesPageVisitor_1.png
+          |--- /HikesPageVisitor_2.png
+     |--- /hikeWithInfo
+          |--- /HikesPageHiker_1.png
+          |--- /HikesPageHiker_2.png
      |--- /homePage
           |--- /Homepage_1.png
           |--- /Homepage_2.png
           |--- /Homepage_3.png
           |--- /Homepage_4.png
+     |--- /loginPage
+          |--- /LoginPage_1.png
+          |--- /LoginPage_Correct_Field.png
+          |--- /LoginPage_Error_Field.png
+          |--- /LoginPage_Fail.png
+     |--- /registrationPage
+          |--- /RegistrationPage_1.png
+          |--- /RegistrationPage_2.png
 |--- /retrospective
 |--- /server
      |--- /db
@@ -201,6 +216,34 @@ Here you can find a visual schema of source directory structure by means the tre
 ### HomePage Carousel
 
 ![HomePage Carousel - 4](./mocks/homePage/Homepage_4.png)
+
+### Login
+
+![Login](./mocks/loginPage/LoginPage_1.png)
+
+### SignUp (minimum credentials version)
+
+![Signup](./mocks/registrationPage/RegistrationPage_1.png)
+
+### SignUp (full)
+
+![Signup full](./mocks/registrationPage/RegistrationPage_2.png)
+
+### Hike Page (for visitors)
+
+![Hike page visitors](./mocks/hikeVisitor/HikesPageVisitor_1.png)
+
+### Hike details (for visitors)
+
+![Hike details visitors](./mocks/hikeVisitor/HikesPageVisitor_2.png)
+
+### Hike Page (for registered users)
+
+![Hike page registered user](./mocks/hikeWithInfo/HikesPageHiker_1.png)
+
+### Hike details (for registered users)
+
+![Hike details registered user](./mocks/hikeWithInfo/HikesPageHiker_2.png)
 
 ## Team members
 
