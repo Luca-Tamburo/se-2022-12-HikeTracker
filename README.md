@@ -7,19 +7,26 @@ Project developed by ***Team-12*** for the course "Software Engineering II," att
 1. [React Client Application Routes](#react-client-application-routes)
 2. [API Server](#api-server)
 3. [Database Tables](#database-tables)
-4. [Technologies](#technologies)
+4. [Test](#test)
+5. [Technologies](#technologies)
    - [Frontend](#frontend)
    - [Backend](#backend)
    - [Test](#test)
-5. [Source Directory Structure](#source-directory-structure)
-6. [Mocks](#mocks)
-7. [Team members](#team-members)
+6. [Source Directory Structure](#source-directory-structure)
+7. [Mocks](#mocks)
+8. [Team members](#team-members)
 
 ## React Client Application Routes
 
-All routes available are listed below.
+All routes available are listed below
 
-- **`/`**
+- **`/`** : Home Page 
+- **`/login`** : Login Page
+- **`/signup`** : Registration Form
+- **`/hikes`** : Visitor Page
+- **`/hikes/:${id}`** : Page with details and Map
+- **`/*`** : 404 Not found 
+
 
 ## API Server
 
@@ -27,7 +34,52 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
 ## Database Tables
 
+#### _Hike_ includes all hikes specifications
+```
+Hike(id,title,lenght,expectedTime,ascent,difficulty,description,startPointId,endPointId,userId,gpxFilePath)
+     PRIMARY KEY ( Id )
+     FOREIGN KEY (userId, startPointId, endPointId) REFERENCES User ( id ) , Point ( id ) , Point ( id )
+```
+
+#### _HikePoint_ includes relation between Hike and Point
+```
+HikePoint( hikeId,pointId)
+     PRIMARY KEY ( hikeId , pointId )
+     FOREIGN KEY (hikeId , pointId ) REFERENCES Point ( id ) , Point ( id )
+```
+
+#### _Point_ includes all Points specifications
+```
+HikePoint( id, name, description*, type, longitude, latitude, altitude, city, province )
+     PRIMARY KEY ( id )
+```
+
+#### _Hut_ includes all Huts specification
+```
+HikePoint( id, name, roomNumber, bedNumber, pointId, photosPath )
+     PRIMARY KEY ( id )
+     FOREIGN KEY ( pointId ) REFERENCES Point ( id )
+```
+
+#### _User_ includes all Users specification
+```
+HikePoint( id, username, email, type, salt, hash, name*, surname*, phoneNumber*, verified )
+     PRIMARY KEY ( id )
+```
+
+#### _Preferences_ includes preferences specified by the user
+```
+HikePoint( id, duration, altitude, ascent, length, difficulty, userId )
+     PRIMARY KEY ( id )
+      FOREIGN KEY ( userId ) REFERENCES User ( id )
+
+```
+
+
+
 ### The tables used in this project are
+
+## Test
 
 ## Technologies
 
@@ -43,6 +95,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 - React Router Dom
 - React Toastify
 - Yup
+- Dayjs
 ````
 
 ### Backend
@@ -55,6 +108,8 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 - Passport
 - Passport Local
 - Sqlite3
+- Dayjs
+- Nodejs
 ````
 
 ### Test
