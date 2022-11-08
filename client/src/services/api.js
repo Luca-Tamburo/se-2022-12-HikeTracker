@@ -18,6 +18,7 @@ import axios from "axios";
 const SERVER_URL = 'http://localhost:3001';
 
 const api = {
+    /*
     addNewUser: ()=> (credentials) => {
         return new Promise((resolve, reject) => {
             axios.post(SERVER_URL + '/api/users', credentials, { withCredentials: true })
@@ -25,6 +26,7 @@ const api = {
                 .catch(err => reject(err.response.data));
         })
     }
+    */
 }
 
 export default api;

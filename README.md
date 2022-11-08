@@ -34,6 +34,8 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
 ## Database Tables
 
+### The tables used in this project are
+
 #### _Hike_ includes all hikes specifications
 ```
 Hike(id,title,lenght,expectedTime,ascent,difficulty,description,startPointId,endPointId,userId,gpxFilePath)
@@ -77,7 +79,7 @@ HikePoint( id, duration, altitude, ascent, length, difficulty, userId )
 
 
 
-### The tables used in this project are
+
 
 ## Test
 
@@ -148,14 +150,20 @@ Here you can find a visual schema of source directory structure by means the tre
           |--- /components
                |--- /ui-core
                     |--- /index.js
+                    |--- /RegisterForm.jsx
                |--- /utils
                     |--- /index.js
+                    |--- /Input.jsx
                |--- /index.js
+          |--- /contexts
+               |--- /AuthContext.jsx
           |--- /hooks
                |--- /useNotification.js
           |--- /services
                |--- /api.js
           |--- /views
+               |--- index.js
+               |--- Register.jsx
           |--- /App.css
           |--- /App.jsx
           |--- /App.test.jsx
