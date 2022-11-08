@@ -13,53 +13,55 @@
 
 //Importing modules
 const express = require("express");
-const logger = require("morgan");       //loggin middleware
+const morgan = require("morgan");       //loggin middleware
 const cors = require("cors");
+const {passport, session} = require("./utils/sessionUtil");
 
-//Authentication-related imports 
-const passport = require("passport");
-const LocalStrategy = require("passport-local");
-const session = require('express-session');
+//Importing routes
+const sessionRoute = require("./routes/sessionRoute");
+const signUpRoute = require("./routes/signUpRoute");
 
-//Routes and models
-// const sessionsRouter = require("./routes/sessions");
+// init express
+const app = new express();
+const port = 3001;
 
-//Allow to use public route
-const path = require("path");
-
-//Module that performs data encryption and decryption
-const crypto = require("crypto");
-
-//Init express and set-up the middlewares
-const app = express();
-app.use(logger("dev"));
+// set-up the middlewares
+app.use(morgan("dev"));
 app.use(express.json());
 
 //Set up and enable Cross-Origin Resource Sharing (CORS)
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: "http://localhost:3000",
     credentials: true,
 };
 app.use(cors(corsOptions));
 
-// Creating the session
-app.use(session({
-    secret: 'a secret sentence not to share with anybody and anywhere, userd to sign the session ID cookie',
-    resave: false,
-    saveUninitialized: false
-}))
-
-//Passport
-
-
-app.use("/public", express.static(path.join(__dirname, 'public')));
-
-/* ---  APIs  --- */
-// app.use("/api/courses", courseRouter);
-
-//Activating server
-const PORT = 3001;
-app.listen(PORT, () =>
-    console.log(`Server running on http://localhost:${PORT}/`)
+// set up the session
+app.use(
+    session({
+        // by default, Passport uses a MemoryStore to keep track of the sessions
+        secret: "If you don't try, you've already failed",
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            sameSite: "strict", // Remove SameSite Warning
+        },
+    })
 );
+
+// init passport with the session
+app.use(passport.initialize());
+app.use(passport.session());
+
+/* --- APIs --- */
+app.use("/api", sessionRoute);
+//app.use("/api", signUpRoute);
+
+
+// activate the server
+app.listen(port, () => {
+    console.log(`Server listening at http://localhost:${port}`);
+});
+
+
 

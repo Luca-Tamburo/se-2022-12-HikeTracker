@@ -32,13 +32,65 @@ All routes available are listed below
 
 Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
+- POST `/api/sessions`
+
+  - Description: Login of a user by providing email and password.
+  - Request body: An object representing the user informations.
+
+  ```
+  {
+      "email":"stefanopioli@acmilan.com",
+      "password":"password"
+  }
+  ```
+
+  - Response: `200 OK` (success) or `503 Service Unavailable` (generic error). If the login informations are not correct, or if the user did not verify his email `401 Unauthorized`.
+  - Response body: User informations in case of success. Error message in case of failure.
+
+  ```
+  {
+      "id": 2,
+      "email": "stefanopioli@acmilan.com",
+      "username": "stefanopioli",
+      "name": "stefano",
+      "surname": "pioli",
+      "role": "hiker",
+      "phoneNumber": "+393456589563"
+  }
+  ```
+
+- DELETE `/api/sessions/current`
+
+  - Description: Logout of a logged in user.
+  - Request body: _None_
+  - Response: `200 OK` (success).If the user is not logged in, `401 Unauthorized`.
+  - Response body: _None_
+
+- GET `/api/sessions/current`
+  - Description: Retrieve the logged user informations"
+  - Request body: _None_
+  - Response: `200 OK` (success) or `503 Service Unavailable` (generic error). If the user is not logged in, `401 Unauthorized`.
+  - Response body: User informations in case of success. Error message in case of failure.
+  ```
+  {
+      "id": 2,
+      "email": "stefanopioli@acmilan.com",
+      "username": "stefanopioli",
+      "name": "stefano",
+      "surname": "pioli",
+      "role": "hiker",
+      "phoneNumber": "+393456589563"
+  }
+  ```
+
+
 ## Database Tables
 
 #### _Hike_ includes all hikes specifications
 ```
-Hike(id,title,lenght,expectedTime,ascent,difficulty,description,startPointId,endPointId,userId,gpxFilePath)
+Hike(id,title,description,length,expectedTime,ascent,difficulty,startPointId,endPointId,authorId,uploadDate,gpxFile)
      PRIMARY KEY ( Id )
-     FOREIGN KEY (userId, startPointId, endPointId) REFERENCES User ( id ) , Point ( id ) , Point ( id )
+     FOREIGN KEY (authorId, startPointId, endPointId) REFERENCES User ( id ) , Point ( id ) , Point ( id )
 ```
 
 #### _HikePoint_ includes relation between Hike and Point
@@ -50,26 +102,26 @@ HikePoint( hikeId,pointId)
 
 #### _Point_ includes all Points specifications
 ```
-HikePoint( id, name, description*, type, longitude, latitude, altitude, city, province )
+Point( id, name, description*, type, longitude, latitude, altitude, city, province,region )
      PRIMARY KEY ( id )
 ```
 
 #### _Hut_ includes all Huts specification
 ```
-HikePoint( id, name, roomNumber, bedNumber, pointId, photosPath )
+Hut( id, roomsNumber, bedsNumber, whenIsOpen,phoneNumber, photosPath, pointId )
      PRIMARY KEY ( id )
      FOREIGN KEY ( pointId ) REFERENCES Point ( id )
 ```
 
 #### _User_ includes all Users specification
 ```
-HikePoint( id, username, email, type, salt, hash, name*, surname*, phoneNumber*, verified )
+User( id, email, username, role, name*, surname*, phoneNumber*, hash, salt, verifiedEmail )
      PRIMARY KEY ( id )
 ```
 
-#### _Preferences_ includes preferences specified by the user
+#### _UserPreferences_ includes preferences specified by the user
 ```
-HikePoint( id, duration, altitude, ascent, length, difficulty, userId )
+UserPreferences( id, duration, altitude, ascent, length, difficulty, userId )
      PRIMARY KEY ( id )
       FOREIGN KEY ( userId ) REFERENCES User ( id )
 
@@ -104,6 +156,7 @@ HikePoint( id, duration, altitude, ascent, length, difficulty, userId )
 - Cors
 - Express
 - Express Session
+- Express Validator
 - Morgan
 - Passport
 - Passport Local
@@ -176,13 +229,17 @@ Here you can find a visual schema of source directory structure by means the tre
           |--- /Homepage_4.png
 |--- /retrospective
 |--- /server
-     |--- /db
-          |--- /dbmiddleware.js
-          |--- /middlewares
-          |--- /models
-          |--- /routes
+     |--- /dao
+          |--- /userDao.js
+     |--- /routes
+          |--- /sessionRoute.js
+          |--- /signUpRoute.js
+     |--- /utils
+          |--- /sessionUtil.js
+          |--- /validationUtil.js
      |--- /gitignore
      |--- /index.js
+     |--- /hikeTracker.sqlite3     
      |--- /package-lock.json
      |--- /package.json
 |--- /README.MD
