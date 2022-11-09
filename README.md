@@ -127,7 +127,19 @@ UserPreferences( id, duration, altitude, ascent, length, difficulty, userId )
 
 ```
 
-
+## Users Credentials
+```
+ aldobaglio@gmail.com : password
+ Email verified
+```
+```
+ stefanopioli@acmilan.com : password
+ Email verified
+```
+```
+ antonioconte@gmail.com : password
+ Email NOT verified
+```
 
 ### The tables used in this project are
 
