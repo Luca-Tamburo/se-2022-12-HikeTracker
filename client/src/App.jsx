@@ -59,6 +59,7 @@ const App = () => {
       <Routes location={location} key={location.pathname}>
         <Route index path='/' element={<View.Home />} />
         {/* <Route path='/hikes' element={<View.Hike hike={hike} />} /> */}
+        <Route path='/login' element={<View.Login />} />
         <Route path='/hikes' element={<View.Hike />} />
         <Route path='*' element={<View.ErrorView />} />
       </Routes>

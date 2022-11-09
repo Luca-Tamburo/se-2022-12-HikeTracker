@@ -14,9 +14,11 @@
 import ErrorView from './ErrorView/ErrorView';
 import Home from './Home/Home';
 import Hike from './Hike/Hike';
+import Login from './Login/Login';
 
 export {
     ErrorView,
     Home,
-    Hike
+    Hike,
+    Login
 }
