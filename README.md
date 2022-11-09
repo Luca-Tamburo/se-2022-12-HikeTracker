@@ -247,6 +247,9 @@ Here you can find a visual schema of source directory structure by means the tre
           |--- /sessionRoute.js
           |--- /signUpRoute.js
      |--- /utils
+          |--- /gpxFiles
+               |--- /1_Monte_Ferra.gpx
+               |--- /2_Rocca_Patanua.gpx
           |--- /sessionUtil.js
           |--- /validationUtil.js
      |--- /gitignore
