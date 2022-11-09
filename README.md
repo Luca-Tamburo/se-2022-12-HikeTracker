@@ -243,6 +243,9 @@ Here you can find a visual schema of source directory structure by means the tre
 |--- /server
      |--- /dao
           |--- /userDao.js
+     |--- /mockDB
+          |--- /mockDB.js
+          |--- /mockHikeTracker.db
      |--- /routes
           |--- /sessionRoute.js
           |--- /signUpRoute.js
