@@ -215,7 +215,7 @@ Here you can find a visual schema of source directory structure by means the tre
 
 ### HomePage Carousel
 
-![HomePage Carousel - 4](./mocks/homePage/Homepage_4.png)
+![HomePage Carousel - 1](./mocks/homePage/Homepage_1.png)
 
 ### Login
 

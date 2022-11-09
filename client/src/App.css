@@ -23,5 +23,44 @@ body,
 #root {
   width: 100%;
   height: 100%;
-  background-color: #FCFAFA;
+  background-color: #FFFFFF;
+}
+
+.app-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0px !important;
+  overflow: hidden;
+}
+
+/* Navbar selector */
+.btn-navbar:hover {
+  transform: scale(1.1);
+  font-weight: bold;
+}
+
+.home-icon-navbar {
+  color: black;
+  text-decoration: none !important;
+  width: 30px;
+  height: 30px;
+}
+
+.home-icon-navbar:hover {
+  transform: scale(1.2);
+}
+
+/* Home selector */
+.home-hike-list {
+  color: black;
+  text-decoration: none;
+  text-align: center;
+}
+
+.home-hike-list:hover {
+  text-decoration: underline;
+  transform: scale(1.1);
 }
