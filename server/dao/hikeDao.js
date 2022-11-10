@@ -64,7 +64,6 @@ exports.getHikes = () => {
                     authorId: r.authorId,
                     uploadDate: r.uploadDate,
                     gpxFile: r.gpxFile
-
                 }
             ));
             resolve(hikes);
