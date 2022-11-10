@@ -53,8 +53,11 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+//Routes
+const hikeRoute = require("./routes/hikeRoute");
+
 /* --- APIs --- */
-app.use("/api", sessionRoute);
+app.use("/api", sessionRoute, hikeRoute);
 //app.use("/api", signUpRoute);
 
 

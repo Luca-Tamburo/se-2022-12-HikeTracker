@@ -3,7 +3,7 @@
 const express = require('express');
 const hikeDao = require('../dao/hikeDao');
 const router = express.Router();
-const {Hike, HikeList} = require('../models/hikeModel');
+const {Hike, hikes, HikeDetails} = require('../models/hikeModel');
 
 /**
  * Get hikes from the system
