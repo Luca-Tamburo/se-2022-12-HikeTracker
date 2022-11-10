@@ -11,13 +11,16 @@
 */
 
 //Imports
-import { Row, Col, Container, Form, Button } from 'react-bootstrap';
+import { Row, Col,Form,Container, Button } from 'react-bootstrap';
+
 
 //Components
 import LoginForm from '../../components/ui-core/LoginForm/LoginForm';
 import loginImage from '../../assets/loginImage.png'
 
 const Login = (props) => {
+    
+
     return (
         <Row >
             <div className='mb-5 d-flex flex-column justify-content-center align-items-center' style={{ zIndex: 99 }}>
