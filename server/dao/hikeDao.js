@@ -41,29 +41,23 @@ exports.insertHike = (id, title, description, lenght, expectedTime, ascent, diff
 
 
 /**
- * Get hikes from the system
+ * Get hikes from the system (general information)
  */
 exports.getHikes = () => {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM Hike';
+        const sql = "SELECT Hike.id AS id, Hike.title AS title, Hike.description AS description, Hike.uploadDate AS uploadDate, User.name AS authorName, User.surname AS authorSurname FROM Hike JOIN User ON Hike.authorId = User.id";
         db.all(sql, [], (err, rows) => {
             if (err) {
                 reject(err);
-            }
+            } 
             const hikes = rows.map((r) => (
                 {
                     id: r.id,
                     title: r.title,
                     description: r.description,
-                    lenght: r.lenght,
-                    expectedTime: r.expectedTime,
-                    ascent: r.ascent,
-                    difficulty: r.difficulty,
-                    startPointId: r.startPointId,
-                    endPointId: r.endPointId,
-                    authorId: r.authorId,
-                    uploadDate: r.uploadDate,
-                    gpxFile: r.gpxFile
+                    authorName: r.authorName,
+                    authorSurname: r.authorSurname,
+                    uploadDate: r.uploadDate
                 }
             ));
             resolve(hikes);

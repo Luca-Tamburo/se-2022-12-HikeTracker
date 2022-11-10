@@ -29,7 +29,7 @@ function HikeList() {
     }
 }
 
-// This object contains a method called addNewHike to add hikes to its hikeList attribute.
+// This object is used to store the list of hikes
 let hikes = HikeList()
 
 /**
