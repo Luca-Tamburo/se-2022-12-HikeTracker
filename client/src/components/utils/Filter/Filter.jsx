@@ -56,7 +56,6 @@ const Filter = () => {
             </Row>
             {/* Other filters*/}
             <Row className='mt-3'>
-
                 <Col xs={3}>
                     <Form.Select>
                         <option>Difficulty</option>
@@ -89,7 +88,7 @@ const Filter = () => {
                 </Col>
                 <Col xs={3}>
                     {/* TODO: Inserire icona + fix posizione */}
-                    <Button className='rounded-pill'>Search</Button>
+                    <Button className='w-100'>Search</Button>
                 </Col>
             </Row>
         </>

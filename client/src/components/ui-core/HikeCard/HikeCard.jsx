@@ -11,11 +11,32 @@
 */
 
 //Imports
-// import { Row, Col, Card } from 'react-bootstrap';
+import './HikeCard.css';
+import { Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
-const HikeCard = () => {
+import mountain from '../../../assets/homeImg.jpg'
+
+const HikeCard = (hike) => {
     return (
-        <h1>A breve sarò una card</h1>
+        <Card className='border-0 shadow'>
+            {/* TODO: Aggiungere il percorso parametrico */}
+            <Link to={'/hikes'}>
+                <Card.Img variant='top' src={mountain} style={{ height: '200px', objectFit: 'cover', objectPosition: 'center center' }}></Card.Img>
+            </Link>
+            <Card.Body>
+                {/* TODO: Aggiungere il percorso parametrico */}
+                <Link to={'/hikes'}>
+                    <Card.Title className='fw-bold'>Hike to the AMA DABLAM</Card.Title>
+                </Link>
+                <div className='d-flex justify-content-between mt-3'>
+                    <Card.Subtitle>Mario Rossi</Card.Subtitle>
+                    <Card.Subtitle>2022/11/08</Card.Subtitle>
+                </div>
+                <hr />
+                <Card.Text>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </Card.Text>
+            </Card.Body>
+        </Card >
     );
 }
 

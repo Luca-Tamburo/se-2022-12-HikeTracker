@@ -11,6 +11,7 @@
 */
 
 //Imports
+import './Home.css';
 import { Link } from 'react-router-dom'
 
 import homeImg from '../../assets/homeImg.jpg'

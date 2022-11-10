@@ -15,10 +15,12 @@ import ErrorView from './ErrorView/ErrorView';
 import Home from './Home/Home';
 import Hike from './Hike/Hike';
 import Login from './Login/Login';
+import HikeDetails from './HikeDetails/HikeDetails';
 
 export {
     ErrorView,
     Home,
     Hike,
-    Login
+    Login,
+    HikeDetails,
 }

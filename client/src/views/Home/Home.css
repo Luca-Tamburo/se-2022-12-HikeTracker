@@ -1,0 +1,22 @@
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         client
+* Module:          src/views/Home
+* File:            Home.css
+*
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
+
+.home-hike-list {
+    color: black;
+    text-decoration: none;
+    text-align: center;
+}
+
+.home-hike-list:hover {
+    text-decoration: underline;
+    transform: scale(1.1);
+}
