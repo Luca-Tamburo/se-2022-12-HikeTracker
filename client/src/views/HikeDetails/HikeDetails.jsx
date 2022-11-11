@@ -13,6 +13,7 @@
 //Imports
 import { Row, Col, ListGroup, Table } from 'react-bootstrap';
 import mountain from '../../assets/homeImg.jpg';
+import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 
 const HikeDetails = (hike) => {
     return (
@@ -28,13 +29,13 @@ const HikeDetails = (hike) => {
                 />
             </Col>
             <Col xs={{ span: 10 }} className='mx-auto d-flex justify-content-between p-0'>
-                <h2 className='fw-bold'>Hike to the AMA DABLAM</h2>
+                <h2 className='fw-bold my-3'>Hike to the AMA DABLAM</h2>
                 <div className='d-flex justify-content-between'>
-                    <p className='mx-4'>Mario Rossi</p>
-                    <p className='mx-4'>2022/11/08</p>
+                    <p className='mx-4 my-3'>Mario Rossi</p>
+                    <p className='mx-4 my-3'>2022/11/08</p>
                 </div>
             </Col>
-            <Col xs={{ span: 7, offset: 1 }} className='p-0'>
+            <Col xs={{ span: 6, offset: 1 }} className='p-0'>
                 <ListGroup horizontal>
                     <ListGroup.Item>
                         <p className='fw-bold'>Length</p>2km
@@ -54,9 +55,24 @@ const HikeDetails = (hike) => {
                 </ListGroup>
                 <p className='mt-3'>Insert here your description</p>
             </Col>
-            <Col xs={3} className='m-0'>
+            <Col xs={4} className='m-0'>
+            <MapContainer center={[51.505, -0.09]} zoom={11} scrollWheelZoom={false}>
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                    </MapContainer>
+
 
             </Col>
+
+            <Row xs={{ span: 10 }} className='p-0 mx-auto'>
+                <div>
+
+                </div>
+
+
+            </Row>
 
         </Row>
     );
