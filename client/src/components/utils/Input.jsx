@@ -21,15 +21,14 @@ const Input = ({ id, name, type, placeholder, className, label }) => {
     const [field, meta] = useField(name);
 
     const classes = classNames({
-        'form-control text-dark bg-gray rounded-3 p-3': true,
-        'border-0': !meta.touched,
+        'form-control text-dark bg-gray rounded-3 p-3 border rounded-pill': true,
         'is-invalid': meta.touched && meta.error,
         'is-valid': meta.touched && !meta.error
     })
 
     return (
         <Form.Group className={className} controlId={id}>
-            <Form.Label className="fw-semibold text-primary" >{label}</Form.Label>
+            <Form.Label className="fw-semibold fst-italic" >{label}</Form.Label>
             <Field id={id} name={field.name} type={type} placeholder={placeholder} className={classes} />
             <Form.Text className='text-danger'>
                 <ErrorMessage name={field.name} />

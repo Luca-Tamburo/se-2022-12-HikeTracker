@@ -9,7 +9,7 @@
 * All rights reserved.
 * --------------------------------------------------------------------
 */
-/*
+
 // Imports
 import { createContext, useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap';
@@ -54,4 +54,4 @@ const AuthProvider = ({ children }) => {
     );
 }
 
-export { AuthContext, AuthProvider }; */
+export { AuthContext, AuthProvider }; 

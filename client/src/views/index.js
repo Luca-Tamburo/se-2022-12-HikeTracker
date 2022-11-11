@@ -15,7 +15,7 @@ import ErrorView from './ErrorView/ErrorView';
 import Home from './Home/Home';
 import Hike from './Hike/Hike';
 import Login from './Login/Login';
-//import Register from './Register/Register';
+import Register from './Register/Register';
 import HikeDetails from './HikeDetails/HikeDetails';
 
 export {
@@ -23,6 +23,6 @@ export {
     Home,
     Hike,
     Login,
-    //Register,
+    Register,
     HikeDetails,
 }

@@ -18,15 +18,28 @@ import axios from "axios";
 const SERVER_URL = 'http://localhost:3001';
 
 const api = {
-    /*
+    
     addNewUser: ()=> (credentials) => {
         return new Promise((resolve, reject) => {
             axios.post(SERVER_URL + '/api/users', credentials, { withCredentials: true })
                 .then(res => resolve(res.data))
                 .catch(err => reject(err.response.data));
         })
+    },
+    logout: () => {
+        return new Promise((resolve, reject) => {
+            axios.delete(SERVER_URL + 'sessions/current', { withCredentials: true })
+                .then(() => resolve())
+                .catch((err) => reject(err.response.data));
+        })
+    },
+    getUserInfo: () => {
+        return new Promise((resolve, reject) => {
+            axios.get(SERVER_URL + 'sessions/current', { withCredentials: true })
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err.response.data));
+        })
     }
-    */
 }
 
 export default api;

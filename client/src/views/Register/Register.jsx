@@ -14,7 +14,7 @@
 
 
 // Imports
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Row, Col, Dropdown} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
@@ -23,10 +23,11 @@ import RegisterForm from "../../components/ui-core/RegisterForm/RegisterForm";
 
 // Contexts
 import { AuthContext } from "../../contexts/AuthContext";
-/*
+
 const Register = () => {
     const [session] = useContext(AuthContext);
     const navigate = useNavigate(); // Navigation handler
+    const [currRole, setCurrRole]= useState('Hiker');
 
     useEffect(() => {
         if (session.loggedIn)
@@ -40,10 +41,10 @@ const Register = () => {
                 <h1 className='text-center fw-bold fst-italic mt-4 mb-4'>Sign up</h1>
             </div>
                 <Col xs={{ span: 12 }} lg={{ span: 6 }} className="mx-auto">
-                    <RegisterForm />
+                    <RegisterForm currRole={currRole} setCurrRole={setCurrRole}/>
                 </Col>
             </Row>
         );
 }
 
-export default Register;*/
+export default Register;

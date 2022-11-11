@@ -19,10 +19,10 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import AppContainer from './components/utils/AppContainer';
 
 //Views
-import * as View from './views';
+import * as View from './views/index';
 
 //Services
-// import api from './services/api';
+//import api from './services/api';
 
 //Hooks
 // import useNotification from './hooks/useNotification';
@@ -60,7 +60,7 @@ const App = () => {
         <Route index path='/' element={<View.Home />} />
         {/* <Route path='/hikes' element={<View.Hike hike={hike} />} /> */}
         <Route path='/login' element={<View.Login />} />
-        {/*<Route path='/signup' element={<View.Register />} />*/}
+        <Route path='/signup' element={<View.Register />} />
         <Route path='/hikes' element={<View.Hike />} />
         <Route path='/hikes/:id' element={<View.HikeDetails />} />
         <Route path='*' element={<View.ErrorView />} />
