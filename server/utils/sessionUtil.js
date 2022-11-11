@@ -57,4 +57,10 @@ const isLoggedIn = (req, res, next) => {
     return res.status(401).json({ error: "not authenticated" });
 };
 
-module.exports = { passport, session, isLoggedIn };
+// custom middleware: check if a given request is NOT coming from an authenticated user. Useful when you have to register as a new user, but you are already logged in as user
+const isNotLoggedIn = (req, res, next) => {
+    if (!req.isAuthenticated()) return next();
+    return res.status(401).json({ error: "you are already authenticated!" });
+};
+
+module.exports = { passport, session, isLoggedIn,isNotLoggedIn };
