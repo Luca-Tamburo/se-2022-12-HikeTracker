@@ -12,18 +12,18 @@
 * --------------------------------------------------------------------
 */
 
-/*
+
 // Imports
 import { useContext, useEffect } from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Dropdown} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 // Components
-import RegisterForm from "../components/ui-core/RegisterForm";
+import RegisterForm from "../../components/ui-core/RegisterForm/RegisterForm";
 
 // Contexts
-import { AuthContext } from "../contexts/AuthContext";
-
+import { AuthContext } from "../../contexts/AuthContext";
+/*
 const Register = () => {
     const [session] = useContext(AuthContext);
     const navigate = useNavigate(); // Navigation handler
@@ -36,10 +36,9 @@ const Register = () => {
     if (!session.loggedIn)
         return (
             <Row className="p-4 my-4 flex-fill align-items-center">
-                <div className="text-center">
-                    <h1 className="fw-extrabold text-primary text-center">Welcome to Politecnico di Torino</h1>
-                    <h4 className="text-dark">Accedi per visualizzare il tuo piano di studio!</h4>
-                </div>
+            <div className='mb-5 d-flex flex-column justify-content-center align-items-center' style={{ zIndex: 99 }}>
+                <h1 className='text-center fw-bold fst-italic mt-4 mb-4'>Sign up</h1>
+            </div>
                 <Col xs={{ span: 12 }} lg={{ span: 6 }} className="mx-auto">
                     <RegisterForm />
                 </Col>

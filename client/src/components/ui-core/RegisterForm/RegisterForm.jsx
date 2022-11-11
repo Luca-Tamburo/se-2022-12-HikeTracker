@@ -9,7 +9,7 @@
 * All rights reserved.
 * --------------------------------------------------------------------
 */
-/*
+//*
 // Imports
 import { useState, useContext } from 'react';
 import { Button, Spinner } from 'react-bootstrap';
@@ -33,6 +33,7 @@ const RegisterForm = () => {
     const [, , setDirty] = useContext(AuthContext);
     const notify = useNotification(); // Notification handler
     const navigate = useNavigate(); // Navigation handler
+    const [currRole, setCurrRole]= useState('hiker');
 
     // Perform authentication and login
     const handleSubmit = (credentials) => {
@@ -56,16 +57,28 @@ const RegisterForm = () => {
     return (
         <Formik validateOnMount initialValues={{ username: '', email:'', password: '' }} validationSchema={RegisterSchema} onSubmit={(values) => handleSubmit(values)}>
             {({ touched, isValid }) => {
-                const disableSubmit = (!touched.username && !touched.password) || !isValid || loading;
+                const disableSubmit = (!touched.username && !touched.password && !touched.email) || !isValid || loading;
                 return (
                     <Form>
-                        <Input className="mt-3" id="login-username" name="username" type="text" placeholder="Insert your username" label="User" />
+                        <Row>
+                        <Input className="mt-3" id="login-username" name="username" type="text" placeholder="Insert your username" label="Username" />
+                        <Field name="role" as="select" className="select-role">
+                            <option>Select your role</option>
+                            <option value="1" onClick={setCurrRole('Hiker')}>Hiker</option>
+                            <option value="2" onClick={setCurrRole('Local guide')}>Local guide</option>
+                            <option value="3" onClick={setCurrRole('Hut worker')}>Hut worker</option>
+                        </Field>
+                        </Row>
+                        <Row>
                         <Input className="mt-3" id="login-email" name="email" type="email" placeholder="Insert your email" label="Email" />
                         <Input className="mt-3" id="login-password" name="password" type="password" placeholder="Insert your password" label="Password" />
+                        </Row>
+                        <Row>
                         <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}>
                             {loading && <Spinner animation='grow' size='sm' as='span' role='status' aria-hidden='true' className='me-2' />}
                             Sign up
                         </Button>
+                        </Row>
                     </Form>
                 );
             }}
@@ -73,4 +86,5 @@ const RegisterForm = () => {
     );
 }
 
-export default RegisterForm; */
+export default RegisterForm; 
+//*/
