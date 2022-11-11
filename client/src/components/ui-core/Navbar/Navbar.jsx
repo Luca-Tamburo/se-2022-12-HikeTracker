@@ -11,6 +11,7 @@
 */
 
 //Imports
+import './Navbar.css';
 import { Container, Navbar as MyNavbar, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaHome } from 'react-icons/fa'
@@ -19,7 +20,6 @@ import logo from '../../../assets/logo/logo-no-background.png';
 
 const Navbar = () => {
     return (
-        // TODO: Make it RESPONSIVE
         <MyNavbar collapseOnSelect bg='light' variant='light' className='shadow p-2 bg-white sticky-top'>
             <Container fluid>
                 <MyNavbar.Brand>
@@ -32,14 +32,14 @@ const Navbar = () => {
                 <Link to={'/'}>
                     <FaHome className='home-icon-navbar' />
                 </Link>
-                <div>
+                <div className='d-flex d-sm-block flex-column justify-content-center align-items-center'>
                     <Link to={'/signup'}>
                         {/* TODO: Inserire icona */}
                         <Button variant='secondary' className='btn-navbar rounded-pill'>SignUp</Button>
                     </Link>
                     <Link to={'/login'}>
                         {/* TODO: Inserire icona */}
-                        <Button className='btn-navbar rounded-pill mx-3'>Login</Button>
+                        <Button className='btn-navbar rounded-pill mx-sm-2'>Login</Button>
                     </Link>
                 </div>
             </Container>

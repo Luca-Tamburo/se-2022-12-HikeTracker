@@ -23,7 +23,20 @@ const Hike = (props) => {
             <Col xs={{ span: 10, offset: 1 }} className='mt-3'>
                 <h1 className='fw-bold text-center mt-2'>Search your next hike</h1>
                 <Filter />
-                <HikeCard hike={props.hike} />
+                <Row className='mt-4'>
+                    <Col xs={3}>
+                        <HikeCard hike={props.hike} />
+                    </Col>
+                    <Col xs={3}>
+                        <HikeCard hike={props.hike} />
+                    </Col>
+                    <Col xs={3}>
+                        <HikeCard hike={props.hike} />
+                    </Col>
+                    <Col xs={3}>
+                        <HikeCard hike={props.hike} />
+                    </Col>
+                </Row>
             </Col>
         </Row >
     );
