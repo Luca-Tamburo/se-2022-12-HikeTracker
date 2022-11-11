@@ -22,7 +22,7 @@ const db = new sqlite.Database('hikeTracker.sqlite3', (err) => {
 });
 
 /**
- * Get the user info, given the id
+ * Get the user info to put in the cookie, given the id
  * @param {number} id the id of the user
  */
 exports.getUserById = (id) => {
@@ -37,11 +37,7 @@ exports.getUserById = (id) => {
                 const user = {
                     id: row.id,
                     email: row.email,
-                    username: row.username,
-                    name: row.name,
-                    surname: row.surname,
-                    role: row.role,
-                    phoneNumber: row.phoneNumber
+                    role: row.role
                 }
                 resolve(user);
             }
@@ -50,7 +46,7 @@ exports.getUserById = (id) => {
 };
 
 /**
-* Get the user,if exists, given the email and password
+* Get the user,if exists, given the email and password. This data will be inserted in the response of login API
 * @param {string} email the email of the user to check
 * @param {string} password the password of the user to check
 */
