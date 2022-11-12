@@ -6,6 +6,7 @@ const router = express.Router();
 const {Hike, hikes, HikeDetails} = require('../models/hikeModel');
 const {Point} = require('../models/pointModel');
 const {isLoggedIn} = require("../utils/sessionUtil");
+const { check, param, body, validationResult } = require('express-validator');
 
 /**
  * Get hikes from the system
@@ -19,6 +20,20 @@ router.get('/hikes', [], async (req, res) => {
         return res.status(err).end();
     }
 });
+
+/**
+ * Put hikes into the system
+ */
+router.post('/hikes', [], async(req,res) => {
+    try {
+        let result = await hikeDao.insertHike(req.body.id, req.body.title, req.body.description, req.body.lenght, req.body.expectedTime, req.body.ascent, req.body.difficulty, req.body.startPointId, req.body.endPointId,  req.body.authorId, req.body.uploadDate, req.body.gpxFile, req.body.photoFile);
+        return res.status(201).json(result)
+    } catch(err) {
+        return res.status(err).end();
+    }
+});
+
+
 
 /**
  * Get gpx route by hike id
