@@ -81,3 +81,60 @@ exports.getUser = (email, password) => {
         });
     });
 };
+
+/**
+ * Get the user id, given the email
+ * @param {string} email the email of the user
+ */
+exports.getUserByEmail = (email) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT id FROM user WHERE email = ?';
+        db.get(sql, [email], (err, row) => {
+            if (err) {
+                reject(err);
+            }
+            else if (row === undefined)
+                resolve(undefined);
+            else {
+                resolve(row.id);
+            }
+        });
+    });
+};
+
+/**
+* Get the user id, given the username
+* @param {string} username the email of the user
+*/
+exports.getUserByUsername = (username) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT id FROM user WHERE username = ?';
+        db.get(sql, [username], (err, row) => {
+            if (err) {
+                reject(err);
+            }
+            else if (row === undefined)
+                resolve(undefined);
+            else {
+                resolve(row.id);
+            }
+        });
+    });
+};
+
+/**
+* Activate a user, given the confirmationCode
+* @param {string} confirmationCode the email of the user
+*/
+//TO BE TESTED
+exports.activateUser = (confirmationCode) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'UPDATE user SET verifiedMail = ?,confirmationCode=? WHERE confirmationCode=?';
+        db.run(sql, [1,"",confirmationCode], (err) => {
+            if (err) {
+                reject(err);
+            }
+                resolve(true);
+        });
+    });
+};
