@@ -14,7 +14,7 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, ListGroup } from 'react-bootstrap';
 import mountain from '../../assets/homeImg.jpg';
-import { MapContainer, TileLayer, useMap, Marker, Popup,Polyline } from 'react-leaflet'
+import { MapContainer, TileLayer, useMap, Marker, Popup, Polyline } from 'react-leaflet'
 import { geoJson } from 'leaflet';
 let gpxParser = require('gpxparser');
 
@@ -24,13 +24,13 @@ var tj = require('togeojson'),
     // node doesn't have xml parsing or a dom. use xmldom
     DOMParser = require('xmldom').DOMParser;
 
-    const L = require('leaflet');
+const L = require('leaflet');
 
 //import * as fs from 'fs';
 
 const limeOptions = { color: 'red' }
 
-const HikeDetails = (hike) => {
+const HikeDetails = () => {
 
     const [start, setStart] = useState(null);
     const [end, setEnd] = useState(null)
@@ -1220,51 +1220,93 @@ const HikeDetails = (hike) => {
     var gpx = (new DOMParser()).parseFromString(xmlStr, 'text/xml');
 
     var converted = tj.gpx(gpx);
-    
+
 
     useEffect(() => {
         let coord = []
         for (let index = 0; index < converted.features.length; index++) {
             let e1 = converted.features[0].geometry.coordinates[0];
-            let e2 =  converted.features[0].geometry.coordinates[converted.features[0].geometry.coordinates.length-1];
-            setStart([e1[1],e1[0]]);
-            setEnd([e2[1],e2[0]])
+            let e2 = converted.features[0].geometry.coordinates[converted.features[0].geometry.coordinates.length - 1];
+            setStart([e1[1], e1[0]]);
+            setEnd([e2[1], e2[0]])
             converted.features[0].geometry.coordinates.forEach(element => {
-                coord.push([element[1],element[0]]);
+                coord.push([element[1], element[0]]);
 
             })
-            
+
         }
-        
+
         setCoordinates(coord);
-      }, [])
+    }, [])
 
 
-      const myIcon = L.icon({
+    const myIcon = L.icon({
         iconUrl: require('./start-here-svgrepo-com.svg'),
-        iconSize: [64,64],
+        iconSize: [64, 64],
     });
+
+    const hike =
+    {
+        "id": 1,
+        "title": "Trail to MONT FERRA",
+        "description": "Lasciata la macchina nell’ampio parcheggio superiamo il Rifugio Melezè e entriamo nel piccolo gruppo di case sopra la chiesetta di Sant’Anna lasciandoci alle spalle l’imponente edificio della casa per ferie Excelsior. Imbocchiamo il sentiero ben visibile che con numerosi tornanti sale rapidamente nel versante erboso fino ad un pianoro dove sono presenti alcuni ruderi detti Grange Reisassa. Qui troviamo un bivio con le indicazioni per il Monte Ferra a destra e il colle di Fiutrusa a sinistra. Proseguiamo verso il Monte ferra che ora si presenta maestoso davanti a noi, ma ancora troppo lontano. Guadagniamo quota raggiungendo il lago Reisassa che a inizio stagione può presentarsi ancora ghiacciato. A questo punto non ci resta che salire sul ripidissimo sentiero che si snoda tra gli sfasciumi fino a raggiungere la cresta rocciosa, dove svoltiamo a sinistra (direzione Ovest) e la percorriamo fino alla piccola croce di ferro posta ad indicare la nostra meta. Sentiero del ritorno uguale a quello di salita.",
+        "authorName": 'aldo',
+        "authorSurname": 'baglio',
+        "uploadDate": "2022-01-10",
+        "photoFile": "https://unsplash.com/photos/phIFdC6lA4E",
+        "lenght": 13,
+        "expectedTime": 5,
+        "ascent": 1280,
+        "difficulty": 4,
+        "startPointName": 'Nepal',
+        "endPointName": 'Ama dablam',
+        "pointList":
+            [
+                {
+                    "id": 1,
+                    "name": "Refugio Melezè",
+                    "description": "The building was a ...",
+                    "type": "hut",
+                    "latitude": 44.5744896554157,
+                    "longitude": 6.98160500000067,
+                    "altitude": 1812,
+                    "city": "Berllino",
+                    "province": "Cuneo"
+                },
+                {
+                    "id": 2,
+                    "name": "Monte Ferra",
+                    "description": "Peak of ...",
+                    "type": "gpsCoordinates",
+                    "latitude": 44.57426,
+                    "longitude": 6.98264,
+                    "altitude": 3094,
+                    "city": "",
+                    "province": ""
+                }
+            ]
+    }
 
 
     return (
         <Col xs={10} className='mx-auto p-0'>
             <img
                 alt='Hike Img'
-                src={mountain}
+                src={hike.photoFile}
                 height='300px'
                 width='1250px'
                 className='mt-3 w-100'
                 style={{ objectFit: 'cover' }}
             />
             <div className='d-flex justify-content-between mt-3 '>
-                <h2 className='fw-bold my-3'>AMA DABLAM</h2>
+                <h2 className='fw-bold my-3'>{hike.title}</h2>
                 <div className='d-flex justify-content-between'>
-                    <p className='mx-4 my-3'>Mario Rossi</p>
-                    <p className='mx-4 my-3'>2022/11/08</p>
+                    <h5 className='mx-4 my-3'>{hike.authorName} {''} {hike.authorSurname}</h5>
+                    <h5 className='mx-4 my-3'>{hike.uploadDate}</h5>
                 </div>
             </div>
             <div className='mb-4'>
-                <span className='fst-italic'>L'Ama Dablam è una vetta di 6812 metri che si trova in Nepal nella valle del Khumbu Himal, nel Parco nazionale di Sagarmatha (regione dell'Everest) e domina la valle del Dudh Kosi ("fiume di latte") che porta verso i campi base del Lhotse, Everest ed altri picchi del Mahalangur Himal comunemente identificato come Khumbu. Definita per la sua forma slanciata il Cervino dell'Himalaya, la sua scalata presenta notevoli difficoltà e la si può ammirare lungo il trekking al campo base dell'Everest in particolare dal Monastero buddista di Thyangpoche (Tengboche, 3850 m) e le vallate del Dudh Kosi fino a Chukkung. La montagna è oggetto del film dello scalatore Reinhold Messner, presentato nel 2017 al Bergfestival di Bressanone con lo stesso nome.</span>
+                <span className='fst-italic'>{hike.description}</span>
             </div>
             <Row className='d-flex justify-content-between'>
                 <Col xs={4} className='p-0'>
@@ -1276,19 +1318,26 @@ const HikeDetails = (hike) => {
                         </div>
                         <ListGroup horizontal>
                             <ListGroup.Item className='border-0'>
-                                <h5 className='fw-bold mt-3'>LENGHT</h5>2km
-                                <h5 className='fw-bold mt-3'>ASCENT</h5> +1280m
-                                <h5 className='fw-bold mt-3'>DIFFICULTY</h5> E+
-                                <h5 className='fw-bold mt-3'>EXPECTED TIME</h5> 2 hr
-                                <h5 className='fw-bold mt-3'>START POINT</h5> Nepal
-                                <h5 className='fw-bold mt-3'>END POINT</h5> Ama dablam
-                                <h5 className='fw-bold mt-3'>REFERENCE POINTS</h5> Everest Base Camp, Luna Park, Car Parking
+                                <h5 className='fw-bold mt-3'>LENGHT</h5>{hike.lenght} {''} km
+                                <h5 className='fw-bold mt-3'>ASCENT</h5> + {''} {hike.ascent} {''} mt
+                                <h5 className='fw-bold mt-3'>DIFFICULTY</h5> {hike.difficulty}
+                                <h5 className='fw-bold mt-3'>EXPECTED TIME</h5> {hike.expectedTime} {''} hr
+                                <h5 className='fw-bold mt-3'>START POINT</h5> {hike.startPointName}
+                                <h5 className='fw-bold mt-3'>END POINT</h5> {hike.endPointName}
+                                <h5 className='fw-bold mt-3'>REFERENCE POINTS</h5>
+                                {hike.pointList.map((point, index) => {
+                                    return (
+                                        <div key={index}>
+                                            <span>{point.name}</span>
+                                        </div>
+                                    )
+                                })}
                             </ListGroup.Item>
                         </ListGroup>
                     </div>
                 </Col>
                 <Col xs={6} className='m-0'>
-                    <MapContainer center={[45.178199, 7.083081]} zoom={11} scrollWheelZoom={false}>
+                    <MapContainer center={[45.178199, 7.083081]} zoom={11} scrollWheelZoom={true}>
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -1308,7 +1357,7 @@ const HikeDetails = (hike) => {
                 </Col>
             </Row>
         </Col>
-    );
+    )
 }
 
 export default HikeDetails;

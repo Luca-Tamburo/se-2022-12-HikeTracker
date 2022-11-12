@@ -11,31 +11,43 @@
 */
 
 //Imports
+import { useState, useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 //Components
 import HikeCard from '../../components/ui-core/HikeCard/HikeCard';
 import Filter from '../../components/utils/Filter/Filter';
 
+// Services
+import api from '../../services/api';
+
+// Hooks
+import useNotification from '../../hooks/useNotification';
+
 const Hike = (props) => {
+    const [hike, setHike] = useState([]);
+    const notify = useNotification();
+
+    // useEffect(() => {
+    //     api.getHikes()
+    //         .then(hikes => {
+    //             setHike(hikes);
+    //         })
+    //         .catch(err => {
+    //             if (err.status === 404)
+    //                 setHike([]);
+    //             else
+    //                 notify.error(err.message)
+    //         })
+    // }, []); //eslint-disable-line react-hooks/exhaustive-deps
+
     return (
         <Row className='flex-fill'>
             <Col xs={{ span: 10, offset: 1 }} className='mt-3'>
                 <h1 className='fw-bold text-center mt-2'>Search your next hike</h1>
                 <Filter />
-                <Row className='mt-4'>
-                    <Col xs={3}>
-                        <HikeCard hike={props.hike} />
-                    </Col>
-                    <Col xs={3}>
-                        <HikeCard hike={props.hike} />
-                    </Col>
-                    <Col xs={3}>
-                        <HikeCard hike={props.hike} />
-                    </Col>
-                    <Col xs={3}>
-                        <HikeCard hike={props.hike} />
-                    </Col>
+                <Row>
+                    <HikeCard hike={hike} />
                 </Row>
             </Col>
         </Row >

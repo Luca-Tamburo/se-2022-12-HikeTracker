@@ -29,3 +29,11 @@ a {
     transition: 0.7s;
     cursor: pointer;
 }
+
+.crop-text-31 {
+    -webkit-line-clamp: 31;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
