@@ -20,7 +20,7 @@ const {passport, session} = require("./utils/sessionUtil");
 //Importing routes
 const sessionRoute = require("./routes/sessionRoute");
 const signUpRoute = require("./routes/signUpRoute");
-//const hikeRoute = require("./routes/hikeRoute");
+const hikeRoute = require("./routes/hikeRoute");
 
 // init express
 const app = new express();
@@ -56,7 +56,7 @@ app.use(passport.session());
 
 
 /* --- APIs --- */
-app.use("/api", sessionRoute,signUpRoute /*, hikeRoute*/);
+app.use("/api", sessionRoute,signUpRoute, hikeRoute);
 
 
 // activate the server

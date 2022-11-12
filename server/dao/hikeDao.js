@@ -26,10 +26,10 @@ const db = new sqlite.Database('hikeTracker.sqlite3', (err) => {
 /**
  * Insert hikes into the system
  */
-exports.insertHike = (id, title, description, lenght, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile) => {
+exports.insertHike = (id, title, description, lenght, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile, photoFile) => {
     return new Promise((resolve, reject) => {
-        const sql = "INSERT INTO Hike(id, title, description, lenght, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-        db.run(sql, [id, title, description, lenght, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile], function (err) {
+        const sql = "INSERT INTO Hike(id, title, description, lenght, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile, photoFile) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        db.run(sql, [id, title, description, lenght, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile, photoFile], function (err) {
             if (err) {
                 reject(err);
             } else {
@@ -99,7 +99,7 @@ exports.getGpxByHikeId = (id) => {
             const details = rows.map((r) => (
                 {
                     id: r.id,
-                    lenght: r.lenght,
+                    length: r.length,
                     expectedTime: r.expectedTime,
                     ascent: r.ascent,
                     difficulty: r.difficulty,

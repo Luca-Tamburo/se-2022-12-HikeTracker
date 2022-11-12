@@ -14,8 +14,9 @@ const { check, param, body, validationResult } = require('express-validator');
 router.get('/hikes', [], async (req, res) => {
     try {
         let dbList = await hikeDao.getHikes();
-        hikes.addNewHike(dbList.map((e) => new Hike(e.id, e.title, e.description, e.authorName, e.authorSurname, e.uploadDate, e.photoFile)));
-        return res.status(201).json(hikes.hikeList); //Return .hikeList attribute where all the Hike objects are in a list
+        //hikes.addNewHike(dbList.map((e) => new Hike(e.id, e.title, e.description, e.authorName, e.authorSurname, e.uploadDate, e.photoFile)));
+        let hikes = dbList.map((e) => new Hike(e.id, e.title, e.description, e.authorName, e.authorSurname, e.uploadDate, e.photoFile));
+        return res.status(201).json(hikes); //Return list of Hike objects
     } catch (err) {
         return res.status(err).end();
     }
@@ -71,3 +72,5 @@ router.get('/hikedetails/:id', [], async (req, res) => {
         return res.status(err).end();
     }
 });
+
+module.exports = router;

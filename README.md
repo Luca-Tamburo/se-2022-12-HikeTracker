@@ -94,8 +94,8 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
           "id": 1,
           "title": "Trail to MONT FERRA",
           "description": "Leaving the car ...",
-          "authorName": aldo,
-          "authorSurname": baglio,
+          "authorName": "aldo",
+          "authorSurname": "baglio",
           "uploadDate": "2022-01-10",
           "photoFile": "www. ..."
      },
@@ -103,8 +103,8 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
           "id": 2,
           "title": "Trail to ROCCA PATANUA",
           "description": "Patanua means ...",
-          "authorName": aldo,
-          "authorSurname": baglio,
+          "authorName": "aldo",
+          "authorSurname": "baglio",
           "uploadDate": "2022-04-12",
           "photoFile": "www. ..."
       },
@@ -131,7 +131,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   ```
   {
      "id": 1,
-     "lenght": 13,
+     "length": 13,
      "expectedTime": 5,
      "ascent": 1280,
      "difficulty": 4,
@@ -151,15 +151,15 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
                "province": "Cuneo"
           },
           {
-               "id": 1,
+               "id": 2,
                "name": "Monte Ferra",
                "description": "Peak of ...",
                "type": "gpsCoordinates",
                "latitude": 44.57426,
                "longitude": 6.98264,
                "altitude": 3094,
-               "city": "",
-               "province": ""
+               "city": null,
+               "province": null
           } 
         ]
   }

@@ -22,6 +22,7 @@ function Hike(id, title, description = "", authorName, authorSurname, uploadDate
     this.photoFile = photoFile;
 }
 
+/*
 function HikeList() {
     this.hikeList = [];
 
@@ -32,7 +33,7 @@ function HikeList() {
 }
 
 // This object is used to store the list of hikes
-let hikes = HikeList()
+let hikes = HikeList()*/
 
 /**
  * Constructor function for new HikeDetails objects
@@ -62,5 +63,5 @@ function HikeDetails(id, lenght, expectedTime, ascent, difficulty, startPointId,
 }
 
 exports.Hike = Hike;
-exports.hikes = hikes;
+//exports.hikes = hikes;
 exports.HikeDetails = HikeDetails;
