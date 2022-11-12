@@ -61,6 +61,7 @@ const App = () => {
         {/* <Route path='/hikes' element={<View.Hike hike={hike} />} /> */}
         <Route path='/login' element={<View.Login />} />
         <Route path='/signup' element={<View.Register />} />
+        <Route path='/signup/:role' element={<View.RegisterRole />} />
         <Route path='/hikes' element={<View.Hike />} />
         <Route path='/hikes/:id' element={<View.HikeDetails />} />
         <Route path='*' element={<View.ErrorView />} />

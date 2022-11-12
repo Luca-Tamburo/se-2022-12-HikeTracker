@@ -22,7 +22,8 @@ All routes available are listed below
 
 - **`/`** : Home Page
 - **`/login`** : In this route you can find the login form.
-- **`/signup`** : In this route you can find the signup form.
+- **`/signup`** : In this route you can find the selection for the role to signup with.
+- **`/signup/:role`** : In this route you can find the signup form for the selected role.
 - **`/hikes`** : Visitor Page
 - **`/hikes/:${id}`** : Page with details and Map
 - **`/*`** : Any other route is matched by this one where the application shows a page not found error.

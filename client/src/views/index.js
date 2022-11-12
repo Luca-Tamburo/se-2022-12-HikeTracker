@@ -16,6 +16,7 @@ import Home from './Home/Home';
 import Hike from './Hike/Hike';
 import Login from './Login/Login';
 import Register from './Register/Register';
+import RegisterRole from './Register/RegisterRole';
 import HikeDetails from './HikeDetails/HikeDetails';
 
 export {
@@ -24,5 +25,6 @@ export {
     Hike,
     Login,
     Register,
-    HikeDetails,
+    RegisterRole,
+    HikeDetails
 }
