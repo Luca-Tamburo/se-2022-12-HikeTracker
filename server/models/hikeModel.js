@@ -25,7 +25,7 @@ function Hike(id, title, description = "", authorName, authorSurname, uploadDate
 function HikeList() {
     this.hikeList = [];
 
-    // This function recieves a Hike object or a list of them as parameter and adds it to the list
+    // This function recieves a list of hike objects as parameter and adds them to the hikeList
     this.addNewHike = (hike) => {
         this.hikeList.concat(hike);
     }
@@ -55,9 +55,9 @@ function HikeDetails(id, lenght, expectedTime, ascent, difficulty, startPointId,
     this.endPointId = endPointId;
     this.pointList = [];
 
-    // This function recieves a Point object as parameter and adds it to the list
+    // This function recieves a list of Point objects as parameter and adds them to the pointList
     this.addNewPoint = (point) => {
-        this.pointsList.push(point)
+        this.pointsList.concat(point)
     }
 }
 

@@ -64,7 +64,6 @@ exports.getHikes = () => {
             resolve(hikes);
         });
     });
-
 }
 
 /**
@@ -83,6 +82,60 @@ exports.getGpxByHikeId = (id) => {
                 }
             ));
             resolve(gpx[0]);
+        });
+    });
+}
+
+/**
+ * Get hike detailed information by hike id
+ */
+ exports.getDetailsByHikeId = (id) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM Hike WHERE id = ?';
+        db.all(sql, [id], (err, rows) => {
+            if (err) {
+                reject(err);
+            }
+            const details = rows.map((r) => (
+                {
+                    id: r.id,
+                    lenght: r.lenght,
+                    expectedTime: r.expectedTime,
+                    ascent: r.ascent,
+                    difficulty: r.difficulty,
+                    startPointId: r.startPointId,
+                    endPointId: r.endPointId
+                }
+            ));
+            resolve(details[0]);
+        });
+    });
+}
+
+/**
+ * Get points by hike id
+ */
+exports.getPointsByHikeId = (hikeId) => {
+    return new Promise((resolve, reject) => {
+        const sql = "SELECT Point.id AS id, Point.name AS name, Point.description AS description, Point.type AS type, Point.latitude AS latitude, Point.longitude AS longitude, Point.altitude AS altitude, Point.city AS city, Point.province AS province FROM Point JOIN HikePoint ON Point.id = HikePoint.pointId WHERE HikePoint.hikeId = ?";
+        db.all(sql, [hikeId], (err, rows) => {
+            if (err) {
+                reject(err);
+            } 
+            const hikes = rows.map((r) => (
+                {
+                    id: r.id,
+                    name: r.name,
+                    description: r.description,
+                    type: r.type,
+                    latitude: r.latitude,
+                    longitude: r.longitude,
+                    altitude: r.altitude,
+                    city: r.city,
+                    province: r.province
+                }
+            ));
+            resolve(hikes);
         });
     });
 }

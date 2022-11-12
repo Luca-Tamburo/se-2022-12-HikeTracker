@@ -102,14 +102,14 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
      {
           "id": 2,
           "title": "Trail to ROCCA PATANUA",
-          "description": "Patanua means,
+          "description": "Patanua means ...",
           "authorName": aldo,
           "authorSurname": baglio,
           "uploadDate": "2022-04-12",
           "photoFile": "www. ..."
       },
     ....
-]
+  ]
   ```
 
 - GET `/hikegpx/:id`
@@ -122,6 +122,49 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
           "gpxFile": "1_Montw_Ferra.gpx"
      }
   ```
+
+- GET `/hikedetails/:id`
+  - Description: Retrieve details (including point information) for a specific hike id
+  - Request body: id
+  - Response: `201 OK` (success), `422` (no id in request parameter) or `503 Service Unavailable` (generic error). 
+  - Response body: detailed information of the hike including a list of points. Error message in case of failure.
+  ```
+  {
+     "id": 1,
+     "lenght": 13,
+     "expectedTime": 5,
+     "ascent": 1280,
+     "difficulty": 4,
+     "startPointId": 1,
+     "endPointId": 2,
+     "pointList": 
+        [
+          {
+               "id": 1,
+               "name": "Refugio Melezè ...",
+               "description": "The building was a ...",
+               "type": "hut",
+               "latitude": 44.5744896554157,
+               "longitude": 6.98160500000067,
+               "altitude": 1812,
+               "city": "Berllino",
+               "province": "Cuneo"
+          },
+          {
+               "id": 1,
+               "name": "Monte Ferra",
+               "description": "Peak of ...",
+               "type": "gpsCoordinates",
+               "latitude": 44.57426,
+               "longitude": 6.98264,
+               "altitude": 3094,
+               "city": "",
+               "province": ""
+          } 
+        ]
+  }
+     
+```
 
 ## Database Tables
 
