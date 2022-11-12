@@ -28,7 +28,7 @@ router.get('/hikes', [], async (req, res) => {
 router.post('/hikes', [], async(req,res) => {
     try {
         let result = await hikeDao.insertHike(req.body.id, req.body.title, req.body.description, req.body.lenght, req.body.expectedTime, req.body.ascent, req.body.difficulty, req.body.startPointId, req.body.endPointId,  req.body.authorId, req.body.uploadDate, req.body.gpxFile, req.body.photoFile);
-        return res.status(200).json(result)
+        return res.status(201).json(result)
     } catch(err) {
         return res.status(err).end();
     }
