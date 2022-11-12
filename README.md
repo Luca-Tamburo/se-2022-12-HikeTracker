@@ -112,7 +112,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 ]
   ```
 
-- GET `/api/hikes`
+- GET `/hikegpx/:id`
   - Description: Retrieve gpx file path for a specific hike id
   - Request body: id
   - Response: `201 OK` (success), `422` (no id in request parameter) or `503 Service Unavailable` (generic error). 
