@@ -9,7 +9,7 @@
 * All rights reserved.
 * --------------------------------------------------------------------
 */
-//*
+
 // Imports
 import { useState, useContext } from 'react';
 import { Button, Spinner, Row, Col } from 'react-bootstrap';
@@ -19,6 +19,7 @@ import * as Yup from 'yup';
 
 // Services
 import api from '../../../services/api'
+
 // Components
 import Input from "../../utils/Input"
 
@@ -33,8 +34,6 @@ const RegisterFormHiker = (props) => {
     const [, , setDirty] = useContext(AuthContext);
     const notify = useNotification(); // Notification handler
     const navigate = useNavigate(); // Navigation handler
-
-
 
     const handleSubmit = (credentials) => {
         setLoading(true);

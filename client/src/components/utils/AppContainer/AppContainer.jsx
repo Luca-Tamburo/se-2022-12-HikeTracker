@@ -14,7 +14,7 @@
 import { Row, Container } from "react-bootstrap";
 
 //Components
-import Navbar from '../ui-core/Navbar/Navbar';
+import Navbar from '../../../components/ui-core/Navbar/Navbar'
 
 const AppContainer = ({ ...props }) => {
 

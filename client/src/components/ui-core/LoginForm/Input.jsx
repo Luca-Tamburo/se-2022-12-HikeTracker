@@ -1,17 +1,14 @@
 /*
- * --------------------------------------------------------------------
- * 
- * Package:         client
- * Module:          components
- * File:            Input.jsx
- * 
- * Author:          Luca Tamburo
- * Last modified:   2022-10-23
- * 
- * Copyright (c) 2022 - Luca Tamburo
- * All rights reserved.
- * --------------------------------------------------------------------
- */
+* --------------------------------------------------------------------
+* 
+* Package:         client
+* Module:          components
+* File:            Input.jsx
+* 
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
 
 // Imports
 import { Form } from "react-bootstrap";

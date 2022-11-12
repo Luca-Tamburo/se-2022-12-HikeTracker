@@ -16,7 +16,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 // import { Spinner } from 'react-bootstrap';
 
 //Components - utils
-import AppContainer from './components/utils/AppContainer';
+import AppContainer from './components/utils/AppContainer/AppContainer'
 
 //Views
 import * as View from './views/index';

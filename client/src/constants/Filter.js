@@ -12,42 +12,38 @@
 
 // Filter name
 const Range = [
-    { title: 'Less than 500 mt' },
-    { title: 'Between 500 mt and 1000 mt' },
-    { title: 'Between 1000 mt and 2000 mt' },
-    { title: 'More than 2000 mt' },
+    { value: '1', title: 'Less than 500 mt' },
+    { value: '2', title: 'Between 500 mt and 1000 mt' },
+    { value: '3', title: 'Between 1000 mt and 2000 mt' },
+    { value: '4', title: 'More than 2000 mt' },
 ]
 
 const Ascent = [
-    { title: 'Between 0 and 1000 mt' },
-    { title: 'Between 1000 mt and 1500 mt' },
-    { title: 'Between 1500 mt and 2000 mt' },
-    { title: 'Between 2000 mt and 2500 mt' },
-    { title: 'More than 2500 mt' },
+    { value: '1', title: 'Between 0 and 1000 mt' },
+    { value: '2', title: 'Between 1000 mt and 1500 mt' },
+    { value: '3', title: 'Between 1500 mt and 2000 mt' },
+    { value: '4', title: 'More than 2000 mt' },
 ]
 
 const Difficulty = [
-    { title: 'E' },
-    { title: 'E+' },
-    { title: 'EE' },
-    { title: 'EEA' },
-    { title: 'T' },
-    { title: 'T+' },
+    { value: '1', title: 'Tourist' },
+    { value: '2', title: 'Hiker' },
+    { value: '3', title: 'Professional Hiker' },
+    { value: '4', title: 'Professional Hiker with equipment' },
 ]
 
 const ExpectedTime = [
-    { title: 'Less than 1.5 h' },
-    { title: 'Between 1.5 h and 3 h' },
-    { title: 'Between 3 h and 5 h' },
-    { title: 'More than 5 h' },
+    { value: '1', title: 'Less than 2.30 h' },
+    { value: '2', title: 'Between 2.30 h and 4 h' },
+    { value: '3', title: 'Between 4 h and 5.30 h' },
+    { value: '4', title: 'More than 5.30 h' },
 ]
 
 const Length = [
-    { title: 'Less than 5 km' },
-    { title: 'Between 5 km and 10 km' },
-    { title: 'Between 10 km and 20 km' },
-    { title: 'Between 20 km and 30 km' },
-    { title: 'More than 40 km' },
+    { value: '1', title: 'Less than 5 km' },
+    { value: '2', title: 'Between 5 km and 10 km' },
+    { value: '3', title: 'Between 10 km and 20 km' },
+    { value: '4', title: 'More than 20 km' },
 ]
 
 const Filter = [
