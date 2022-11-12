@@ -9,23 +9,25 @@ const dayjs = require('dayjs');
  * @param {char} authorName name of the authur of the hike
  * @param {char} authorSurname surname of the authur of the hike
  * @param {dayjs} uploadDate author upload date
+ * @param {char} photoFile path to photo of the hike
  */
 
-function Hike(id, title, description = "", authorName, authorSurname, uploadDate = null) {
+function Hike(id, title, description = "", authorName, authorSurname, uploadDate = null, photoFile) {
     this.id = id;
     this.title = title;
     this.description = description;
     this.authorName = authorName;
     this.authorSurname = authorSurname;
     this.uploadDate = uploadDate === null ? dayjs() : dayjs(uploadDate); // If this parameter is not passed it's because it's a new hike, therefore current date is saved. 
+    this.photoFile = photoFile;
 }
 
 function HikeList() {
     this.hikeList = [];
 
-    // This function recieves a Hike object as parameter and adds it to the list
+    // This function recieves a Hike object or a list of them as parameter and adds it to the list
     this.addNewHike = (hike) => {
-        this.hikeList.push(hike)
+        this.hikeList.concat(hike);
     }
 }
 

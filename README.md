@@ -84,9 +84,9 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   ```
 
 - GET `/api/hikes`
-  - Description: Retrieve the list of available hikes informations"
+  - Description: Retrieve list of available hikes generic information
   - Request body: _None_
-  - Response: `200 OK` (success) or `503 Service Unavailable` (generic error). 
+  - Response: `201 OK` (success) or `503 Service Unavailable` (generic error). 
   - Response body: Hike information in case of success. Error message in case of failure.
   ```
   [
@@ -94,32 +94,33 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
           "id": 1,
           "title": "Trail to MONT FERRA",
           "description": "Leaving the car ...",
-          "lenght": 13,
-          "expectedTime": 5,
-          "ascent": 1280,
-          "difficulty": 4,
-          "startPointId": 1,
-          "endPointId": 2,
-          "authorId": 1,
+          "authorName": aldo,
+          "authorSurname": baglio,
           "uploadDate": "2022-01-10",
-          "gpxFile": "1_Montw_Ferra.gpx"
+          "photoFile": "www. ..."
      },
      {
           "id": 2,
           "title": "Trail to ROCCA PATANUA",
-          "description": "Patanua means "naked" ...",
-          "lenght": 9,
-          "expectedTime": 5.5,
-          "ascent": 980,
-          "difficulty": 3,
-          "startPointId": 3,
-          "endPointId": 4,
-          "authorId": 1,
+          "description": "Patanua means,
+          "authorName": aldo,
+          "authorSurname": baglio,
           "uploadDate": "2022-04-12",
-          "gpxFile": "2_Rocca_Patanua.gpx"
+          "photoFile": "www. ..."
       },
     ....
 ]
+  ```
+
+- GET `/api/hikes`
+  - Description: Retrieve gpx file path for a specific hike id
+  - Request body: id
+  - Response: `201 OK` (success), `422` (no id in request parameter) or `503 Service Unavailable` (generic error). 
+  - Response body: gpx file path in case of success. Error message in case of failure.
+  ```
+     {
+          "gpxFile": "1_Montw_Ferra.gpx"
+     }
   ```
 
 ## Database Tables

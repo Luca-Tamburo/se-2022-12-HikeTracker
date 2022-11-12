@@ -45,7 +45,7 @@ exports.insertHike = (id, title, description, lenght, expectedTime, ascent, diff
  */
 exports.getHikes = () => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT Hike.id AS id, Hike.title AS title, Hike.description AS description, Hike.uploadDate AS uploadDate, User.name AS authorName, User.surname AS authorSurname FROM Hike JOIN User ON Hike.authorId = User.id";
+        const sql = "SELECT Hike.id AS id, Hike.title AS title, Hike.description AS description, Hike.uploadDate AS uploadDate, Hike.photoFile AS photoFile, User.name AS authorName, User.surname AS authorSurname FROM Hike JOIN User ON Hike.authorId = User.id";
         db.all(sql, [], (err, rows) => {
             if (err) {
                 reject(err);
@@ -57,7 +57,8 @@ exports.getHikes = () => {
                     description: r.description,
                     authorName: r.authorName,
                     authorSurname: r.authorSurname,
-                    uploadDate: r.uploadDate
+                    uploadDate: r.uploadDate,
+                    photoFile: r.photoFile
                 }
             ));
             resolve(hikes);
@@ -66,5 +67,22 @@ exports.getHikes = () => {
 
 }
 
-
-
+/**
+ * Get hike gpx by hike id
+ */
+exports.getGpxByHikeId = (id) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM Hike WHERE id = ?';
+        db.all(sql, [id], (err, rows) => {
+            if (err) {
+                reject(err);
+            }
+            const gpx = rows.map((r) => (
+                {
+                    gpxFile: r.gpxFile
+                }
+            ));
+            resolve(gpx[0]);
+        });
+    });
+}
