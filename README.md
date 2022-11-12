@@ -86,7 +86,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 - GET `/api/hikes`
   - Description: Retrieve list of available hikes generic information
   - Request body: _None_
-  - Response: `201 OK` (success) or `503 Service Unavailable` (generic error). 
+  - Response: `200 OK` (success) or `503 Service Unavailable` (generic error). 
   - Response body: Hike information in case of success. Error message in case of failure.
   ```
   [
@@ -115,7 +115,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 - GET `/hikegpx/:id`
   - Description: Retrieve gpx file path for a specific hike id
   - Request body: id
-  - Response: `201 OK` (success), `422` (no id in request parameter) or `503 Service Unavailable` (generic error). 
+  - Response: `200 OK` (success), `422` (no id in request parameter) or `503 Service Unavailable` (generic error). 
   - Response body: gpx file path in case of success. Error message in case of failure.
   ```
      {
@@ -126,7 +126,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 - GET `/hikedetails/:id`
   - Description: Retrieve details (including point information) for a specific hike id
   - Request body: id
-  - Response: `201 OK` (success), `422` (no id in request parameter) or `503 Service Unavailable` (generic error). 
+  - Response: `200 OK` (success), `422` (no id in request parameter) or `503 Service Unavailable` (generic error). 
   - Response body: detailed information of the hike including a list of points. Error message in case of failure.
   ```
   {
