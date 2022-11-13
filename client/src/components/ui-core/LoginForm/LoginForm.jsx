@@ -12,16 +12,26 @@
 
 //Imports
 import { useState, useContext } from 'react';
-import { Button, Spinner } from 'react-bootstrap';
+import { Button, Spinner, Row } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
+// Services
+import api from '../../../services/api'
+
 //Components
 import Input from "./Input"
 
+// Contexts
+import { AuthContext } from "../../../contexts/AuthContext";
+
+// Hooks
+import useNotification from '../../../hooks/useNotification';
+
+
 const LoginForm = () => {
-    /* const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [, , setDirty] = useContext(AuthContext);
     const notify = useNotification(); // Notification handler
     const navigate = useNavigate(); // Navigation handler
@@ -38,59 +48,30 @@ const LoginForm = () => {
             .catch(err => notify.error(err))
             .finally(() => setLoading(false));
     }
- */
+ 
     const LoginSchema = Yup.object().shape({
-        username: Yup.string().email('Email not valid').required('Email Required'),
+        email: Yup.string().email('Email not valid').required('Email Required'),
         password: Yup.string().required('Password Required')
     });
 
-        {/* <div className="Auth-form-container">
-                    <Form className="Auth-form">
-                        <div className="Auth-form-content">
-                            <div className="form-group mt-3 me-5">
-                                <label>Email</label>
-                                <input
-                                    type="email"
-                                    className="form-control mt-1 border border-4 rounded-pill"
-                                    placeholder="Enter email"
-                                    required={true} 
-                                />
-                            </div>
-                            <div className="form-group mt-3 me-5">
-                                <label cls>Password</label>
-                                <input
-                                    type="password"
-                                    className="form-control mt-1 br-4 border border-4 rounded-pill"
-                                    placeholder="Enter password"
-                                    required={true} 
-                                    minLength={6}
-                                />
-                            </div>
-                            <div className="d-flex gap-2 mt-3 rounded-pill">
-                                <button type="submit" className="btn btn-primary border rounded-pill">
-                                    Submit
-                                </button>
-                            </div>
-                            <p className="forgot-password text-right mt-2">
-                                Forgot <a href="#">password?</a>
-                            </p>
-                        </div>
-                    </Form>
-                </div> */}
-                return(<Formik validateOnMount initialValues={{ username: '', password: '' }} validationSchema={LoginSchema} /* onSubmit={} */>
-                {/* {({ touched, isValid }) => {
-                    const disableSubmit = (!touched.username && !touched.password) || !isValid || loading; */}
-                    {/* return ( */}
+        return(<Formik validateOnMount initialValues={{ email: '', password: '' }} validationSchema={LoginSchema}  onSubmit={(values) => handleSubmit(values)} >
+                        {({ touched, isValid }) => {
+                const disableSubmit = (!touched.email && !touched.password) || !isValid || loading;
+                return(
                         <Form>
-                            <Input className="mt-3" id="login-email" name="username" type="email" placeholder="Inserisci il tuo indirizzo email" label="Email" />
-                            <Input className="mt-3" id="login-password" name="password" type="password" placeholder="Inserisci la tua password" label="Password" />
-                            <Button variant="primary" type="submit" className=' p-3 rounded-3 mt-4  fw-semibold border ' /* disabled={disableSubmit} */>
-                                {/* {loading &&  */}{/* <Spinner animation='grow' size='sm' as='span' role='status' aria-hidden='true' className='me-2' /> */}{/* } */}
+                            <Row>
+                            <Input className="mt-3" id="login-email" name="email" type="email" placeholder="Insert your email" label="Email" />
+                            </Row>
+                            <Row><Input className="mt-3" id="login-password" name="password" type="password" placeholder="Insert your password" label="Password" />
+                            </Row>
+                            <Row>
+                            <Button variant="primary" type="submit" className=' p-3 rounded-3 mt-4  fw-semibold border ' disabled={disableSubmit} >
+                                {loading &&   <Spinner animation='grow' size='sm' as='span' role='status' aria-hidden='true' className='me-2' /> }
                                 Login
                             </Button>
-                        </Form>
-                   {/*  ); */}
-                
+                            </Row>
+                        </Form>)
+                        }}
             </Formik>);
 
 }

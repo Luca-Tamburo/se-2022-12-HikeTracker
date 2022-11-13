@@ -51,13 +51,13 @@ describe('RegisterFormHiker', () => {
           )).toBeInTheDocument();
     });
 
-    it('Check if RegisterForm has username label', () => {
+    it('Check if RegisterForm has email label', () => {
         render(<RegisterFormHiker />, { wrapper: MemoryRouter });
         expect(screen.getByText(/email/i
           )).toBeInTheDocument();
     });
 
-    it('Check if RegisterForm has username label', () => {
+    it('Check if RegisterForm has password label', () => {
         render(<RegisterFormHiker />, { wrapper: MemoryRouter });
         expect(screen.getByText(/password/i
           )).toBeInTheDocument();
