@@ -144,7 +144,7 @@ exports.addUser = (email, username, role, name, surname, phoneNumber, password, 
             db.run(sql, [email, username, role, name, surname, phoneNumber, hashedPassword.toString('hex'), salt, confirmationCode, 0], (err) => {
                 if (err) {
                     reject(err);
-                } else
+                } 
                     resolve(this.lastId);
             });
         });
