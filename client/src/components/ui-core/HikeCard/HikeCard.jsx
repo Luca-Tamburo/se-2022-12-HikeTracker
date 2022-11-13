@@ -28,7 +28,7 @@ const HikeCard = ({ hike }) => {
                             <Card.Subtitle>{hike.uploadDate}</Card.Subtitle>
                         </div>
                         <hr />
-                        <Card.Text className='crop-text-31'>{hike.description}</Card.Text>
+                        <Card.Text className='crop-text-20'>{hike.description}</Card.Text>
                     </Card.Body>
                 </Card >
             </Link>
