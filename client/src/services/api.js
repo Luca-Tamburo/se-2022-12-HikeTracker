@@ -14,6 +14,7 @@
 
 // Imports
 import axios from "axios";
+
 // Server setup
 const SERVER_URL = 'http://localhost:3001/api/';
 
@@ -72,9 +73,22 @@ const api = {
         })
     },
 
-    putHike: () => {
+    putHike: (title, description, length, expectedTime, ascent, difficulty, startPointName, endPointName, authorId, uploadDate, photoFile) => {
         return new Promise((resolve, reject) => {
-            axios.put(SERVER_URL + 'hikes')
+            const data = {
+                'title': title,
+                'description': description,
+                'length': length,
+                'expectedTime': expectedTime,
+                'ascent': ascent,
+                'difficulty': difficulty,
+                'startPointName': startPointName,
+                'endPointName': endPointName,
+                'authorId': authorId,
+                'uploadDate': uploadDate,
+                'photoFile': photoFile
+            }
+            axios.put(SERVER_URL + 'hikes', JSON.stringify(data))
                 .then((res) => resolve(res.data))
                 .catch((err) => reject(err.response.data));
         })

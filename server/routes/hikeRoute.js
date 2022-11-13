@@ -28,19 +28,20 @@ router.get('/hikes', [], async (req, res) => {
  */
 router.put('/hikes', [], async (req, res) => {
     try {
-  /*     title, description,length,expectedTime,ascent,difficulty,startPointName,endPointName,authorId, uploadDate,photoFile
-*/
-//creo i point
-        let pointOneId= await pointDao.addPoint(req.body.startPointName);
-        let pointTwoId= await pointDao.addPoint(req.body.endPointName);
+        /*     title, description,length,expectedTime,ascent,difficulty,startPointName,endPointName,authorId, uploadDate,photoFile
+      */
+        console.log(req.body);
+        //creo i point
+        let pointOneId = await pointDao.addPoint(req.body.startPointName);
+        let pointTwoId = await pointDao.addPoint(req.body.endPointName);
         //linko point con hike
 
-        const hikeId = await hikeDao.addHike( req.body.title, req.body.description, req.body.length, req.body.expectedTime, req.body.ascent, req.body.difficulty, pointOneId, pointTwoId, req.body.authorId, req.body.uploadDate, "here the gpx", req.body.photoFile);
+        const hikeId = await hikeDao.addHike(req.body.title, req.body.description, req.body.length, req.body.expectedTime, req.body.ascent, req.body.difficulty, pointOneId, pointTwoId, req.body.authorId, req.body.uploadDate, "here the gpx", req.body.photoFile);
         console.log(hikeId)
-        await pointDao.addPointHike(hikeId,pointOneId);
-        await pointDao.addPointHike(hikeId,pointTwoId);
+        await pointDao.addPointHike(hikeId, pointOneId);
+        await pointDao.addPointHike(hikeId, pointTwoId);
 
-       
+
         return res.status(201).json(pointOneId)
     } catch (err) {
         return res.status(err).end();
@@ -55,7 +56,7 @@ router.get('/hikegpx/:hikeId', [], async (req, res) => {
     try {
         let gpx = await hikeDao.getGpxByHikeId(req.params.hikeId);
         if (gpx !== undefined) {
-            req.params.hikeId=2;
+            req.params.hikeId = 2;
             res.sendFile(path.join(__dirname, `..//utils/gpxFiles/${gpx}`));
         }
         else res.status(404).json({ error: `gpx not found` });

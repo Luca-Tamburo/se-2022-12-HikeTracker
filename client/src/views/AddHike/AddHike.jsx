@@ -26,12 +26,13 @@ import Input from '../../components/utils/Input'
 // Hooks
 import useNotification from '../../hooks/useNotification';
 
-const AddHike = () => {
+const AddHike = (props) => {
+
     const notify = useNotification(); // Notification handler
     const navigate = useNavigate(); // Navigation handler
 
-    const handleSubmit = () => {
-        api.putHike()
+    const handleSubmit = (values) => {
+        api.putHike(values.title, values.description, values.length, values.expectedTime, values.ascent, values.difficulty, values.startPointName, values.endPointName, props.userInfo.id, values.uploadDate, values.photoFile)
             .then(() => {
                 notify.success(`Hike correctly added`)
                 navigate('/', { replace: true });
@@ -58,7 +59,7 @@ const AddHike = () => {
             <div className='d-flex justify-content-center mt-3'>
                 <h1 className='fw-bold'>Add your hike </h1>
             </div>
-            <Formik validateOnMount initialValues={{ title: "", photoFile: "", description: "", length: "", ascent: "", difficulty: "", expectedTime: "", startPointName: "", endPointName: "" }} validationSchema={AddHikeSchema} onSubmit={() => handleSubmit()}>
+            <Formik validateOnMount initialValues={{ title: "", photoFile: "", description: "", length: "", ascent: "", difficulty: "", expectedTime: "", startPointName: "", endPointName: "" }} validationSchema={AddHikeSchema} onSubmit={(values) => { handleSubmit(values) }}>
                 {({ touched, isValid }) => {
                     //const disableSubmit = (!touched.title && !touched.photoFile && !touched.description && !touched.authorId && !touched.length && !touched.ascent && !touched.difficulty && !touched.expectedTime && !touched.startPointName && !touched.endPointName) || !isValid;
                     return (
@@ -93,7 +94,7 @@ const AddHike = () => {
                                         <Input className="mt-3" id="startPointName" name="startPointName" type="text" placeholder="Insert the hike start point" label="Start point" />
                                     </Col>
                                     <Col>
-                                        <Input className="mt-3" id="endPointName" name="end" type="endPointName" placeholder="Insert the hike end point" label="End point" />
+                                        <Input className="mt-3" id="endPointName" name="endPointName" type="text" placeholder="Insert the hike end point" label="End point" />
                                     </Col>
                                 </Row>
                                 <Row>
