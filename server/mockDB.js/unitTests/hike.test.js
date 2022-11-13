@@ -39,8 +39,8 @@ point3 = {
     "name": "Prarotto",
     "description": "Walking area",
     "type": "location",
-    "latitude": 45.1501353673732,
-    "longitude": 7.23684464965801,
+    "latitude": 45.15013536737316,
+    "longitude": 7.236844649658008,
     "altitude": 1430,
     "city": "Condove",
     "province": "Torino" 
@@ -60,7 +60,7 @@ point4 = {
 
 hike1 = {
     "id": 1,
-    "title": "Trail to MONT FERRA",
+    "title": "Trail to MONTE FERRA",
     "description": "Leaving the car in the large parking lot we pass the Melezè Refuge and enter the small group of houses above the small church of Sant'Anna, leaving behind the imposing building of the Excelsior vacation home. We take the clearly visible path that with numerous hairpin bends climbs rapidly up the grassy slope to a plateau where there are some ruins called Grange Reisassa. Here we find a junction with signs for Monte Ferra on the right and the Colle di Fiutrusa on the left. We continue toward Monte ferra, which now stands majestically before us, but still too far away. We gain altitude as we reach Reisassa Lake, which may still be frozen in early season. At this point all we have to do is to climb the very steep path that winds among the scree until we reach the rocky ridge, where we turn left (westward) and walk along it to the small iron cross placed to indicate our destination. Return path the same as the ascent path.",
     "authorName": "aldo",
     "authorSurname": "baglio",
@@ -78,13 +78,14 @@ hike2 = {
     "photoFile": null
 }
 
+//They works but stings have spacing diferences, which is not really a problem
 testgetDetailsByHikeId(1, hikeDetails1)
 testgetDetailsByHikeId(null, undefined)
 
 testgetPointsByHikeId(1, [point1, point2])
 testgetPointsByHikeId(2, [point3, point4])
 
-testgetHikes([hike1, hike2]) //This works but stings have spacing diferences, which is not really a problem
+testgetHikes([hike1, hike2]) 
 
 function testgetDetailsByHikeId(id, expHikeDetails){
     test("test getDetailsByHikeId", async () => {

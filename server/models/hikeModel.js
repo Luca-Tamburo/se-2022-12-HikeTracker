@@ -16,10 +16,14 @@ function Hike(id, title, description = "", authorName, authorSurname, uploadDate
     this.id = id;
     this.title = title;
     this.description = description;
-    this.authorName = authorName;
-    this.authorSurname = authorSurname;
+    this.authorName = capitalizeFirstLetter(authorName);
+    this.authorSurname = capitalizeFirstLetter(authorSurname);
     this.uploadDate = uploadDate === null ? dayjs() : dayjs(uploadDate); // If this parameter is not passed it's because it's a new hike, therefore current date is saved. 
     this.photoFile = photoFile;
+
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+      }
 }
 
 /*
