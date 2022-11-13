@@ -2,7 +2,7 @@
 * -------------------------------------------------------------------- 
 *
 * Package:         client
-* Module:          src/components/ui-core/RegisterForm
+* Module:          src/components/ui-core/LoginForm
 * File:            RegisterForm.test.jsx
 *
 * Copyright (c) 2022 - se2022-Team12
@@ -17,8 +17,8 @@ import { Router, MemoryRouter } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
 import {RegisterFormHiker, RegisterFormAdvanced} from './RegisterForm'
-//Mock react-bootstrap
-jest.mock('react-bootstrap', () => {
+
+est.mock('react-bootstrap', () => {
 
     const Container = (props) => {
         return (
