@@ -31,21 +31,24 @@ import useNotification from '../../../hooks/useNotification';
 
 const RegisterFormHiker = (props) => {
     const [loading, setLoading] = useState(false);
-    const [, , setDirty] = useContext(AuthContext);
+//    const [, , setDirty] = useContext(AuthContext);
     const notify = useNotification(); // Notification handler
     const navigate = useNavigate(); // Navigation handler
 
     const handleSubmit = (credentials) => {
-        setLoading(true);
+        //setLoading(true);
         credentials["role"]=props.Role;
+        console.log(credentials)
+        console.log("sss")
         api.addNewUser(credentials)
             .then(user => {
-                setDirty(true);
-                notify.success(`Welcome ${user.name}!`)
+                
+                //setDirty(true);
+                notify.success(` ${user.message}!`)
                 navigate('/', { replace: true });
             })
             .catch(err => notify.error(err))
-            .finally(() => setLoading(false));
+          //  .finally(() => setLoading(false));
     }
 
     const RegisterSchema = Yup.object().shape({

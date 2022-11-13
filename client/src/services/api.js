@@ -19,20 +19,24 @@ const SERVER_URL = 'http://localhost:3001/api/';
 
 const api = {
 
-    addNewUser: () => (credentials) => {
+    addNewUser: (credentials) => {
+
         return new Promise((resolve, reject) => {
-            axios.post(SERVER_URL + 'users', credentials, { withCredentials: true })
+            console.log("asaaaaa")
+
+            axios.post(SERVER_URL + 'signup', credentials, { withCredentials: true })
                 .then(res => resolve(res.data))
                 .catch(err => reject(err.response.data));
         })
     },
 
     login: (credentials) => {
-        console.log("entra in api")
         return new Promise((resolve, reject) => {
             axios.post(SERVER_URL + 'sessions', credentials, { withCredentials: true })
-                .then(res => resolve(res))
-                .catch(err => reject(err.response));
+                .then(res => {
+                    resolve(res.data)
+                })
+                .catch(err => {  reject(err.response.data) });
         })
     },
 
