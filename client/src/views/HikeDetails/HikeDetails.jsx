@@ -41,6 +41,14 @@ const HikeDetails = (props) => {
    const [end, setEnd] = useState(null)
    const [coordinates, setCoordinates] = useState(null)
 
+   const [hiker, setHiker] = useState(false)
+
+   console.log('Dettagli')
+   console.log(props.userInfo)
+   console.log(props.isloggedIn)
+
+   
+
 
    const [hike, setHike] = useState(undefined);
    const [start, setStart] = useState(null);
@@ -1234,8 +1242,15 @@ const HikeDetails = (props) => {
 
    var converted = tj.gpx(gpx);
 
+   console.log(hiker)
 
    useEffect(() => {
+      if( props.userInfo != undefined && props.isloggedIn == true){
+         console.log('entra')
+         if(props.userInfo.role =='hiker'){
+            setHiker(true)
+         }
+      }
       let coord = []
       for (let index = 0; index < converted.features.length; index++) {
          let e1 = converted.features[0].geometry.coordinates[0];
@@ -1273,7 +1288,7 @@ const HikeDetails = (props) => {
                notify.error(err.message)
          })
    }, []); //eslint-disable-line react-hooks/exhaustive-deps
-
+   
    if (hike)
       return (
          <Col xs={10} className='mx-auto p-0'>
@@ -1324,7 +1339,7 @@ const HikeDetails = (props) => {
                      </ListGroup>
                   </div>
                </Col>
-               <Col xs={7} className='m-0'>
+               {/* <Col xs={7} className='m-0'>
                   <MapContainer center={[45.178199, 7.083081]} zoom={11} scrollWheelZoom={true}>
                      <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -1350,7 +1365,37 @@ const HikeDetails = (props) => {
                         </Button>
                      </div>
                   </div>
-               </Col>
+               </Col> */}
+               {hiker ?
+
+                  <Col xs={7} className='m-0'>
+                     <MapContainer center={[45.178199, 7.083081]} zoom={11} scrollWheelZoom={true}>
+                        <TileLayer
+                           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <Marker icon={endIcon} position={end}>
+                           <Popup>
+                              End Point <br />
+                           </Popup>
+                        </Marker>
+                        <Marker icon={startIcon} position={start}>
+                           <Popup>
+                              Starting Point <br />
+                           </Popup>
+                        </Marker>
+                        <Polyline pathOptions={limeOptions} positions={coordinates} />
+                     </MapContainer>
+
+                     <div class="mt-3">
+                        <div className="btnDiv">
+                           <Button variant="primary" type="submit" className=' p-3 rounded-3 mt-4  fw-semibold border '>
+                              Download GPX Track
+                           </Button>
+                        </div>
+                     </div>
+                  </Col>
+                  : <Col xs={7} className='m-0'></Col>}
             </Row>
          </Col>
       )
