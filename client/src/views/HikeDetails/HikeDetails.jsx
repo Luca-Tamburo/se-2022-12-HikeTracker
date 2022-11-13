@@ -1240,9 +1240,13 @@ const HikeDetails = () => {
     }, [])
 
 
-    const myIcon = L.icon({
-        iconUrl: require('./start-here-svgrepo-com.svg'),
-        iconSize: [64, 64],
+    const startIcon = L.icon({
+        iconUrl: require('./icons8-start-64.png'),
+        iconSize: [30, 30],
+    });
+    const endIcon = L.icon({
+        iconUrl: require('./icons8-finish-flag-64.png'),
+        iconSize: [30, 30],
     });
 
     const hike =
@@ -1309,7 +1313,7 @@ const HikeDetails = () => {
                 <span className='fst-italic'>{hike.description}</span>
             </div>
             <Row className='d-flex justify-content-between'>
-                <Col xs={4} className='p-0'>
+                <Col xs={3} className='p-0'>
                     <div className='shadow-lg p-3 mb-5 bg-white rounded'>
                         <div className='d-flex flex-column ms-3'>
                             <h3 className='fw-bold'>HIKE INFO</h3>
@@ -1336,20 +1340,20 @@ const HikeDetails = () => {
                         </ListGroup>
                     </div>
                 </Col>
-                <Col xs={6} className='m-0'>
+                <Col xs={7} className='m-0'>
                     <MapContainer center={[45.178199, 7.083081]} zoom={11} scrollWheelZoom={true}>
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        <Marker position={end}>
+                        <Marker icon={endIcon} position={end}>
                             <Popup>
-                                A pretty CSS3 popup. <br /> Easily customizable.
+                                End Point <br /> 
                             </Popup>
                         </Marker>
-                        <Marker icon={myIcon} position={start}>
+                        <Marker icon={startIcon} position={start}>
                             <Popup>
-                                A pretty CSS3 popup. <br /> Easily customizable.
+                                Starting Point <br /> 
                             </Popup>
                         </Marker>
                         <Polyline pathOptions={limeOptions} positions={coordinates} />
