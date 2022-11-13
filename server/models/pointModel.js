@@ -1,0 +1,29 @@
+'use strict';
+
+/**
+ * Constructor function for new Point objects
+ * @param {number} id point id 
+ * @param {char} name point name
+ * @param {char} description point description
+ * @param {char} type point type
+ * @param {number} latitude point latitude
+ * @param {number} longitude point longitude 
+ * @param {number} altitude point altitude 
+ * @param {char} city city of the point 
+ * @param {char} province province of the point 
+ * @param {char} region region of the point 
+ */
+
+function Point(id, name, description = "", type, latitude, longitude, altitude, city, province) {
+    this.id = id;
+    this.name = name;
+    this.description = description;
+    this.type = type;
+    this.latitude = latitude;
+    this.longitude = longitude; 
+    this.altitude = altitude; 
+    this.city = city; 
+    this.province = province; 
+}
+
+exports.Point = Point;
