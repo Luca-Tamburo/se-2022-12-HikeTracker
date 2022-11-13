@@ -17,10 +17,10 @@ import { useState, useEffect } from 'react';
 // Constants
 import { Filter as constFilter } from '../../../constants/index';
 
-const prov = ["Torino","Roma","Milano"]
+const prov = ["Torino", "Roma", "Milano"]
 
 
-const cit = ["Ivrea","Rivarolo","Ciriè"]
+const cit = ["Ivrea", "Rivarolo", "Ciriè"]
 
 const Filter = (props) => {
 
@@ -33,7 +33,7 @@ const Filter = (props) => {
     const [length, setLength] = useState(0);
     console.log(range);
 
-    const handleSearch = () =>{
+    const handleSearch = () => {
         let v = [];
         v.push(province)
         v.push(city)
@@ -51,7 +51,7 @@ const Filter = (props) => {
             {/* Geographical area and ascent filters*/}
             <Row className='mt-4'>
                 <Col xs={3}>
-                    <Form.Select data-testid="province-select" onChange= {(event)=>{setProvince(event.target.value)}}>
+                    <Form.Select data-testid="province-select" onChange={(event) => { setProvince(event.target.value) }}>
                         <option value={undefined}>Province</option>
                         {prov.map((item, index) => {
                             return (
@@ -61,7 +61,7 @@ const Filter = (props) => {
                     </Form.Select>
                 </Col>
                 <Col xs={3}>
-                    <Form.Select data-testid="city-select" onChange= {(event)=>{setCity(event.target.value)}}>
+                    <Form.Select data-testid="city-select" onChange={(event) => { setCity(event.target.value) }}>
                         <option value={undefined}>City</option>
                         {cit.map((item, index) => {
                             return (
@@ -71,7 +71,7 @@ const Filter = (props) => {
                     </Form.Select>
                 </Col>
                 <Col xs={3}>
-                    <Form.Select data-testid="range-select" onChange= {(event)=>{setRange(event.target.value)}}>
+                    <Form.Select data-testid="range-select" onChange={(event) => { setRange(event.target.value) }}>
                         <option value={0}>Range</option>
                         {constFilter[0].map((item, index) => {
                             return (
@@ -81,7 +81,7 @@ const Filter = (props) => {
                     </Form.Select>
                 </Col>
                 <Col xs={3}>
-                    <Form.Select data-testid="ascent-select" onChange= {(event)=>{setAscent(event.target.value)}}>
+                    <Form.Select data-testid="ascent-select" onChange={(event) => { setAscent(event.target.value) }}>
                         <option value={0}>Ascent</option>
                         {constFilter[1].map((item, index) => {
                             return (
@@ -94,7 +94,7 @@ const Filter = (props) => {
             {/* Other filters*/}
             <Row className='mt-3'>
                 <Col xs={3}>
-                    <Form.Select data-testid="difficulty-select" onChange= {(event)=>{setDifficulty(event.target.value)}}>
+                    <Form.Select data-testid="difficulty-select" onChange={(event) => { setDifficulty(event.target.value) }}>
                         <option value={0}>Difficulty</option>
                         {constFilter[2].map((item, index) => {
                             return (
@@ -104,7 +104,7 @@ const Filter = (props) => {
                     </Form.Select>
                 </Col>
                 <Col xs={3}>
-                    <Form.Select data-testid="expectideTime-select" onChange= {(event)=>{setExpectedTime(event.target.value)}}>
+                    <Form.Select data-testid="expectideTime-select" onChange={(event) => { setExpectedTime(event.target.value) }}>
                         <option value={0}>Expectide Time</option>
                         {constFilter[3].map((item, index) => {
                             return (
@@ -114,7 +114,7 @@ const Filter = (props) => {
                     </Form.Select>
                 </Col>
                 <Col xs={3}>
-                    <Form.Select data-testid="length-select" onChange= {(event)=>{setLength(event.target.value)}}>
+                    <Form.Select data-testid="length-select" onChange={(event) => { setLength(event.target.value) }}>
                         <option value={0}>Length</option>
                         {constFilter[4].map((item, index) => {
                             return (
@@ -125,7 +125,7 @@ const Filter = (props) => {
                 </Col>
                 <Col xs={3}>
                     {/* TODO: Inserire icona */}
-                    <Button className='w-100' onClick={() =>{handleSearch()}}>Search</Button>
+                    <Button className='w-100' onClick={() => { handleSearch() }}>Search</Button>
                 </Col>
             </Row>
         </>

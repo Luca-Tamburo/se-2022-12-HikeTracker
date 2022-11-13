@@ -49,7 +49,7 @@ exports.getHikes = () => {
         db.all(sql, [], (err, rows) => {
             if (err) {
                 reject(err);
-            } 
+            }
             const hikes = rows.map((r) => (
                 {
                     id: r.id,
@@ -89,7 +89,7 @@ exports.getGpxByHikeId = (id) => {
 /**
  * Get hike detailed information by hike id
  */
- exports.getDetailsByHikeId = (id) => {
+exports.getDetailsByHikeId = (id) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM Hike WHERE id = ?';
         db.all(sql, [id], (err, rows) => {
@@ -121,7 +121,7 @@ exports.getPointsByHikeId = (hikeId) => {
         db.all(sql, [hikeId], (err, rows) => {
             if (err) {
                 reject(err);
-            } 
+            }
             const hikes = rows.map((r) => (
                 {
                     id: r.id,

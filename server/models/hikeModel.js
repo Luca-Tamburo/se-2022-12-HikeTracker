@@ -19,7 +19,7 @@ class Hike {
         this.description = description;
         this.authorName = capitalizeFirstLetter(authorName);
         this.authorSurname = capitalizeFirstLetter(authorSurname);
-        this.uploadDate = uploadDate === null ? dayjs() : dayjs(uploadDate); // If this parameter is not passed it's because it's a new hike, therefore current date is saved. 
+        this.uploadDate = uploadDate === null ? dayjs().format('YYYY/MM/DD') : dayjs(uploadDate).format('YYYY/MM/DD'); // If this parameter is not passed it's because it's a new hike, therefore current date is saved. 
         this.photoFile = photoFile;
 
         function capitalizeFirstLetter(string) {
@@ -40,10 +40,11 @@ class Hike {
  * @param {number} endPointId end point id of the hike
  */
 
- class HikeDetails extends Hike {
-    constructor(id, title, description = "", authorName, authorSurname, uploadDate = null, photoFile, lenght=0, expectedTime=0, ascent=0, difficulty=0, startPointId=0, endPointId=0) {
-        super(id, title, description = "", authorName, authorSurname, uploadDate = null, photoFile);
+class HikeDetails extends Hike {
+    constructor(id, title, description = "", authorName, authorSurname, uploadDate = null, photoFile, lenght = 0, expectedTime = 0, ascent = 0, difficulty = 0, startPointId = 0, endPointId = 0) {
+        super(id, title, description, authorName, authorSurname, uploadDate, photoFile);
         this.lenght = lenght;
+        this.description = description;
         this.expectedTime = expectedTime;
         this.ascent = ascent;
         this.difficulty = difficulty;
