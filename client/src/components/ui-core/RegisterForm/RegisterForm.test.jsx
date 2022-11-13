@@ -3,7 +3,7 @@
 *
 * Package:         client
 * Module:          src/views/Register/Register
-* File:            Register.test.jsx
+* File:            RegisterForm.test.jsx
 *
 * Copyright (c) 2022 - se2022-Team12
 * All rights reserved.
