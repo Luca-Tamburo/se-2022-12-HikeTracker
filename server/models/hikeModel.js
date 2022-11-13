@@ -31,7 +31,7 @@ class Hike {
 /**
  * Constructor function for new HikeDetails objects
  * @param {number} id hike id 
- * @param {number} lenght lenght of the hike
+ * @param {number} length length of the hike
  * @param {number} expectedTime expected time of the hike
  * @param {number} ascent ascent of the hike
  * @param {number} difficulty difficulty of the hike
@@ -40,9 +40,9 @@ class Hike {
  */
 
 class HikeDetails extends Hike {
-    constructor(id, title, description = "", authorName, authorSurname, uploadDate = null, photoFile, lenght = 0, expectedTime = 0, ascent = 0, difficulty = 0, startPointId = 0, endPointId = 0) {
+    constructor(id, title, description = "", authorName, authorSurname, uploadDate = null, photoFile, length = 0, expectedTime = 0, ascent = 0, difficulty = 0, startPointId = 0, endPointId = 0) {
         super(id, title, description, authorName, authorSurname, uploadDate, photoFile);
-        this.lenght = lenght;
+        this.length = length;
         this.expectedTime = expectedTime;
         this.ascent = ascent;
         this.difficulty = difficulty;

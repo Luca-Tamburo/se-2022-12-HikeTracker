@@ -26,7 +26,7 @@ router.get('/hikes', [], async (req, res) => {
  */
 router.post('/hikes', [], async (req, res) => {
     try {
-        let result = await hikeDao.insertHike(req.body.id, req.body.title, req.body.description, req.body.lenght, req.body.expectedTime, req.body.ascent, req.body.difficulty, req.body.startPointId, req.body.endPointId, req.body.authorId, req.body.uploadDate, req.body.gpxFile, req.body.photoFile);
+        let result = await hikeDao.insertHike(req.body.id, req.body.title, req.body.description, req.body.length, req.body.expectedTime, req.body.ascent, req.body.difficulty, req.body.startPointId, req.body.endPointId, req.body.authorId, req.body.uploadDate, req.body.gpxFile, req.body.photoFile);
         return res.status(201).json(result)
     } catch (err) {
         return res.status(err).end();
@@ -62,7 +62,7 @@ router.get('/hikedetails/:hikeId', [], async (req, res) => {
     try {
         //Hike detailed information is collected
         let d = await hikeDao.getDetailsByHikeId(req.params.hikeId);
-        let hike = d.map((e) => new HikeDetails(e.id, e.title, e.description, e.authorName, e.authorSurname, e.uploadDate, e.photoFile, e.lenght, e.expectedTime, e.ascent, e.difficulty, e.startPointId, e.endPointId));
+        let hike = d.map((e) => new HikeDetails(e.id, e.title, e.description, e.authorName, e.authorSurname, e.uploadDate, e.photoFile, e.length, e.expectedTime, e.ascent, e.difficulty, e.startPointId, e.endPointId));
         hike = hike[0]
         
         //Points information for that hike is collected

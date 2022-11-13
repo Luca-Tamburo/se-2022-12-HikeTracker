@@ -1305,7 +1305,7 @@ const HikeDetails = (props) => {
                      </div>
                      <ListGroup horizontal>
                         <ListGroup.Item className='border-0'>
-                           <h5 className='fw-bold mt-3'>LENGHT</h5>{hike.lenght} {''} km
+                           <h5 className='fw-bold mt-3'>LENGTH</h5>{hike.length} {''} km
                            <h5 className='fw-bold mt-3'>ASCENT</h5> + {''} {hike.ascent} {''} mt
                            <h5 className='fw-bold mt-3'>DIFFICULTY</h5> {hike.difficulty}
                            <h5 className='fw-bold mt-3'>EXPECTED TIME</h5> {hike.expectedTime} {''} hr

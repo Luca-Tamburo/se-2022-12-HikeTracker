@@ -25,7 +25,7 @@ const db = new sqlite.Database('mockHikeTracker.db', (err) => {
 function createTables() {
 
     db.serialize(() => {
-        const hike = 'CREATE TABLE IF NOT EXISTS "Hike" ( "id"	INTEGER NOT NULL, "title"   TEXT, "description" TEXT, "lenght"  NUMBER, \
+        const hike = 'CREATE TABLE IF NOT EXISTS "Hike" ( "id"	INTEGER NOT NULL, "title"   TEXT, "description" TEXT, "length"  NUMBER, \
                      "expectedTime" NUMBER, "ascent"    NUMBER, "difficulty"   INTEGER, "startPointId"   INTEGER, "endPointId"   INTEGER, \
                      "authorId" INTEGER,  "uploadDate"  TEXT , "gpxFile" TEXT, "photoFile" TEXT, FOREIGN KEY("startPointId") REFERENCES "Point"("id"), \
                      FOREIGN KEY("endPointId") REFERENCES "Point"("id"),  FOREIGN KEY("authorId") REFERENCES "User"("id"), PRIMARY KEY("id" AUTOINCREMENT));'
@@ -64,7 +64,7 @@ function createTables() {
         })
 
         const userPreference = 'CREATE TABLE IF NOT EXISTS "UserPreference" ( "id"	INTEGER NOT NULL, "duration"   INTEGER, \
-         "altitude" INTEGER, "ascent" INTEGER, "lenght" INTEGER, "difficulty"   INTEGER, "userId" INTEGER, \
+         "altitude" INTEGER, "ascent" INTEGER, "length" INTEGER, "difficulty"   INTEGER, "userId" INTEGER, \
         FOREIGN KEY("userId") REFERENCES "User"("id"), PRIMARY KEY("id" AUTOINCREMENT));'
 
         db.run(userPreference, (err) => {
