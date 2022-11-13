@@ -30,25 +30,21 @@ router.post("/signup", isNotLoggedIn,
 
     check("password").exists().withMessage("This field is mandatory").bail()
         .isString().withMessage("This field must be a string").bail()
-        .isLength({ min: 5, max: 40 }).withMessage("This field is a string and must be from 5 to 40 characters"),
+        .isLength({ min: 1 }).withMessage("This field is a string and must be from 5 to 40 characters"),
 
     //per name, surname, phone number doppia validazione, per quando sono opzionali e per quando sono obbligatori
 
     check("name").if((value, { req }) => optionalBecomeMandatory(req.body.role)).exists().withMessage("This field is mandatory").bail()
-        .isString().withMessage("This field must be a string").bail()
-        .trim().isLength({ min: 5, max: 40 }).withMessage("This field is a string and must be from 5 to 40 characters"),
+        .isString().withMessage("This field must be a string").bail(),
 
     check("name").if((value, { req }) => !optionalBecomeMandatory(req.body.role)).optional({ nullable: true })
-        .isString().withMessage("This field must be a string").bail()
-        .trim().isLength({ min: 5, max: 40 }).withMessage("This field is a string and must be from 5 to 40 characters"),
+        .isString().withMessage("This field must be a string").bail(),
 
     check("surname").if((value, { req }) => optionalBecomeMandatory(req.body.role)).exists().withMessage("This field is mandatory").bail()
-        .isString().withMessage("This field must be a string").bail()
-        .trim().isLength({ min: 5, max: 40 }).withMessage("This field is a string and must be from 5 to 40 characters"),
+        .isString().withMessage("This field must be a string").bail(),
 
     check("surname").if((value, { req }) => !optionalBecomeMandatory(req.body.role)).optional({ nullable: true })
-        .isString().withMessage("This field must be a string").bail()
-        .trim().isLength({ min: 5, max: 40 }).withMessage("This field is a string and must be from 5 to 40 characters"),
+        .isString().withMessage("This field must be a string").bail(),
 
     check("phoneNumber").if((value, { req }) => optionalBecomeMandatory(req.body.role)).exists().withMessage("This field is mandatory").bail()
         .isString().withMessage("This field must be a string (consider the prefix of the phone number)").bail()
@@ -79,7 +75,7 @@ router.post("/signup", isNotLoggedIn,
             const url = "http://localhost:3001/api/signup/" + jwt;
 
             //mando dati a dao
-            await userDao.addUser(req.body.email, req.body.username, req.body.role, req.body.name, req.body.surname, req.body.phoneNumber, req.body.password, jwt);
+            await userDao.addUser(req.body.email.trim(), req.body.username.trim(), req.body.role.trim(), req.body.name.trim(), req.body.surname.trim(), req.body.phoneNumber.trim(), req.body.password, jwt);
 
             //mando mail di conferma
             nodemailer.sendConfirmationEmail(req.body.username, req.body.email, url);

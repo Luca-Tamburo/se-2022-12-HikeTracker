@@ -46,24 +46,28 @@ router.put("/test", isLoggedIn,
 
 // POST /api/sessions
 // login
-router.post("/sessions", function (req, res, next) {
-    try {
-        passport.authenticate("local", (err, user, info) => {
-            if (err) return next(err);
-            if (!user) {
-                // display wrong login messages
-                return res.status(401).json(info);
-            }
-            // success, perform the login
-            req.login(user, (err) => {
-                if (err) return next(err);
-                // req.user contains the authenticated user, we send all the user info back
-                // this is coming from userDao.getUser()
-                return res.json(req.user);
-            });
-        })(req, res, next);
-    } catch (error) { res.status(503).json({ error: `Database error while retrieving user info` }).end(); }
-});
+router.post("/sessions",
+    function (req, res, next) {
+        try {
+            if (!((typeof req.body.email === 'string') && (typeof req.body.password === 'string')))
+                res.status(401).json({ error: `Incorrect email and/or password.` })
+            else
+                passport.authenticate("local", (err, user, info) => {
+                    if (err) return next(err);
+                    if (!user) {
+                        // display wrong login messages
+                        return res.status(401).json(info);
+                    }
+                    // success, perform the login
+                    req.login(user, (err) => {
+                        if (err) return next(err);
+                        // req.user contains the authenticated user, we send all the user info back
+                        // this is coming from userDao.getUser()
+                        return res.json(req.user);
+                    });
+                })(req, res, next);
+        } catch (error) { res.status(503).json({ error: `Database error while retrieving user info` }).end(); }
+    });
 
 // DELETE /api/sessions/current
 // logout

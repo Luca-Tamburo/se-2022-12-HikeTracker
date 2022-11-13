@@ -156,7 +156,6 @@ exports.addUser = (email, username, role, name, surname, phoneNumber, password, 
 * Activate a user, given the confirmationCode
 * @param {string} confirmationCode the email of the user
 */
-//TO BE TESTED
 exports.activateUser = (confirmationCode) => {
     return new Promise((resolve, reject) => {
         let sql = 'SELECT id FROM user WHERE confirmationCode=?';
@@ -177,3 +176,21 @@ exports.activateUser = (confirmationCode) => {
         });
     });
 };
+
+/**
+* Delete a user, given the username. FOR TESTING
+* @param {string} username the username of the user
+*/
+exports.deleteUser = (username) => {
+    console.log(username)
+
+    return new Promise((resolve, reject) => {
+        const sql = `DELETE FROM user WHERE username = ?`;
+        db.run(sql, [username], function (err) {
+            if (err)
+                reject(err);
+            else
+                resolve(1);
+        });
+    });
+}
