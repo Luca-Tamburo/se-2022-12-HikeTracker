@@ -71,6 +71,14 @@ const api = {
                 .catch((err) => reject(err.response.data));
         })
     },
+
+    putHike: () => {
+        return new Promise((resolve, reject) => {
+            axios.put(SERVER_URL + 'hikes')
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err.response.data));
+        })
+    },
 }
 
 export default api;
