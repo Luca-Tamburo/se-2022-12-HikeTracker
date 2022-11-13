@@ -28,6 +28,8 @@ const Hike = (props) => {
     const [hike, setHike] = useState([]);
     const notify = useNotification();
 
+    const [filter, setFilter] = useState([]);
+
     // useEffect(() => {
     //     api.getHikes()
     //         .then(hikes => {
@@ -41,13 +43,17 @@ const Hike = (props) => {
     //         })
     // }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
+    useEffect(()=>{
+        console.log(filter);
+    },[filter])
+
     return (
         <Row className='flex-fill'>
             <Col xs={{ span: 10, offset: 1 }} className='mt-3'>
                 <h1 className='fw-bold text-center mt-2'>Search your next hike</h1>
-                <Filter />
+                <Filter setFilter={setFilter}/>
                 <Row>
-                    <HikeCard hike={hike} />
+                    <HikeCard hike={hike}  />
                 </Row>
             </Col>
         </Row >
