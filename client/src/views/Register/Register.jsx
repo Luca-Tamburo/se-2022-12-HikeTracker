@@ -39,10 +39,10 @@ const Register = () => {
 
     if (!session.loggedIn)
         return (<> 
-            <Row>
+            <Col className='mb-5 d-flex flex-column justify-content-center align-items-center'><Row>
                 <h2 className='text-center fw-bold fst-italic mt-4 mb-4'>Select your role:</h2>
             </Row>
-            <Col className='mb-5 d-flex flex-column justify-content-center align-items-center'>
+            
             <Row>   
             <Link to={`/signup/hiker`} state={{Role: "Hiker"}}> <Button variant="primary" className=' p-3 rounded-3 mt-4  fw-semibold border' style={{ width: "200px"}}> Hiker</Button>  </Link>            
             </Row>

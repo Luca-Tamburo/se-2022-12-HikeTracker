@@ -32,7 +32,7 @@ const LoginForm = () => {
         api.login(credentials)
             .then(user => {
                 setDirty(true);
-                notify.success(`Benvenuto ${user.name}!`)
+                notify.success(`Welcome ${user.name}!`)
                 navigate('/', { replace: true });
             })
             .catch(err => notify.error(err))
