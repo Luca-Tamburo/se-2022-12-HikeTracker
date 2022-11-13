@@ -54,27 +54,20 @@ router.get('/hikegpx/:id', isLoggedIn, [], async (req, res) => {
 /**
  * Get hike detailed information by hike id
  */
-router.get('/hikedetails/:id', [], async (req, res) => {
+router.get('/hikedetails/:hikeId', [], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
     }
     try {
         //Hike detailed information is collected
-        let d = await hikeDao.getDetailsByHikeId(req.params.id);
-        //Find element basic details in the hikes list
-        i = hikes.findIndexById(req.params.id)
-        hike = hikes[i]
-        //Update details
-        hike.lenght = d.lenght
-        hike.expectedTime = d.expectedTime
-        hike.ascent = d.ascent
-        hike.difficulty = d.difficulty
-        hike.startPointId = d.startPointId
-        hike.endPointId = d.endPointId
+        let d = await hikeDao.getDetailsByHikeId(req.params.hikeId);
+        let hike = d.map((e) => new HikeDetails(e.id, e.title, e.description, e.authorName, e.authorSurname, e.uploadDate, e.photoFile, e.lenght, e.expectedTime, e.ascent, e.difficulty, e.startPointId, e.endPointId));
+        hike = hike[0]
+        
         //Points information for that hike is collected
-        let dbList = await hikeDao.getPointsByHikeId(req.params.id);
-        hike.addNewPoint(dbList.map((p) => new Point(p.id, p.name, p.description, p.type, p.latitude, p.longitude, p.altitude, p.city, p.province)));
+        let dbList = await hikeDao.getPointsByHikeId(req.params.hikeId);
+        hike.pointList = dbList.map((p) => new Point(p.id, p.name, p.description, p.type, p.latitude, p.longitude, p.altitude, p.city, p.province));
         return res.status(200).json(hike); //Return object with all the information
     } catch (err) {
         return res.status(err).end();

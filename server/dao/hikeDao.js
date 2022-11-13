@@ -91,7 +91,7 @@ exports.getGpxByHikeId = (id) => {
  */
 exports.getDetailsByHikeId = (id) => {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM Hike WHERE id = ?';
+        const sql = 'SELECT Hike.id AS id, Hike.title AS title, Hike.description AS description, Hike.uploadDate AS uploadDate, Hike.photoFile AS photoFile, Hike.length AS length, Hike.expectedTime AS expectedTime, Hike.ascent AS ascent, Hike.difficulty AS difficulty, Hike.startPointId AS startPointId, Hike.endPointId AS endPointId, User.name AS authorName, User.surname AS authorSurname FROM Hike JOIN User ON Hike.authorId = User.id WHERE Hike.id = ?';
         db.all(sql, [id], (err, rows) => {
             if (err) {
                 reject(err);
@@ -99,6 +99,12 @@ exports.getDetailsByHikeId = (id) => {
             const details = rows.map((r) => (
                 {
                     id: r.id,
+                    title: r.title,
+                    description: r.description,
+                    authorName: r.authorName,
+                    authorSurname: r.authorSurname,
+                    uploadDate: r.uploadDate,
+                    photoFile: r.photoFile,
                     length: r.length,
                     expectedTime: r.expectedTime,
                     ascent: r.ascent,
@@ -107,7 +113,7 @@ exports.getDetailsByHikeId = (id) => {
                     endPointId: r.endPointId
                 }
             ));
-            resolve(details[0]);
+            resolve(details);
         });
     });
 }

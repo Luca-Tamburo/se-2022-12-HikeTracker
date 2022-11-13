@@ -28,7 +28,6 @@ class Hike {
     }
 }
 
-
 /**
  * Constructor function for new HikeDetails objects
  * @param {number} id hike id 
@@ -44,39 +43,23 @@ class HikeDetails extends Hike {
     constructor(id, title, description = "", authorName, authorSurname, uploadDate = null, photoFile, lenght = 0, expectedTime = 0, ascent = 0, difficulty = 0, startPointId = 0, endPointId = 0) {
         super(id, title, description, authorName, authorSurname, uploadDate, photoFile);
         this.lenght = lenght;
-        this.description = description;
         this.expectedTime = expectedTime;
         this.ascent = ascent;
         this.difficulty = difficulty;
         this.startPointId = startPointId;
         this.endPointId = endPointId;
         this.pointList = [];
-
-        // This function recieves a list of Point objects as parameter and adds them to the pointList
-        this.addNewPoint = (point) => {
-            this.pointsList.concat(point)
-        }
     }
 }
 
 class HikeList {
     constructor() {
         this.hikeList = [];
-
-        // This function recieves a list of hike objects as parameter and adds them to the hikeList
-        this.addNewHike = (hike) => {
-            this.hikeList.concat(hike);
-        }
-
-        this.findIndexById = (id) => {
-            this.hikeList.findIndex(hike => hike.id === id);
-        }
     }
 }
 
 // This object is used to store the list of HikeDetails
 let hikes = new HikeList()
 
-exports.Hike = Hike;
 exports.hikes = hikes;
 exports.HikeDetails = HikeDetails;

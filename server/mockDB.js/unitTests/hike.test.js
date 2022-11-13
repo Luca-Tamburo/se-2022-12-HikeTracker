@@ -84,12 +84,12 @@ path1 = "1_Monte_Ferra.gpx"
 testgetDetailsByHikeId(1, hikeDetails1)
 testgetDetailsByHikeId(null, undefined)
 
-testgetPointsByHikeId(1, [point1, point2])
-testgetPointsByHikeId(2, [point3, point4])
+//testgetPointsByHikeId(1, [point1, point2])
+//testgetPointsByHikeId(2, [point3, point4])
 
-testgetHikes([hike1, hike2]) 
+//testgetHikes([hike1, hike2]) 
 
-testgetGpxByHikeId(1, path1) 
+//testgetGpxByHikeId(1, path1) 
 
 function testgetDetailsByHikeId(id, expHikeDetails){
     test("test getDetailsByHikeId", async () => {
