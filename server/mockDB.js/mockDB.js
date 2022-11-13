@@ -27,7 +27,7 @@ function createTables() {
     db.serialize(() => {
         const hike = 'CREATE TABLE IF NOT EXISTS "Hike" ( "id"	INTEGER NOT NULL, "title"   TEXT, "description" TEXT, "lenght"  NUMBER, \
                      "expectedTime" NUMBER, "ascent"    NUMBER, "difficulty"   INTEGER, "startPointId"   INTEGER, "endPointId"   INTEGER, \
-                     "authorId" INTEGER,  "uploadDate"  TEXT , "gpxFile" TEXT, FOREIGN KEY("startPointId") REFERENCES "Point"("id"), \
+                     "authorId" INTEGER,  "uploadDate"  TEXT , "gpxFile" TEXT, "photoFile" TEXT, FOREIGN KEY("startPointId") REFERENCES "Point"("id"), \
                      FOREIGN KEY("endPointId") REFERENCES "Point"("id"),  FOREIGN KEY("authorId") REFERENCES "User"("id"), PRIMARY KEY("id" AUTOINCREMENT));'
 
         db.run(hike, (err) => {
@@ -55,7 +55,7 @@ function createTables() {
         })
 
         const user = 'CREATE TABLE IF NOT EXISTS "User" ( "id"	INTEGER NOT NULL, "email"   TEXT, "username" TEXT, "role" TEXT, \
-        "name" TEXT, "surname"   TEXT, "phoneNumber" TEXT, "hash" TEXT, "salt" TEXT, "verified" INTEGER, PRIMARY KEY("id" AUTOINCREMENT));'
+        "name" TEXT, "surname"   TEXT, "phoneNumber" TEXT, "hash" TEXT, "salt" TEXT, "verified" INTEGER, "confirmationCode" TEXT, PRIMARY KEY("id" AUTOINCREMENT));'
 
         db.run(user, (err) => {
             if (err) {
