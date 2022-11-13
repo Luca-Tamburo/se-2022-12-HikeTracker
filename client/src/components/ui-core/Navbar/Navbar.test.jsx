@@ -53,16 +53,16 @@ const links = [
     { title: 'SignUp', url: '/signup' },
 ]
 
-describe('NavbarComponent', () => {
+describe('Navbar component', () => {
 
-    it('Check if Navbar have logo', () => {
+    it('have logo', () => {
         render(<Navbar />, { wrapper: MemoryRouter });
         expect(screen.getByAltText(/Logo Icon/)).toBeInTheDocument();
 
     });
 
     it.each(links)(
-        'Check if Navbar have %s link and if it works', (link) => {
+        'have %s and if it works', (link) => {
             const history = createMemoryHistory();
             render(
                 <Router location={history.location} navigator={history}>

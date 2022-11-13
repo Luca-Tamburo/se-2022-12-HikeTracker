@@ -51,38 +51,37 @@ jest.mock('react-bootstrap', () => {
     return ({ Row, Col, Form, Button });
 })
 
-describe('FilterComponents', () => {
-    it('Check if the Range select is render and it works', () => {
+const testFiter = {
+    range: "Less than 500 mt",
+    ascent: "Between 0 and 1000 mt",
+    difficulty: "Tourist",
+    expectedTime: "Less than 2.30 h",
+    length: "Less than 5 km",
+}
+
+const expected = [
+    { label: "range-select", expect: testFiter.range },
+    { label: "ascent-select", expect: testFiter.ascent },
+    { label: "difficulty-select", expect: testFiter.difficulty },
+    { label: "expectideTime-select", expect: testFiter.expectedTime },
+    { label: "length-select", expect: testFiter.length },
+]
+
+describe('Filter components', () => {
+
+    it('exits', () => {
         render(<Filter />);
-        const dropdown = screen.getByTestId('range-select');
-        user.selectOptions(dropdown, within(dropdown).getByRole('option', { name: /less than 500 mt/i }));
+        expect(screen.getAllByRole('combobox')).toHaveLength(7)
     });
 
-    it('Check if the Ascent select is render and it works', () => {
-        render(<Filter />);
-        const dropdown = screen.getByTestId('ascent-select');
-        user.selectOptions(dropdown, within(dropdown).getByRole('option', { name: /between 0 and 1000 mt/i }));
-    });
+    it.each(expected)
+        ('have the correct $label', (item) => {
+            render(<Filter />);
+            const dropdown = screen.getByTestId(item.label);
+            user.selectOptions(dropdown, within(dropdown).getByRole('option', { name: item.expect }));
+        })
 
-    it('Check if the Difficulty select is render and it works', () => {
-        render(<Filter />);
-        const dropdown = screen.getByTestId('difficulty-select');
-        user.selectOptions(dropdown, within(dropdown).getByRole('option', { name: /tourist/i }));
-    });
-
-    it('Check if the Expectide time select is render and it works', () => {
-        render(<Filter />);
-        const dropdown = screen.getByTestId('expectideTime-select');
-        user.selectOptions(dropdown, within(dropdown).getByRole('option', { name: /less than 2.30 h/i }));
-    });
-
-    it('Check if the Length time select is render and it works', () => {
-        render(<Filter />);
-        const dropdown = screen.getByTestId('length-select');
-        user.selectOptions(dropdown, within(dropdown).getByRole('option', { name: /less than 5 km/i }));
-    });
-
-    it('Check if the button is render and it works', () => {
+    it('button is rendered and it works', () => {
         render(<Filter />);
         user.click(screen.getByRole('button', { name: /search/i }))
     })

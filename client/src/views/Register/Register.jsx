@@ -24,8 +24,6 @@ import { RegisterFormHiker, RegisterFormAdvanced } from "../../components/ui-cor
 // Contexts
 import { AuthContext } from "../../contexts/AuthContext";
 
-
-
 const Register = () => {
     const [session] = useContext(AuthContext);
     const navigate = useNavigate(); // Navigation handler
@@ -38,20 +36,20 @@ const Register = () => {
 
 
     if (!session.loggedIn)
-        return (<> 
+        return (<>
             <Col className='mb-5 d-flex flex-column justify-content-center align-items-center'><Row>
                 <h2 className='text-center fw-bold fst-italic mt-4 mb-4'>Select your role:</h2>
             </Row>
-            
-            <Row>   
-            <Link to={`/signup/hiker`} state={{Role: "Hiker"}}> <Button variant="primary" className=' p-3 rounded-3 mt-4  fw-semibold border' style={{ width: "200px"}}> Hiker</Button>  </Link>            
-            </Row>
-            <Row>
-            <Link to={`/signup/localGuide`} state={{Role: "Local guide"}}><Button variant="primary" className=' p-3 rounded-3 mt-4  fw-semibold border'style={{ width: "200px"}}> Local guide</Button></Link>
-            </Row>
-            <Row>
-            <Link to={`/signup/hutWorker`} state={{Role: "Hut worker"}}> <Button variant="primary" className=' p-3 rounded-3 mt-4  fw-semibold border'style={{ width: "200px"}}> Hut worker</Button></Link>
-            </Row>
+
+                <Row>
+                    <Link to={`/signup/hiker`} state={{ Role: "Hiker" }}> <Button variant="primary" className=' p-3 rounded-3 mt-4  fw-semibold border' style={{ width: "200px" }}> Hiker</Button>  </Link>
+                </Row>
+                <Row>
+                    <Link to={`/signup/localGuide`} state={{ Role: "Local guide" }}><Button variant="primary" className=' p-3 rounded-3 mt-4  fw-semibold border' style={{ width: "200px" }}> Local guide</Button></Link>
+                </Row>
+                <Row>
+                    <Link to={`/signup/hutWorker`} state={{ Role: "Hut worker" }}> <Button variant="primary" className=' p-3 rounded-3 mt-4  fw-semibold border' style={{ width: "200px" }}> Hut worker</Button></Link>
+                </Row>
             </Col></>
         );
 }
