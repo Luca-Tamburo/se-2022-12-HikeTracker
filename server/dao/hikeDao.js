@@ -26,14 +26,17 @@ const db = new sqlite.Database('hikeTracker.sqlite3', (err) => {
 /**
  * Insert hikes into the system
  */
-exports.insertHike = (id, title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile, photoFile) => {
+//        const hikeId = await hikeDao.addHike( req.body.title, req.body.description, req.body.length, req.body.expectedTime, req.body.ascent, req.body.difficulty, pointOneId, pointTwoId, req.body.authorId, req.body.uploadDate, "here the gpx", req.body.photoFile);
+
+exports.addHike = (title, description,length,expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile, photoFile) => {
     return new Promise((resolve, reject) => {
-        const sql = "INSERT INTO Hike(id, title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile, photoFile) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        db.run(sql, [id, title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile, photoFile], function (err) {
+        const sql = "INSERT INTO Hike(title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile, photoFile) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+        db.run(sql, [title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile, photoFile], 
+            function (err) {
             if (err) {
                 reject(err);
             } else {
-                resolve(this.lastId);
+                resolve(this.lastID);
             }
         });
     });
@@ -72,16 +75,15 @@ exports.getHikes = () => {
 exports.getGpxByHikeId = (id) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM Hike WHERE id = ?';
-        db.all(sql, [id], (err, rows) => {
+        db.get(sql, [id], (err, row) => {
             if (err) {
                 reject(err);
             }
-            const gpx = rows.map((r) => (
-                {
-                    gpxFile: r.gpxFile
-                }
-            ));
-            resolve(gpx[0]);
+            else if (row === undefined)
+                resolve(undefined);
+            else {
+                resolve(row.gpxFile);
+            }
         });
     });
 }
