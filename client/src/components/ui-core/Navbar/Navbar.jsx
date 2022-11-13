@@ -11,6 +11,7 @@
 */
 
 //Imports
+import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 import { Container, Navbar as MyNavbar, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -31,6 +32,23 @@ import api from '../../../services/api'
 // }
 
 const Navbar = (props) => {
+    const [hiker, setHiker] = useState(false);
+    useEffect(() => {
+        if( props.userInfo != undefined && props.isloggedIn == true){
+            if(props.userInfo.role =='hiker'){
+               setHiker(true)
+            }
+         }
+         else{
+            setHiker(false)
+        }
+        
+  
+        },[props.isloggedIn])
+
+        console.log(hiker)
+
+    
     return (
         <MyNavbar collapseOnSelect bg='light' variant='light' className='shadow p-2 bg-white sticky-top'>
             <Container fluid>
@@ -44,6 +62,9 @@ const Navbar = (props) => {
                 <Link to={'/'}>
                     <FaHome className='home-icon-navbar' />
                 </Link>
+                {hiker ? <Link to={'/addHike'}>
+                            <Button className='btn-navbar rounded-pill mx-sm-2'>Add Hike</Button>
+                        </Link>: <></>}
                 {!props.isloggedIn ?
                     <div className='d-flex d-sm-block flex-column justify-content-center align-items-center'>
                         <Link to={'/signup'}>
