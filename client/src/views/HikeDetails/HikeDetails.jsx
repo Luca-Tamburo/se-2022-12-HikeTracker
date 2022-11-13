@@ -12,6 +12,7 @@
 
 // Imports
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom'
 import { Row, Col, ListGroup, Button } from 'react-bootstrap';
 
 // Api
@@ -37,10 +38,15 @@ const L = require('leaflet');
 const limeOptions = { color: 'red' }
 
 const HikeDetails = () => {
-   const [hike, setHike] = useState([]);
-   const [start, setStart] = useState(null);
    const [end, setEnd] = useState(null)
    const [coordinates, setCoordinates] = useState(null)
+
+
+   const [hike, setHike] = useState(undefined);
+   const [start, setStart] = useState(null);
+
+   const { hikeId } = useParams();
+
    const notify = useNotification();
 
    const xmlStr = ` <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -1256,7 +1262,8 @@ const HikeDetails = () => {
    });
 
    useEffect(() => {
-      api.getHikeDetails()
+      console.log(typeof hikeId);
+      api.getHikeDetails(hikeId)
          .then(hikes => {
             setHike(hikes);
          })
@@ -1309,85 +1316,85 @@ const HikeDetails = () => {
    //          }
    //       ]
    // }
-
-   return (
-      <Col xs={10} className='mx-auto p-0'>
-         <img
-            alt='Hike Img'
-            src={hike.photoFile}
-            height='300px'
-            width='1250px'
-            className='mt-3 w-100'
-            style={{ objectFit: 'cover' }}
-         />
-         <div className='d-flex justify-content-between mt-3 '>
-            <h2 className='fw-bold my-3'>{hike.title}</h2>
-            <div className='d-flex justify-content-between'>
-               <h5 className='mx-4 my-3'>{hike.authorName} {''} {hike.authorSurname}</h5>
-               <h5 className='mx-4 my-3'>{hike.uploadDate}</h5>
+   if (hike)
+      return (
+         <Col xs={10} className='mx-auto p-0'>
+            <img
+               alt='Hike Img'
+               src={hike.photoFile}
+               height='300px'
+               width='1250px'
+               className='mt-3 w-100'
+               style={{ objectFit: 'cover' }}
+            />
+            <div className='d-flex justify-content-between mt-3 '>
+               <h2 className='fw-bold my-3'>{hike.title}</h2>
+               <div className='d-flex justify-content-between'>
+                  <h5 className='mx-4 my-3'>{hike.authorName} {''} {hike.authorSurname}</h5>
+                  <h5 className='mx-4 my-3'>{hike.uploadDate}</h5>
+               </div>
             </div>
-         </div>
-         <div className='mb-4'>
-            <span className='fst-italic'>{hike.description}</span>
-         </div>
-         <Row className='d-flex justify-content-between'>
-            <Col xs={3} className='p-0'>
-               <div className='shadow-lg p-3 mb-5 bg-white rounded'>
-                  <div className='d-flex flex-column ms-3'>
-                     <h3 className='fw-bold'>HIKE INFO</h3>
-                     <span>All data are to be considered indicative.</span>
-                     <hr className='mb-0' />
+            <div className='mb-4'>
+               <span className='fst-italic'>{hike.description}</span>
+            </div>
+            <Row className='d-flex justify-content-between'>
+               <Col xs={3} className='p-0'>
+                  <div className='shadow-lg p-3 mb-5 bg-white rounded'>
+                     <div className='d-flex flex-column ms-3'>
+                        <h3 className='fw-bold'>HIKE INFO</h3>
+                        <span>All data are to be considered indicative.</span>
+                        <hr className='mb-0' />
+                     </div>
+                     <ListGroup horizontal>
+                        <ListGroup.Item className='border-0'>
+                           <h5 className='fw-bold mt-3'>LENGHT</h5>{hike.lenght} {''} km
+                           <h5 className='fw-bold mt-3'>ASCENT</h5> + {''} {hike.ascent} {''} mt
+                           <h5 className='fw-bold mt-3'>DIFFICULTY</h5> {hike.difficulty}
+                           <h5 className='fw-bold mt-3'>EXPECTED TIME</h5> {hike.expectedTime} {''} hr
+                           <h5 className='fw-bold mt-3'>START POINT</h5> {hike.startPointName}
+                           <h5 className='fw-bold mt-3'>END POINT</h5> {hike.endPointName}
+                           <h5 className='fw-bold mt-3'>REFERENCE POINTS</h5>
+                           {hike.pointList.map((point, index) => {
+                              return (
+                                 <div key={index}>
+                                    <span>{point.name}</span>
+                                 </div>
+                              )
+                           })}
+                        </ListGroup.Item>
+                     </ListGroup>
                   </div>
-                  <ListGroup horizontal>
-                     <ListGroup.Item className='border-0'>
-                        <h5 className='fw-bold mt-3'>LENGHT</h5>{hike.lenght} {''} km
-                        <h5 className='fw-bold mt-3'>ASCENT</h5> + {''} {hike.ascent} {''} mt
-                        <h5 className='fw-bold mt-3'>DIFFICULTY</h5> {hike.difficulty}
-                        <h5 className='fw-bold mt-3'>EXPECTED TIME</h5> {hike.expectedTime} {''} hr
-                        <h5 className='fw-bold mt-3'>START POINT</h5> {hike.startPointName}
-                        <h5 className='fw-bold mt-3'>END POINT</h5> {hike.endPointName}
-                        <h5 className='fw-bold mt-3'>REFERENCE POINTS</h5>
-                        {hike.pointList.map((point, index) => {
-                           return (
-                              <div key={index}>
-                                 <span>{point.name}</span>
-                              </div>
-                           )
-                        })}
-                     </ListGroup.Item>
-                  </ListGroup>
-               </div>
-            </Col>
-            <Col xs={7} className='m-0'>
-               <MapContainer center={[45.178199, 7.083081]} zoom={11} scrollWheelZoom={true}>
-                  <TileLayer
-                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  />
-                  <Marker icon={endIcon} position={end}>
-                     <Popup>
-                        End Point <br />
-                     </Popup>
-                  </Marker>
-                  <Marker icon={startIcon} position={start}>
-                     <Popup>
-                        Starting Point <br />
-                     </Popup>
-                  </Marker>
-                  <Polyline pathOptions={limeOptions} positions={coordinates} />
-               </MapContainer>
+               </Col>
+               <Col xs={7} className='m-0'>
+                  <MapContainer center={[45.178199, 7.083081]} zoom={11} scrollWheelZoom={true}>
+                     <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                     />
+                     <Marker icon={endIcon} position={end}>
+                        <Popup>
+                           End Point <br />
+                        </Popup>
+                     </Marker>
+                     <Marker icon={startIcon} position={start}>
+                        <Popup>
+                           Starting Point <br />
+                        </Popup>
+                     </Marker>
+                     <Polyline pathOptions={limeOptions} positions={coordinates} />
+                  </MapContainer>
 
-               <div class="mt-3">
-                  <div className="btnDiv">
-                     <Button variant="primary" type="submit" className=' p-3 rounded-3 mt-4  fw-semibold border '>
-                        Download GPX Track
-                     </Button>
+                  <div class="mt-3">
+                     <div className="btnDiv">
+                        <Button variant="primary" type="submit" className=' p-3 rounded-3 mt-4  fw-semibold border '>
+                           Download GPX Track
+                        </Button>
+                     </div>
                   </div>
-               </div>
-            </Col>
-         </Row>
-      </Col>
-   )
+               </Col>
+            </Row>
+         </Col>
+      )
 }
 
 export default HikeDetails;

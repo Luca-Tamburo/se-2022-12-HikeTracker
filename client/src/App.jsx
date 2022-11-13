@@ -42,7 +42,7 @@ const App = () => {
         <Route path='/email/error' element={<View.EmailErr />} />
         <Route path='/addHike' element={<View.AddHike />} />
         <Route path='/hikes' element={<View.Hike />} />
-        <Route path='/hikes/:id' element={<View.HikeDetails />} />
+        <Route path='/hikes/:hikeId' element={<View.HikeDetails />} />
         <Route path='*' element={<View.ErrorView />} />
       </Routes>
     </AppContainer>
