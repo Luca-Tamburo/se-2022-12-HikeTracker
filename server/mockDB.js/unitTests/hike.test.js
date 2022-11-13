@@ -1,4 +1,4 @@
-const {getDetailsByHikeId, getPointsByHikeId, getHikes} = require("../../dao/hikeDao");
+const {getDetailsByHikeId, getPointsByHikeId, getHikes, getGpxByHikeId} = require("../../dao/hikeDao");
 
 hikeDetails1 = {
     "id": 1,
@@ -78,6 +78,8 @@ hike2 = {
     "photoFile": null
 }
 
+path1 = "1_Monte_Ferra.gpx"
+
 //They works but stings have spacing diferences, which is not really a problem
 testgetDetailsByHikeId(1, hikeDetails1)
 testgetDetailsByHikeId(null, undefined)
@@ -86,6 +88,8 @@ testgetPointsByHikeId(1, [point1, point2])
 testgetPointsByHikeId(2, [point3, point4])
 
 testgetHikes([hike1, hike2]) 
+
+testgetGpxByHikeId(1, path1) 
 
 function testgetDetailsByHikeId(id, expHikeDetails){
     test("test getDetailsByHikeId", async () => {
@@ -107,5 +111,12 @@ function testgetHikes(expHikes){
         let hikes = await getHikes();
         console.log(hikes)
         expect(hikes).toEqual(expHikes);
+    });
+}
+
+function testgetGpxByHikeId(id, expPath){
+    test("test getDetailsByHikeId", async () => {
+        let path = await getGpxByHikeId(id);
+        expect(path.gpxFile).toEqual(expPath);
     });
 }

@@ -163,6 +163,12 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   ```
   {
      "id": 1,
+     "title": "Trail to MONT FERRA",
+     "description": "Leaving the car ...",
+     "authorName": "aldo",
+     "authorSurname": "baglio",
+     "uploadDate": "2022-01-10",
+     "photoFile": "www. ..."
      "length": 13,
      "expectedTime": 5,
      "ascent": 1280,

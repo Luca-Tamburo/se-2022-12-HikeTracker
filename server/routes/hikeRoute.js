@@ -3,7 +3,7 @@
 const express = require('express');
 const hikeDao = require('../dao/hikeDao');
 const router = express.Router();
-const {Hike, hikes, HikeDetails} = require('../models/hikeModel');
+const {hikes, HikeDetails} = require('../models/hikeModel');
 const {Point} = require('../models/pointModel');
 const {isLoggedIn} = require("../utils/sessionUtil");
 const { check, param, body, validationResult } = require('express-validator');
@@ -14,9 +14,8 @@ const { check, param, body, validationResult } = require('express-validator');
 router.get('/hikes', [], async (req, res) => {
     try {
         let dbList = await hikeDao.getHikes();
-        //hikes.addNewHike(dbList.map((e) => new Hike(e.id, e.title, e.description, e.authorName, e.authorSurname, e.uploadDate, e.photoFile)));
-        let hikes = dbList.map((e) => new Hike(e.id, e.title, e.description, e.authorName, e.authorSurname, e.uploadDate, e.photoFile));
-        return res.status(200).json(hikes); //Return list of Hike objects
+        hikes.hikeList = dbList.map((e) => new HikeDetails(e.id, e.title, e.description, e.authorName, e.authorSurname, e.uploadDate, e.photoFile));
+        return res.status(200).json(hikes.hikeList); //Return list of Hike objects
     } catch (err) {
         return res.status(err).end();
     }
@@ -62,12 +61,21 @@ router.get('/hikedetails/:id', [], async (req, res) => {
     }
     try {
         //Hike detailed information is collected
-        let e = await hikeDao.getDetailsByHikeId(req.params.id);
-        DetailedHike = new HikeDetails(e.id, e.lenght, e.expectedTime, e.ascent, e.difficulty, e.startPointId, e.endPointId);
+        let d = await hikeDao.getDetailsByHikeId(req.params.id);
+        //Find element basic details in the hikes list
+        i = hikes.findIndexById(req.params.id)
+        hike = hikes[i]
+        //Update details
+        hike.lenght = d.lenght
+        hike.expectedTime = d.expectedTime
+        hike.ascent = d.ascent
+        hike.difficulty = d.difficulty
+        hike.startPointId = d.startPointId
+        hike.endPointId = d.endPointId
         //Points information for that hike is collected
         let dbList = await hikeDao.getPointsByHikeId(req.params.id);
-        DetailedHike.addNewPoint(dbList.map((e) => new Point(e.id, e.name, e.description, e.type, e.latitude, e.longitude, e.altitude, e.city, e.province)));
-        return res.status(200).json(DetailedHike); //Return object with all the information
+        hike.addNewPoint(dbList.map((p) => new Point(p.id, p.name, p.description, p.type, p.latitude, p.longitude, p.altitude, p.city, p.province)));
+        return res.status(200).json(hike); //Return object with all the information
     } catch (err) {
         return res.status(err).end();
     }
