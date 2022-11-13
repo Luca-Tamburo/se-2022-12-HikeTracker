@@ -83,6 +83,38 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   }
   ```
 
+- POST `/api/signup`
+  - Description: Sign Up a new user by providing his data.
+  - Request body: An object representing the user informations (name,surname,phoneNumber are mandatory only if role is localguide,hutworker,emergencyoperator)
+
+  ```
+  {
+      "email":"stefanopioli@acmilan.com",
+      "username":"stefanopioli",
+      "password":"password",
+      "name":"stefano",
+      "surname":"pioli",
+      "phoneNumber":"+393323232232",
+      "role":"localGuide"
+  }
+  ```
+
+  - Response: `201 Created` (success) or `503 Service Unavailable` (generic error). If the signup informations are not correct `422 Unprocessable entity`, if the username/email are already present `409 Conflict`.
+  - Response body: Confirmation message.
+
+  ```
+  {
+      "message": "User signed up in the system. Please check your mail to activate the account"
+  }
+  ```
+
+- GET `/api/signup/:confirmationCode`
+  - Description: Confirm a user by his confirmation code.
+  - Request body: _None_
+  - Response: HTML confirmation page, or `503 Service Unavailable` (generic error). If the user is already signed up or if the verification code is not valid HTML error page
+  - Response body: _None_
+  
+
 - GET `/api/hikes`
   - Description: Retrieve list of available hikes generic information
   - Request body: _None_
@@ -162,48 +194,46 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
                "province": null
           } 
         ]
-  }
-     
-```
+  }     
 
 ## Database Tables
 
 #### _Hike_ includes all hikes specifications
-```
-Hike(id,title,description,length,expectedTime,ascent,difficulty,startPointId,endPointId,authorId,uploadDate,gpxFile)
+ ```
+     Hike(id,title,description,length,expectedTime,ascent,difficulty,startPointId,endPointId,authorId,uploadDate,gpxFile,photoFile)
      PRIMARY KEY ( Id )
      FOREIGN KEY (authorId, startPointId, endPointId) REFERENCES User ( id ) , Point ( id ) , Point ( id )
-```
+ ```
 
 #### _HikePoint_ includes relation between Hike and Point
 ```
-HikePoint( hikeId,pointId)
+     HikePoint( hikeId,pointId)
      PRIMARY KEY ( hikeId , pointId )
      FOREIGN KEY (hikeId , pointId ) REFERENCES Point ( id ) , Point ( id )
 ```
 
 #### _Point_ includes all Points specifications
 ```
-Point( id, name, description*, type, longitude, latitude, altitude, city, province,region )
+     Point( id, name, description, type, longitude, latitude, altitude, city, province )
      PRIMARY KEY ( id )
 ```
 
 #### _Hut_ includes all Huts specification
 ```
-Hut( id, roomsNumber, bedsNumber, whenIsOpen,phoneNumber, photosPath, pointId )
+     Hut( id, roomsNumber, bedsNumber, whenIsOpen,phoneNumber, photosPath, pointId )
      PRIMARY KEY ( id )
      FOREIGN KEY ( pointId ) REFERENCES Point ( id )
 ```
 
 #### _User_ includes all Users specification
 ```
-User( id, email, username, role, name*, surname*, phoneNumber*, hash, salt, verifiedEmail )
+     User( id, email, username, role, name, surname, phoneNumber, hash, salt, verifiedEmail, confirmationCode )
      PRIMARY KEY ( id )
 ```
 
 #### _UserPreferences_ includes preferences specified by the user
 ```
-UserPreferences( id, duration, altitude, ascent, length, difficulty, userId )
+     UserPreferences( id, duration, altitude, ascent, length, difficulty, userId )
      PRIMARY KEY ( id )
       FOREIGN KEY ( userId ) REFERENCES User ( id )
 
@@ -323,25 +353,40 @@ Here you can find a visual schema of source directory structure by means the tre
           |--- /Homepage_4.png
 |--- /retrospective
 |--- /server
+     |--- /config
+          |--- /auth.config.js
+          |--- /nodemailer.config.js
      |--- /dao
+          |--- /hikeDao.js
           |--- /userDao.js
      |--- /mockDB
+          |--- /unitTests
+                    |--- /hike.test.js
           |--- /mockDB.js
           |--- /mockHikeTracker.db
+     |--- /models
+          |--- /hikeModel.js
+          |--- /pointModel.js
      |--- /routes
+          |--- /hikeRoute.js
           |--- /sessionRoute.js
           |--- /signUpRoute.js
      |--- /utils
+          |--- /afterConfirmEmailPages
+               |--- /confirm.html
+               |--- /error.html
           |--- /gpxFiles
                |--- /1_Monte_Ferra.gpx
                |--- /2_Rocca_Patanua.gpx
           |--- /sessionUtil.js
+          |--- /signUpUtil.js
           |--- /validationUtil.js
-     |--- /gitignore
+     |--- /.gitignore
      |--- /index.js
      |--- /hikeTracker.sqlite3     
      |--- /package-lock.json
      |--- /package.json
+     |--- /README_server.md
 |--- /README.MD
 ```
 

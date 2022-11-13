@@ -123,18 +123,57 @@ exports.getUserByUsername = (username) => {
 };
 
 /**
+ * Insert a new user
+ * @param {string} email the user email
+ * @param {string} username the user username
+ * @param {string} role the user role
+ * @param {string} name the user name
+ * @param {string} surname the user surname
+ * @param {string} phoneNumber the user phoneNumber
+ * @param {string} password the user password
+ * @param {string} confirmationCode the user confirmationCode
+ */
+exports.addUser = (email, username, role, name, surname, phoneNumber, password, confirmationCode) => {
+    //creo sale
+    const salt = crypto.randomBytes(8).toString('hex');
+    //creo hash
+    crypto.scrypt(password, salt, 32, (err, hashedPassword) => {
+        if (err) reject(err);
+        return new Promise(async (resolve, reject) => {
+            let sql = "INSERT INTO user(email, username, role, name, surname, phoneNumber, hash, salt,confirmationCode,verifiedEmail) VALUES (?,?,?,?,?,?,?,?,?,?)";
+            db.run(sql, [email, username, role, name, surname, phoneNumber, hashedPassword.toString('hex'), salt, confirmationCode, 0], (err) => {
+                if (err) {
+                    reject(err);
+                } else
+                    resolve(this.lastId);
+            });
+        });
+    })
+}
+
+
+/**
 * Activate a user, given the confirmationCode
 * @param {string} confirmationCode the email of the user
 */
 //TO BE TESTED
 exports.activateUser = (confirmationCode) => {
     return new Promise((resolve, reject) => {
-        const sql = 'UPDATE user SET verifiedMail = ?,confirmationCode=? WHERE confirmationCode=?';
-        db.run(sql, [1,"",confirmationCode], (err) => {
+        let sql = 'SELECT id FROM user WHERE confirmationCode=?';
+        db.get(sql, [confirmationCode], (err, row) => {
             if (err) {
                 reject(err);
             }
-                resolve(true);
+            else if (row === undefined) {
+                resolve(false);
+            }
+            sql = 'UPDATE user SET confirmationCode=?,verifiedEmail=? WHERE confirmationCode = ?';
+            db.run(sql, [undefined, 1, confirmationCode], (err) => {
+                if (err) {
+                    reject(err);
+                } else
+                    resolve(true);
+            });
         });
     });
 };

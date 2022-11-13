@@ -4,41 +4,18 @@ const router = express.Router();
 const sessionUtils = require("../utils/sessionUtil");
 const { check, checksValidation } = require("../utils/validationUtil");
 const userDao = require("../dao/userDao"); // module for accessing the users in the DB
-const {secret} = require("../config/auth.config");
-const jwt = require('jwt-encode');
+const { secret } = require("../config/auth.config");
+const sign = require('jwt-encode');
 const nodemailer = require('../config/nodemailer.config');
-
+const path = require('path');
+const { roleValidator, optionalBecomeMandatory, emailAvailabilityCheck, usernameAvailabilityCheck } = require("../utils/signUpUtils");
 const isNotLoggedIn = sessionUtils.isNotLoggedIn;
 
-//custom rule to check the inserted role to be in the list of possible roles
-const roleValidator = (inputRole) => {
-    const role = inputRole.toLowerCase();
-    return (role === "hiker" || role === "localguide" || role === "platformmanager" || role === "hutworker" || role === "emergencyoperator");
-};
 
-//custom rule to check if the user is trying to inscribe a role that needs name,surname,phone number mandatorialy
-const optionalBecomeMandatory = (inputRole) => {
-    const role = inputRole.toLowerCase();
-    return (role === "localguide" || role === "hutworker" || role === "emergencyoperator");
-};
 
-// custom middleware: check if a given email is already in the system
-const emailAvailabilityCheck = (req, res, next) => {
-    userDao.getUserByEmail(req.body.email)
-        .then((value) => {
-            return value === undefined ? next() : res.status(409).json({ error: `Email already in the system!` });
-        })
-};
-
-// custom middleware: check if a given username is already in the system
-const usernameAvailabilityCheck = (req, res, next) => {
-    userDao.getUserByUsername(req.body.username)
-        .then((value) => {
-            return value === undefined ? next() : res.status(409).json({ error: `Username already in the system!` });
-        })
-};
-
+// POST /api/signup
 // Sign up a new user
+
 router.post("/signup", isNotLoggedIn,
 
     check("email").exists().withMessage("This field is mandatory").bail()
@@ -49,7 +26,7 @@ router.post("/signup", isNotLoggedIn,
         .matches(/^[A-Za-z_][A-Za-z0-9_]+$/).withMessage("This field must contain only letters,numbers, underscore. Can't start with a number"),
 
     check("role").exists().withMessage("This field is mandatory").bail()
-        .isString().custom((value, { req }) => (roleValidator(value))).withMessage("The role is not known"),
+        .isString().custom((value, { req }) => (roleValidator(value))).withMessage("Invalid role"),
 
     check("password").exists().withMessage("This field is mandatory").bail()
         .isString().withMessage("This field must be a string").bail()
@@ -82,18 +59,51 @@ router.post("/signup", isNotLoggedIn,
         .isString().withMessage("This field must be a string (consider the prefix of the phone number)").bail()
         .trim().isLength({ min: 5, max: 40 }).withMessage("This field is a string and must be from 5 to 40 characters").bail()
         .trim().matches(/^[+0-9][0-9 ]+$/).withMessage("This field must contain only numbers, the + for prefixes and spaces"),
-    checksValidation, usernameAvailabilityCheck,emailAvailabilityCheck,
-    (req, res) => {
+
+    checksValidation, usernameAvailabilityCheck, emailAvailabilityCheck,
+
+    async (req, res) => {
         try {
-            //qui dentro genero hash, genero sale, genero confirmation code, metto user con tutti questi dati in db e invio mail
-            //quando farò api per modificare stato utente da non attivo ad attivo, dovrò eliminare il confirmation code dal db, in modo che se lo cerco di nuovo non trovo nulla e l'operazione fallisce 
-            //const token = jwt.sign({email: req.body.email,username:req.body.username}, secret);
-            const url="http://localhost:3001/api/userconfirm/" /*+token */;
-            nodemailer.sendConfirmationEmail(req.body.username,req.body.email,url);
-            res.status(201).json({ message: "Do something" });
-            
-        } catch (error) { res.status(503).json({ error: `Database error while signing up the user` }); }
+            //qui dentro creo confirmation code, chiamo userDao per inserire i del nuovo utente ned db e invio mail
+
+            //metto insieme i dati per creare il jwt
+            const data = {
+                email: req.body.email,
+                username: req.body.username
+            };
+
+            //creo il jwt
+            const jwt = sign(data, secret);
+
+            //creo l'url
+            const url = "http://localhost:3001/api/signup/" + jwt;
+
+            //mando dati a dao
+            await userDao.addUser(req.body.email, req.body.username, req.body.role, req.body.name, req.body.surname, req.body.phoneNumber, req.body.password, jwt);
+
+            //mando mail di conferma
+            nodemailer.sendConfirmationEmail(req.body.username, req.body.email, url);
+
+            res.status(201).json({ message: "User signed up in the system. Please check your mail to activate the account" });
+        } catch (error) { res.status(503).json({ error: `Service unavailable` }); }
     }
 );
+
+// GET /api/signup/:confirmationCode
+// Confirm a user
+router.get("/signup/:confirmationCode",
+    async (req, res) => {
+        try {
+
+            //chiamo una funzione di userdao che ritorna true se è riuscita a confermare l'utente, false altrimenti 
+            const ok = await userDao.activateUser(req.params.confirmationCode);
+
+            //se tutto ok, ritorno una pagina html di conferma, altrimenti una pagina html di errore
+            ok ?
+                res.sendFile(path.join(__dirname, '..//utils/afterConfirmEmailPages/confirm.html')) :
+                res.sendFile(path.join(__dirname, '..//utils/afterConfirmEmailPages/error.html'))
+        } catch (error) { res.status(503).json({ error: `Service unavailable` }); }
+    });
+
 
 module.exports = router;
