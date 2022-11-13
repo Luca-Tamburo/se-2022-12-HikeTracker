@@ -23,5 +23,22 @@ body,
 #root {
   width: 100%;
   height: 100%;
-  background-color: #FCFAFA;
+  background-color: #FFFFFF;
+}
+
+.app-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0px !important;
+  /* overflow: hidden; */
+  overflow-x: hidden;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 75vh;
+  padding: 0em;
 }

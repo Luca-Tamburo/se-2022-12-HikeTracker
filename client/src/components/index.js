@@ -9,3 +9,8 @@
 * All rights reserved.
 * --------------------------------------------------------------------
 */
+
+import UI from './ui-core';
+import Utils from './utils';
+
+export { UI, Utils };

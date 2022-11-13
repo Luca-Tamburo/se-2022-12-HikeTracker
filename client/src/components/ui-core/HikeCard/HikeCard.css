@@ -1,0 +1,39 @@
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         client
+* Module:          src/components/ui-core/HikeCard
+* File:            HikeCard.css
+*
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
+
+a {
+    color: black !important;
+    text-decoration: none !important;
+}
+
+.card {
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
+}
+
+.card-title {
+    transition: 0.7s;
+    cursor: pointer;
+}
+
+.crop-text-31 {
+    -webkit-line-clamp: 31;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
