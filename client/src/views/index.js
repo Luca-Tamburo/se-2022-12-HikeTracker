@@ -18,6 +18,8 @@ import Login from './Login/Login';
 import Register from './Register/Register';
 import RegisterRole from './Register/RegisterRole';
 import HikeDetails from './HikeDetails/HikeDetails';
+import EmailConf from './EmailConfView/EmailConf';
+import EmailErr from './EmailConfView/EmailErr';
 
 export {
     ErrorView,
@@ -26,5 +28,7 @@ export {
     Login,
     Register,
     RegisterRole,
+    EmailConf,
+    EmailErr,
     HikeDetails
 }

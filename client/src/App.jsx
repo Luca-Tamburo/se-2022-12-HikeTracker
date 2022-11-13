@@ -38,6 +38,8 @@ const App = () => {
         <Route path='/login' element={<View.Login />} />
         <Route path='/signup' element={<View.Register />} />
         <Route path='/signup/:role' element={<View.RegisterRole />} />
+        <Route path='/email/confirmed' element={<View.EmailConf/>}/>
+        <Route path='/email/error' element={<View.EmailErr/>}/>
         <Route path='/hikes' element={<View.Hike />} />
         <Route path='/hikes/:id' element={<View.HikeDetails />} />
         <Route path='*' element={<View.ErrorView />} />
