@@ -37,7 +37,7 @@ const L = require('leaflet');
 
 const limeOptions = { color: 'red' }
 
-const HikeDetails = () => {
+const HikeDetails = (props) => {
    const [end, setEnd] = useState(null)
    const [coordinates, setCoordinates] = useState(null)
 
@@ -1262,60 +1262,18 @@ const HikeDetails = () => {
    });
 
    useEffect(() => {
-      console.log(typeof hikeId);
       api.getHikeDetails(hikeId)
          .then(hikes => {
             setHike(hikes);
          })
          .catch(err => {
             if (err.status === 404)
-               setHike([]);
+               setHike(undefined);
             else
                notify.error(err.message)
          })
    }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
-   // const hike =
-   // {
-   //    "id": 1,
-   //    "title": "Trail to MONT FERRA",
-   //    "description": "Lasciata la macchina nell’ampio parcheggio superiamo il Rifugio Melezè e entriamo nel piccolo gruppo di case sopra la chiesetta di Sant’Anna lasciandoci alle spalle l’imponente edificio della casa per ferie Excelsior. Imbocchiamo il sentiero ben visibile che con numerosi tornanti sale rapidamente nel versante erboso fino ad un pianoro dove sono presenti alcuni ruderi detti Grange Reisassa. Qui troviamo un bivio con le indicazioni per il Monte Ferra a destra e il colle di Fiutrusa a sinistra. Proseguiamo verso il Monte ferra che ora si presenta maestoso davanti a noi, ma ancora troppo lontano. Guadagniamo quota raggiungendo il lago Reisassa che a inizio stagione può presentarsi ancora ghiacciato. A questo punto non ci resta che salire sul ripidissimo sentiero che si snoda tra gli sfasciumi fino a raggiungere la cresta rocciosa, dove svoltiamo a sinistra (direzione Ovest) e la percorriamo fino alla piccola croce di ferro posta ad indicare la nostra meta. Sentiero del ritorno uguale a quello di salita.",
-   //    "authorName": 'aldo',
-   //    "authorSurname": 'baglio',
-   //    "uploadDate": "2022-01-10",
-   //    "photoFile": "https://unsplash.com/photos/phIFdC6lA4E",
-   //    "lenght": 13,
-   //    "expectedTime": 5,
-   //    "ascent": 1280,
-   //    "difficulty": 4,
-   //    "startPointName": 'Nepal',
-   //    "endPointName": 'Ama dablam',
-   //    "pointList":
-   //       [
-   //          {
-   //             "id": 1,
-   //             "name": "Refugio Melezè",
-   //             "description": "The building was a ...",
-   //             "type": "hut",
-   //             "latitude": 44.5744896554157,
-   //             "longitude": 6.98160500000067,
-   //             "altitude": 1812,
-   //             "city": "Berllino",
-   //             "province": "Cuneo"
-   //          },
-   //          {
-   //             "id": 2,
-   //             "name": "Monte Ferra",
-   //             "description": "Peak of ...",
-   //             "type": "gpsCoordinates",
-   //             "latitude": 44.57426,
-   //             "longitude": 6.98264,
-   //             "altitude": 3094,
-   //             "city": "",
-   //             "province": ""
-   //          }
-   //       ]
-   // }
    if (hike)
       return (
          <Col xs={10} className='mx-auto p-0'>
@@ -1351,8 +1309,9 @@ const HikeDetails = () => {
                            <h5 className='fw-bold mt-3'>ASCENT</h5> + {''} {hike.ascent} {''} mt
                            <h5 className='fw-bold mt-3'>DIFFICULTY</h5> {hike.difficulty}
                            <h5 className='fw-bold mt-3'>EXPECTED TIME</h5> {hike.expectedTime} {''} hr
-                           <h5 className='fw-bold mt-3'>START POINT</h5> {hike.startPointName}
-                           <h5 className='fw-bold mt-3'>END POINT</h5> {hike.endPointName}
+                           {/* TODO: Cambiare il modo in cui si prendon start ed end point */}
+                           <h5 className='fw-bold mt-3'>START POINT</h5> {hike.pointList[0].name}
+                           <h5 className='fw-bold mt-3'>END POINT</h5> {hike.pointList[1].name}
                            <h5 className='fw-bold mt-3'>REFERENCE POINTS</h5>
                            {hike.pointList.map((point, index) => {
                               return (

@@ -14,12 +14,23 @@
 import './Navbar.css';
 import { Container, Navbar as MyNavbar, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { FaHome } from 'react-icons/fa'
-import {FiUserPlus, FiUserCheck} from 'react-icons/fi'
+import { FaHome } from 'react-icons/fa';
+import { BiUser } from 'react-icons/bi';
 
 import logo from '../../../assets/logo/logo-no-background.png';
 
-const Navbar = () => {
+// Services
+import api from '../../../services/api'
+
+// const handleLogout = () => {
+//     api.logout()
+//         .then(() => {
+//             navigate('/', { replace: true });
+//         })
+//         .catch((err) => notify.error(err));
+// }
+
+const Navbar = (props) => {
     return (
         <MyNavbar collapseOnSelect bg='light' variant='light' className='shadow p-2 bg-white sticky-top'>
             <Container fluid>
@@ -33,16 +44,24 @@ const Navbar = () => {
                 <Link to={'/'}>
                     <FaHome className='home-icon-navbar' />
                 </Link>
-                <div className='d-flex d-sm-block flex-column justify-content-center align-items-center'>
-                    <Link to={'/signup'}>
-                        
-                        <Button variant='secondary' className='btn-navbar rounded-pill'><FiUserPlus className='signup-icon-navbar'/> SignUp</Button>
-                    </Link>
-                    <Link to={'/login'}>
-                    
-                        <Button className='btn-navbar rounded-pill mx-sm-2'><FiUserCheck className='login-icon-navbar'/> Login</Button>
-                    </Link>
-                </div>
+                {!props.isloggedIn ?
+                    <div className='d-flex d-sm-block flex-column justify-content-center align-items-center'>
+                        <Link to={'/signup'}>
+                            <Button variant='secondary' className='btn-navbar rounded-pill'>SignUp</Button>
+                        </Link>
+                        <Link to={'/login'}>
+                            <Button className='btn-navbar rounded-pill mx-sm-2'>Login</Button>
+                        </Link>
+                    </div> :
+                    <>
+                        <div className='d-flex d-sm-block justify-content-center align-items-center'>
+                            <BiUser className='me-2' />
+                            <span className='fw-bold'>{props.userInfo.username}</span>
+                            <Button className='ms-3' onClick={props.handleLogout}>Logout</Button>
+                            {/* <Button className='ms-3' onClick={handleLogout}>Logout</Button> */}
+                        </div>
+                    </>
+                }
             </Container>
         </MyNavbar>
     );

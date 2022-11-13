@@ -63,4 +63,4 @@ const isNotLoggedIn = (req, res, next) => {
     return res.status(401).json({ error: "you are already authenticated!" });
 };
 
-module.exports = { passport, session, isLoggedIn,isNotLoggedIn };
+module.exports = { passport, session, isLoggedIn, isNotLoggedIn };

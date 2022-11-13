@@ -20,7 +20,7 @@ const AppContainer = ({ ...props }) => {
 
     return (
         <Container fluid className='app-container'>
-            <Navbar />
+            <Navbar isloggedIn={props.isloggedIn} userInfo={props.userInfo} handleLogout={props.handleLogout} />
             <Row className='flex-fill p-0'>
                 {props.children}
             </Row>

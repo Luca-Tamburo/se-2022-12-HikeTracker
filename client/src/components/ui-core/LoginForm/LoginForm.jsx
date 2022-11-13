@@ -29,22 +29,9 @@ import { AuthContext } from "../../../contexts/AuthContext";
 // Hooks
 import useNotification from "../../../hooks/useNotification";
 
-const LoginForm = () => {
-  const notify = useNotification(); // Notification handler
-  const navigate = useNavigate(); // Navigation handler
-
-  // Perform authentication and login
-  const handleSubmit = (credentials) => {
-    api
-      .login(credentials)
-      .then((user) => {
+const LoginForm = (props) => {
 
 
-        notify.success(`Welcome ${user.username}!`);
-        navigate("/", { replace: true });
-      })
-      .catch((err) => notify.error(err.error));
-  };
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email("Email not valid").required("Email Required"),
@@ -56,7 +43,7 @@ const LoginForm = () => {
       validateOnMount
       initialValues={{ email: "", password: "" }}
       validationSchema={LoginSchema}
-      onSubmit={(values) => handleSubmit(values)}
+      onSubmit={(values) => props.handleSubmit(values)}
     >
       {({ touched, isValid }) => {
         const disableSubmit = (!touched.email && !touched.password) || !isValid;
