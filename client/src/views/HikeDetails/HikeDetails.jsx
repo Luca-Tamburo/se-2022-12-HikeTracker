@@ -12,7 +12,7 @@
 
 //Imports
 import React, { useState, useEffect } from 'react';
-import { Row, Col, ListGroup } from 'react-bootstrap';
+import { Row, Col, ListGroup,Button } from 'react-bootstrap';
 import mountain from '../../assets/homeImg.jpg';
 import { MapContainer, TileLayer, useMap, Marker, Popup, Polyline } from 'react-leaflet'
 import { geoJson } from 'leaflet';
@@ -1348,16 +1348,24 @@ const HikeDetails = () => {
                         />
                         <Marker icon={endIcon} position={end}>
                             <Popup>
-                                End Point <br /> 
+                                End Point <br />
                             </Popup>
                         </Marker>
                         <Marker icon={startIcon} position={start}>
                             <Popup>
-                                Starting Point <br /> 
+                                Starting Point <br />
                             </Popup>
                         </Marker>
                         <Polyline pathOptions={limeOptions} positions={coordinates} />
                     </MapContainer>
+
+                    <div class="mt-3">
+                        <div className="btnDiv">
+                            <Button variant="primary" type="submit" className=' p-3 rounded-3 mt-4  fw-semibold border '>
+                                Download GPX Track
+                            </Button>
+                        </div>
+                    </div>
                 </Col>
             </Row>
         </Col>
