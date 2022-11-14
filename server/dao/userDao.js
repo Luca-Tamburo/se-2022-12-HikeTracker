@@ -134,6 +134,7 @@ exports.getUserByUsername = (username) => {
  * @param {string} confirmationCode the user confirmationCode
  */
 exports.addUser = (email, username, role, name, surname, phoneNumber, password, confirmationCode) => {
+   
     //creo sale
     const salt = crypto.randomBytes(8).toString('hex');
     //creo hash

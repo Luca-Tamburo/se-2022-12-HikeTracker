@@ -22,7 +22,7 @@ router.post("/signup", isNotLoggedIn,
         .isEmail().withMessage("This field must be a an email").normalizeEmail(),
 
     check("username").exists().withMessage("This field is mandatory").bail()
-        .isString().isLength({ min: 7, max: 40 }).withMessage("This field is a string and must be from 7 to 40 characters").bail()
+        .isString().isLength({ min: 3, max: 40 }).withMessage("This field is a string and must be from 7 to 40 characters").bail()
         .matches(/^[A-Za-z_][A-Za-z0-9_]+$/).withMessage("This field must contain only letters,numbers, underscore. Can't start with a number"),
 
     check("role").exists().withMessage("This field is mandatory").bail()
@@ -73,10 +73,14 @@ router.post("/signup", isNotLoggedIn,
 
             //creo l'url
             const url = "http://localhost:3001/api/signup/" + jwt;
+            
 
+            const name = req.body.name ? req.body.name.trim() : null;
+            const surname =req.body.surname ? req.body.surname.trim(): null;
+            const phone = req.body.phoneNumber ? req.body.phoneNumber.trim(): null;
             //mando dati a dao
-            await userDao.addUser(req.body.email.trim(), req.body.username.trim(), req.body.role.trim(), req.body.name.trim(), req.body.surname.trim(), req.body.phoneNumber.trim(), req.body.password, jwt);
-
+            await userDao.addUser(req.body.email.trim(), req.body.username.trim(), req.body.role.trim(), name, surname, phone, req.body.password, jwt);
+            
             //mando mail di conferma
             nodemailer.sendConfirmationEmail(req.body.username, req.body.email, url);
 

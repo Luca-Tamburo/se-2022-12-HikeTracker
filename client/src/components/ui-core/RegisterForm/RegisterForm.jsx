@@ -96,16 +96,15 @@ const RegisterFormAdvanced = (props) => {
 
 
     const handleSubmit = (credentials) => {
-        setLoading(true);
+        //setLoading(true);
         credentials["role"]=props.Role;
         api.addNewUser(credentials)
             .then(user => {
-                setDirty(true);
-                notify.success(`Welcome ${user.name}!`)
+                //setDirty(true);
                 navigate('/', { replace: true });
             })
             .catch(err => notify.error(err))
-            .finally(() => setLoading(false));
+            //.finally(() => setLoading(false));
     }
 
     const RegisterSchema = Yup.object().shape({

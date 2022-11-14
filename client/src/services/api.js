@@ -23,8 +23,6 @@ const api = {
     addNewUser: (credentials) => {
 
         return new Promise((resolve, reject) => {
-            console.log("asaaaaa")
-
             axios.post(SERVER_URL + 'signup', credentials, { withCredentials: true })
                 .then(res => resolve(res.data))
                 .catch(err => reject(err.response.data));

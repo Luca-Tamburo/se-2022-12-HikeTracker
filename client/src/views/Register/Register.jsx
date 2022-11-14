@@ -40,17 +40,17 @@ const Register = () => {
                 <h2 className='text-center fw-bold fst-italic mb-4'>Select your role:</h2>
             </Row>
                 <div className="d-flex">
-                    <Link to={`/signup/hiker`} state={{ Role: "Hiker" }}>
+                    <Link to={`/signup/hiker`} state={{ Role: "hiker" }}>
                         <Button variant="primary" className='p-3 rounded-3 mt-4 fw-semibold border' style={{ width: "200px" }}>
-                            Hiker
+                            Hike
                         </Button>
                     </Link>
-                    <Link to={`/signup/localGuide`} state={{ Role: "Local guide" }}>
+                    <Link to={`/signup/localGuide`} state={{ Role: "localGuide" }}>
                         <Button variant="primary" className='p-3 rounded-3 mt-4 mx-5 fw-semibold border' style={{ width: "200px" }}>
                             Local guide
                         </Button>
                     </Link>
-                    <Link to={`/signup/hutWorker`} state={{ Role: "Hut worker" }}>
+                    <Link to={`/signup/hutWorker`} state={{ Role: "hutWorker" }}>
                         <Button variant="primary" className='p-3 rounded-3 mt-4 fw-semibold border' style={{ width: "200px" }}>
                             Hut worker
                         </Button>

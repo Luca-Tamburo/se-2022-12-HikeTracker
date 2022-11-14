@@ -41,7 +41,7 @@ const RegisterRole = () => {
             <h1 className='text-center fw-bold fst-italic mt-4 mb-4'>Sign up</h1>
         </div>
         <Col xs={{ span: 12 }} lg={{ span: 6 }} className="mx-auto">
-            { role=== 'Hiker' ? <RegisterFormHiker Role={role}/> : <RegisterFormAdvanced Role={role}/>}
+            { role=== 'hiker' ? <RegisterFormHiker Role={role}/> : <RegisterFormAdvanced Role={role}/>}
         </Col>
     </Row>);
 }
