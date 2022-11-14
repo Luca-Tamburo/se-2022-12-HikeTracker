@@ -25,7 +25,7 @@ const api = {
         return new Promise((resolve, reject) => {
             axios.post(SERVER_URL + 'signup', credentials, { withCredentials: true })
                 .then(res => resolve(res.data))
-                .catch(err => reject(err.response.data));
+                .catch(err => {console.log(err);reject(err.response.data)});
         })
     },
 
@@ -86,7 +86,7 @@ const api = {
                 'uploadDate': uploadDate,
                 'photoFile': photoFile
             }
-            axios.put(SERVER_URL + 'hikes', JSON.stringify(data))
+            axios.put(SERVER_URL + 'hikes', data)
                 .then((res) => resolve(res.data))
                 .catch((err) => reject(err.response.data));
         })

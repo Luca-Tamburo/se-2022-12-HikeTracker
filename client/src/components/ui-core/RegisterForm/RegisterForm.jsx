@@ -112,7 +112,7 @@ const RegisterFormAdvanced = (props) => {
         email: Yup.string().email('Email is not valid').required('Email needed'),
         password: Yup.string().required('Password needed'),
         name: Yup.string().required('Name needed'),
-        number: Yup.string().required('Phone number needed'),
+        phoneNumber: Yup.string().required('Phone number needed'),
         surname: Yup.string().required("Name needed")
     });
 
@@ -135,7 +135,7 @@ const RegisterFormAdvanced = (props) => {
                             <Input className="mt-3" id="signup-email" name="email" type="email" placeholder="Insert your email" label="Email" />
                         </Col>
                         <Col>
-                                <Input className="mt-3" id="signup-number" name="number" type="text" placeholder="Insert your phone number" label="Phone number" />
+                                <Input className="mt-3" id="signup-number" name="phoneNumber" type="text" placeholder="Insert your phone number" label="Phone number" />
                             </Col>
                         </Row>
                         <Row>
