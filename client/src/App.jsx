@@ -11,12 +11,12 @@
 
 // Imports
 import './App.css';
-import { useEffect,useState, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 
 //Components - utils
-import AppContainer from './components/utils/AppContainer/AppContainer'
+import * as Utils from './components/utils/index'
 
 //Views
 import * as View from './views/index';
@@ -84,23 +84,24 @@ const App = () => {
   //   )
   return (
     //crei provider context
-    <AuthContext.Provider value={{userInfo,isloggedIn}}>
-    <AppContainer isloggedIn={isloggedIn} userInfo={userInfo} handleLogout={handleLogout}>
-      <Routes location={location} key={location.pathname}>
-        <Route index path='/' element={<View.Home />} />
-        <Route path='/login' element={<View.Login handleSubmit={handleSubmit} />} />
-        <Route path='/signup' element={<View.Register />} />
-        <Route path='/signup/:role' element={<View.RegisterRole />} />
-        <Route path='/email/confirmed' element={<View.EmailConf />} />
-        <Route path='/email/error' element={<View.EmailErr />} />
-        <Route path='/addHike' element={<View.AddHike userInfo={userInfo} />} />
-        <Route path='/hikes' element={<View.Hike />} />
-        <Route path='/hikes/:hikeId' element={<View.HikeDetails isloggedIn={isloggedIn} userInfo={userInfo} />} />
-        <Route path='*' element={<View.ErrorView />} />
-      </Routes>
-    </AppContainer>
-    </AuthContext.Provider>
-  );
+    <AuthContext.Provider value={{ userInfo, isloggedIn }}>
+      <Utils.AppContainer isloggedIn={isloggedIn} userInfo={userInfo} handleLogout={handleLogout}>
+        <Routes location={location} key={location.pathname}>
+          <Route index path='/' element={<View.Home />} />
+          <Route path='/login' element={<View.Login handleSubmit={handleSubmit} />} />
+          <Route path='/signup' element={<View.Register />} />
+          <Route path='/signup/:role' element={<View.RegisterRole />} />
+          <Route path='/email/confirmed' element={<View.EmailConf />} />
+          <Route path='/email/error' element={<View.EmailErr />} />
+          <Route path='/hikes' element={<View.Hike />} />
+          <Route path='/hikes/:hikeId' element={<View.HikeDetails isloggedIn={isloggedIn} userInfo={userInfo} />} />
+          <Route element={<Utils.ProtectedRoute />}>
+            <Route path='/addHike' element={<View.AddHike userInfo={userInfo} />} />
+          </Route>
+          <Route path='*' element={<View.ErrorView />} />
+        </Routes>
+      </AppContainer>
+      );
 }
 
-export default App;
+      export default App;

@@ -35,25 +35,25 @@ import { useContext } from 'react';
 
 const Navbar = (props) => {
 
-    const {userInfo,isloggedIn}=useContext(AuthContext);
+    const { userInfo, isloggedIn } = useContext(AuthContext);
     /*
     const [hiker, setHiker] = useState(false);
     useEffect(() => {
-        if( props.userInfo != undefined && props.isloggedIn == true){
-            if(props.userInfo.role =='hiker'){
-               setHiker(true)
+        if (props.userInfo != undefined && props.isloggedIn == true) {
+            if (props.userInfo.role == 'hiker') {
+                setHiker(true)
             }
-         }
-         else{
+        }
+        else {
             setHiker(false)
         }
-        
-  
-        },[props.isloggedIn])
 
-        console.log(hiker)
+
+    }, [props.isloggedIn])
+
+    console.log(hiker)
 */
-    
+
     return (
         <MyNavbar collapseOnSelect bg='light' variant='light' className='shadow p-2 bg-white sticky-top'>
             <Container fluid>
@@ -67,23 +67,25 @@ const Navbar = (props) => {
                 <Link to={'/'}>
                     <FaHome className='home-icon-navbar' />
                 </Link>
-                
-                {!isloggedIn ?
+                {hiker ? <Link to={'/addHike'}>
+                    <Button className='btn-navbar rounded-pill mx-sm-2'>Add Hike</Button>
+                </Link> : <></>}
+                {!props.isloggedIn ?
                     <div className='d-flex d-sm-block flex-column justify-content-center align-items-center'>
-                        
+
                         <Link to={'/signup'}>
-                            <Button variant='secondary' className='btn-navbar rounded-pill'>SignUp</Button>
+                            <Button variant='secondary' className='btn-navbar'>SignUp</Button>
                         </Link>
                         <Link to={'/login'}>
-                            <Button className='btn-navbar rounded-pill mx-sm-2'>Login</Button>
+                            <Button className='btn-navbar mx-sm-2'>Login</Button>
                         </Link>
                     </div> :
                     <>
                         <div className='d-flex d-sm-block justify-content-center align-items-center'>
                             <BiUser className='me-2' />
-                            {userInfo.role ==='localGuide' ? <Link to={'/addHike'}>
-                            <Button className='btn-navbar rounded-pill mx-sm-2'>Add Hike</Button>
-                        </Link>: <></>}
+                            {userInfo.role === 'localGuide' ? <Link to={'/addHike'}>
+                                <Button className='btn-navbar rounded-pill mx-sm-2'>Add Hike</Button>
+                            </Link> : <></>}
                             <span className='fw-bold'>{userInfo.username}</span>
                             <Button className='ms-3' onClick={props.handleLogout}>Logout</Button>
                             {/* <Button className='ms-3' onClick={handleLogout}>Logout</Button> */}

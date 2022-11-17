@@ -28,8 +28,8 @@ let gpxParser = require('gpxparser');
 const position = [51.505, -0.09]
 
 var tj = require('togeojson'),
-   // node doesn't have xml parsing or a dom. use xmldom
-   DOMParser = require('xmldom').DOMParser;
+  // node doesn't have xml parsing or a dom. use xmldom
+  DOMParser = require('xmldom').DOMParser;
 
 const L = require('leaflet');
 
@@ -38,26 +38,26 @@ const L = require('leaflet');
 const limeOptions = { color: 'red' }
 
 const HikeDetails = (props) => {
-   const [end, setEnd] = useState(null)
-   const [coordinates, setCoordinates] = useState(null)
+  const [end, setEnd] = useState(null)
+  const [coordinates, setCoordinates] = useState(null)
 
-   const [hiker, setHiker] = useState(false)
+  const [hiker, setHiker] = useState(false)
 
-   console.log('Dettagli')
-   console.log(props.userInfo)
-   console.log(props.isloggedIn)
-
-   
+  console.log('Dettagli')
+  console.log(props.userInfo)
+  console.log(props.isloggedIn)
 
 
-   const [hike, setHike] = useState(undefined);
-   const [start, setStart] = useState(null);
 
-   const { hikeId } = useParams();
 
-   const notify = useNotification();
+  const [hike, setHike] = useState(undefined);
+  const [start, setStart] = useState(null);
 
-   const xmlStr = [` <?xml version="1.0"?>
+  const { hikeId } = useParams();
+
+  const notify = useNotification();
+
+  const xmlStr = [` <?xml version="1.0"?>
    <gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wptx1="http://www.garmin.com/xmlschemas/WaypointExtension/v1" xmlns:gpxtrx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:trp="http://www.garmin.com/xmlschemas/TripExtensions/v1" xmlns:adv="http://www.garmin.com/xmlschemas/AdventuresExtensions/v1" xmlns:prs="http://www.garmin.com/xmlschemas/PressureExtension/v1" xmlns:tmd="http://www.garmin.com/xmlschemas/TripMetaDataExtensions/v1" xmlns:vptm="http://www.garmin.com/xmlschemas/ViaPointTransportationModeExtensions/v1" xmlns:ctx="http://www.garmin.com/xmlschemas/CreationTimeExtension/v1" xmlns:gpxacc="http://www.garmin.com/xmlschemas/AccelerationExtension/v1" xmlns:gpxpx="http://www.garmin.com/xmlschemas/PowerExtension/v1" xmlns:vidx1="http://www.garmin.com/xmlschemas/VideoExtension/v1" creator="Garmin Desktop App" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/WaypointExtension/v1 http://www8.garmin.com/xmlschemas/WaypointExtensionv1.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www8.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/ActivityExtension/v1 http://www8.garmin.com/xmlschemas/ActivityExtensionv1.xsd http://www.garmin.com/xmlschemas/AdventuresExtensions/v1 http://www8.garmin.com/xmlschemas/AdventuresExtensionv1.xsd http://www.garmin.com/xmlschemas/PressureExtension/v1 http://www.garmin.com/xmlschemas/PressureExtensionv1.xsd http://www.garmin.com/xmlschemas/TripExtensions/v1 http://www.garmin.com/xmlschemas/TripExtensionsv1.xsd http://www.garmin.com/xmlschemas/TripMetaDataExtensions/v1 http://www.garmin.com/xmlschemas/TripMetaDataExtensionsv1.xsd http://www.garmin.com/xmlschemas/ViaPointTransportationModeExtensions/v1 http://www.garmin.com/xmlschemas/ViaPointTransportationModeExtensionsv1.xsd http://www.garmin.com/xmlschemas/CreationTimeExtension/v1 http://www.garmin.com/xmlschemas/CreationTimeExtensionsv1.xsd http://www.garmin.com/xmlschemas/AccelerationExtension/v1 http://www.garmin.com/xmlschemas/AccelerationExtensionv1.xsd http://www.garmin.com/xmlschemas/PowerExtension/v1 http://www.garmin.com/xmlschemas/PowerExtensionv1.xsd http://www.garmin.com/xmlschemas/VideoExtension/v1 http://www.garmin.com/xmlschemas/VideoExtensionv1.xsd">
      <metadata>
        <link href="http://www.garmin.com">
@@ -6626,7 +6626,7 @@ const HikeDetails = (props) => {
      </trk>
    </gpx>
    
-    `,`<?xml version="1.0" encoding="UTF-8"?>
+    `, `<?xml version="1.0" encoding="UTF-8"?>
     <gpx creator="Garmin Connect" version="1.1"
       xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/11.xsd"
       xmlns:ns3="http://www.garmin.com/xmlschemas/TrackPointExtension/v1"
@@ -7806,113 +7806,113 @@ const HikeDetails = (props) => {
       </trk>
     </gpx>
     `]
-   var gpx = (new DOMParser()).parseFromString(xmlStr[hikeId-1], 'text/xml');
+  var gpx = (new DOMParser()).parseFromString(xmlStr[hikeId - 1], 'text/xml');
 
-   var converted = tj.gpx(gpx);
+  var converted = tj.gpx(gpx);
 
-   console.log(hiker)
+  console.log(hiker)
 
-   useEffect(() => {
-      if( props.userInfo != undefined && props.isloggedIn == true){
-         console.log('entra')
-         if(props.userInfo.role =='hiker'){
-            setHiker(true)
-         }
+  useEffect(() => {
+    if (props.userInfo != undefined && props.isloggedIn == true) {
+      console.log('entra')
+      if (props.userInfo.role == 'hiker') {
+        setHiker(true)
       }
-      let coord = []
-      for (let index = 0; index < converted.features.length; index++) {
-         let e1 = converted.features[0].geometry.coordinates[0];
-         let e2 = converted.features[0].geometry.coordinates[converted.features[0].geometry.coordinates.length - 1];
-         let alt = 0;
-         setStart([e1[1], e1[0]]);
-         setEnd([e2[1], e2[0]])
-         converted.features[0].geometry.coordinates.forEach(element => {
-            if(alt<element[2]){
-               alt = element[2];
-               setEnd([element[1], element[0]])
-            }
-            coord.push([element[1], element[0]]);
+    }
+    let coord = []
+    for (let index = 0; index < converted.features.length; index++) {
+      let e1 = converted.features[0].geometry.coordinates[0];
+      let e2 = converted.features[0].geometry.coordinates[converted.features[0].geometry.coordinates.length - 1];
+      let alt = 0;
+      setStart([e1[1], e1[0]]);
+      setEnd([e2[1], e2[0]])
+      converted.features[0].geometry.coordinates.forEach(element => {
+        if (alt < element[2]) {
+          alt = element[2];
+          setEnd([element[1], element[0]])
+        }
+        coord.push([element[1], element[0]]);
 
-         })
+      })
 
-      }
+    }
 
-      setCoordinates(coord);
-   }, []) //eslint-disable-line react-hooks/exhaustive-deps
+    setCoordinates(coord);
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
-   const startIcon = L.icon({
-      iconUrl: require('./icons8-start-64.png'),
-      iconSize: [30, 30],
-   });
-   const endIcon = L.icon({
-      iconUrl: require('./icons8-finish-flag-64.png'),
-      iconSize: [30, 30],
-   });
+  const startIcon = L.icon({
+    iconUrl: require('./icons8-start-64.png'),
+    iconSize: [30, 30],
+  });
+  const endIcon = L.icon({
+    iconUrl: require('./icons8-finish-flag-64.png'),
+    iconSize: [30, 30],
+  });
 
-   useEffect(() => {
-      api.getHikeDetails(hikeId)
-         .then(hikes => {
-            setHike(hikes);
-         })
-         .catch(err => {
-            if (err.status === 404)
-               setHike(undefined);
-            else
-               notify.error(err.message)
-         })
-   }, []); //eslint-disable-line react-hooks/exhaustive-deps
-   
-   if (hike)
-      return (
-         <Col xs={10} className='mx-auto p-0'>
-            <img
-               alt='Hike Img'
-               src={hike.photoFile}
-               height='300px'
-               width='1250px'
-               className='mt-3 w-100'
-               style={{ objectFit: 'cover' }}
-            />
-            <div className='d-flex justify-content-between mt-3 '>
-               <h2 className='fw-bold my-3'>{hike.title}</h2>
-               <div className='d-flex justify-content-between'>
-                  <h5 className='mx-4 my-3'>{hike.authorName} {''} {hike.authorSurname}</h5>
-                  <h5 className='mx-4 my-3'>{hike.uploadDate}</h5>
-               </div>
+  useEffect(() => {
+    api.getHikeDetails(hikeId)
+      .then(hikes => {
+        setHike(hikes);
+      })
+      .catch(err => {
+        if (err.status === 404)
+          setHike(undefined);
+        else
+          notify.error(err.message)
+      })
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
+
+  if (hike)
+    return (
+      <Col xs={10} className='mx-auto p-0'>
+        <img
+          alt='Hike Img'
+          src={hike.photoFile}
+          height='300px'
+          width='1250px'
+          className='mt-3 w-100'
+          style={{ objectFit: 'cover' }}
+        />
+        <div className='d-flex justify-content-between mt-3 '>
+          <h2 className='fw-bold my-3'>{hike.title}</h2>
+          <div className='d-flex justify-content-between'>
+            <h5 className='mx-sm-4 my-3'>{hike.authorName} {''} {hike.authorSurname}</h5>
+            <h5 className='mx-sm-4 my-3'>{hike.uploadDate}</h5>
+          </div>
+        </div>
+        <div className='mb-4'>
+          <span className='fst-italic'>{hike.description}</span>
+        </div>
+        <Row className='d-flex justify-content-between'>
+          <Col xs={3} className='p-0'>
+            <div className='shadow-lg p-3 mb-5 bg-white rounded'>
+              <div className='d-flex flex-column ms-3'>
+                <h3 className='fw-bold'>HIKE INFO</h3>
+                <span>All data are to be considered indicative.</span>
+                <hr className='mb-0' />
+              </div>
+              <ListGroup horizontal>
+                <ListGroup.Item className='border-0'>
+                  <h5 className='fw-bold mt-3'>LENGTH</h5>{hike.length} {''} km
+                  <h5 className='fw-bold mt-3'>ASCENT</h5> + {''} {hike.ascent} {''} mt
+                  <h5 className='fw-bold mt-3'>DIFFICULTY</h5> {hike.difficulty}
+                  <h5 className='fw-bold mt-3'>EXPECTED TIME</h5> {hike.expectedTime} {''} hr
+                  {/* TODO: Cambiare il modo in cui si prendon start ed end point */}
+                  <h5 className='fw-bold mt-3'>START POINT</h5> {hike.pointList[0].name}
+                  <h5 className='fw-bold mt-3'>END POINT</h5> {hike.pointList[1].name}
+                  <h5 className='fw-bold mt-3'>REFERENCE POINTS</h5>
+                  {hike.pointList.map((point, index) => {
+                    return (
+                      <div key={index}>
+                        <span>{point.name}</span>
+                      </div>
+                    )
+                  })}
+                </ListGroup.Item>
+              </ListGroup>
             </div>
-            <div className='mb-4'>
-               <span className='fst-italic'>{hike.description}</span>
-            </div>
-            <Row className='d-flex justify-content-between'>
-               <Col xs={3} className='p-0'>
-                  <div className='shadow-lg p-3 mb-5 bg-white rounded'>
-                     <div className='d-flex flex-column ms-3'>
-                        <h3 className='fw-bold'>HIKE INFO</h3>
-                        <span>All data are to be considered indicative.</span>
-                        <hr className='mb-0' />
-                     </div>
-                     <ListGroup horizontal>
-                        <ListGroup.Item className='border-0'>
-                           <h5 className='fw-bold mt-3'>LENGTH</h5>{hike.length} {''} km
-                           <h5 className='fw-bold mt-3'>ASCENT</h5> + {''} {hike.ascent} {''} mt
-                           <h5 className='fw-bold mt-3'>DIFFICULTY</h5> {hike.difficulty}
-                           <h5 className='fw-bold mt-3'>EXPECTED TIME</h5> {hike.expectedTime} {''} hr
-                           {/* TODO: Cambiare il modo in cui si prendon start ed end point */}
-                           <h5 className='fw-bold mt-3'>START POINT</h5> {hike.pointList[0].name}
-                           <h5 className='fw-bold mt-3'>END POINT</h5> {hike.pointList[1].name}
-                           <h5 className='fw-bold mt-3'>REFERENCE POINTS</h5>
-                           {hike.pointList.map((point, index) => {
-                              return (
-                                 <div key={index}>
-                                    <span>{point.name}</span>
-                                 </div>
-                              )
-                           })}
-                        </ListGroup.Item>
-                     </ListGroup>
-                  </div>
-               </Col>
-               {/* <Col xs={7} className='m-0'>
+          </Col>
+          {/* <Col xs={7} className='m-0'>
                   <MapContainer center={[45.178199, 7.083081]} zoom={11} scrollWheelZoom={true}>
                      <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -7939,39 +7939,39 @@ const HikeDetails = (props) => {
                      </div>
                   </div>
                </Col> */}
-               {hiker ?
+          {!hiker ?
 
-                  <Col xs={7} className='m-0'>
-                     <MapContainer center={start} zoom={11} scrollWheelZoom={true}>
-                        <TileLayer
-                           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <Marker icon={endIcon} position={end}>
-                           <Popup>
-                              End Point <br />
-                           </Popup>
-                        </Marker>
-                        <Marker icon={startIcon} position={start}>
-                           <Popup>
-                              Starting Point <br />
-                           </Popup>
-                        </Marker>
-                        <Polyline pathOptions={limeOptions} positions={coordinates} />
-                     </MapContainer>
+            <Col xs={7} className='m-0'>
+              <MapContainer center={start} zoom={11} scrollWheelZoom={true}>
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                  url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
+                />
+                <Marker icon={endIcon} position={end}>
+                  <Popup>
+                    End Point <br />
+                  </Popup>
+                </Marker>
+                <Marker icon={startIcon} position={start}>
+                  <Popup>
+                    Starting Point <br />
+                  </Popup>
+                </Marker>
+                <Polyline pathOptions={limeOptions} positions={coordinates} />
+              </MapContainer>
 
-                     <div class="mt-3">
-                        <div className="btnDiv">
-                           <Button variant="primary" type="submit" className=' p-3 rounded-3 mt-4  fw-semibold border '>
-                              Download GPX Track
-                           </Button>
-                        </div>
-                     </div>
-                  </Col>
-                  : <Col xs={7} className='m-0'></Col>}
-            </Row>
-         </Col>
-      )
+              <div class="mt-3">
+                <div className="btnDiv">
+                  <Button variant="primary" type="submit" className=' p-3 rounded-3 mt-4  fw-semibold border '>
+                    Download GPX Track
+                  </Button>
+                </div>
+              </div>
+            </Col>
+            : <Col xs={7} className='m-0'></Col>}
+        </Row>
+      </Col>
+    )
 }
 
 export default HikeDetails;

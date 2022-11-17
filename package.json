@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "@tmcw/togeojson": "^5.5.0",
+    "concurrently": "^7.5.0",
+    "fs": "^0.0.1-security",
+    "gpxparser": "^3.0.8"
+  },
+  "name": "se-2022-12-hiketracker",
+  "description": "Project developed by ***Team-12*** for the course \"Software Engineering II,\" attended during the academic year 2022/23 at Politecnico di Torino, Master's Degree in Computer Engineering.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently -n client,server -c magenta,blue \"cd client && npm start\" \"cd server && nodemon index.js\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Luca-Tamburo/se-2022-12-HikeTracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Luca-Tamburo/se-2022-12-HikeTracker/issues"
+  },
+  "homepage": "https://github.com/Luca-Tamburo/se-2022-12-HikeTracker#readme"
+}
