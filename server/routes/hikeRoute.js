@@ -31,6 +31,7 @@ router.get('/hikes', [], async (req, res) => {
 /**
  * Put hikes into the system
  */
+//TODO:FARLA
 router.put('/hikes', isLoggedInLocalGuide, async (req, res) => {
     try {
         /*     title, description,length,expectedTime,ascent,difficulty,startPointName,endPointName,authorId, uploadDate,photoFile
@@ -100,9 +101,8 @@ router.put('/hikes', isLoggedInLocalGuide, async (req, res) => {
 });
 
 
-/*
 // GET /api/hikegpx/:hikeId
-// Confirm a user */
+//TODO: AUTENTICARLA CON IL HIKER
 router.get('/hikegpx/:hikeId', async (req, res) => {
     try {
         let gpx = await hikeDao.getGpxByHikeId(req.params.hikeId);
