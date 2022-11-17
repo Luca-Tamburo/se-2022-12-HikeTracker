@@ -36,23 +36,7 @@ import { useContext } from 'react';
 const Navbar = (props) => {
 
     const { userInfo, isloggedIn } = useContext(AuthContext);
-    /*
-    const [hiker, setHiker] = useState(false);
-    useEffect(() => {
-        if (props.userInfo != undefined && props.isloggedIn == true) {
-            if (props.userInfo.role == 'hiker') {
-                setHiker(true)
-            }
-        }
-        else {
-            setHiker(false)
-        }
 
-
-    }, [props.isloggedIn])
-
-    console.log(hiker)
-*/
 
     return (
         <MyNavbar collapseOnSelect bg='light' variant='light' className='shadow p-2 bg-white sticky-top'>
@@ -67,10 +51,10 @@ const Navbar = (props) => {
                 <Link to={'/'}>
                     <FaHome className='home-icon-navbar' />
                 </Link>
-                {hiker ? <Link to={'/addHike'}>
+                {isloggedIn && userInfo.role==="localGuide" ? <Link to={'/addHike'}>
                     <Button className='btn-navbar rounded-pill mx-sm-2'>Add Hike</Button>
                 </Link> : <></>}
-                {!props.isloggedIn ?
+                {!isloggedIn ?
                     <div className='d-flex d-sm-block flex-column justify-content-center align-items-center'>
 
                         <Link to={'/signup'}>
