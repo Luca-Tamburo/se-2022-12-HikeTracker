@@ -65,7 +65,7 @@ const api = {
 
     getHikeDetails: (hikeId) => {
         return new Promise((resolve, reject) => {
-            axios.get(SERVER_URL + `hikedetails/${hikeId}`)
+            axios.get(SERVER_URL + `hikedetails/${hikeId}`,{ withCredentials: true })
                 .then((res) => resolve(res.data))
                 .catch((err) => reject(err.response.data));
         })

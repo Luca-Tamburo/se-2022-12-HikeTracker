@@ -141,7 +141,7 @@ router.get('/hikedetails/:hikeId', [], async (req, res) => {
         hike.pointList = dbList.map((p) => new Point(p.id, p.name, p.description, p.type, p.latitude, p.longitude, p.altitude, p.city, p.province));
         console.log(hike)
         
-        hike={hike,gpx:gpxContent};
+        hike={...hike,gpx:gpxContent};
         return res.status(200).json(hike); //Return object with all the information
     } catch (err) {
         return res.status(err).end();
