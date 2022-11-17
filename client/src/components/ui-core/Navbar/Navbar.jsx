@@ -19,9 +19,11 @@ import { FaHome } from 'react-icons/fa';
 import { BiUser } from 'react-icons/bi';
 
 import logo from '../../../assets/logo/logo-no-background.png';
+import { AuthContext } from "../../../contexts/AuthContext";
 
 // Services
 import api from '../../../services/api'
+import { useContext } from 'react';
 
 // const handleLogout = () => {
 //     api.logout()
@@ -33,6 +35,8 @@ import api from '../../../services/api'
 
 const Navbar = (props) => {
 
+    const {userInfo,isloggedIn}=useContext(AuthContext);
+    /*
     const [hiker, setHiker] = useState(false);
     useEffect(() => {
         if( props.userInfo != undefined && props.isloggedIn == true){
@@ -48,7 +52,7 @@ const Navbar = (props) => {
         },[props.isloggedIn])
 
         console.log(hiker)
-
+*/
     
     return (
         <MyNavbar collapseOnSelect bg='light' variant='light' className='shadow p-2 bg-white sticky-top'>
@@ -64,7 +68,7 @@ const Navbar = (props) => {
                     <FaHome className='home-icon-navbar' />
                 </Link>
                 
-                {!props.isloggedIn ?
+                {!isloggedIn ?
                     <div className='d-flex d-sm-block flex-column justify-content-center align-items-center'>
                         
                         <Link to={'/signup'}>
@@ -77,10 +81,10 @@ const Navbar = (props) => {
                     <>
                         <div className='d-flex d-sm-block justify-content-center align-items-center'>
                             <BiUser className='me-2' />
-                            {props.userInfo.role ==='localGuide' ? <Link to={'/addHike'}>
+                            {userInfo.role ==='localGuide' ? <Link to={'/addHike'}>
                             <Button className='btn-navbar rounded-pill mx-sm-2'>Add Hike</Button>
                         </Link>: <></>}
-                            <span className='fw-bold'>{props.userInfo.username}</span>
+                            <span className='fw-bold'>{userInfo.username}</span>
                             <Button className='ms-3' onClick={props.handleLogout}>Logout</Button>
                             {/* <Button className='ms-3' onClick={handleLogout}>Logout</Button> */}
                         </div>

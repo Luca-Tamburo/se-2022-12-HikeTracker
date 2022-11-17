@@ -76,7 +76,7 @@ const api = {
         return new Promise((resolve, reject) => {
 
             
-            axios.put(SERVER_URL + 'hikes', formData, {
+            axios.put(SERVER_URL + 'hikes', formData,{ withCredentials: true }, {
                 headers: {
                   "Content-Type": "multipart/form-data",
                 },

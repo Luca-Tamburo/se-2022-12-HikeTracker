@@ -83,6 +83,8 @@ const App = () => {
   //     </div>
   //   )
   return (
+    //crei provider context
+    <AuthContext.Provider value={{userInfo,isloggedIn}}>
     <AppContainer isloggedIn={isloggedIn} userInfo={userInfo} handleLogout={handleLogout}>
       <Routes location={location} key={location.pathname}>
         <Route index path='/' element={<View.Home />} />
@@ -97,6 +99,7 @@ const App = () => {
         <Route path='*' element={<View.ErrorView />} />
       </Routes>
     </AppContainer>
+    </AuthContext.Provider>
   );
 }
 
