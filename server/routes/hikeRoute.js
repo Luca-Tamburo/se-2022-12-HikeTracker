@@ -13,6 +13,7 @@ const parseGpx = require('parse-gpx');
 const sessionUtil= require("../utils/sessionUtil");
 const isLoggedIn=sessionUtil.isLoggedIn;
 const isLoggedInLocalGuide=sessionUtil.isLoggedInLocalGuide;
+const fs = require('fs');
 
 /**
  * Get hikes from the system
@@ -41,7 +42,6 @@ router.put('/hikes', isLoggedInLocalGuide, async (req, res) => {
             });
         }
         const gpx = req.files.File;
-        const fs = require('fs');
 
 
 
@@ -103,12 +103,12 @@ router.put('/hikes', isLoggedInLocalGuide, async (req, res) => {
 /*
 // GET /api/hikegpx/:hikeId
 // Confirm a user */
-router.get('/hikegpx/:hikeId',isLoggedIn, async (req, res) => {
+router.get('/hikegpx/:hikeId', async (req, res) => {
     try {
         let gpx = await hikeDao.getGpxByHikeId(req.params.hikeId);
         if (gpx !== undefined) {
             req.params.hikeId = 2;
-            res.sendFile(path.join(__dirname, `..//utils/gpxFiles/${gpx}`));
+            res.download(path.join(__dirname, `..//utils/gpxFiles/${gpx}`));
         }
         else res.status(404).json({ error: `gpx not found` });
     } catch (err) {
@@ -128,12 +128,20 @@ router.get('/hikedetails/:hikeId', [], async (req, res) => {
     try {
         //Hike detailed information is collected
         let d = await hikeDao.getDetailsByHikeId(req.params.hikeId);
+        const gpx=d[0].gpx;
+        let gpxContent = req.isAuthenticated()?fs.readFileSync(path.join(__dirname, `..//utils/gpxFiles/${gpx}`),"utf8"):"";
+
+        //console.log(gpxContent)
+       // console.log(gpx)
         let hike = d.map((e) => new HikeDetails(e.id, e.title, e.description, e.authorName, e.authorSurname, e.uploadDate, e.photoFile, e.length, e.expectedTime, e.ascent, e.difficulty, e.startPointId, e.endPointId));
         hike = hike[0]
 
         //Points information for that hike is collected
         let dbList = await hikeDao.getPointsByHikeId(req.params.hikeId);
         hike.pointList = dbList.map((p) => new Point(p.id, p.name, p.description, p.type, p.latitude, p.longitude, p.altitude, p.city, p.province));
+        console.log(hike)
+        
+        hike={hike,gpx:gpxContent};
         return res.status(200).json(hike); //Return object with all the information
     } catch (err) {
         return res.status(err).end();
