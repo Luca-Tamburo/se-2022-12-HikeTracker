@@ -31,7 +31,7 @@ router.get('/hikes', [], async (req, res) => {
 /**
  * Put hikes into the system
  */
-//TODO:FARLA
+//TODO:FARLA, SIA AUTENTICAZIONE DI INPUT CHE COMPLETAMENTO API VERA E PROPRIA
 router.put('/hikes', isLoggedInLocalGuide, async (req, res) => {
     try {
         /*     title, description,length,expectedTime,ascent,difficulty,startPointName,endPointName,authorId, uploadDate,photoFile
@@ -102,7 +102,7 @@ router.put('/hikes', isLoggedInLocalGuide, async (req, res) => {
 
 
 // GET /api/hikegpx/:hikeId
-//TODO: AUTENTICARLA CON IL HIKER
+//TODO: AUTENTICARLA CON IL RUOLO E FARE IL CONTROLLO SUL TIPO DI :HIKEID (DEVE ESSERE NUMERO)
 router.get('/hikegpx/:hikeId', async (req, res) => {
     try {
         let gpx = await hikeDao.getGpxByHikeId(req.params.hikeId);
@@ -119,6 +119,7 @@ router.get('/hikegpx/:hikeId', async (req, res) => {
 /**
  * Get hike detailed information by hike id
  */
+//TODO: FARE IL CONTROLLO SUL TIPO DI :HIKEID (DEVE ESSERE NUMERO)
 
 router.get('/hikedetails/:hikeId', [], async (req, res) => {
     const errors = validationResult(req);
