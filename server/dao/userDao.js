@@ -45,6 +45,30 @@ exports.getUserById = (id) => {
     });
 };
 
+exports.getUserAllInfosById = (id) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM user WHERE id = ?';
+        db.get(sql, [id], (err, row) => {
+            if (err)
+                reject(err);
+            else if (row === undefined)
+                resolve({ error: 'User not found.' });
+            else {
+                const user = {
+                    id: row.id,
+                    email: row.email,
+                    username: row.username,
+                    name: row.name,
+                    surname: row.surname,
+                    role: row.role,
+                    phoneNumber: row.phoneNumber
+                }
+                resolve(user);
+            }
+        });
+    });
+};
+
 /**
 * Get the user,if exists, given the email and password. This data will be inserted in the response of login API
 * @param {string} email the email of the user to check

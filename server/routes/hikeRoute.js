@@ -6,9 +6,13 @@ const pointDao = require('../dao/pointDao');
 const router = express.Router();
 const { hikes, HikeDetails } = require('../models/hikeModel');
 const { Point } = require('../models/pointModel');
-const { isLoggedIn } = require("../utils/sessionUtil");
 const { check, param, body, validationResult } = require('express-validator');
 const path = require('path');
+const { Console } = require('console');
+const parseGpx = require('parse-gpx');
+const sessionUtil= require("../utils/sessionUtil");
+const isLoggedIn=sessionUtil.isLoggedIn;
+const isLoggedInLocalGuide=sessionUtil.isLoggedInLocalGuide;
 
 /**
  * Get hikes from the system
@@ -26,11 +30,52 @@ router.get('/hikes', [], async (req, res) => {
 /**
  * Put hikes into the system
  */
-router.put('/hikes', [], async (req, res) => {
+router.put('/hikes', isLoggedInLocalGuide, async (req, res) => {
     try {
         /*     title, description,length,expectedTime,ascent,difficulty,startPointName,endPointName,authorId, uploadDate,photoFile
       */
-        console.log(req.body);
+        if (!req.files) {
+            res.send({
+                status: false,
+                message: 'No file uploaded'
+            });
+        }
+        const gpx = req.files.File;
+        const fs = require('fs');
+
+
+
+
+        console.log(req.body)
+        try {
+            //lavora con i dati del gpx, senza ancora creare il file lato server. Il file si crea dopo che hai inserito la hike nel sistema
+            parseGpx(req.files.File.data).then(track => {
+                console.log(track.totalDistance()); //8824.24 (metres)
+
+                /*
+                 {
+                   latitude: string
+                   longitude: string
+                   timestamp: string
+                   elevation: number
+                   cadence: number
+                   heartrate: number
+                   distanceFromPoint: (trackPoint) => number (distance in metres)
+                 }
+                */
+                console.log(track.trackPoints[0]);
+
+                console.log(track.trackPoints[track.trackPoints.length-1]);
+            });
+
+        } catch (err) {
+            return res.status(err).end();
+
+        }
+
+        return res.status(201).json("pointOneId")
+
+
         //creo i point
         let pointOneId = await pointDao.addPoint(req.body.startPointName);
         let pointTwoId = await pointDao.addPoint(req.body.endPointName);
@@ -41,8 +86,14 @@ router.put('/hikes', [], async (req, res) => {
         await pointDao.addPointHike(hikeId, pointOneId);
         await pointDao.addPointHike(hikeId, pointTwoId);
 
+        
+        //QUANDO CREI IL FILE, CREALO CON IDHIKE_TITOLOHIKE.gpx
+        
+        fs.writeFileSync(`./utils/gpxFiles/${hikeId}_${req.body.title.replace(/ /g, '_')}.gpx`, `${req.files.File.data}`, function (err) {
+            if (err) throw err;
+        });
 
-        return res.status(201).json(pointOneId)
+
     } catch (err) {
         return res.status(err).end();
     }
@@ -52,7 +103,7 @@ router.put('/hikes', [], async (req, res) => {
 /*
 // GET /api/hikegpx/:hikeId
 // Confirm a user */
-router.get('/hikegpx/:hikeId', [], async (req, res) => {
+router.get('/hikegpx/:hikeId',isLoggedIn, async (req, res) => {
     try {
         let gpx = await hikeDao.getGpxByHikeId(req.params.hikeId);
         if (gpx !== undefined) {

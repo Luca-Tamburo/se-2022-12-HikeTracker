@@ -30,9 +30,36 @@ const AddHike = (props) => {
 
     const notify = useNotification(); // Notification handler
     const navigate = useNavigate(); // Navigation handler
+    const [selectedFile, setSelectedFile] = useState();
+
+
+
+    const changeHandler = (event) => {
+        event.preventDefault();
+        console.log("a")
+        setSelectedFile(event.target.files[0]);
+        console.log("aa")
+
+    };
+
 
     const handleSubmit = (values) => {
-        api.putHike(values.title, values.description, values.length, values.expectedTime, values.ascent, values.difficulty, values.startPointName, values.endPointName, props.userInfo.id, values.uploadDate, values.photoFile)
+
+        let formData = new FormData();
+        formData.append('File', selectedFile);
+        formData.append('title', values.title);
+        formData.append('description', values.description);
+        formData.append('length', values.length);
+        formData.append('expectedTime', values.expectedTime);
+        formData.append('ascent', values.ascent);
+        formData.append('difficulty', values.difficulty);
+        formData.append('startPointName', values.startPointName);
+        formData.append('endPointName', values.endPointName);
+        formData.append('authorId', 1);
+        formData.append('uploadDate', values.uploadDate);
+        formData.append('photoFile', values.photoFile);
+        
+        api.putHike(formData)
             .then(() => {
                 notify.success(`Hike correctly added`)
                 navigate('/', { replace: true });
@@ -105,6 +132,13 @@ const AddHike = (props) => {
                                 {/* <Row>
                                     <Input className="mt-3" id="hike-reference" name="recerence" type="text" placeholder="Insert the hike reference point" label="Reference point" />
                                 </Row> */}
+                                <Row>
+                                <Button variant="contained" component="label" onChange={changeHandler}>
+                                Upload
+                                <input  accept=".gpx" multiple type="file" />
+                            </Button>
+                            
+                                </Row>
                                 <Row>
                                     {/* <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}> */}
                                     <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold'>

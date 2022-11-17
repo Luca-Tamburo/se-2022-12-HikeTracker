@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@tmcw/togeojson": "^5.5.0",
-    "fs": "^0.0.1-security",
-    "gpxparser": "^3.0.8"
-  }
-}

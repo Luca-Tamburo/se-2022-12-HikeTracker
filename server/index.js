@@ -16,6 +16,7 @@ const express = require("express");
 const morgan = require("morgan");       //loggin middleware
 const cors = require("cors");
 const {passport, session} = require("./utils/sessionUtil");
+const fileupload = require("express-fileupload");
 
 //Importing routes
 const sessionRoute = require("./routes/sessionRoute");
@@ -25,6 +26,11 @@ const hikeRoute = require("./routes/hikeRoute");
 // init express
 const app = new express();
 const port = 3001;
+
+//to use files in apis
+app.use(fileupload());
+app.use(express.urlencoded({ extended: true }));
+
 
 // set-up the middlewares
 app.use(morgan("dev"));

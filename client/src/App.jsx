@@ -11,7 +11,7 @@
 
 // Imports
 import './App.css';
-import { useState, useContext } from "react";
+import { useEffect,useState, useContext } from "react";
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 
@@ -36,6 +36,20 @@ const App = () => {
   const notify = useNotification(); // Notification handler
   const [isloggedIn, setIsloggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState();
+
+  //implementing session
+  useEffect(() => {
+    api.getUserInfo().then((u) => {
+      if (u) {
+        setIsloggedIn(true);
+        setUserInfo(u);
+      }
+
+    }).catch((err) => {
+      notify.error(err)
+    })
+  }, []);
+
 
   const handleLogout = () => {
     api.logout()

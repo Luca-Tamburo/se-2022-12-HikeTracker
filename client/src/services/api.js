@@ -71,22 +71,16 @@ const api = {
         })
     },
 
-    putHike: (title, description, length, expectedTime, ascent, difficulty, startPointName, endPointName, authorId, uploadDate, photoFile) => {
+    putHike: (formData) => {
+
         return new Promise((resolve, reject) => {
-            const data = {
-                'title': title,
-                'description': description,
-                'length': length,
-                'expectedTime': expectedTime,
-                'ascent': ascent,
-                'difficulty': difficulty,
-                'startPointName': startPointName,
-                'endPointName': endPointName,
-                'authorId': authorId,
-                'uploadDate': uploadDate,
-                'photoFile': photoFile
-            }
-            axios.put(SERVER_URL + 'hikes', data)
+
+            
+            axios.put(SERVER_URL + 'hikes', formData, {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              })
                 .then((res) => resolve(res.data))
                 .catch((err) => reject(err.response.data));
         })

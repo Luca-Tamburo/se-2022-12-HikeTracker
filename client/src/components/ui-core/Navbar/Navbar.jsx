@@ -32,6 +32,7 @@ import api from '../../../services/api'
 // }
 
 const Navbar = (props) => {
+
     const [hiker, setHiker] = useState(false);
     useEffect(() => {
         if( props.userInfo != undefined && props.isloggedIn == true){
@@ -62,11 +63,10 @@ const Navbar = (props) => {
                 <Link to={'/'}>
                     <FaHome className='home-icon-navbar' />
                 </Link>
-                {hiker ? <Link to={'/addHike'}>
-                            <Button className='btn-navbar rounded-pill mx-sm-2'>Add Hike</Button>
-                        </Link>: <></>}
+                
                 {!props.isloggedIn ?
                     <div className='d-flex d-sm-block flex-column justify-content-center align-items-center'>
+                        
                         <Link to={'/signup'}>
                             <Button variant='secondary' className='btn-navbar rounded-pill'>SignUp</Button>
                         </Link>
@@ -77,6 +77,9 @@ const Navbar = (props) => {
                     <>
                         <div className='d-flex d-sm-block justify-content-center align-items-center'>
                             <BiUser className='me-2' />
+                            {props.userInfo.role ==='localGuide' ? <Link to={'/addHike'}>
+                            <Button className='btn-navbar rounded-pill mx-sm-2'>Add Hike</Button>
+                        </Link>: <></>}
                             <span className='fw-bold'>{props.userInfo.username}</span>
                             <Button className='ms-3' onClick={props.handleLogout}>Logout</Button>
                             {/* <Button className='ms-3' onClick={handleLogout}>Logout</Button> */}
