@@ -100,8 +100,9 @@ const App = () => {
           </Route>
           <Route path='*' element={<View.ErrorView />} />
         </Routes>
-      </AppContainer>
-      );
+      </Utils.AppContainer>
+    </AuthContext.Provider>
+  );
 }
 
-      export default App;
+export default App;
