@@ -18,8 +18,8 @@ import Login from './Login/Login';
 import Register from './Register/Register';
 import RegisterRole from './Register/RegisterRole';
 import HikeDetails from './HikeDetails/HikeDetails';
-import EmailConf from './EmailConfView/EmailConf';
-import EmailErr from './EmailConfView/EmailErr';
+import EmailConf from './Email/EmailConf';
+import EmailErr from './Email/EmailErr';
 import AddHike from './AddHike/AddHike';
 
 export {

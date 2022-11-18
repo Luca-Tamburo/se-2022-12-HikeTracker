@@ -11,7 +11,7 @@
 
 // Imports
 import './App.css';
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 
@@ -23,6 +23,7 @@ import * as View from './views/index';
 
 // Services
 import api from "./services/api";
+
 // Contexts
 import { AuthContext } from "./contexts/AuthContext";
 
@@ -39,16 +40,16 @@ const App = () => {
 
   //implementing session
   useEffect(() => {
-    api.getUserInfo().then((u) => {
-      if (u) {
-        setIsloggedIn(true);
-        setUserInfo(u);
-      }
-
-    }).catch((err) => {
-      notify.error(err)
-    })
-  }, []);
+    api.getUserInfo()
+      .then((user) => {
+        if (user) {
+          setIsloggedIn(true);
+          setUserInfo(user);
+        }
+      }).catch((err) => {
+        notify.error(err)
+      })
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
 
   const handleLogout = () => {
@@ -63,8 +64,7 @@ const App = () => {
   }
 
   const handleSubmit = (credentials) => {
-    api
-      .login(credentials)
+    api.login(credentials)
       .then((user) => {
         setUserInfo(user);
         setIsloggedIn(true);
@@ -73,7 +73,6 @@ const App = () => {
       })
       .catch((err) => notify.error(err.error));
   };
-
 
   // if (loading)
   //   return (
@@ -91,12 +90,12 @@ const App = () => {
           <Route path='/login' element={<View.Login handleSubmit={handleSubmit} />} />
           <Route path='/signup' element={<View.Register />} />
           <Route path='/signup/:role' element={<View.RegisterRole />} />
-          <Route path='/email/confirmed' element={<View.EmailConf />} />
-          <Route path='/email/error' element={<View.EmailErr />} />
           <Route path='/hikes' element={<View.Hike />} />
           <Route path='/hikes/:hikeId' element={<View.HikeDetails isloggedIn={isloggedIn} userInfo={userInfo} />} />
+          <Route path='/addHike' element={<View.AddHike userInfo={userInfo} />} />
+          <Route path='/email/confirmed' element={<View.EmailConf />} />
+          <Route path='/email/error' element={<View.EmailErr />} />
           <Route element={<Utils.ProtectedRoute />}>
-            <Route path='/addHike' element={<View.AddHike userInfo={userInfo} />} />
           </Route>
           <Route path='*' element={<View.ErrorView />} />
         </Routes>

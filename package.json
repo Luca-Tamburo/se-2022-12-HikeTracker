@@ -10,6 +10,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "init": "concurrently \"cd client && npm install\" \"cd server && npm install\"",
     "start": "concurrently -n client,server -c magenta,blue \"cd client && npm start\" \"cd server && nodemon index.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -117,7 +117,8 @@ const Filter = (props) => {
                 </Col>
                 <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }}>
                     <Form>
-                        <Form.Control data-testid="range-select" className='mt-sm-3' type='number' min='0' placeholder='Range' onChange={(event) => setRange(event.target.value)} />
+                        <span>Range of {range} {''} mt</span>
+                        <Form.Range value={range} min='0' max='10000' onChange={e => setRange(e.target.value)} />
                     </Form>
                 </Col>
             </Row>
@@ -149,7 +150,7 @@ const Filter = (props) => {
                     </Form>
                 </Col>
                 <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }} className='d-sm-flex'>
-                    {/* TODO: Inserire icona */}
+                    {/* TODO: Cambiare icone*/}
                     <Button variant='secondary' className=' mt-sm-3 me-sm-3' onClick={handleReset}><BsFillTrashFill />Reset</Button>
                     <Button className='mt-sm-3' onClick={handleSearch}>Search</Button>
                 </Col>

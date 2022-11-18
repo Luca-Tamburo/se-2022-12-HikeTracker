@@ -17,7 +17,6 @@ import { Row, Container } from "react-bootstrap";
 import Navbar from '../../../components/ui-core/Navbar/Navbar'
 
 const AppContainer = ({ ...props }) => {
-
     return (
         <Container fluid className='app-container'>
             <Navbar isloggedIn={props.isloggedIn} userInfo={props.userInfo} handleLogout={props.handleLogout} />

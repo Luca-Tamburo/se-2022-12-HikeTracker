@@ -26,6 +26,7 @@ import useNotification from '../../hooks/useNotification';
 
 
 const Hike = (props) => {
+    const [loading, setLoading] = useState(true);
     const [hikes, setHikes] = useState([]);
     const notify = useNotification();
 
@@ -42,6 +43,7 @@ const Hike = (props) => {
                 else
                     notify.error(err.message)
             })
+            .finally(setLoading(false));
     }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
@@ -56,7 +58,7 @@ const Hike = (props) => {
                 <Row>
                     {hikes.map((hike, index) => {
                         return (
-                            <HikeCard key={index} hike={hike} />
+                            <HikeCard key={index} hike={hike} loading={loading} />
                         )
                     })}
                 </Row>

@@ -11,10 +11,9 @@
 */
 
 // Imports
-import { useState, useContext } from 'react';
-import { Button, Spinner, Row, Col } from 'react-bootstrap';
+import { Button, Row, Col } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
-import { Field, Formik, Form } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
 // Services
@@ -23,63 +22,43 @@ import api from '../../../services/api'
 // Components
 import Input from "../../utils/Input"
 
-// Contexts
-import { AuthContext } from "../../../contexts/AuthContext";
-
 // Hooks
 import useNotification from '../../../hooks/useNotification';
 
 const RegisterFormHiker = (props) => {
-    const [loading, setLoading] = useState(false);
-//    const [, , setDirty] = useContext(AuthContext);
     const notify = useNotification(); // Notification handler
     const navigate = useNavigate(); // Navigation handler
 
     const handleSubmit = (credentials) => {
-        //setLoading(true);
-        credentials["role"]=props.Role;
-        console.log(credentials)
-        console.log("sss")
+        credentials["role"] = props.Role;
         api.addNewUser(credentials)
             .then(user => {
-                
-                //setDirty(true);
                 notify.success(` ${user.message}!`)
                 navigate('/', { replace: true });
             })
             .catch(err => notify.error(err))
-          //  .finally(() => setLoading(false));
     }
 
     const RegisterSchema = Yup.object().shape({
         username: Yup.string().required('Username requested'),
         email: Yup.string().email('Email is not valid').required('Email needed'),
-        password: Yup.string().required('Password needed')
+        password: Yup.string().required('Password needed'),
+        passwordConfirmation: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match')
     });
 
     return (
-        <Formik validateOnMount initialValues={{ username: '', email: '', password: '' }} validationSchema={RegisterSchema} onSubmit={(values) => handleSubmit(values)}>
+        <Formik validateOnMount initialValues={{ username: '', email: '', password: '', passwordConfirmation: '' }} validationSchema={RegisterSchema} onSubmit={(values) => handleSubmit(values)}>
             {({ touched, isValid }) => {
-                const disableSubmit = (!touched.username && !touched.password && !touched.email) || !isValid || loading;
+                const disableSubmit = (!touched.username && !touched.password && !touched.email && !touched.passwordConfirmation) || !isValid;
                 return (
                     <Form>
-                        <Row>
-                            <Input className="mt-3" id="signup-username" name="username" type="text" placeholder="Insert your username" label="Username" />
-
-                        </Row>
-                        <Row>
-                            <Input className="mt-3" id="signup-email" name="email" type="email" placeholder="Insert your email" label="Email" />
-
-                            <Input className="mt-3" id="signup-password" name="password" type="password" placeholder="Insert your password" label="Password" />
-
-                        </Row>
-
-                        <Row>
-                            <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}>
-                                {loading && <Spinner animation='grow' size='sm' as='span' role='status' aria-hidden='true' className='me-2' />}
-                                Sign up
-                            </Button>
-                        </Row>
+                        <Input className="mt-3" id="signup-username" name="username" type="text" placeholder="Insert your username" label="Username" />
+                        <Input className="mt-3" id="signup-email" name="email" type="email" placeholder="Insert your email" label="Email" />
+                        <Input className="mt-3" id="signup-password" name="password" type="password" placeholder="Insert your password" label="Password" />
+                        <Input className="mt-3" id="signup-confirmation-password" name="passwordConfirmation" type="password" placeholder="Confirm your password" label="Confirmation password" />
+                        <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}>
+                            Sign up
+                        </Button>
                     </Form>
                 );
             }}
@@ -87,55 +66,44 @@ const RegisterFormHiker = (props) => {
     );
 }
 
-
 const RegisterFormAdvanced = (props) => {
-    const [loading, setLoading] = useState(false);
-    const [, , setDirty] = useContext(AuthContext);
     const notify = useNotification(); // Notification handler
     const navigate = useNavigate(); // Navigation handler  
 
-
     const handleSubmit = (credentials) => {
-        //setLoading(true);
-        credentials["role"]=props.Role;
+        credentials["role"] = props.Role;
         api.addNewUser(credentials)
             .then(user => {
-                //setDirty(true);
+                notify.success(` ${user.message}!`)
                 navigate('/', { replace: true });
             })
             .catch(err => notify.error(err))
-            //.finally(() => setLoading(false));
     }
 
     const RegisterSchema = Yup.object().shape({
         username: Yup.string().required('Username requested'),
         email: Yup.string().email('Email is not valid').required('Email needed'),
-        password: Yup.string().required('Password needed'),
         name: Yup.string().required('Name needed'),
-        phoneNumber: Yup.string().required('Phone number needed'),
-        surname: Yup.string().required("Name needed")
+        surname: Yup.string().required("Name needed"),
+        password: Yup.string().required('Password needed'),
+        passwordConfirmation: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
+        phoneNumber: Yup.number().required('Phone number needed'),
     });
 
     return (
-        <Formik validateOnMount initialValues={{ username: '', email: '', password: '', role: '', name: '', surname: '' }} validationSchema={RegisterSchema} onSubmit={(values) => handleSubmit(values)}>
+        <Formik validateOnMount initialValues={{ username: '', email: '', password: '', passwordConfirmation: '', role: '', name: '', surname: '' }} validationSchema={RegisterSchema} onSubmit={(values) => handleSubmit(values)}>
             {({ touched, isValid }) => {
-                const disableSubmit = (!touched.username && !touched.password && !touched.email) || !isValid || loading;
+                const disableSubmit = (!touched.username && !touched.password && !touched.email && !touched.passwordConfirmation) || !isValid;
                 return (
                     <Form>
+                        {/* TODO: Capire se si può rendere più compatto */}
                         <Row>
                             <Col>
                                 <Input className="mt-3" id="signup-username" name="username" type="text" placeholder="Insert your username" label="Username" />
                             </Col>
                             <Col>
-                                <Input className="mt-3" id="signup-password" name="password" type="password" placeholder="Insert your password" label="Password" />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                            <Input className="mt-3" id="signup-email" name="email" type="email" placeholder="Insert your email" label="Email" />
-                        </Col>
-                        <Col>
-                                <Input className="mt-3" id="signup-number" name="phoneNumber" type="text" placeholder="Insert your phone number" label="Phone number" />
+                                <Input className="mt-3" id="signup-email" name="email" type="email" placeholder="Insert your email" label="Email" />
+
                             </Col>
                         </Row>
                         <Row>
@@ -147,8 +115,17 @@ const RegisterFormAdvanced = (props) => {
                             </Col>
                         </Row>
                         <Row>
+                            <Col>
+                                <Input className="mt-3" id="signup-password" name="password" type="password" placeholder="Insert your password" label="Password" />                            </Col>
+                            <Col>
+                                <Input className="mt-3" id="signup-number" name="phoneNumber" type="text" placeholder="Insert your phone number" label="Phone number" />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Input className="mt-3" id="signup-confirmation-password" name="passwordConfirmation" type="password" placeholder="Confirm your password" label="Confirmation password" />
+                        </Row>
+                        <Row>
                             <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}>
-                                {loading && <Spinner animation='grow' size='sm' as='span' role='status' aria-hidden='true' className='me-2' />}
                                 Sign up
                             </Button>
                         </Row>

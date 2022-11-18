@@ -6,15 +6,16 @@ import { useContext, useEffect } from "react";
 import { AuthContext } from '../../../contexts/AuthContext'
 
 const ProtectedRoute = () => {
-    const [session] = useContext(AuthContext);
+    const { isloggedIn } = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!session.loggedIn)
+        console.log(isloggedIn);
+        if (!isloggedIn)
             navigate('/', { replace: true });
-    }, [session.loggedIn]); //eslint-disable-line react-hooks/exhaustive-deps
+    }, [isloggedIn]); //eslint-disable-line react-hooks/exhaustive-deps
 
-    if (session.loggedIn)
+    if (isloggedIn)
         return <Outlet />
 }
 

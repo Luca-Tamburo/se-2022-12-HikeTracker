@@ -58,7 +58,7 @@ const AddHike = (props) => {
         formData.append('authorId', 1);
         formData.append('uploadDate', values.uploadDate);
         formData.append('photoFile', values.photoFile);
-        
+
         api.putHike(formData)
             .then(() => {
                 notify.success(`Hike correctly added`)
@@ -133,11 +133,11 @@ const AddHike = (props) => {
                                     <Input className="mt-3" id="hike-reference" name="recerence" type="text" placeholder="Insert the hike reference point" label="Reference point" />
                                 </Row> */}
                                 <Row>
-                                <Button variant="contained" component="label" onChange={changeHandler}>
-                                Upload
-                                <input  accept=".gpx" multiple type="file" />
-                            </Button>
-                            
+                                    <Button variant="contained" component="label" onChange={changeHandler}>
+                                        Upload
+                                        <input accept=".gpx" multiple type="file" />
+                                    </Button>
+
                                 </Row>
                                 <Row>
                                     {/* <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}> */}
