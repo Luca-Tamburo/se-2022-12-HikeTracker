@@ -16,7 +16,6 @@ const isNotLoggedIn = sessionUtils.isNotLoggedIn;
 // POST /api/signup
 // Sign up a new user
 
-//TODO: RUOLO DEVE ESSERE MESSO IN MODO DA AVERE, nel db, SEMPRE LO STESSO FORMATO : x localGuide e non loCAlGUIdE
 router.post("/signup", isNotLoggedIn,
 
     check("email").exists().withMessage("This field is mandatory").bail()
@@ -33,10 +32,10 @@ router.post("/signup", isNotLoggedIn,
     check("password").exists().withMessage("This field is mandatory").bail()
         .isString().withMessage("This field must be a string").bail()
         .isStrongPassword({
-            minLength:8,
-            minLowercase:1,
-            minSymbols:1,
-            minNumbers:1
+            minLength: 8,
+            minLowercase: 1,
+            minSymbols: 1,
+            minNumbers: 1
         }).withMessage("Invalid password"),
     //per name, surname, phone number doppia validazione, per quando sono opzionali e per quando sono obbligatori
 
@@ -74,19 +73,37 @@ router.post("/signup", isNotLoggedIn,
                 username: req.body.username
             };
 
+            const roleFormatter = (role) => {
+                let roleFormatted;
+                switch (role.toLowerCase()) {
+                    case 'hiker': roleFormatted = 'hiker';
+                        break;
+                    case 'localguide': roleFormatted = 'localGuide';
+                        break;
+                    case 'platformmanager': roleFormatted = 'platformManager';
+                        break;
+                    case 'hutworker': roleFormatted = 'hutWorker';
+                        break;
+                    case 'emergencyoperator': roleFormatted = 'emergencyOperator';
+                        break;
+                }
+                return roleFormatted;
+            }
+
             //creo il jwt
             const jwt = sign(data, secret);
 
             //creo l'url
             const url = "http://localhost:3001/api/signup/" + jwt;
-            
+
 
             const name = req.body.name ? req.body.name.trim() : null;
-            const surname =req.body.surname ? req.body.surname.trim(): null;
-            const phone = req.body.phoneNumber ? req.body.phoneNumber.trim(): null;
-            //mando dati a dao
-            userDao.addUser(req.body.email.trim(), req.body.username.trim(), req.body.role.trim(), name, surname, phone, req.body.password, jwt);
+            const surname = req.body.surname ? req.body.surname.trim() : null;
+            const phone = req.body.phoneNumber ? req.body.phoneNumber.trim() : null;
             
+            //mando dati a dao
+            userDao.addUser(req.body.email.trim(), req.body.username.trim(), roleFormatter(req.body.role.trim()), name, surname, phone, req.body.password, jwt);
+
             //mando mail di conferma
             nodemailer.sendConfirmationEmail(req.body.username, req.body.email, url);
 

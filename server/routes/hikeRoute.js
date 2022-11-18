@@ -20,12 +20,10 @@ const fs = require('fs');
  * Get hikes from the system
  */
 
-//TODO: AGGIUNGERE LATITUDINE E LONGITUDINE STARTING POINT PER I FILTRI
 router.get('/hikes', [], async (req, res) => {
     try {
-        let dbList = await hikeDao.getHikes();
-        hikes.hikeList = dbList.map((e) => new HikeDetails(e.id, e.title, e.description, e.authorName, e.authorSurname, e.uploadDate, e.photoFile));
-        return res.status(200).json(hikes.hikeList); //Return list of Hike objects
+        let hikes = await hikeDao.getHikes();
+        return res.status(200).json(hikes); //Return list of Hike objects
     } catch (error) { res.status(503).json({ error: `Service unavailable` }); }
 
 });

@@ -48,7 +48,7 @@ exports.addHike = (title, description, length, expectedTime, ascent, difficulty,
  */
 exports.getHikes = () => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT Hike.id AS id, Hike.title AS title, Hike.description AS description, Hike.uploadDate AS uploadDate, Hike.photoFile AS photoFile, User.name AS authorName, User.surname AS authorSurname FROM Hike JOIN User ON Hike.authorId = User.id";
+        const sql = "SELECT Hike.id AS id, Hike.title AS title, Hike.description AS description, Hike.uploadDate AS uploadDate, Hike.photoFile AS photoFile, User.name AS authorName, User.surname AS authorSurname,Point.latitude as latitude, Point.longitude as longitude FROM Hike,User,Point WHERE Hike.startPointId = Point.id AND Hike.authorId = User.id";
         db.all(sql, [], (err, rows) => {
             if (err) {
                 reject(err);
@@ -61,7 +61,9 @@ exports.getHikes = () => {
                     authorName: r.authorName,
                     authorSurname: r.authorSurname,
                     uploadDate: r.uploadDate,
-                    photoFile: r.photoFile
+                    photoFile: r.photoFile,
+                    startingPointLatitude:r.latitude,
+                    startingPointLongitude:r.longitude
                 }
             ));
             resolve(hikes);
