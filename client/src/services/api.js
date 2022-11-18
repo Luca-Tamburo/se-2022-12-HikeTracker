@@ -25,7 +25,7 @@ const api = {
         return new Promise((resolve, reject) => {
             axios.post(SERVER_URL + 'signup', credentials, { withCredentials: true })
                 .then(res => resolve(res.data))
-                .catch(err => {console.log(err);reject(err.response.data)});
+                .catch(err => {reject(err.response.data.error)});
         })
     },
 
