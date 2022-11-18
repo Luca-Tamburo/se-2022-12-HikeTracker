@@ -113,7 +113,6 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   - Request body: _None_
   - Response: HTML confirmation page, or `503 Service Unavailable` (generic error). If the user is already signed up or if the verification code is not valid HTML error page
   - Response body: _None_
-  
 
 - GET `/api/hikes`
   - Description: Retrieve list of available hikes generic information
@@ -129,7 +128,9 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
           "authorName": "aldo",
           "authorSurname": "baglio",
           "uploadDate": "2022-01-10",
-          "photoFile": "www. ..."
+          "photoFile": "www. ...",
+          "startingPointLatitude":43.3333333, //TODO:THIS
+          "startingPointLongitude":43.3333333//TODO:THIS
      },
      {
           "id": 2,
@@ -138,27 +139,18 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
           "authorName": "aldo",
           "authorSurname": "baglio",
           "uploadDate": "2022-04-12",
-          "photoFile": "www. ..."
+          "photoFile": "www. ...",
+          "startingPointLatitude":43.3333333,//TODO:THIS
+          "startingPointLongitude":43.3333333//TODO:THIS
       },
     ....
   ]
   ```
 
-- GET `/hikegpx/:id`
-  - Description: Retrieve gpx file path for a specific hike id
-  - Request body: id
-  - Response: `200 OK` (success), `422` (no id in request parameter) or `503 Service Unavailable` (generic error). 
-  - Response body: gpx file path in case of success. Error message in case of failure.
-  ```
-     {
-          "gpxFile": "1_Montw_Ferra.gpx"
-     }
-  ```
-
-- GET `/hikedetails/:id`
-  - Description: Retrieve details (including point information) for a specific hike id
-  - Request body: id
-  - Response: `200 OK` (success), `422` (no id in request parameter) or `503 Service Unavailable` (generic error). 
+- GET `/hikedetails/:hikeId`
+  - Description: Retrieve details (including point information) for a specific hike
+  - Request body: hikeId
+  - Response: `200 OK` (success), `404 NOT FOUND` if the id does not correspond to a hike, `503 Service Unavailable` (generic error). 
   - Response body: detailed information of the hike including a list of points. Error message in case of failure.
   ```
   {
@@ -175,6 +167,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
      "difficulty": 4,
      "startPointId": 1,
      "endPointId": 2,
+     "gpx": "gpx file data if loggedin, nothing ("") if not logged in"
      "pointList": 
         [
           {
@@ -201,6 +194,32 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
           } 
         ]
   }     
+
+- PUT `/api/hikes`
+  - Description: Insert an Hike in the system.
+  - Request body: An object representing ...
+
+  ```
+  {
+      "COSA MANDARE":"TO BE DEFINED"
+  }
+  ```
+
+  - Response: `201 Created` (success) or `503 Service Unavailable` (generic error). OR SOMETHING ELSE?????
+  - Response body: Confirmation message.
+
+  ```
+  {
+      "message": "Hike inserted in the system"
+  }
+  ```
+
+- GET `/api/hikegpx/:hikeId`
+  - Description: Download the gpx file of the relative :hikeId.
+  - Request body: _None_
+  - Response: The gpx file, or `503 Service Unavailable` (generic error). `404 NOT FOUND` If the gpx file is not present
+  - Response body: _None_
+
 
 ## Database Tables
 

@@ -28,17 +28,17 @@ const db = new sqlite.Database('hikeTracker.sqlite3', (err) => {
  */
 //        const hikeId = await hikeDao.addHike( req.body.title, req.body.description, req.body.length, req.body.expectedTime, req.body.ascent, req.body.difficulty, pointOneId, pointTwoId, req.body.authorId, req.body.uploadDate, "here the gpx", req.body.photoFile);
 
-exports.addHike = (title, description,length,expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile, photoFile) => {
+exports.addHike = (title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile, photoFile) => {
     return new Promise((resolve, reject) => {
         const sql = "INSERT INTO Hike(title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile, photoFile) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-        db.run(sql, [title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile, photoFile], 
+        db.run(sql, [title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile, photoFile],
             function (err) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(this.lastID);
-            }
-        });
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(this.lastID);
+                }
+            });
     });
 }
 
@@ -94,14 +94,16 @@ exports.getGpxByHikeId = (id) => {
 exports.getDetailsByHikeId = (id) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT Hike.gpxFile as gpx,Hike.id AS id, Hike.title AS title, Hike.description AS description, Hike.uploadDate AS uploadDate, Hike.photoFile AS photoFile, Hike.length AS length, Hike.expectedTime AS expectedTime, Hike.ascent AS ascent, Hike.difficulty AS difficulty, Hike.startPointId AS startPointId, Hike.endPointId AS endPointId, User.name AS authorName, User.surname AS authorSurname FROM Hike JOIN User ON Hike.authorId = User.id WHERE Hike.id = ?';
-        db.all(sql, [id], (err, rows) => {
+        db.get(sql, [id], (err, r) => {
             if (err) {
                 reject(err);
-            }
-            const details = rows.map((r) => (
+            } else if (r === undefined)
+                resolve(undefined);
+            else {
+                const details =
                 {
                     id: r.id,
-                    gpx:r.gpx,
+                    gpx: r.gpx,
                     title: r.title,
                     description: r.description,
                     authorName: r.authorName,
@@ -115,8 +117,8 @@ exports.getDetailsByHikeId = (id) => {
                     startPointId: r.startPointId,
                     endPointId: r.endPointId
                 }
-            ));
-            resolve(details);
+                resolve(details);
+            }
         });
     });
 }

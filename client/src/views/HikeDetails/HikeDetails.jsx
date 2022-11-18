@@ -17,7 +17,7 @@ import { Row, Col, ListGroup, Button, NavItem } from 'react-bootstrap';
 import { useContext } from 'react';
 import { AuthContext } from "../../contexts/AuthContext";
 import { Link } from 'react-router-dom';
-
+import ErrorView from '../ErrorView/ErrorView'
 // Api
 import api from '../../services/api';
 
@@ -74,7 +74,6 @@ const HikeDetails = (props) => {
           var gpx = (new DOMParser()).parseFromString(String(hikes.gpx), 'text/xml');
           let c = tj.gpx(gpx);
           for (let index = 0; index < c.features.length; index++) {
-            console.log("coordinate" + c.features)
             c.features[0].geometry.coordinates.forEach(element => {
               coord.push([element[1], element[0]]);
 
@@ -86,17 +85,21 @@ const HikeDetails = (props) => {
 
       })
       .catch(err => {
-        if (err.status === 404)
-          setHike(undefined);
-        else
+        if (err.response.status === 404){
+          setHike({id:-1}); //metto a -1 perchè all'inizio la hike è undefined, quindi se mettessi undefined come controllo per il 404, all'inizio (mentre carica lo hike) mostra un 404 per un momento 
+        }        else
           notify.error(err.message)
       })
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
-  console.log(isloggedIn + " sssssdd");
 
-  if (hike)
+  //associazion
+  const textDifficulty=['','Tourist','Hiker','Professional Hiker','Professional Hiker with equipment'];
+  
+
     return (
+      <>
+      {(hike&&hike.id>0)?
       <Col xs={10} className='mx-auto p-0'>
         <img
           alt='Hike Img'
@@ -128,7 +131,7 @@ const HikeDetails = (props) => {
                 <ListGroup.Item className='border-0'>
                   <h5 className='fw-bold mt-3'>LENGTH</h5>{hike.length} {''} km
                   <h5 className='fw-bold mt-3'>ASCENT</h5> + {''} {hike.ascent} {''} mt
-                  <h5 className='fw-bold mt-3'>DIFFICULTY</h5> {hike.difficulty}
+                  <h5 className='fw-bold mt-3'>DIFFICULTY</h5> {textDifficulty[hike.difficulty]}
                   <h5 className='fw-bold mt-3'>EXPECTED TIME</h5> {hike.expectedTime} {''} hr
 
                   <h5 className='fw-bold mt-3'>START POINT</h5> {hike.pointList[0].name}
@@ -185,6 +188,11 @@ const HikeDetails = (props) => {
             : <Col xs={7} className='m-0'></Col>}
         </Row>
       </Col>
+      :<>{
+        hike&&hike.id==-1?
+      <ErrorView></ErrorView>:<></>
+    } </>     
+    }</>
     )
 }
 

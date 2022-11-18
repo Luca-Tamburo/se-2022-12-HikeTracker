@@ -6,18 +6,21 @@ const pointDao = require('../dao/pointDao');
 const router = express.Router();
 const { hikes, HikeDetails } = require('../models/hikeModel');
 const { Point } = require('../models/pointModel');
-const { check, param, body, validationResult } = require('express-validator');
 const path = require('path');
+const { check, validationResult } = require("express-validator"); // validation middleware
 const { Console } = require('console');
 const parseGpx = require('parse-gpx');
-const sessionUtil= require("../utils/sessionUtil");
-const isLoggedIn=sessionUtil.isLoggedIn;
-const isLoggedInLocalGuide=sessionUtil.isLoggedInLocalGuide;
+const sessionUtil = require("../utils/sessionUtil");
+const isLoggedIn = sessionUtil.isLoggedIn;
+const isLoggedInLocalGuide = sessionUtil.isLoggedInLocalGuide;
+const isLoggedInHiker = sessionUtil.isLoggedInHiker;
 const fs = require('fs');
 
 /**
  * Get hikes from the system
  */
+
+//TODO: AGGIUNGERE LATITUDINE E LONGITUDINE STARTING POINT PER I FILTRI
 router.get('/hikes', [], async (req, res) => {
     try {
         let dbList = await hikeDao.getHikes();
@@ -31,7 +34,7 @@ router.get('/hikes', [], async (req, res) => {
 /**
  * Put hikes into the system
  */
-//TODO:FARLA, SIA AUTENTICAZIONE DI INPUT CHE COMPLETAMENTO API VERA E PROPRIA
+//TODO:FARLA, SIA AUTENTICAZIONE DI INPUT ( x esempio difficoltà tra 1 e 4) , CHE COMPLETAMENTO API VERA E PROPRIA
 router.put('/hikes', isLoggedInLocalGuide, async (req, res) => {
     try {
         /*     title, description,length,expectedTime,ascent,difficulty,startPointName,endPointName,authorId, uploadDate,photoFile
@@ -47,7 +50,6 @@ router.put('/hikes', isLoggedInLocalGuide, async (req, res) => {
 
 
 
-        console.log(req.body)
         try {
             //lavora con i dati del gpx, senza ancora creare il file lato server. Il file si crea dopo che hai inserito la hike nel sistema
             parseGpx(req.files.File.data).then(track => {
@@ -66,7 +68,7 @@ router.put('/hikes', isLoggedInLocalGuide, async (req, res) => {
                 */
                 console.log(track.trackPoints[0]);
 
-                console.log(track.trackPoints[track.trackPoints.length-1]);
+                console.log(track.trackPoints[track.trackPoints.length - 1]);
             });
 
         } catch (err) {
@@ -87,9 +89,9 @@ router.put('/hikes', isLoggedInLocalGuide, async (req, res) => {
         await pointDao.addPointHike(hikeId, pointOneId);
         await pointDao.addPointHike(hikeId, pointTwoId);
 
-        
+
         //QUANDO CREI IL FILE, CREALO CON IDHIKE_TITOLOHIKE.gpx
-        
+
         fs.writeFileSync(`./utils/gpxFiles/${hikeId}_${req.body.title.replace(/ /g, '_')}.gpx`, `${req.files.File.data}`, function (err) {
             if (err) throw err;
         });
@@ -102,51 +104,52 @@ router.put('/hikes', isLoggedInLocalGuide, async (req, res) => {
 
 
 // GET /api/hikegpx/:hikeId
-//TODO: AUTENTICARLA CON IL RUOLO E FARE IL CONTROLLO SUL TIPO DI :HIKEID (DEVE ESSERE NUMERO)
-router.get('/hikegpx/:hikeId', async (req, res) => {
-    try {
-        let gpx = await hikeDao.getGpxByHikeId(req.params.hikeId);
-        if (gpx !== undefined) {
-            req.params.hikeId = 2;
-            res.download(path.join(__dirname, `..//utils/gpxFiles/${gpx}`));
+router.get('/hikegpx/:hikeId', check('hikeId').isInt().withMessage('hikeId must be a number'),
+    isLoggedInHiker, async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty())
+            return res.status(404).json({ error: `Hike not found` });
+        try {
+            let gpx = await hikeDao.getGpxByHikeId(req.params.hikeId);
+            if (gpx !== undefined) {
+                req.params.hikeId = 2;
+                res.download(path.join(__dirname, `..//utils/gpxFiles/${gpx}`));
+            }
+            else res.status(404).json({ error: `gpx not found` });
+        } catch (err) {
+            return res.status(err).end();
         }
-        else res.status(404).json({ error: `gpx not found` });
-    } catch (err) {
-        return res.status(err).end();
-    }
-});
+    });
 
 /**
  * Get hike detailed information by hike id
  */
-//TODO: FARE IL CONTROLLO SUL TIPO DI :HIKEID (DEVE ESSERE NUMERO)
 
-router.get('/hikedetails/:hikeId', [], async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
-    }
-    try {
-        //Hike detailed information is collected
-        let d = await hikeDao.getDetailsByHikeId(req.params.hikeId);
-        const gpx=d[0].gpx;
-        let gpxContent = req.isAuthenticated()?fs.readFileSync(path.join(__dirname, `..//utils/gpxFiles/${gpx}`),"utf8"):"";
+router.get('/hikedetails/:hikeId', check('hikeId').isInt().withMessage('hikeId must be a number'),
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty())
+            return res.status(404).json({ error: `Hike not found` });
+        try {
+            //Hike detailed information is collected
+            let hike = await hikeDao.getDetailsByHikeId(req.params.hikeId);
+            if (hike === undefined)
+                return res.status(404).json({ error: `Hike not found` });
+            const gpx = hike.gpx;
+            let gpxContent = req.isAuthenticated() ? fs.readFileSync(path.join(__dirname, `..//utils/gpxFiles/${gpx}`), "utf8") : "";
 
-        //console.log(gpxContent)
-       // console.log(gpx)
-        let hike = d.map((e) => new HikeDetails(e.id, e.title, e.description, e.authorName, e.authorSurname, e.uploadDate, e.photoFile, e.length, e.expectedTime, e.ascent, e.difficulty, e.startPointId, e.endPointId));
-        hike = hike[0]
+            //Points information for that hike is collected
+            let dbList = await hikeDao.getPointsByHikeId(req.params.hikeId);
 
-        //Points information for that hike is collected
-        let dbList = await hikeDao.getPointsByHikeId(req.params.hikeId);
-        hike.pointList = dbList.map((p) => new Point(p.id, p.name, p.description, p.type, p.latitude, p.longitude, p.altitude, p.city, p.province));
-        console.log(hike)
-        
-        hike={...hike,gpx:gpxContent};
-        return res.status(200).json(hike); //Return object with all the information
-    } catch (err) {
-        return res.status(err).end();
-    }
-});
+            hike = {
+                ...hike,
+                pointList: dbList.map((p) => new Point(p.id, p.name, p.description, p.type, p.latitude, p.longitude, p.altitude, p.city, p.province)),
+                gpx: gpxContent
+            };
+            return res.status(200).json(hike); //Return object with all the information
+        } catch (err) {
+            return res.status(err).end();
+        }
+    });
 
 module.exports = router;

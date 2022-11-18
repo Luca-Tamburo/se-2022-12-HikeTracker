@@ -207,7 +207,6 @@ exports.activateUser = (confirmationCode) => {
 * @param {string} username the username of the user
 */
 exports.deleteUser = (username) => {
-    console.log(username)
 
     return new Promise((resolve, reject) => {
         const sql = `DELETE FROM user WHERE username = ?`;

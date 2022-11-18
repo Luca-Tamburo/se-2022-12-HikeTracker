@@ -63,10 +63,16 @@ const isLoggedInLocalGuide = (req, res, next) => {
     return res.status(401).json({ error: "not authenticated" });
 };
 
+// custom middleware: check if a given request is coming from an authenticated hiker
+const isLoggedInHiker = (req, res, next) => {
+    if (req.isAuthenticated() && req.user.role==="hiker") return next();
+    return res.status(401).json({ error: "not authenticated" });
+};
+
 // custom middleware: check if a given request is NOT coming from an authenticated user. Useful when you have to register as a new user, but you are already logged in as user
 const isNotLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) return next();
     return res.status(401).json({ error: "you are already authenticated!" });
 };
 
-module.exports = { passport, session, isLoggedIn, isNotLoggedIn,isLoggedInLocalGuide };
+module.exports = { passport, session, isLoggedIn, isNotLoggedIn,isLoggedInLocalGuide,isLoggedInHiker };

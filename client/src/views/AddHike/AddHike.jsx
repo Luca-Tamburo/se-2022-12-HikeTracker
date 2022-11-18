@@ -36,9 +36,7 @@ const AddHike = (props) => {
 
     const changeHandler = (event) => {
         event.preventDefault();
-        console.log("a")
         setSelectedFile(event.target.files[0]);
-        console.log("aa")
 
     };
 

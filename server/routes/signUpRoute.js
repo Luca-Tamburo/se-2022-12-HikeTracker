@@ -16,6 +16,7 @@ const isNotLoggedIn = sessionUtils.isNotLoggedIn;
 // POST /api/signup
 // Sign up a new user
 
+//TODO: RUOLO DEVE ESSERE MESSO IN MODO DA AVERE, nel db, SEMPRE LO STESSO FORMATO : x localGuide e non loCAlGUIdE
 router.post("/signup", isNotLoggedIn,
 
     check("email").exists().withMessage("This field is mandatory").bail()
