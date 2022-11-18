@@ -64,6 +64,7 @@ exports.getHikes = () => {
                     photoFile: r.photoFile,
                     startingPointLatitude:r.latitude,
                     startingPointLongitude:r.longitude
+                    
                 }
             ));
             resolve(hikes);

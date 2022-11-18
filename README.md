@@ -129,8 +129,8 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
           "authorSurname": "baglio",
           "uploadDate": "2022-01-10",
           "photoFile": "www. ...",
-          "startingPointLatitude":43.3333333, //TODO:THIS
-          "startingPointLongitude":43.3333333//TODO:THIS
+          "startingPointLatitude":43.3333333,
+          "startingPointLongitude":43.3333333
      },
      {
           "id": 2,
@@ -140,8 +140,8 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
           "authorSurname": "baglio",
           "uploadDate": "2022-04-12",
           "photoFile": "www. ...",
-          "startingPointLatitude":43.3333333,//TODO:THIS
-          "startingPointLongitude":43.3333333//TODO:THIS
+          "startingPointLatitude":43.3333333,
+          "startingPointLongitude":43.3333333
       },
     ....
   ]
