@@ -15,6 +15,7 @@ import { Button, Row, Col } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import YupPassword from 'yup-password';
 
 // Services
 import api from '../../../services/api'
@@ -24,6 +25,8 @@ import Input from "../../utils/Input"
 
 // Hooks
 import useNotification from '../../../hooks/useNotification';
+
+YupPassword(Yup) // extend yup
 
 const RegisterFormHiker = (props) => {
     const notify = useNotification(); // Notification handler
@@ -42,7 +45,7 @@ const RegisterFormHiker = (props) => {
     const RegisterSchema = Yup.object().shape({
         username: Yup.string().required('Username requested'),
         email: Yup.string().email('Email is not valid').required('Email needed'),
-        password: Yup.string().required('Password needed'),
+        password: Yup.string().password().required('Password needed'),
         passwordConfirmation: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match')
     });
 
@@ -85,7 +88,7 @@ const RegisterFormAdvanced = (props) => {
         email: Yup.string().email('Email is not valid').required('Email needed'),
         name: Yup.string().required('Name needed'),
         surname: Yup.string().required("Name needed"),
-        password: Yup.string().required('Password needed'),
+        password: Yup.string().password().required('Password needed'),
         passwordConfirmation: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
         phoneNumber: Yup.number().required('Phone number needed'),
     });
