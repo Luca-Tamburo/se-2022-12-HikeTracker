@@ -26,9 +26,8 @@ router.get('/hikes', [], async (req, res) => {
         let dbList = await hikeDao.getHikes();
         hikes.hikeList = dbList.map((e) => new HikeDetails(e.id, e.title, e.description, e.authorName, e.authorSurname, e.uploadDate, e.photoFile));
         return res.status(200).json(hikes.hikeList); //Return list of Hike objects
-    } catch (err) {
-        return res.status(err).end();
-    }
+    } catch (error) { res.status(503).json({ error: `Service unavailable` }); }
+
 });
 
 /**
@@ -97,9 +96,8 @@ router.put('/hikes', isLoggedInLocalGuide, async (req, res) => {
         });
 
 
-    } catch (err) {
-        return res.status(err).end();
-    }
+    } catch (error) { res.status(503).json({ error: `Service unavailable` }); }
+
 });
 
 
@@ -116,9 +114,8 @@ router.get('/hikegpx/:hikeId', check('hikeId').isInt().withMessage('hikeId must 
                 res.download(path.join(__dirname, `..//utils/gpxFiles/${gpx}`));
             }
             else res.status(404).json({ error: `gpx not found` });
-        } catch (err) {
-            return res.status(err).end();
-        }
+        } catch (error) { res.status(503).json({ error: `Service unavailable` }); }
+
     });
 
 /**
@@ -147,9 +144,8 @@ router.get('/hikedetails/:hikeId', check('hikeId').isInt().withMessage('hikeId m
                 gpx: gpxContent
             };
             return res.status(200).json(hike); //Return object with all the information
-        } catch (err) {
-            return res.status(err).end();
-        }
+        } catch (error) { res.status(503).json({ error: `Service unavailable` }); }
+
     });
 
 module.exports = router;

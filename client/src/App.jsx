@@ -47,7 +47,7 @@ const App = () => {
           setUserInfo(user);
         }
       }).catch((err) => {
-        notify.error(err)
+        notify.error(err.error)
       })
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
@@ -60,7 +60,7 @@ const App = () => {
         notify.success(`See you soon!`);
         navigate('/', { replace: true });
       })
-      .catch((err) => notify.error(err));
+      .catch((err) => notify.error(err.error));
   }
 
   const handleSubmit = (credentials) => {

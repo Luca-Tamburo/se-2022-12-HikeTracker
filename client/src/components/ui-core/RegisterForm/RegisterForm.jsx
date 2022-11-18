@@ -40,7 +40,7 @@ const RegisterFormHiker = (props) => {
         notify.success(` ${user.message}!`);
         navigate("/", { replace: true });
       })
-      .catch((err) => notify.error(err));
+      .catch((err) => {notify.error(err.error)});
   };
 
   const RegisterSchema = Yup.object().shape({
@@ -134,7 +134,7 @@ const RegisterFormAdvanced = (props) => {
         navigate("/", { replace: true });
       })
       .catch((err) => {
-        notify.error(err);
+        notify.error(err.error);
       });
   };
 

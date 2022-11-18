@@ -25,7 +25,9 @@ const api = {
         return new Promise((resolve, reject) => {
             axios.post(SERVER_URL + 'signup', credentials, { withCredentials: true })
                 .then(res => resolve(res.data))
-                .catch(err => {reject(err.response.data.error)});
+                .catch(err => {
+                    reject(err.response.data)
+                });
         })
     },
 
@@ -51,7 +53,12 @@ const api = {
         return new Promise((resolve, reject) => {
             axios.get(SERVER_URL + 'sessions/current', { withCredentials: true })
                 .then((res) => resolve(res.data))
-                .catch((err) => reject(err.response.data));
+                .catch((err) => {
+                    if (err.response.status === 401) //se l'errore è causato dal fatto che l'utente non è autenticato... amen , non lo propago
+                        resolve(null)
+                    else
+                        reject(err.response.data)
+                });
         })
     },
 
@@ -65,7 +72,7 @@ const api = {
 
     getHikeDetails: (hikeId) => {
         return new Promise((resolve, reject) => {
-            axios.get(SERVER_URL + `hikedetails/${hikeId}`,{ withCredentials: true })
+            axios.get(SERVER_URL + `hikedetails/${hikeId}`, { withCredentials: true })
                 .then((res) => resolve(res.data))
                 .catch((err) => reject(err));
         })
@@ -75,12 +82,12 @@ const api = {
 
         return new Promise((resolve, reject) => {
 
-            
-            axios.put(SERVER_URL + 'hikes', formData,{ withCredentials: true }, {
+
+            axios.put(SERVER_URL + 'hikes', formData, { withCredentials: true }, {
                 headers: {
-                  "Content-Type": "multipart/form-data",
+                    "Content-Type": "multipart/form-data",
                 },
-              })
+            })
                 .then((res) => resolve(res.data))
                 .catch((err) => reject(err.response.data));
         })

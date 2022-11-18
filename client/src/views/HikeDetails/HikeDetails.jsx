@@ -88,7 +88,7 @@ const HikeDetails = (props) => {
         if (err.response.status === 404){
           setHike({id:-1}); //metto a -1 perchè all'inizio la hike è undefined, quindi se mettessi undefined come controllo per il 404, all'inizio (mentre carica lo hike) mostra un 404 per un momento 
         }        else
-          notify.error(err.message)
+          notify.error(err.error)
       })
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 

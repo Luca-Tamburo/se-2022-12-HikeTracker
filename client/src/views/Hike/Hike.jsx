@@ -41,7 +41,7 @@ const Hike = (props) => {
                 if (err.status === 404)
                     setHikes([]);
                 else
-                    notify.error(err.message)
+                    notify.error(err.error)
             })
             .finally(setLoading(false));
     }, []); //eslint-disable-line react-hooks/exhaustive-deps

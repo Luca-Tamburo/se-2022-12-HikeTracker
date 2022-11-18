@@ -9,7 +9,7 @@ const errorFormatter = ({ location, msg, param }) => {
 const checksValidation = async (req, res, next) => {
     const errors = validationResult(req).formatWith(errorFormatter);
     if (errors.isEmpty()) return next();
-    return res.status(422).json({ errors: errors.array({}) }).end();
+    return res.status(422).json({ error: errors.array({}).join(',') }).end();
 };
 
 module.exports = { check, checksValidation };

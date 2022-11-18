@@ -62,7 +62,7 @@ const AddHike = (props) => {
                 notify.success(`Hike correctly added`)
                 navigate('/', { replace: true });
             })
-            .catch(err => notify.error(err))
+            .catch(err => notify.error(err.error))
     }
 
     // TODO: Aggiungere controlli
