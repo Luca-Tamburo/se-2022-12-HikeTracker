@@ -23,7 +23,7 @@ const fs = require('fs');
 router.get('/hikes', [], async (req, res) => {
     try {
         let hikes = await hikeDao.getHikes();
-        return res.status(200).json(hikes); //Return list of Hike objects
+        return res.status(200).json(hikes); //Return list of Hikes
     } catch (error) { res.status(503).json({ error: `Service unavailable` }); }
 
 });

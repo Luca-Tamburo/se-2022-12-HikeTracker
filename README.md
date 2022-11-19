@@ -123,26 +123,42 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   [
      {
           "id": 1,
-          "title": "Trail to MONT FERRA",
-          "description": "Leaving the car ...",
+          "title": "Trail to MONTE FERRA",
+          "description": "Leaving ...",
+          "length": 13,
+          "expectedTime": 5,
+          "ascent": 1280,
+          "difficulty": "Professional Hiker",
           "authorName": "aldo",
           "authorSurname": "baglio",
           "uploadDate": "2022-01-10",
-          "photoFile": "www. ...",
-          "startingPointLatitude":43.3333333,
-          "startingPointLongitude":43.3333333
-     },
-     {
+          "photoFile": "https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+          "latitude": 44.5744896554157,
+          "longitude": 6.98160500000067,
+          "altitude": 1812,
+          "city": "Bellino",
+          "province": "Cuneo ",
+          "region": "Piemonte"
+      },     
+      {
           "id": 2,
           "title": "Trail to ROCCA PATANUA",
-          "description": "Patanua means ...",
-          "authorName": "aldo",
-          "authorSurname": "baglio",
+          "description": "Patanua ..",
+          "length": 9,
+          "expectedTime": 5.5,
+          "ascent": 980,
+          "difficulty": "Professional Hiker",
+          "authorName": "stefano",
+          "authorSurname": "pioli",
           "uploadDate": "2022-04-12",
-          "photoFile": "www. ...",
-          "startingPointLatitude":43.3333333,
-          "startingPointLongitude":43.3333333
-      },
+          "photoFile": "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80",
+          "latitude": 45.15013536737316,
+          "longitude": 7.236844649658008,
+          "altitude": 1430,
+          "city": "Condove",
+          "province": "Torino ",
+          "region": "Piemonte"
+     },
     ....
   ]
   ```

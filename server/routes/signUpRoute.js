@@ -53,12 +53,12 @@ router.post("/signup", isNotLoggedIn,
 
     check("phoneNumber").if((value, { req }) => optionalBecomeMandatory(req.body.role)).exists().withMessage("This field is mandatory").bail()
         .isString().withMessage("This field must be a string (consider the prefix of the phone number)").bail()
-        .trim().isLength({ min: 5, max: 40 }).withMessage("This field is a string and must be from 5 to 40 characters").bail()
+        .trim().isLength({ min: 2}).withMessage("This field is a string and must be from 2 characters").bail()
         .trim().matches(/^[+0-9][0-9 ]+$/).withMessage("This field must contain only numbers, the + for prefixes and spaces"),
 
     check("phoneNumber").if((value, { req }) => !optionalBecomeMandatory(req.body.role)).optional({ nullable: true })
         .isString().withMessage("This field must be a string (consider the prefix of the phone number)").bail()
-        .trim().isLength({ min: 5, max: 40 }).withMessage("This field is a string and must be from 5 to 40 characters").bail()
+        .trim().isLength({ min: 2 }).withMessage("This field is a string and must be from 2 characters").bail()
         .trim().matches(/^[+0-9][0-9 ]+$/).withMessage("This field must contain only numbers, the + for prefixes and spaces"),
 
     checksValidation, usernameAvailabilityCheck, emailAvailabilityCheck,

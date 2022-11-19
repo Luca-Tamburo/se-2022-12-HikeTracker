@@ -44,7 +44,10 @@ const RegisterFormHiker = (props) => {
   };
 
   const RegisterSchema = Yup.object().shape({
-    username: Yup.string().required("Username requested"),
+    username: Yup.string().required("Username requested").matches(
+      /^[A-Za-z_][A-Za-z0-9_]+$/,
+      "Not valid username"
+    ),
     email: Yup.string().email("Email is not valid").required("Email needed"),
     password: Yup.string().password().required("Password needed"),
     passwordConfirmation: Yup.string().oneOf(
@@ -139,7 +142,10 @@ const RegisterFormAdvanced = (props) => {
   };
 
   const RegisterSchema = Yup.object().shape({
-    username: Yup.string().required("Username requested"),
+    username: Yup.string().required("Username requested").matches(
+      /^[A-Za-z_][A-Za-z0-9_]+$/,
+      "Not valid username"
+    ),
     email: Yup.string().email("Email is not valid").required("Email needed"),
     name: Yup.string().required("Name needed"),
     surname: Yup.string().required("Name needed"),

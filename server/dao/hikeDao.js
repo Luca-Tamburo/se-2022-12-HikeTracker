@@ -48,23 +48,36 @@ exports.addHike = (title, description, length, expectedTime, ascent, difficulty,
  */
 exports.getHikes = () => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT Hike.id AS id, Hike.title AS title, Hike.description AS description, Hike.uploadDate AS uploadDate, Hike.photoFile AS photoFile, User.name AS authorName, User.surname AS authorSurname,Point.latitude as latitude, Point.longitude as longitude FROM Hike,User,Point WHERE Hike.startPointId = Point.id AND Hike.authorId = User.id";
+        const sql = "SELECT Hike.id AS id, Hike.title AS title, Hike.description AS description,Hike.length AS length, Hike.expectedTime as expectedTime, Hike.ascent as ascent, Hike.difficulty as difficulty,"
+            + " Hike.uploadDate AS uploadDate, Hike.photoFile AS photoFile,"
+            + "User.name AS authorName, User.surname AS authorSurname,Point.latitude as latitude, Point.longitude as longitude,Point.altitude as altitude, Point.city as city,Point.province as province,Point.region as region "
+            + " FROM Hike,User,Point "
+            + "WHERE Hike.startPointId = Point.id AND Hike.authorId = User.id";
         db.all(sql, [], (err, rows) => {
             if (err) {
                 reject(err);
             }
+            console.log(rows)
             const hikes = rows.map((r) => (
                 {
                     id: r.id,
                     title: r.title,
                     description: r.description,
+                    length:r.length,
+                    expectedTime:r.expectedTime,
+                    ascent:r.ascent,
+                    difficulty:r.difficulty,
                     authorName: r.authorName,
                     authorSurname: r.authorSurname,
                     uploadDate: r.uploadDate,
                     photoFile: r.photoFile,
-                    startingPointLatitude:r.latitude,
-                    startingPointLongitude:r.longitude
-                    
+                    latitude: r.latitude,
+                    longitude: r.longitude,
+                    altitude:r.altitude,
+                    city:r.city,
+                    province:r.province,
+                    region:r.region
+
                 }
             ));
             resolve(hikes);
