@@ -213,22 +213,41 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
 - PUT `/api/hikes`
   - Description: Insert an Hike in the system.
-  - Request body: An object representing ...
-
+  - Request body: An object representing the hike and the startPoint/endPoint details
   ```
   {
-      "COSA MANDARE":"TO BE DEFINED"
-  }
+     "title":"sss",
+	"description":"kkk",
+	"expectedTime":33.33,
+	"difficulty":"Hiker",
+	"photoFile":"http:// ... ",
+	"startPoint":{
+		          "name":"rifugio",
+		          "description":"qualcosa",
+	          	"type":"hut",
+	          	"region":"piemonte",
+	          	"province":"turin",
+	          	"city":"turin"
+	},
+	"endPoint":{
+	          	"name":"cima montagna",
+	          	"description":"vista stupenda",
+	          	"type":"GPS coordinates",
+	              	"region":"piemonte",
+	          	"province":"turin",
+	          	"city":""
+	}
+  }   
   ```
-
-  - Response: `201 Created` (success) or `503 Service Unavailable` (generic error). OR SOMETHING ELSE?????
+  - Request file: The GPX file
+  - Response: `201 CREATED` (success), `420` if the input is not correct, `503 Service Unavailable` (generic error). 
   - Response body: Confirmation message.
-
   ```
   {
       "message": "Hike inserted in the system"
   }
   ```
+
 
 - GET `/api/hikegpx/:hikeId`
   - Description: Download the gpx file of the relative :hikeId.

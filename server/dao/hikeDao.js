@@ -12,35 +12,58 @@
 
 'use strict';
 
-//DB access module
-const sqlite = require('sqlite3');
-const crypto = require('crypto');
-
 //Open the database
-const db = new sqlite.Database('hikeTracker.sqlite3', (err) => {
-    if (err) throw err;
-});
-
+const db = require('./openDb');
 
 
 /**
- * Insert hikes into the system
+ * Insert a new hike
+ * @param {string} title the title of the hike
+ * @param {string} description the description of the hike
+ * @param {number} length the length of the hike
+ * @param {number} expectedTime the expectedTime of the hike
+ * @param {number} ascent the ascent of the hike
+ * @param {string} difficulty the difficulty of the hike
+ * @param {number} startPointId the startPointId of the hike
+ * @param {number} endPointId the endPointId of the hike
+ * @param {number} authorId the authorId of the hike
+ * @param {Date} uploadDate the uploadDate of the hike
+ * @param {string} gpxFile the gpxFile of the hike
+ * @param {string} photoFile the photoFile of the hike
  */
-//        const hikeId = await hikeDao.addHike( req.body.title, req.body.description, req.body.length, req.body.expectedTime, req.body.ascent, req.body.difficulty, pointOneId, pointTwoId, req.body.authorId, req.body.uploadDate, "here the gpx", req.body.photoFile);
-
-exports.addHike = (title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile, photoFile) => {
+exports.addHike = (title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate,  photoFile) => {
     return new Promise((resolve, reject) => {
-        const sql = "INSERT INTO Hike(title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile, photoFile) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-        db.run(sql, [title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, gpxFile, photoFile],
+        let sql = "INSERT INTO Hike(title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, photoFile) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        db.run(sql, [title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate,  photoFile],
             function (err) {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(this.lastID);
+                    const gpxFile=`${this.lastID}_${title.replace(/ /g, '_')}.gpx`
+                    sql = "UPDATE Hike SET gpxFile=? WHERE id=?";
+                    db.run(sql, [gpxFile,this.lastID],(err) => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(this.lastID);
+                            }
+                        });
                 }
             });
     });
 }
+
+/**
+ * Insert a gpx track path in the hike
+ * @param {string} gpxFile the gpxFile of the hike
+ * @param {number} id the id of the hike
+ */
+ exports.addGpxToHike = (gpxFile,id) => {
+    return new Promise((resolve, reject) => {
+    
+    });
+}
+
 
 
 /**
@@ -57,7 +80,6 @@ exports.getHikes = () => {
             if (err) {
                 reject(err);
             }
-            console.log(rows)
             const hikes = rows.map((r) => (
                 {
                     id: r.id,

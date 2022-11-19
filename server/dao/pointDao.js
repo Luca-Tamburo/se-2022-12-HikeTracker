@@ -1,18 +1,26 @@
 
 'use strict';
 
-//DB access module
-const sqlite = require('sqlite3');
-
 //Open the database
-const db = new sqlite.Database('hikeTracker.sqlite3', (err) => {
-    if (err) throw err;
-});
+const db = require('./openDb');
 
-exports.addPoint = (name) => {
+
+/**
+ * Insert a new point
+ * @param {string} name the name of the point
+ * @param {string} description the description of the point
+ * @param {string} type the type of the point
+ * @param {number} latitude the latitude of the point
+ * @param {number} longitude the longitude of the point
+ * @param {number} altitude the altitude of the point
+ * @param {string} city the city of the point
+ * @param {string} province the province of the point
+ * @param {string} region the region of the point
+ */
+exports.addPoint = (name,description,type,latitude,longitude,altitude,city,province,region) => {
     return new Promise((resolve, reject) => {
-        let sql = "INSERT INTO Point(name) VALUES (?)";
-        db.run(sql, [name], function (err) {
+        let sql = "INSERT INTO Point(name,description,type,latitude,longitude,altitude,city,province,region) VALUES (?,?,?,?,?,?,?,?,?)";
+        db.run(sql, [name,description,type,latitude,longitude,altitude,city,province,region], function (err) {
             if (err) {
                 reject(err);
             }
@@ -22,20 +30,6 @@ exports.addPoint = (name) => {
         );
     });
 }
-/*
-exports.createFilm = (film, userId) => {
-    return new Promise((resolve, reject) => {
-        const sql = 'INSERT INTO films (title, favorite, watchdate, rating, user) VALUES (?, ?, ?, ?, ?)';
-        db.run(sql, [film.title, film.favorite ? 1 : 0, film.date ? dayjs(film.date).format('YYYY-MM-DD') : null, film.rating, userId], function (err) {
-            if (err) {
-                reject(err);
-                return;
-            }
-            resolve(this.lastID);
-        });
-    });
-};
-*/
 
 exports.addPointHike = (hikeId, pointId) => {
     return new Promise(async (resolve, reject) => {

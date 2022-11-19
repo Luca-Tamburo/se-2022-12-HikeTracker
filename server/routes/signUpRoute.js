@@ -8,7 +8,7 @@ const { secret } = require("../config/auth.config");
 const sign = require('jwt-encode');
 const nodemailer = require('../config/nodemailer.config');
 const path = require('path');
-const { roleValidator, optionalBecomeMandatory, emailAvailabilityCheck, usernameAvailabilityCheck } = require("../utils/signUpUtils");
+const { roleValidator, optionalBecomeMandatory, emailAvailabilityCheck, usernameAvailabilityCheck,roleFormatter } = require("../utils/signUpUtils");
 const isNotLoggedIn = sessionUtils.isNotLoggedIn;
 
 
@@ -23,7 +23,6 @@ router.post("/signup", isNotLoggedIn,
 
     check("username").exists().withMessage("This field is mandatory").bail()
         .isString().withMessage("This field is a string").bail()
-        //TODO: QUESTA è LA REGEX PER LO USERNAME
         .matches(/^[A-Za-z_][A-Za-z0-9_]+$/).withMessage("This field must contain only letters,numbers, underscore. Can't start with a number"),
 
     check("role").exists().withMessage("This field is mandatory").bail()
@@ -73,22 +72,7 @@ router.post("/signup", isNotLoggedIn,
                 username: req.body.username
             };
 
-            const roleFormatter = (role) => {
-                let roleFormatted;
-                switch (role.toLowerCase()) {
-                    case 'hiker': roleFormatted = 'hiker';
-                        break;
-                    case 'localguide': roleFormatted = 'localGuide';
-                        break;
-                    case 'platformmanager': roleFormatted = 'platformManager';
-                        break;
-                    case 'hutworker': roleFormatted = 'hutWorker';
-                        break;
-                    case 'emergencyoperator': roleFormatted = 'emergencyOperator';
-                        break;
-                }
-                return roleFormatted;
-            }
+
 
             //creo il jwt
             const jwt = sign(data, secret);

@@ -8,6 +8,9 @@ const { hikes, HikeDetails } = require('../models/hikeModel');
 const { Point } = require('../models/pointModel');
 const path = require('path');
 const { check, validationResult } = require("express-validator"); // validation middleware
+const { checksValidation } = require("../utils/validationUtil");
+
+const valUtil = require("../utils/validationUtil");
 const { Console } = require('console');
 const parseGpx = require('parse-gpx');
 const sessionUtil = require("../utils/sessionUtil");
@@ -15,6 +18,7 @@ const isLoggedIn = sessionUtil.isLoggedIn;
 const isLoggedInLocalGuide = sessionUtil.isLoggedInLocalGuide;
 const isLoggedInHiker = sessionUtil.isLoggedInHiker;
 const fs = require('fs');
+const { typeValidator, difficultyValidator, typeFormatter, difficultyFormatter } = require("../utils/hikesUtils");
 
 /**
  * Get hikes from the system
@@ -31,72 +35,100 @@ router.get('/hikes', [], async (req, res) => {
 /**
  * Put hikes into the system
  */
-//TODO:FARLA, SIA AUTENTICAZIONE DI INPUT ( x esempio difficoltà tra 1 e 4) , CHE COMPLETAMENTO API VERA E PROPRIA
-router.put('/hikes', isLoggedInLocalGuide, async (req, res) => {
-    try {
-        /*     title, description,length,expectedTime,ascent,difficulty,startPointName,endPointName,authorId, uploadDate,photoFile
-      */
-        if (!req.files) {
-            res.send({
-                status: false,
-                message: 'No file uploaded'
-            });
-        }
-        const gpx = req.files.File;
 
-
-
-
+router.put('/hikes',
+    isLoggedInLocalGuide,
+    check("title").exists().withMessage("This field is mandatory").bail().isString(),
+    check("description").exists().withMessage("This field is mandatory").bail().isString(),
+    check("expectedTime").exists().withMessage("This field is mandatory").bail().isNumeric(),
+    check("difficulty").exists().withMessage("This field is mandatory").bail().isString().custom((value, { req }) => (difficultyValidator(value))).withMessage("Invalid difficulty"),
+    check("photoFile").exists().withMessage("This field is mandatory").bail().isString(),
+    check("startPoint.name").exists().withMessage("This field is mandatory").bail().isString(),
+    check("startPoint.description").exists().withMessage("This field is mandatory").bail().isString(),
+    check("startPoint.type").exists().withMessage("This field is mandatory").bail().isString().bail().custom((value, { req }) => (typeValidator(value))).withMessage("Invalid type"),
+    check("startPoint.region").exists().withMessage("This field is mandatory").bail().isString(),
+    check("startPoint.province").exists().withMessage("This field is mandatory").bail().isString(),
+    check("startPoint.city").exists().withMessage("This field is mandatory").bail().isString(),
+    check("endPoint.name").exists().withMessage("This field is mandatory").bail().isString(),
+    check("endPoint.description").exists().withMessage("This field is mandatory").bail().isString(),
+    check("endPoint.type").exists().withMessage("This field is mandatory").bail().isString().bail().custom((value, { req }) => (typeValidator(value))).withMessage("Invalid type"),
+  //  check("endPoint.region").exists().withMessage("This field is mandatory").bail().isString(), //NON OBBLIGATORIO PER ENDPOINT
+  //  check("endPoint.province").exists().withMessage("This field is mandatory").bail().isString(), //NON OBBLIGATORIO PER ENDPOINT
+  //  check("endPoint.city").exists().withMessage("This field is mandatory").bail().isString(), //NON OBBLIGATORIO PER ENDPOINT
+    checksValidation, async (req, res) => {
         try {
-            //lavora con i dati del gpx, senza ancora creare il file lato server. Il file si crea dopo che hai inserito la hike nel sistema
-            parseGpx(req.files.File.data).then(track => {
-                console.log(track.totalDistance()); //8824.24 (metres)
 
+            if (!req.files || req.files.File === undefined) {
+                return res.status(422).json({ error: `No GPX sent` });
+            }
+            const gpx = req.files.File;
+
+            //ste variabili mi servono fuori dal try, quindi le dichiaro fuori con let, poi le uso in try. Se le avessi dichiarate in try, fuori dal try non esisterebbero
+            let totalLength;
+            let finalTrackPoint;
+            let initialTrackPoint;
+            let ascent;
+
+            //provo ad utilizzare il gpx
+            try {
+
+                //lavora con i dati del gpx, senza ancora creare il file lato server. Il file si crea dopo che hai inserito la hike nel sistema
+                const track = await parseGpx(req.files.File.data);
+
+                //trova distanza totale usando una funzione di parse-gpx
+                totalLength = (track.totalDistance() / 1000).toFixed(3); //trasporta in km con 3 cifre dopo virgola
+
+                //trova punto più basso (che sicuramente è quello iniziale, però ho pensato che magari dal punto di partenza scendi un po' e poi risali, quindi nel dubbio lo trovo)
+                //    EDIT NON POSSO FARE QUEL RAGIONAMENTO. MOTIVO: PRENDI 1_MONTE_FERRA.GPX. RIGO 87 ALTEZZA 1754, DAL NULLA PERCHè PRECEDENTE E SUCCESSIVO SONO A 1800. 
+                //    INVECE PARTENZA ERA 1757. QUESTA ANOMALIA ERA SMALL, MA SE CE NE FOSSERO DI PIù GRANDI? QUINDI PRENDO COME LOWER POINT QUELLO INIZIALE
                 /*
-                 {
-                   latitude: string
-                   longitude: string
-                   timestamp: string
-                   elevation: number
-                   cadence: number
-                   heartrate: number
-                   distanceFromPoint: (trackPoint) => number (distance in metres)
-                 }
+                        lowestTrackPoint = track.trackPoints.reduce(function (prev, current) {
+                            return (prev.elevation < current.elevation) ? prev : current
+                        })
                 */
-                console.log(track.trackPoints[0]);
+                initialTrackPoint = track.trackPoints[0];
 
-                console.log(track.trackPoints[track.trackPoints.length - 1]);
+                //trova punto finale (che è anche il più alto, NON QUELLO FINALE)
+                //    potrebbe valere il discorso di prima sulle anomalie, ma non posso applicarlo perchè non so per certo che 
+                //    l'ultimo punto sia quello finale, perchè ci sono alcuni gpx che fanno andata-ritorno (1_MONTE_FERRA.GPX)
+                finalTrackPoint = track.trackPoints.reduce(function (prev, current) {
+                    return (prev.elevation > current.elevation) ? prev : current
+                })
+
+                //trova ascent, cioè differenza tra punto più alto e punto più basso (è lo start point ma per sicurezza me lo cerco)
+                ascent = (finalTrackPoint.elevation - initialTrackPoint.elevation).toFixed(2);
+
+            } catch (err) { //se non riesco ad utilizzare il gpx
+                return res.status(422).json({ error: `Wrong file sent` });
+            }
+
+            //creo lo startPoint nel db
+            const startPoint = req.body.startPoint;
+            let pointOneId = await pointDao.addPoint(startPoint.name, startPoint.description, typeFormatter(startPoint.type), initialTrackPoint.latitude, initialTrackPoint.longitude, initialTrackPoint.elevation, startPoint.city, startPoint.province, startPoint.region);
+
+            //creo lo endPoint nel db
+            const endPoint = req.body.endPoint;
+            let pointTwoId = await pointDao.addPoint(endPoint.name, endPoint.description, typeFormatter(endPoint.type), finalTrackPoint.latitude, finalTrackPoint.longitude, finalTrackPoint.elevation, endPoint.city, endPoint.province, endPoint.region);
+
+            //creo hike
+            const hikeId = await hikeDao.addHike(req.body.title, req.body.description, totalLength, req.body.expectedTime, ascent, difficultyFormatter(req.body.difficulty), pointOneId, pointTwoId, req.body.authorId, req.body.uploadDate, req.body.photoFile);
+
+            //linko hike e points in tabella hikePoint
+            await pointDao.addPointHike(hikeId, pointOneId);
+            await pointDao.addPointHike(hikeId, pointTwoId);
+
+            //QUANDO CREI IL FILE, CREALO CON IDHIKE_TITOLOHIKE.gpx
+            fs.writeFileSync(`./utils/gpxFiles/${hikeId}_${req.body.title.replace(/ /g, '_')}.gpx`, `${req.files.File.data}`, function (err) {
+                if (err) throw err;
             });
 
-        } catch (err) {
-            return res.status(err).end();
+            return res.status(201).json({message: "Hike inserted in the system" });
 
+        } catch (error) {
+            res.status(503).json({ error: `Service unavailable` });
         }
 
-        return res.status(201).json("pointOneId")
-
-
-        //creo i point
-        let pointOneId = await pointDao.addPoint(req.body.startPointName);
-        let pointTwoId = await pointDao.addPoint(req.body.endPointName);
-        //linko point con hike
-
-        const hikeId = await hikeDao.addHike(req.body.title, req.body.description, req.body.length, req.body.expectedTime, req.body.ascent, req.body.difficulty, pointOneId, pointTwoId, req.body.authorId, req.body.uploadDate, "here the gpx", req.body.photoFile);
-        console.log(hikeId)
-        await pointDao.addPointHike(hikeId, pointOneId);
-        await pointDao.addPointHike(hikeId, pointTwoId);
-
-
-        //QUANDO CREI IL FILE, CREALO CON IDHIKE_TITOLOHIKE.gpx
-
-        fs.writeFileSync(`./utils/gpxFiles/${hikeId}_${req.body.title.replace(/ /g, '_')}.gpx`, `${req.files.File.data}`, function (err) {
-            if (err) throw err;
-        });
-
-
-    } catch (error) { res.status(503).json({ error: `Service unavailable` }); }
-
-});
+    });
 
 
 // GET /api/hikegpx/:hikeId

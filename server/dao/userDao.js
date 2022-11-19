@@ -10,16 +10,12 @@
 * --------------------------------------------------------------------
 */
 
-'use strict';
 
-//DB access module
-const sqlite = require('sqlite3');
 const crypto = require('crypto');
 
 //Open the database
-const db = new sqlite.Database('hikeTracker.sqlite3', (err) => {
-    if (err) throw err;
-});
+const db = require('./openDb');
+
 
 /**
  * Get the user info to put in the cookie, given the id

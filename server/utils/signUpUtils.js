@@ -30,4 +30,20 @@ const usernameAvailabilityCheck = (req, res, next) => {
         })
 };
 
-module.exports = { roleValidator, optionalBecomeMandatory,emailAvailabilityCheck,usernameAvailabilityCheck };
+const roleFormatter = (role) => {
+    let roleFormatted;
+    switch (role.toLowerCase()) {
+        case 'hiker': roleFormatted = 'hiker';
+            break;
+        case 'localguide': roleFormatted = 'localGuide';
+            break;
+        case 'platformmanager': roleFormatted = 'platformManager';
+            break;
+        case 'hutworker': roleFormatted = 'hutWorker';
+            break;
+        case 'emergencyoperator': roleFormatted = 'emergencyOperator';
+            break;
+    }
+    return roleFormatted;
+}
+module.exports = { roleValidator, optionalBecomeMandatory,emailAvailabilityCheck,usernameAvailabilityCheck,roleFormatter };
