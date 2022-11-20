@@ -78,11 +78,9 @@ const api = {
         })
     },
 
+    // NON È UNA POST?
     putHike: (formData) => {
-
         return new Promise((resolve, reject) => {
-
-
             axios.put(SERVER_URL + 'hikes', formData, { withCredentials: true }, {
                 headers: {
                     "Content-Type": "multipart/form-data",

@@ -14,19 +14,22 @@
 import { Button, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import YupPassword from "yup-password";
 
 // Services
 import api from "../../../services/api";
 
 // Components
-import Input from "../../utils/Input";
+import Input from "../../utils/Input/Input";
+
+// Validation
+import RegisterSchema from "../../../validation/RegisterSchema";
+import RegisterAdvancedSchema from "../../../validation/RegisterAdvancedSchema";
+
+// Constants
+import registerForm from '../../../constants/registerForm'
 
 // Hooks
 import useNotification from "../../../hooks/useNotification";
-
-YupPassword(Yup); // extend yup
 
 const RegisterFormHiker = (props) => {
   const notify = useNotification(); // Notification handler
@@ -40,21 +43,8 @@ const RegisterFormHiker = (props) => {
         notify.success(` ${user.message}!`);
         navigate("/", { replace: true });
       })
-      .catch((err) => {notify.error(err.error)});
+      .catch((err) => { notify.error(err.error) });
   };
-
-  const RegisterSchema = Yup.object().shape({
-    username: Yup.string().required("Username requested").matches(
-      /^[A-Za-z_][A-Za-z0-9_]+$/,
-      "Not valid username"
-    ),
-    email: Yup.string().email("Email is not valid").required("Email needed"),
-    password: Yup.string().password().required("Password needed"),
-    passwordConfirmation: Yup.string().oneOf(
-      [Yup.ref("password"), null],
-      "Passwords must match"
-    ),
-  });
 
   return (
     <Formik
@@ -77,38 +67,19 @@ const RegisterFormHiker = (props) => {
           !isValid;
         return (
           <Form>
-            <Input
-              className="mt-3"
-              id="signup-username"
-              name="username"
-              type="text"
-              placeholder="Insert your username"
-              label="Username"
-            />
-            <Input
-              className="mt-3"
-              id="signup-email"
-              name="email"
-              type="email"
-              placeholder="Insert your email"
-              label="Email"
-            />
-            <Input
-              className="mt-3"
-              id="signup-password"
-              name="password"
-              type="password"
-              placeholder="Insert your password"
-              label="Password"
-            />
-            <Input
-              className="mt-3"
-              id="signup-confirmation-password"
-              name="passwordConfirmation"
-              type="password"
-              placeholder="Confirm your password"
-              label="Confirmation password"
-            />
+            {registerForm.map((input, index) => {
+              return (
+                <Input
+                key={index}
+                id={input.id}
+                name={input.name}
+                type={input.type}
+                placeholder={input.placeholder}
+                label={input.label}
+                className="mt-3"
+                />
+              )
+            })}
             <Button
               variant="primary"
               type="submit"
@@ -141,22 +112,6 @@ const RegisterFormAdvanced = (props) => {
       });
   };
 
-  const RegisterSchema = Yup.object().shape({
-    username: Yup.string().required("Username requested").matches(
-      /^[A-Za-z_][A-Za-z0-9_]+$/,
-      "Not valid username"
-    ),
-    email: Yup.string().email("Email is not valid").required("Email needed"),
-    name: Yup.string().required("Name needed"),
-    surname: Yup.string().required("Name needed"),
-    password: Yup.string().password().required("Password needed"),
-    passwordConfirmation: Yup.string().oneOf(
-      [Yup.ref("password"), null],
-      "Passwords must match"
-    ),
-    phoneNumber: Yup.number().required("Phone number needed"),
-  });
-
   return (
     <Formik
       validateOnMount
@@ -169,7 +124,7 @@ const RegisterFormAdvanced = (props) => {
         name: "",
         surname: "",
       }}
-      validationSchema={RegisterSchema}
+      validationSchema={RegisterAdvancedSchema}
       onSubmit={(values) => handleSubmit(values)}
     >
       {({ touched, isValid }) => {

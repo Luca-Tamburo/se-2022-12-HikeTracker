@@ -13,9 +13,11 @@
 import AppContainer from './AppContainer/AppContainer';
 import Filter from './Filter/Filter'
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute'
+import Input from './Input/Input'
 
 export {
     AppContainer,
     Filter,
     ProtectedRoute,
+    Input,
 }
