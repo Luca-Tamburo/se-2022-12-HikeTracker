@@ -14,7 +14,8 @@
 import { useState } from 'react';
 import { Button, Spinner, Row, Col, Form } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
-import { Field, Formik } from 'formik';
+import { Field, Formik, Form as FormikForm } from 'formik';
+import dayjs from "dayjs";
 
 // Services
 import api from '../../services/api';
@@ -30,15 +31,15 @@ import useNotification from '../../hooks/useNotification';
 
 const AddHike = (props) => {
 
+    const [loading, setLoading] = useState(false);
     const notify = useNotification(); // Notification handler
     const navigate = useNavigate(); // Navigation handler
-    const [selectedFile, setSelectedFile] = useState();
+    // const [selectedFile, setSelectedFile] = useState();
 
-    const changeHandler = (event) => {
-        event.preventDefault();
-        setSelectedFile(event.target.files[0]);
-
-    };
+    // const changeHandler = (event) => {
+    //     event.preventDefault();
+    //     setSelectedFile(event.target.files[0]);
+    // };
 
     const handleSubmit = (values) => {
 
@@ -55,34 +56,38 @@ const AddHike = (props) => {
         // formData.append('authorId', 1);
         // formData.append('uploadDate', values.uploadDate);
         // formData.append('photoFile', values.photoFile);
+        setLoading(true);
 
-        console.log(values);
+        const hike = {
+            ...values,
+            uploadDate: dayjs().format('YYYY-MM-DD'),
+        }  
 
-        // api.putHike(hike)
-        //     .then(() => {
-        //         notify.success(`Hike correctly added`)
-        //         // Forse è meglio reindizzare la local guide o nella sua pagina o nella pagina delle hike, oppure utilizzare -1 per tornare a quello precedente
-        //         navigate('/', { replace: true });
-        //     })
-        //     .catch(err => notify.error(err.error))
+        api.addHike(hike)
+            .then(() => {
+                notify.success(`Hike correctly added`)
+                // TODO: Forse è meglio reindizzare la local guide o nella sua pagina o nella pagina delle hike, oppure utilizzare -1 per tornare a quello precedente
+                navigate('/', { replace: true });
+            })
+            .catch(err => notify.error(err.error))
+            .finally(() => setLoading(false));
     }
-
     return (
         <div>
             <div className='d-flex justify-content-center mt-5'>
                 <h1 className='fw-bold'>Add your hike</h1>
             </div>
-            <Formik validateOnMount initialValues={{ name: "", photoFile: "", description: "", length: "", difficulty: "", expectedTime: "", startPoint: "", endPoint: "" }} validationSchema={AddHikeSchema} onSubmit={(values) => { handleSubmit(values) }}>
-                {({ touched, isValid }) => {
-                    // TODO: Da dixare
+            <Formik initialValues={{ title: "", photoFile: "", description: "", difficulty: "", expectedTime: "", file: null }} validationSchema={AddHikeSchema} onSubmit={(values) =>  handleSubmit(values) }>
+                {({ values, handleSubmit, touched, isValid, setFieldValue }) => {
+                    // TODO: Da fixare
                     // const disableSubmit = (!touched.name && !touched.photoFile && !touched.description && !touched.length && !touched.difficulty && !touched.expectedTime) || !isValid;
                     return (
-                        // TODO: Da portare in components e qui importare il singolo componente, oppure provare a farlo con una map
+                        // TODO: Da portare in components e qui importare il singolo componente
                         <Col xs={{ span: 10, offset: 1 }} className='mt-3'>
-                            <Form>
+                            <FormikForm>
                                 <Row>
                                     <Col>
-                                        <Input className="mt-3" id="name" name="name" type="text" placeholder="Insert the hike name" label="Name" />
+                                        <Input className="mt-3" id="title" name="title" type="text" placeholder="Insert the hike name" label="Name" />
                                     </Col>
                                     <Col>
                                         <Input className="mt-3" id="photoFile" name="photoFile" type="text" placeholder="Insert the hike url image" label="Image" />
@@ -101,11 +106,15 @@ const AddHike = (props) => {
                                         <Input className="mt-3" id="description" name="description" type="text" placeholder="Insert the hike description" label="Description" />
                                     </Col>
                                     <Col>
+                                    <label for='file' className="fw-semibold fst-italic mt-3">File upload</label>
+                                    <input id="file" name="file" type="file" onChange={(event) => {setFieldValue("file", event.currentTarget.files[0])}}/>
+                                    </Col>
+                                    {/* <Col>
                                         <Form.Label className="fw-semibold fst-italic mt-3" >Gpx file</Form.Label>
                                         <Button variant="contained" component="label" onChange={changeHandler} className='d-flex align-items-start'>
                                             <input accept=".gpx" multiple type="file" />
                                         </Button>
-                                    </Col>
+                                    </Col> */}
                                 </Row>
                                 {/* <Row>
                                     <Col>
@@ -118,10 +127,11 @@ const AddHike = (props) => {
                                 <Row>
                                     {/* <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}> */}
                                     <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold'>
+                                    {loading && <Spinner animation='border' size='sm' as='span' role='status' aria-hidden='true' className='me-2' />}
                                         Submit
                                     </Button>
                                 </Row>
-                            </Form>
+                            </FormikForm>
                         </Col>
                     );
                 }}

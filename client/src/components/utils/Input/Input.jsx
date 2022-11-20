@@ -41,10 +41,10 @@ const Input = ({ id, name, type, placeholder, className, label }) => {
             <Form.Group className={className} controlId={id}>
                 <Form.Label className="fw-semibold fst-italic" >{label}</Form.Label>
                 <Field id={id} name={field.name} as={type} type={type} placeholder={placeholder} className={classes} >
-                    {/* <option value="0" disabled selected>Insert the hike difficulty</option> */}
-                    <option value='1'>Tourist</option>
-                    <option value='2'>Hiker</option>
-                    <option value='3'>Professional Hiker</option>
+                    <option value=''>Choose the hike difficulty</option>
+                    <option value='Tourist'>Tourist</option>
+                    <option value='Hiker'>Hiker</option>
+                    <option value='Professional Hiker'>Professional Hiker</option>
                 </Field>
                 <Form.Text className='text-danger'>
                     <ErrorMessage name={field.name} />

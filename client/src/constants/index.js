@@ -12,5 +12,6 @@
 
 // Imports
 import Filter from './Filter';
+import registerForm from './registerForm';
 
-export { Filter }
+export { Filter, registerForm }
