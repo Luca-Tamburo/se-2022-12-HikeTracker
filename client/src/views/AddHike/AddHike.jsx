@@ -33,7 +33,7 @@ const AddHike = (props) => {
   const [loading, setLoading] = useState(false);
   const notify = useNotification(); // Notification handler
   const navigate = useNavigate(); // Navigation handler
-   const [selectedFile, setSelectedFile] = useState();
+  const [selectedFile, setSelectedFile] = useState();
 
 
   const handleSubmit = (values) => {
@@ -47,8 +47,7 @@ const AddHike = (props) => {
      formData.append('photoFile', values.photoFile);
     setLoading(true);
 
-    api
-      .addHike(formData)
+    api.addHike(formData)
       .then(() => {
         notify.success(`Hike correctly added`);
         // TODO: Forse è meglio reindizzare la local guide o nella sua pagina o nella pagina delle hike, oppure utilizzare -1 per tornare a quello precedente
@@ -83,106 +82,46 @@ const AddHike = (props) => {
               <FormikForm>
                 <Row>
                   <Col>
-                    <Input
-                      className="mt-3"
-                      id="title"
-                      name="title"
-                      type="text"
-                      placeholder="Insert the hike name"
-                      label="Name"
-                    />
+                    <Input className="mt-3" id="title" name="title" type="text" placeholder="Insert the hike name" label="Name"/>
                   </Col>
                   <Col>
-                    <Input
-                      className="mt-3"
-                      id="photoFile"
-                      name="photoFile"
-                      type="text"
-                      placeholder="Insert the hike url image"
-                      label="Image"
-                    />
+                    <Input className="mt-3" id="photoFile" name="photoFile" type="text" placeholder="Insert the hike url image" label="Image"/>
                   </Col>
                 </Row>
                 <Row>
                   <Col>
-                    <Input
-                      className="mt-3"
-                      id="difficulty"
-                      name="difficulty"
-                      type="select"
-                      placeholder="Insert the hike difficulty"
-                      label="Difficulty"
-                    />
+                    <Input className="mt-3" id="difficulty" name="difficulty" type="select" placeholder="Insert the hike difficulty" label="Difficulty"/>
                   </Col>
                   <Col>
-                    <Input
-                      className="mt-3"
-                      id="expectedTime"
-                      name="expectedTime"
-                      type="text"
-                      placeholder="Insert the hike expected time in hour"
-                      label="Expected Time"
-                    />
+                    <Input className="mt-3" id="expectedTime" name="expectedTime" type="text" placeholder="Insert the hike expected time in hour" label="Expected Time"/>
                   </Col>
                 </Row>
                 <Row>
                   <Col>
-                    <Input
-                      className="mt-3"
-                      id="description"
-                      name="description"
-                      type="text"
-                      placeholder="Insert the hike description"
-                      label="Description"
-                    />
+                    <Input className="mt-3" id="description" name="description" type="text" placeholder="Insert the hike description" label="Description"/>
                   </Col>
                   <Col>
-                    <label for="file" className="fw-semibold fst-italic mt-3">
-                      File upload
-                    </label>
-                    <input
-                      id="file"
-                      name="file"
-                      type="file"
-                      onChange={(event) => {
+                    <label for="file" className="fw-semibold fst-italic mt-3">File upload</label>
+                    <input id="file" name="file" type="file" onChange={(event) => {
                         event.preventDefault();
                         setSelectedFile(event.target.files[0]);
                         setFieldValue("file", event.currentTarget.files[0]);
                       }}
                     />
                   </Col>
-                  {/* <Col>
-                                        <Form.Label className="fw-semibold fst-italic mt-3" >Gpx file</Form.Label>
-                                        <Button variant="contained" component="label" onChange={changeHandler} className='d-flex align-items-start'>
-                                            <input accept=".gpx" multiple type="file" />
-                                        </Button>
-                                    </Col> */}
                 </Row>
                 {/* <Row>
-                                    <Col>
-                                        <Input className="mt-3" id="startPoint" name="Start Point" type="text" placeholder="Insert the hike start point" label="Start point" />
-                                    </Col>
-                                    <Col>
-                                        <Input className="mt-3" id="endPoint" name="end Point" type="text" placeholder="Insert the hike end point" label="End point" />
-                                    </Col>
-                                </Row> */}
+                        <Col>
+                            <Input className="mt-3" id="startPoint" name="Start Point" type="text" placeholder="Insert the hike start point" label="Start point" />
+                        </Col>
+                        <Col>
+                            <Input className="mt-3" id="endPoint" name="end Point" type="text" placeholder="Insert the hike end point" label="End point" />
+                        </Col>
+                    </Row> */}
                 <Row>
                   {/* <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}> */}
-                  <Button
-                    variant="primary"
-                    type="submit"
-                    className="p-3 rounded-3 mt-4 w-100 fw-semibold"
-                  >
-                    {loading && (
-                      <Spinner
-                        animation="border"
-                        size="sm"
-                        as="span"
-                        role="status"
-                        aria-hidden="true"
-                        className="me-2"
-                      />
-                    )}
+                  <Button variant="primary" type="submit" className="p-3 rounded-3 mt-4 w-100 fw-semibold">
+                    {loading && (<Spinner animation="border" size="sm" as="span" role="status" aria-hidden="true" className="me-2"/>)}
                     Submit
                   </Button>
                 </Row>
