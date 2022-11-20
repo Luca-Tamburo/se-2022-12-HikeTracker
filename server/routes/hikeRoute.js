@@ -46,8 +46,6 @@ router.post('/hikes',
     check('uploadDate').exists().bail().isISO8601().withMessage("The date must comply with the ISO8601 standard (YYYY-MM-DD)"),
     checksValidation, async (req, res) => {
 
-        console.log(req.body);
-        return res.status(201).json({ message: 'Tutto occhei!!' })
         try {
             if (!req.files || req.files.File === undefined) {
                 return res.status(422).json({ error: `No GPX sent` });
