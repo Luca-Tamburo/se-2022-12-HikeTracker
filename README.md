@@ -211,9 +211,9 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
         ]
   }     
 
-- PUT `/api/hikes`
+- POST `/api/hikes`
   - Description: Insert an Hike in the system.
-  - Request body: An object representing the hike and the startPoint/endPoint details
+  - Request body: An object representing the hike
   ```
   {
      "title":"sss",
@@ -221,22 +221,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 	"expectedTime":33.33,
 	"difficulty":"Hiker",
 	"photoFile":"http:// ... ",
-	"startPoint":{
-		          "name":"rifugio",
-		          "description":"qualcosa",
-	          	"type":"hut",
-	          	"region":"piemonte",
-	          	"province":"turin",
-	          	"city":"turin"
-	},
-	"endPoint":{
-	          	"name":"cima montagna",
-	          	"description":"vista stupenda",
-	          	"type":"GPS coordinates",
-	              	"region":"piemonte",
-	          	"province":"turin",
-	          	"city":""
-	}
+     "uploadDate":"2022-02-02"
   }   
   ```
   - Request file: The GPX file

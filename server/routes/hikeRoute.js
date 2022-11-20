@@ -36,32 +36,19 @@ router.get('/hikes', [], async (req, res) => {
  * Put hikes into the system
  */
 
-router.put('/hikes',
+router.post('/hikes',
     isLoggedInLocalGuide,
     check("title").exists().withMessage("This field is mandatory").bail().isString(),
     check("description").exists().withMessage("This field is mandatory").bail().isString(),
     check("expectedTime").exists().withMessage("This field is mandatory").bail().isNumeric(),
     check("difficulty").exists().withMessage("This field is mandatory").bail().isString().custom((value, { req }) => (difficultyValidator(value))).withMessage("Invalid difficulty"),
     check("photoFile").exists().withMessage("This field is mandatory").bail().isString(),
-    check("startPoint.name").exists().withMessage("This field is mandatory").bail().isString(),
-    check("startPoint.description").exists().withMessage("This field is mandatory").bail().isString(),
-    check("startPoint.type").exists().withMessage("This field is mandatory").bail().isString().bail().custom((value, { req }) => (typeValidator(value))).withMessage("Invalid type"),
-    check("startPoint.region").exists().withMessage("This field is mandatory").bail().isString(),
-    check("startPoint.province").exists().withMessage("This field is mandatory").bail().isString(),
-    check("startPoint.city").exists().withMessage("This field is mandatory").bail().isString(),
-    check("endPoint.name").exists().withMessage("This field is mandatory").bail().isString(),
-    check("endPoint.description").exists().withMessage("This field is mandatory").bail().isString(),
-    check("endPoint.type").exists().withMessage("This field is mandatory").bail().isString().bail().custom((value, { req }) => (typeValidator(value))).withMessage("Invalid type"),
-  //  check("endPoint.region").exists().withMessage("This field is mandatory").bail().isString(), //NON OBBLIGATORIO PER ENDPOINT
-  //  check("endPoint.province").exists().withMessage("This field is mandatory").bail().isString(), //NON OBBLIGATORIO PER ENDPOINT
-  //  check("endPoint.city").exists().withMessage("This field is mandatory").bail().isString(), //NON OBBLIGATORIO PER ENDPOINT
+    check('uploadDate').exists().bail().isISO8601().withMessage("The date must comply with the ISO8601 standard (YYYY-MM-DD)"),
     checksValidation, async (req, res) => {
         try {
-
             if (!req.files || req.files.File === undefined) {
                 return res.status(422).json({ error: `No GPX sent` });
             }
-            const gpx = req.files.File;
 
             //ste variabili mi servono fuori dal try, quindi le dichiaro fuori con let, poi le uso in try. Se le avessi dichiarate in try, fuori dal try non esisterebbero
             let totalLength;
@@ -103,15 +90,13 @@ router.put('/hikes',
             }
 
             //creo lo startPoint nel db
-            const startPoint = req.body.startPoint;
-            let pointOneId = await pointDao.addPoint(startPoint.name, startPoint.description, typeFormatter(startPoint.type), initialTrackPoint.latitude, initialTrackPoint.longitude, initialTrackPoint.elevation, startPoint.city, startPoint.province, startPoint.region);
+            let pointOneId = await pointDao.addPoint("Just GPS coordinates", "Just GPS coordinates", "GPS coordinates", initialTrackPoint.latitude, initialTrackPoint.longitude, initialTrackPoint.elevation, undefined, undefined, undefined);
 
             //creo lo endPoint nel db
-            const endPoint = req.body.endPoint;
-            let pointTwoId = await pointDao.addPoint(endPoint.name, endPoint.description, typeFormatter(endPoint.type), finalTrackPoint.latitude, finalTrackPoint.longitude, finalTrackPoint.elevation, endPoint.city, endPoint.province, endPoint.region);
+            let pointTwoId = await pointDao.addPoint("Just GPS coordinates", "Just GPS coordinates", "GPS coordinates", finalTrackPoint.latitude, finalTrackPoint.longitude, finalTrackPoint.elevation, undefined, undefined, undefined);
 
             //creo hike
-            const hikeId = await hikeDao.addHike(req.body.title, req.body.description, totalLength, req.body.expectedTime, ascent, difficultyFormatter(req.body.difficulty), pointOneId, pointTwoId, req.body.authorId, req.body.uploadDate, req.body.photoFile);
+            const hikeId = await hikeDao.addHike(req.body.title, req.body.description, totalLength, req.body.expectedTime, ascent, difficultyFormatter(req.body.difficulty), pointOneId, pointTwoId, req.user.id, req.body.uploadDate, req.body.photoFile);
 
             //linko hike e points in tabella hikePoint
             await pointDao.addPointHike(hikeId, pointOneId);
@@ -122,9 +107,10 @@ router.put('/hikes',
                 if (err) throw err;
             });
 
-            return res.status(201).json({message: "Hike inserted in the system" });
+            return res.status(201).json({ message: "Hike inserted in the system" });
 
         } catch (error) {
+            console.log(error)
             res.status(503).json({ error: `Service unavailable` });
         }
 
