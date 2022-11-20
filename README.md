@@ -220,8 +220,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 	"description":"kkk",
 	"expectedTime":33.33,
 	"difficulty":"Hiker",
-	"photoFile":"http:// ... ",
-     "uploadDate":"2022-02-02"
+	"photoFile":"http:// ... "
   }   
   ```
   - Request file: The GPX file

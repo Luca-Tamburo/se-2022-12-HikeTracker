@@ -15,7 +15,6 @@ import { useState } from "react";
 import { Button, Spinner, Row, Col, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Field, Formik, Form as FormikForm } from "formik";
-import dayjs from "dayjs";
 
 // Services
 import api from "../../services/api";
@@ -43,7 +42,6 @@ const AddHike = (props) => {
      formData.append('description', values.description);
      formData.append('expectedTime', values.expectedTime);
      formData.append('difficulty', values.difficulty);
-     formData.append('uploadDate', dayjs().format("YYYY-MM-DD"));
      formData.append('photoFile', values.photoFile);
     setLoading(true);
 

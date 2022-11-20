@@ -19,6 +19,7 @@ const isLoggedInLocalGuide = sessionUtil.isLoggedInLocalGuide;
 const isLoggedInHiker = sessionUtil.isLoggedInHiker;
 const fs = require('fs');
 const { typeValidator, difficultyValidator, typeFormatter, difficultyFormatter } = require("../utils/hikesUtils");
+const dayjs =require("dayjs");
 
 /**
  * Get hikes from the system
@@ -43,7 +44,6 @@ router.post('/hikes',
     check("expectedTime").exists().withMessage("This field is mandatory").bail().isNumeric(),
     check("difficulty").exists().withMessage("This field is mandatory").bail().isString().custom((value, { req }) => (difficultyValidator(value))).withMessage("Invalid difficulty"),
     check("photoFile").exists().withMessage("This field is mandatory").bail().isString(),
-    check('uploadDate').exists().bail().isISO8601().withMessage("The date must comply with the ISO8601 standard (YYYY-MM-DD)"),
     checksValidation, async (req, res) => {
 
         try {
@@ -97,7 +97,7 @@ router.post('/hikes',
             let pointTwoId = await pointDao.addPoint("Just GPS coordinates", "Just GPS coordinates", "GPS coordinates", finalTrackPoint.latitude, finalTrackPoint.longitude, finalTrackPoint.elevation, undefined, undefined, undefined);
 
             //creo hike
-            const hikeId = await hikeDao.addHike(req.body.title, req.body.description, totalLength, req.body.expectedTime, ascent, difficultyFormatter(req.body.difficulty), pointOneId, pointTwoId, req.user.id, req.body.uploadDate, req.body.photoFile);
+            const hikeId = await hikeDao.addHike(req.body.title, req.body.description, totalLength, req.body.expectedTime, ascent, difficultyFormatter(req.body.difficulty), pointOneId, pointTwoId, req.user.id,dayjs().format("YYYY-MM-DD"), req.body.photoFile);
 
             //linko hike e points in tabella hikePoint
             await pointDao.addPointHike(hikeId, pointOneId);
