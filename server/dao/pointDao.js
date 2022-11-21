@@ -1,10 +1,6 @@
 
 'use strict';
 
-//Open the database
-const db = require('./openDb');
-
-
 /**
  * Insert a new point
  * @param {string} name the name of the point
@@ -17,7 +13,7 @@ const db = require('./openDb');
  * @param {string} province the province of the point
  * @param {string} region the region of the point
  */
-exports.addPoint = (name,description,type,latitude,longitude,altitude,city,province,region) => {
+exports.addPoint = (db, name,description,type,latitude,longitude,altitude,city,province,region) => {
     return new Promise((resolve, reject) => {
         let sql = "INSERT INTO Point(name,description,type,latitude,longitude,altitude,city,province,region) VALUES (?,?,?,?,?,?,?,?,?)";
         db.run(sql, [name,description,type,latitude,longitude,altitude,city,province,region], function (err) {
@@ -31,7 +27,7 @@ exports.addPoint = (name,description,type,latitude,longitude,altitude,city,provi
     });
 }
 
-exports.addPointHike = (hikeId, pointId) => {
+exports.addPointHike = (db, hikeId, pointId) => {
     return new Promise(async (resolve, reject) => {
         let sql = "INSERT INTO HikePoint(hikeId,pointId) VALUES (?,?)";
         db.run(sql, [hikeId, pointId], (err) => {

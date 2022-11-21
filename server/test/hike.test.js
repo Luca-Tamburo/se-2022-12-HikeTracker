@@ -1,4 +1,11 @@
-const {getDetailsByHikeId, getPointsByHikeId, getHikes, getGpxByHikeId} = require("../../dao/hikeDao");
+const hike_DAO = require('../dao/hikeDao');
+const s = new SKUITEM_DAO()
+
+const database = require("../database");
+const db = database.db;
+
+
+const {getDetailsByHikeId, getPointsByHikeId, getHikes, getGpxByHikeId} = require("../dao/hikeDao");
 
 hikeDetails1 = {
     "id": 1,

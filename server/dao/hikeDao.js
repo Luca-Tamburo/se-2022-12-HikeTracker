@@ -12,10 +12,6 @@
 
 'use strict';
 
-//Open the database
-const db = require('./openDb');
-
-
 /**
  * Insert a new hike
  * @param {string} title the title of the hike
@@ -31,7 +27,7 @@ const db = require('./openDb');
  * @param {string} gpxFile the gpxFile of the hike
  * @param {string} photoFile the photoFile of the hike
  */
-exports.addHike = (title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate,  photoFile) => {
+exports.addHike = (db, title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate,  photoFile) => {
     return new Promise((resolve, reject) => {
         let sql = "INSERT INTO Hike(title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, photoFile) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
         db.run(sql, [title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate,  photoFile],
@@ -58,7 +54,7 @@ exports.addHike = (title, description, length, expectedTime, ascent, difficulty,
  * @param {string} gpxFile the gpxFile of the hike
  * @param {number} id the id of the hike
  */
- exports.addGpxToHike = (gpxFile,id) => {
+ exports.addGpxToHike = (db, gpxFile,id) => {
     return new Promise((resolve, reject) => {
     
     });
@@ -69,7 +65,7 @@ exports.addHike = (title, description, length, expectedTime, ascent, difficulty,
 /**
  * Get hikes from the system (general information)
  */
-exports.getHikes = () => {
+exports.getHikes = (db) => {
     return new Promise((resolve, reject) => {
         const sql = "SELECT Hike.id AS id, Hike.title AS title, Hike.description AS description,Hike.length AS length, Hike.expectedTime as expectedTime, Hike.ascent as ascent, Hike.difficulty as difficulty,"
             + " Hike.uploadDate AS uploadDate, Hike.photoFile AS photoFile,"
@@ -110,7 +106,7 @@ exports.getHikes = () => {
 /**
  * Get hike gpx by hike id
  */
-exports.getGpxByHikeId = (id) => {
+exports.getGpxByHikeId = (db, id) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM Hike WHERE id = ?';
         db.get(sql, [id], (err, row) => {
@@ -129,7 +125,7 @@ exports.getGpxByHikeId = (id) => {
 /**
  * Get hike detailed information by hike id
  */
-exports.getDetailsByHikeId = (id) => {
+exports.getDetailsByHikeId = (db, id) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT Hike.gpxFile as gpx,Hike.id AS id, Hike.title AS title, Hike.description AS description, Hike.uploadDate AS uploadDate, Hike.photoFile AS photoFile, Hike.length AS length, Hike.expectedTime AS expectedTime, Hike.ascent AS ascent, Hike.difficulty AS difficulty, Hike.startPointId AS startPointId, Hike.endPointId AS endPointId, User.name AS authorName, User.surname AS authorSurname FROM Hike JOIN User ON Hike.authorId = User.id WHERE Hike.id = ?';
         db.get(sql, [id], (err, r) => {
@@ -164,7 +160,7 @@ exports.getDetailsByHikeId = (id) => {
 /**
  * Get points by hike id
  */
-exports.getPointsByHikeId = (id) => {
+exports.getPointsByHikeId = (db, id) => {
     return new Promise((resolve, reject) => {
         const sql = "SELECT Point.id AS id, Point.name AS name, Point.description AS description, Point.type AS type, Point.latitude AS latitude, Point.longitude AS longitude, Point.altitude AS altitude, Point.city AS city, Point.province AS province FROM Point JOIN HikePoint ON Point.id = HikePoint.pointId WHERE HikePoint.hikeId = ?";
         db.all(sql, [id], (err, rows) => {
