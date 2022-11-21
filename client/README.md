@@ -127,6 +127,10 @@ This component contains the login form that calls the correlated API on submit.
 
 This component contains the register form that calls the correlated API on submit.
 
+### `Navbar`
+
+This component is a navigation bar with links to home, login and signup pages
+
 ## Main react views
 
 ### `Add Hike`
