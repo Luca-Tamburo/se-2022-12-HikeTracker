@@ -13,57 +13,96 @@
 // Imports
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
 import { Router, MemoryRouter } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
+import { act } from 'react-dom/test-utils';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 
 import LoginForm from './LoginForm'
 
+/*
+
+jest.mock('react-bootstrap', () => {
+    const Form = (props) => {
+        return (
+            <div>{props.children}</div>
+        );
+    }
+    return ({Form });
+})
+jest.mock('react-bootstrap', () => {
+    const Formik = (props) => {
+        return (
+            <div>{props.children}</div>
+        );
+    }
+    return ({Formik });
+})
+const mockInput = jest.fn();
+    jest.mock('../../utils/Input/Input', () => () => {
+        mockInput();
+        return <mock-Input data-testid='Input' />
+    })*/
+
+
+
 describe('LoginForm', () => {
 
-    const onSubmit = jest.fn();
+  
+    const handleSubmit = jest.fn();
+    beforeEach(() => {
+        handleSubmit.mockClear();
+         render(<LoginForm handleSubmit={handleSubmit} />);
+        
+    });
 
     it('Check if LoginForm has email label', () => {
-        render(<LoginForm />, { wrapper: MemoryRouter });
+
         expect(screen.getByText(/email/i)).toBeInTheDocument();
     });
 
     it('Check if LoginForm has password label', () => {
-        render(<LoginForm />, { wrapper: MemoryRouter });
+
         expect(screen.getByText(/password/i)).toBeInTheDocument();
     });
 
     it('Check if LoginForm has email field', () => {
-        render(<LoginForm />, { wrapper: MemoryRouter });
+
         expect(screen.getByRole('textbox', { name: /email/i })).toBeInTheDocument();
     });
 
 
     it('Check if LoginForm has password field', () => {
-        render(<LoginForm />, { wrapper: MemoryRouter });
-        expect(screen.getByRole('textbox', { name: /password/i })).toBeInTheDocument();
+
+        expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
     });
 
 
     it('Check if LoginForm has login button', () => {
-        render(<LoginForm />, { wrapper: MemoryRouter });
+
         expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
     });
 
-    it('onSubmit is called after validation', async () => {
+    it('handleSubmit is called after validation', async () => {
+
 
         const email = screen.getByRole('textbox', { name: /email/i });
-        const password = screen.getByRole('textbox', { name: /password/i });
+        const password = screen.getByLabelText(/password/i);
         const submitButton = screen.getByRole('button', { name: /login/i });
+        
+        act(() => { 
         userEvent.type(email, 'testEmail@gmail.com');
-        userEvent.type(password, 'testPassword');
-        userEvent.click(submitButton);
+         userEvent.type(password, 'testPassword1!');
+             
+         expect(submitButton).not.toBeDisabled();
 
-        await waitFor(() => {
-            expect(onSubmit).toHaveBeenCalledTimes(1);
+         userEvent.click(submitButton);
         })
-
-        expect(onSubmit).toHaveBeenCalledWith({ email: "testEmail@gmail.com", password: "testPassword" })
+        await waitFor(() => {
+            expect(handleSubmit).toHaveBeenCalledTimes(1);
+            expect(handleSubmit).toHaveBeenCalledWith({ email: "testEmail@gmail.com", password: "testPassword1!" });
+        })
 
     })
 })

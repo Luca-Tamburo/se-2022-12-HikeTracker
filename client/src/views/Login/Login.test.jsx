@@ -14,23 +14,30 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Router, MemoryRouter } from 'react-router-dom';
+import { act } from 'react-dom/test-utils';
 import { createMemoryHistory } from 'history';
 
 import Login from './Login';
 
 
 describe('LoginComponent', () => {
+    const handleSubmit = jest.fn();
+    beforeEach(() => {
+        handleSubmit.mockClear();
+        render(<Login handleSubmit={handleSubmit} />,{ wrapper: MemoryRouter }); 
+        
+    });
     it('Check if Login has title', () => {
-        render(<Login />, { wrapper: MemoryRouter });
+;
         expect(screen.getByRole('heading', {
             name: /login/i
           })).toBeInTheDocument();
     });
     it('Check if Login has Image', () => {
-        render(<Login />, { wrapper: MemoryRouter });
-        expectscreen.getByRole('img', {
+
+        expect(screen.getByRole('img', {
             name: /home/i
-          }).toBeInTheDocument();
+          })).toBeInTheDocument();
     });
 
 });
