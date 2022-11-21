@@ -26,13 +26,14 @@ import useNotification from '../../hooks/useNotification';
 
 
 const Hike = (props) => {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [hikes, setHikes] = useState([]);
     const notify = useNotification();
 
     const [filter, setFilter] = useState([]);
 
     useEffect(() => {
+        setLoading(true);
         api.getHikes()
             .then(hikes => {
                 setHikes(hikes);

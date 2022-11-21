@@ -74,20 +74,13 @@ const App = () => {
       .catch((err) => notify.error(err.error));
   };
 
-  // if (loading)
-  //   return (
-  //     <div className='d-flex justify-content-center m-5'>
-  //       <Spinner as='span' animation='border' size='xl' role='status' aria-hidden='true' />
-  //       <h1 className='fw-bold mx-4'>LOADING...</h1>
-  //     </div>
-  //   )
   return (
     //crei provider context
     <AuthContext.Provider value={{ userInfo, isloggedIn }}>
       <Utils.AppContainer isloggedIn={isloggedIn} userInfo={userInfo} handleLogout={handleLogout}>
         <Routes location={location} key={location.pathname}>
           <Route index path='/' element={<View.Home />} />
-          <Route path='/login' element={<View.Login handleSubmit={handleSubmit} />} />
+          <Route path='/login' element={<View.Login handleSubmit={handleSubmit} />} />  
           <Route path='/signup' element={<View.Register />} />
           <Route path='/signup/:role' element={<View.RegisterRole />} />
           <Route path='/hikes' element={<View.Hike />} />
