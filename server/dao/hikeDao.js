@@ -164,14 +164,14 @@ exports.getDetailsByHikeId = (id) => {
 /**
  * Get points by hike id
  */
-exports.getPointsByHikeId = (hikeId) => {
+exports.getPointsByHikeId = (id) => {
     return new Promise((resolve, reject) => {
         const sql = "SELECT Point.id AS id, Point.name AS name, Point.description AS description, Point.type AS type, Point.latitude AS latitude, Point.longitude AS longitude, Point.altitude AS altitude, Point.city AS city, Point.province AS province FROM Point JOIN HikePoint ON Point.id = HikePoint.pointId WHERE HikePoint.hikeId = ?";
-        db.all(sql, [hikeId], (err, rows) => {
+        db.all(sql, [id], (err, rows) => {
             if (err) {
                 reject(err);
             }
-            const hikes = rows.map((r) => (
+            const points = rows.map((r) => (
                 {
                     id: r.id,
                     name: r.name,
@@ -184,7 +184,7 @@ exports.getPointsByHikeId = (hikeId) => {
                     province: r.province
                 }
             ));
-            resolve(hikes);
+            resolve(points);
         });
     });
 }
