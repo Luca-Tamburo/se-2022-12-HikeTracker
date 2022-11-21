@@ -17,11 +17,12 @@ const passport = require("passport"); // auth middleware
 const LocalStrategy = require("passport-local").Strategy; // email and password for login
 const userDao = require("../dao/userDao"); // module for accessing the users in the DB
 const session = require("express-session"); // enable sessions
+const db = require('../routes/openDb');
 
 /*** Set up Passport ***/
 passport.use(
     new LocalStrategy({ usernameField: "email" }, function (email, password, done) {
-        userDao.getUser(email.toLowerCase(), password).then((user) => {
+        userDao.getUser(db, email.toLowerCase(), password).then((user) => {
             if (!user)
                 return done(null, false, {
                     error: "Incorrect email and/or password.",
@@ -43,7 +44,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-    userDao.getUserById(id).then((user) => {
+    userDao.getUserById(db, id).then((user) => {
         return done(null, user);
     })
         .catch((err) => {

@@ -20,6 +20,8 @@ const isLoggedIn=sessionUtil.isLoggedIn;
 const { check, checksValidation } = require("../utils/validationUtil");
 const userDao = require("../dao/userDao"); // module for accessing the users in the DB
 
+const db = require('./openDb');
+
 /*** TEST API ***/
 
 // GET /api/test
@@ -88,7 +90,7 @@ router.delete("/sessions/current", isLoggedIn, (req, res) => {
 router.get("/sessions/current", async (req, res) => {
     try {
         if (req.isAuthenticated()) {
-            const userInfo=await userDao.getUserAllInfosById(req.user.id);
+            const userInfo=await userDao.getUserAllInfosById(db, req.user.id);
             res.status(200).json(userInfo);
         } else res.status(401).json({ error: "Unauthenticated user!" });
     } catch (error) {

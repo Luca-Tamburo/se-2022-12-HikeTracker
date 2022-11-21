@@ -21,7 +21,7 @@ const fs = require('fs');
 const { typeValidator, difficultyValidator, typeFormatter, difficultyFormatter } = require("../utils/hikesUtils");
 const dayjs =require("dayjs");
 
-const db = require('../dao/openDb');
+const db = require('./openDb');
 
 /**
  * Get hikes from the system

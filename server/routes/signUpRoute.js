@@ -11,7 +11,7 @@ const path = require('path');
 const { roleValidator, optionalBecomeMandatory, emailAvailabilityCheck, usernameAvailabilityCheck,roleFormatter } = require("../utils/signUpUtils");
 const isNotLoggedIn = sessionUtils.isNotLoggedIn;
 
-
+const db = require('./openDb');
 
 // POST /api/signup
 // Sign up a new user
@@ -86,7 +86,7 @@ router.post("/signup", isNotLoggedIn,
             const phone = req.body.phoneNumber ? req.body.phoneNumber.trim() : null;
             
             //mando dati a dao
-            userDao.addUser(req.body.email.trim(), req.body.username.trim(), roleFormatter(req.body.role.trim()), name, surname, phone, req.body.password, jwt);
+            userDao.addUser(db, req.body.email.trim(), req.body.username.trim(), roleFormatter(req.body.role.trim()), name, surname, phone, req.body.password, jwt);
 
             //mando mail di conferma
             nodemailer.sendConfirmationEmail(req.body.username, req.body.email, url);
@@ -103,7 +103,7 @@ router.get("/signup/:confirmationCode",
         try {
 
             //chiamo una funzione di userdao che ritorna true se è riuscita a confermare l'utente, false altrimenti 
-            const ok = await userDao.activateUser(req.params.confirmationCode);
+            const ok = await userDao.activateUser(db, req.params.confirmationCode);
 
             //se tutto ok, ritorno una pagina html di conferma, altrimenti una pagina html di errore
             ok ?

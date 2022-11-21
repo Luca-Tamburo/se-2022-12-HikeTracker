@@ -13,15 +13,11 @@
 
 const crypto = require('crypto');
 
-//Open the database
-const db = require('./openDb');
-
-
 /**
  * Get the user info to put in the cookie, given the id
  * @param {number} id the id of the user
  */
-exports.getUserById = (id) => {
+exports.getUserById = (db, id) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM user WHERE id = ?';
         db.get(sql, [id], (err, row) => {
@@ -41,7 +37,7 @@ exports.getUserById = (id) => {
     });
 };
 
-exports.getUserAllInfosById = (id) => {
+exports.getUserAllInfosById = (db, id) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM user WHERE id = ?';
         db.get(sql, [id], (err, row) => {
@@ -70,7 +66,7 @@ exports.getUserAllInfosById = (id) => {
 * @param {string} email the email of the user to check
 * @param {string} password the password of the user to check
 */
-exports.getUser = (email, password) => {
+exports.getUser = (db, email, password) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM user WHERE email = ?';
         db.get(sql, [email], (err, row) => {
@@ -106,7 +102,7 @@ exports.getUser = (email, password) => {
  * Get the user id, given the email
  * @param {string} email the email of the user
  */
-exports.getUserByEmail = (email) => {
+exports.getUserByEmail = (db, email) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT id FROM user WHERE email = ?';
         db.get(sql, [email], (err, row) => {
@@ -126,7 +122,7 @@ exports.getUserByEmail = (email) => {
 * Get the user id, given the username
 * @param {string} username the email of the user
 */
-exports.getUserByUsername = (username) => {
+exports.getUserByUsername = (db, username) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT id FROM user WHERE username = ?';
         db.get(sql, [username], (err, row) => {
@@ -153,7 +149,7 @@ exports.getUserByUsername = (username) => {
  * @param {string} password the user password
  * @param {string} confirmationCode the user confirmationCode
  */
-exports.addUser = (email, username, role, name, surname, phoneNumber, password, confirmationCode) => {
+exports.addUser = (db, email, username, role, name, surname, phoneNumber, password, confirmationCode) => {
    
     //creo sale
     const salt = crypto.randomBytes(8).toString('hex');
@@ -177,7 +173,7 @@ exports.addUser = (email, username, role, name, surname, phoneNumber, password, 
 * Activate a user, given the confirmationCode
 * @param {string} confirmationCode the email of the user
 */
-exports.activateUser = (confirmationCode) => {
+exports.activateUser = (db, confirmationCode) => {
     return new Promise((resolve, reject) => {
         let sql = 'SELECT id FROM user WHERE confirmationCode=?';
         db.get(sql, [confirmationCode], (err, row) => {
@@ -202,7 +198,7 @@ exports.activateUser = (confirmationCode) => {
 * Delete a user, given the username. FOR TESTING
 * @param {string} username the username of the user
 */
-exports.deleteUser = (username) => {
+exports.deleteUser = (db, username) => {
 
     return new Promise((resolve, reject) => {
         const sql = `DELETE FROM user WHERE username = ?`;
