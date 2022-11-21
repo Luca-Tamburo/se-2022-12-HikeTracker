@@ -10,29 +10,30 @@
  * --------------------------------------------------------------------
  */
 
-//Imports
+// Imports
 import { Button } from "react-bootstrap";
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
 
-//Components - utils
-import Input from '../../utils/Input'
+// Components - utils
+import Input from "../../utils/Input/Input";
+
+// Validations
+import LoginSchema from "../../../validation/LoginSchema";
 
 const LoginForm = (props) => {
-
-  const LoginSchema = Yup.object().shape({
-    email: Yup.string().email("Email not valid").required("Email Required"),
-    password: Yup.string().required("Password Required"),
-  });
-
   return (
-    <Formik validateOnMount initialValues={{ email: "", password: "" }} validationSchema={LoginSchema} onSubmit={(values) => props.handleSubmit(values)}>
+    <Formik
+      validateOnMount
+      initialValues={{ email: "", password: "" }}
+      validationSchema={LoginSchema}
+      onSubmit={(values) => props.handleSubmit(values)}
+    >
       {({ touched, isValid }) => {
         const disableSubmit = (!touched.email && !touched.password) || !isValid;
         return (
           <Form>
-            <Input className="mt-3" id="login-email" name="email" type="email" placeholder="Insert your email" label="Email" />
-            <Input className="mt-3" id="login-password" name="password" type="password" placeholder="Insert your password" label="Password" />
+            <Input className="mt-3" id="login-email" name="email" type="email" placeholder="Insert your email" label="Email"/>
+            <Input className="mt-3" id="login-password" name="password" type="password" placeholder="Insert your password" label="Password"/>
             <Button variant="primary" type="submit" className="w-100 fw-semibold border mt-4 py-2" disabled={disableSubmit}>
               Login
             </Button>

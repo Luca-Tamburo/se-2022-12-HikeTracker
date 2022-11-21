@@ -78,16 +78,9 @@ const api = {
         })
     },
 
-    putHike: (formData) => {
-
+    addHike: (formData) => {
         return new Promise((resolve, reject) => {
-
-
-            axios.put(SERVER_URL + 'hikes', formData, { withCredentials: true }, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            })
+            axios.post(SERVER_URL + 'hikes', formData, { withCredentials: true })
                 .then((res) => resolve(res.data))
                 .catch((err) => reject(err.response.data));
         })

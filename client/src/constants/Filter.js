@@ -29,7 +29,6 @@ const Difficulty = [
     { value: '1', title: 'Tourist' },
     { value: '2', title: 'Hiker' },
     { value: '3', title: 'Professional Hiker' },
-    { value: '4', title: 'Professional Hiker with equipment' },
 ]
 
 const ExpectedTime = [

@@ -67,6 +67,11 @@ Here you can find a visual schema of source directory structure by means the tre
                |--- /useNotification.js
           |--- /services
                |--- /api.js
+          |--- /validation
+               |--- /AddHikeSchema.js
+               |--- /LoginSchema.js
+               |--- /RegisterAdvancedSchema.js
+               |--- /RegisterSchema.js
           |--- /views
                |--- /AddHike
                     |--- /AddHike.jsx
@@ -76,7 +81,7 @@ Here you can find a visual schema of source directory structure by means the tre
                     |--- /EmailErr.jsx
                |--- /ErrorView
                     |--- /ErrorView.jsx
-                    |--- /ErrorView.test.jsx   TDB
+                    |--- /ErrorView.test.jsx
                |--- /Hike
                     |--- /Hike.jsx
                     |--- /Hike.test.jsx
@@ -122,7 +127,19 @@ This component contains the login form that calls the correlated API on submit.
 
 This component contains the register form that calls the correlated API on submit.
 
-## Main react components
+## Main react views
+
+### `Add Hike`
+
+This page shows the form to add a hike.
+
+### `Hike`
+
+This page shows all the hikes in the db and allows you to filter the hikes based on predetermined parameters.
+
+### `Hike Details`
+
+This page shows all the information for a single hike. In addition, if you are a local guide, the map is also shown and you can download the gpx file.
 
 ## Getting Started with Create React App
 

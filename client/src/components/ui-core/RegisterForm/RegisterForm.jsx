@@ -11,28 +11,34 @@
  */
 
 // Imports
-import { Button, Row, Col } from "react-bootstrap";
+import { useState } from "react";
+import { Button, Row, Col, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import YupPassword from "yup-password";
 
 // Services
 import api from "../../../services/api";
 
 // Components
-import Input from "../../utils/Input";
+import Input from "../../utils/Input/Input";
+
+// Validation
+import RegisterSchema from "../../../validation/RegisterSchema";
+import RegisterAdvancedSchema from "../../../validation/RegisterAdvancedSchema";
+
+// Constants
+import registerForm from '../../../constants/registerForm'
 
 // Hooks
 import useNotification from "../../../hooks/useNotification";
 
-YupPassword(Yup); // extend yup
-
 const RegisterFormHiker = (props) => {
+  const [loading, setLoading] = useState(false);
   const notify = useNotification(); // Notification handler
   const navigate = useNavigate(); // Navigation handler
 
   const handleSubmit = (credentials) => {
+    setLoading(true);
     credentials["role"] = props.Role;
     api
       .addNewUser(credentials)
@@ -40,21 +46,9 @@ const RegisterFormHiker = (props) => {
         notify.success(` ${user.message}!`);
         navigate("/", { replace: true });
       })
-      .catch((err) => {notify.error(err.error)});
+      .catch((err) => { notify.error(err.error) })
+      .finally(() => setLoading(false));
   };
-
-  const RegisterSchema = Yup.object().shape({
-    username: Yup.string().required("Username requested").matches(
-      /^[A-Za-z_][A-Za-z0-9_]+$/,
-      "Not valid username"
-    ),
-    email: Yup.string().email("Email is not valid").required("Email needed"),
-    password: Yup.string().password().required("Password needed"),
-    passwordConfirmation: Yup.string().oneOf(
-      [Yup.ref("password"), null],
-      "Passwords must match"
-    ),
-  });
 
   return (
     <Formik
@@ -77,44 +71,21 @@ const RegisterFormHiker = (props) => {
           !isValid;
         return (
           <Form>
-            <Input
-              className="mt-3"
-              id="signup-username"
-              name="username"
-              type="text"
-              placeholder="Insert your username"
-              label="Username"
-            />
-            <Input
-              className="mt-3"
-              id="signup-email"
-              name="email"
-              type="email"
-              placeholder="Insert your email"
-              label="Email"
-            />
-            <Input
-              className="mt-3"
-              id="signup-password"
-              name="password"
-              type="password"
-              placeholder="Insert your password"
-              label="Password"
-            />
-            <Input
-              className="mt-3"
-              id="signup-confirmation-password"
-              name="passwordConfirmation"
-              type="password"
-              placeholder="Confirm your password"
-              label="Confirmation password"
-            />
-            <Button
-              variant="primary"
-              type="submit"
-              className="p-3 rounded-3 mt-4 w-100 fw-semibold"
-              disabled={disableSubmit}
-            >
+            {registerForm.map((input, index) => {
+              return (
+                <Input
+                key={index}
+                id={input.id}
+                name={input.name}
+                type={input.type}
+                placeholder={input.placeholder}
+                label={input.label}
+                className="mt-3"
+                />
+              )
+            })}
+            <Button variant="primary" type="submit" className="p-3 rounded-3 mt-4 w-100 fw-semibold" disabled={disableSubmit}>
+            {loading && <Spinner animation='border' size='sm' as='span' role='status' aria-hidden='true' className='me-2' />}
               Sign up
             </Button>
           </Form>
@@ -125,10 +96,12 @@ const RegisterFormHiker = (props) => {
 };
 
 const RegisterFormAdvanced = (props) => {
+  const [loading, setLoading] = useState(false);
   const notify = useNotification(); // Notification handler
   const navigate = useNavigate(); // Navigation handler
 
   const handleSubmit = (credentials) => {
+    setLoading(true);
     credentials["role"] = props.Role;
     api
       .addNewUser(credentials)
@@ -138,24 +111,9 @@ const RegisterFormAdvanced = (props) => {
       })
       .catch((err) => {
         notify.error(err.error);
-      });
+      })
+      .finally(() => setLoading(false));
   };
-
-  const RegisterSchema = Yup.object().shape({
-    username: Yup.string().required("Username requested").matches(
-      /^[A-Za-z_][A-Za-z0-9_]+$/,
-      "Not valid username"
-    ),
-    email: Yup.string().email("Email is not valid").required("Email needed"),
-    name: Yup.string().required("Name needed"),
-    surname: Yup.string().required("Name needed"),
-    password: Yup.string().password().required("Password needed"),
-    passwordConfirmation: Yup.string().oneOf(
-      [Yup.ref("password"), null],
-      "Passwords must match"
-    ),
-    phoneNumber: Yup.number().required("Phone number needed"),
-  });
 
   return (
     <Formik
@@ -169,7 +127,7 @@ const RegisterFormAdvanced = (props) => {
         name: "",
         surname: "",
       }}
-      validationSchema={RegisterSchema}
+      validationSchema={RegisterAdvancedSchema}
       onSubmit={(values) => handleSubmit(values)}
     >
       {({ touched, isValid }) => {
@@ -184,87 +142,34 @@ const RegisterFormAdvanced = (props) => {
             {/* TODO: Capire se si può rendere più compatto */}
             <Row>
               <Col>
-                <Input
-                  className="mt-3"
-                  id="signup-username"
-                  name="username"
-                  type="text"
-                  placeholder="Insert your username"
-                  label="Username"
-                />
+                <Input className="mt-3" id="signup-username" name="username" type="text" placeholder="Insert your username" label="Username"/>
               </Col>
               <Col>
-                <Input
-                  className="mt-3"
-                  id="signup-email"
-                  name="email"
-                  type="email"
-                  placeholder="Insert your email"
-                  label="Email"
-                />
+                <Input className="mt-3" id="signup-email" name="email" type="email" placeholder="Insert your email" label="Email"/>
               </Col>
             </Row>
             <Row>
               <Col>
-                <Input
-                  className="mt-3"
-                  id="signup-name"
-                  name="name"
-                  type="text"
-                  placeholder="Insert your name"
-                  label="Name"
-                />
+                <Input className="mt-3" id="signup-name" name="name" type="text" placeholder="Insert your name" label="Name"/>
               </Col>
               <Col>
-                <Input
-                  className="mt-3"
-                  id="signup-surname"
-                  name="surname"
-                  type="text"
-                  placeholder="Insert your surname"
-                  label="Surname"
-                />
+                <Input className="mt-3" id="signup-surname" name="surname" type="text" placeholder="Insert your surname" label="Surname"/>
               </Col>
             </Row>
             <Row>
               <Col>
-                <Input
-                  className="mt-3"
-                  id="signup-password"
-                  name="password"
-                  type="password"
-                  placeholder="Insert your password"
-                  label="Password"
-                />{" "}
+                <Input className="mt-3" id="signup-password" name="password" type="password" placeholder="Insert your password" label="Password"/>{" "}
               </Col>
               <Col>
-                <Input
-                  className="mt-3"
-                  id="signup-number"
-                  name="phoneNumber"
-                  type="text"
-                  placeholder="Insert your phone number"
-                  label="Phone number"
-                />
+                <Input className="mt-3" id="signup-number" name="phoneNumber" type="text" placeholder="Insert your phone number" label="Phone number"/>
               </Col>
             </Row>
             <Row>
-              <Input
-                className="mt-3"
-                id="signup-confirmation-password"
-                name="passwordConfirmation"
-                type="password"
-                placeholder="Confirm your password"
-                label="Confirmation password"
-              />
+              <Input className="mt-3" id="signup-confirmation-password" name="passwordConfirmation" type="password" placeholder="Confirm your password" label="Confirmation password"/>
             </Row>
             <Row>
-              <Button
-                variant="primary"
-                type="submit"
-                className="p-3 rounded-3 mt-4 w-100 fw-semibold"
-                disabled={disableSubmit}
-              >
+              <Button variant="primary" type="submit" className="p-3 rounded-3 mt-4 w-100 fw-semibold" disabled={disableSubmit}>
+              {loading && <Spinner animation='border' size='sm' as='span' role='status' aria-hidden='true' className='me-2' />}
                 Sign up
               </Button>
             </Row>

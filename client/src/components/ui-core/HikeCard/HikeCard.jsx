@@ -19,7 +19,7 @@ const HikeCard = ({ hike, loading }) => {
 
     if (!loading) {
         return (
-            <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 4 }} xl={{ span: 3 }} className='mt-4'>
+            <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 4 }} xl={{ span: 3 }} className='my-4'>
                 <Link to={`/hikes/${hike.id}`}>
                     <Card className='border-0 shadow' style={{ width: '18rem' }}>
                         <Card.Img alt='card-image' variant='top' src={hike.photoFile} style={{ height: '200px', objectFit: 'cover', objectPosition: 'center center' }} />
@@ -30,7 +30,7 @@ const HikeCard = ({ hike, loading }) => {
                                 <Card.Subtitle>{hike.uploadDate}</Card.Subtitle>
                             </div>
                             <hr />
-                            <Card.Text className='crop-text-20'>{hike.description}</Card.Text>
+                            <Card.Text className='crop-text-10'>{hike.description}</Card.Text>
                         </Card.Body>
                     </Card >
                 </Link>

@@ -35,9 +35,10 @@ const Navbar = (props) => {
                     <FaHome className='home-icon-navbar' />
                 </Link>
                 {/* TODO: Da cancellare quando avremo la pagina per la localGuide */}
-                {isloggedIn && userInfo.role === "localGuide" ? <Link to={'/addHike'}>
-                    <Button className='btn-navbar rounded-pill mx-sm-2'>Add Hike</Button>
-                </Link> : <></>}
+                {isloggedIn && userInfo.role === "localGuide" ?
+                    <Link to={'/addHike'}>
+                        <Button className='btn-navbar rounded-pill mx-sm-2'>Add Hike</Button>
+                    </Link> : <></>}
                 {!isloggedIn ?
                     <div className='d-flex d-sm-block flex-column justify-content-center align-items-center'>
                         <Link to={'/signup'}>
@@ -49,9 +50,6 @@ const Navbar = (props) => {
                     </div> :
                     <div className='d-flex d-sm-block justify-content-center align-items-center'>
                         <BiUser className='me-2' />
-                        {userInfo.role === 'localGuide' ? <Link to={'/addHike'}>
-                            <Button className='btn-navbar rounded-pill mx-sm-2'>Add Hike</Button>
-                        </Link> : <></>}
                         <span className='fw-bold'>{userInfo.username}</span>
                         <Button className='ms-3' onClick={props.handleLogout}>Logout</Button>
                     </div>

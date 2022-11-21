@@ -13,7 +13,7 @@
 // Imports
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'
-import { Row, Col, ListGroup, Button, NavItem } from 'react-bootstrap';
+import { Row, Col, ListGroup, Button, NavItem, Spinner } from 'react-bootstrap';
 import { useContext } from 'react';
 import { AuthContext } from "../../contexts/AuthContext";
 import { Link } from 'react-router-dom';
@@ -49,6 +49,7 @@ const HikeDetails = (props) => {
   const { hikeId } = useParams();
   const notify = useNotification();
   const [converted, setConverted] = useState();
+  const [loading, setLoading] = useState(false);
 
 
   const startIcon = L.icon({
@@ -61,6 +62,7 @@ const HikeDetails = (props) => {
   });
 
   useEffect(() => {
+    setLoading(true);
     api.getHikeDetails(hikeId)
       .then(hikes => {
         setHike(hikes);
@@ -90,11 +92,10 @@ const HikeDetails = (props) => {
         }        else
           notify.error(err.error)
       })
-  }, []); //eslint-disable-line react-hooks/exhaustive-deps
+      .finally(() => setLoading(false));
+  }, [loading]); //eslint-disable-line react-hooks/exhaustive-deps
 
-
-  
-
+  if(!loading) {
     return (
       <>
       {(hike&&hike.id>0)?
@@ -146,7 +147,7 @@ const HikeDetails = (props) => {
               </ListGroup>
             </div>
           </Col>
-          {isloggedIn && userInfo.role == 'hiker' ?
+          {isloggedIn && userInfo.role === 'hiker' ?
 
             <Col xs={7} className='m-0'>
               <MapContainer center={start} zoom={11} scrollWheelZoom={true}>
@@ -187,11 +188,19 @@ const HikeDetails = (props) => {
         </Row>
       </Col>
       :<>{
-        hike&&hike.id==-1?
+        hike&&hike.id===-1?
       <ErrorView></ErrorView>:<></>
     } </>     
     }</>
     )
+  }else {
+    return (
+      <div className='d-flex justify-content-center m-5'>
+      <Spinner as='span' animation='border' size='xl' role='status' aria-hidden='true' />
+      <h1 className='fw-bold mx-4'>LOADING...</h1>
+    </div>
+    );
+  }
 }
 
 export default HikeDetails;
