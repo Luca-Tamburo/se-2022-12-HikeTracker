@@ -16,25 +16,8 @@ import userEvent from '@testing-library/user-event';
 import { Router, MemoryRouter } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
-import Register from './Register';
+import Login from './Login';
 
-//Mock react-bootstrap
-jest.mock('react-bootstrap', () => {
-
-    const Container = (props) => {
-        return (
-            <div>{props.children}</div>
-        )
-    }
-
-    const Button = ({ children, ...props }) => {
-        return (
-            <button {...props}>{children}</button>
-        )
-    }
-
-    return ({ Button, Container });
-})
 
 describe('LoginComponent', () => {
     it('Check if Login has title', () => {

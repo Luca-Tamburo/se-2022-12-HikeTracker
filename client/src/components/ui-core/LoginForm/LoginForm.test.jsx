@@ -14,18 +14,11 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
+import { Router, MemoryRouter } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 
 import LoginForm from './LoginForm'
 
-jest.mock('react-bootstrap', () => {
-    const Button = ({ children, ...props }) => {
-        return (
-            <button {...props}>{children}</button>
-        )
-    }
-
-    return ({ Button });
-})
 describe('LoginForm', () => {
 
     const onSubmit = jest.fn();
