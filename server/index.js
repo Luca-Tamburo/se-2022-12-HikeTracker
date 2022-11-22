@@ -11,64 +11,17 @@
 
 'use strict';
 
-//Importing modules
-const express = require("express");
-const morgan = require("morgan");       //loggin middleware
-const cors = require("cors");
-const {passport, session} = require("./utils/sessionUtil");
-const fileupload = require("express-fileupload");
+//va messo prima di tutto questo comando, per inizializzare la variabile di stato. Così metti il setting a normale. E usi il db normale
+const { setTesting }=require('./test/mockDB/iAmTesting');
+setTesting(0);
 
-//Importing routes
-const sessionRoute = require("./routes/sessionRoute");
-const signUpRoute = require("./routes/signUpRoute");
-const hikeRoute = require("./routes/hikeRoute");
+//App va chiamata per gli integration test, ma se la chiamo da index, 
+//index setta testing a 0 e quindi poi nei test si utilizza il db normale al posto del Mock
+//Quindi app viene configurato in un altro file indipendente dallo stato di testing 
+const {setApp}=require('./utils/appUtil');
 
-// init express
-const app = new express();
-const port = 3001;
-
-//to use files in apis
-app.use(fileupload());
-app.use(express.urlencoded({ extended: true }));
-
-
-// set-up the middlewares
-app.use(morgan("dev"));
-app.use(express.json());
-
-//Set up and enable Cross-Origin Resource Sharing (CORS)
-const corsOptions = {
-    origin: "http://localhost:3000",
-    credentials: true,
-};
-app.use(cors(corsOptions));
-
-// set up the session
-app.use(
-    session({
-        // by default, Passport uses a MemoryStore to keep track of the sessions
-        secret: "If you don't try, you've already failed",
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            sameSite: "strict", // Remove SameSite Warning
-        },
-    })
-);
-
-// init passport with the session
-app.use(passport.initialize());
-app.use(passport.session());
-
-
-/* --- APIs --- */
-app.use("/api", sessionRoute,signUpRoute, hikeRoute);
-
-
-// activate the server
-app.listen(port, () => {
-    console.log(`Server listening at http://localhost:${port}`);
-});
+// ecco appc
+const app = setApp();
 
 
 

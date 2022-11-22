@@ -1,7 +1,6 @@
 'use strict';
 
 const userDao = require("../dao/userDao"); // module for accessing the users in the DB
-const db = require('../routes/openDb');
 
 //custom rule to check the inserted role to be in the list of possible roles
 const roleValidator = (inputRole) => {
@@ -17,7 +16,7 @@ const optionalBecomeMandatory = (inputRole) => {
 
 // custom middleware: check if a given email is already in the system
 const emailAvailabilityCheck = (req, res, next) => {
-    userDao.getUserByEmail(db, req.body.email)
+    userDao.getUserByEmail(req.body.email)
         .then((value) => {
             return value === undefined ? next() : res.status(409).json({ error: `Email already in the system!` });
         })
@@ -25,7 +24,7 @@ const emailAvailabilityCheck = (req, res, next) => {
 
 // custom middleware: check if a given username is already in the system
 const usernameAvailabilityCheck = (req, res, next) => {
-    userDao.getUserByUsername(db, req.body.username)
+    userDao.getUserByUsername(req.body.username)
         .then((value) => {
             return value === undefined ? next() : res.status(409).json({ error: `Username already in the system!` });
         })
@@ -47,4 +46,4 @@ const roleFormatter = (role) => {
     }
     return roleFormatted;
 }
-module.exports = { roleValidator, optionalBecomeMandatory,emailAvailabilityCheck,usernameAvailabilityCheck,roleFormatter };
+module.exports = { roleValidator, optionalBecomeMandatory, emailAvailabilityCheck, usernameAvailabilityCheck, roleFormatter };

@@ -21,7 +21,6 @@ const fs = require('fs');
 const { typeValidator, difficultyValidator, typeFormatter, difficultyFormatter } = require("../utils/hikesUtils");
 const dayjs = require("dayjs");
 
-const db = require('./openDb');
 
 /**
  * Get hikes from the system
@@ -29,7 +28,7 @@ const db = require('./openDb');
 
 router.get('/hikes', [], async (req, res) => {
     try {
-        let hikes = await hikeDao.getHikes(db);
+        let hikes = await hikeDao.getHikes();
         return res.status(200).json(hikes); //Return list of Hikes
     } catch (error) { res.status(503).json({ error: `Service unavailable` }); }
 
@@ -93,17 +92,17 @@ router.post('/hikes',
             }
 
             //creo lo startPoint nel db
-            let pointOneId = await pointDao.addPoint(db, "Just GPS coordinates", "Just GPS coordinates", "GPS coordinates", initialTrackPoint.latitude, initialTrackPoint.longitude, initialTrackPoint.elevation, undefined, undefined, undefined);
+            let pointOneId = await pointDao.addPoint( "Just GPS coordinates", "Just GPS coordinates", "GPS coordinates", initialTrackPoint.latitude, initialTrackPoint.longitude, initialTrackPoint.elevation, undefined, undefined, undefined);
 
             //creo lo endPoint nel db
-            let pointTwoId = await pointDao.addPoint(db, "Just GPS coordinates", "Just GPS coordinates", "GPS coordinates", finalTrackPoint.latitude, finalTrackPoint.longitude, finalTrackPoint.elevation, undefined, undefined, undefined);
+            let pointTwoId = await pointDao.addPoint( "Just GPS coordinates", "Just GPS coordinates", "GPS coordinates", finalTrackPoint.latitude, finalTrackPoint.longitude, finalTrackPoint.elevation, undefined, undefined, undefined);
 
             //creo hike
-            const hikeId = await hikeDao.addHike(db, req.body.title, req.body.description, totalLength, req.body.expectedTime, ascent, difficultyFormatter(req.body.difficulty), pointOneId, pointTwoId, req.user.id, dayjs().format("YYYY-MM-DD"), req.body.photoFile);
+            const hikeId = await hikeDao.addHike( req.body.title, req.body.description, totalLength, req.body.expectedTime, ascent, difficultyFormatter(req.body.difficulty), pointOneId, pointTwoId, req.user.id, dayjs().format("YYYY-MM-DD"), req.body.photoFile);
 
             //linko hike e points in tabella hikePoint
-            await pointDao.addPointHike(db, hikeId, pointOneId);
-            await pointDao.addPointHike(db, hikeId, pointTwoId);
+            await pointDao.addPointHike( hikeId, pointOneId);
+            await pointDao.addPointHike( hikeId, pointTwoId);
 
             //QUANDO CREI IL FILE, CREALO CON IDHIKE_TITOLOHIKE.gpx
             fs.writeFileSync(`./utils/gpxFiles/${hikeId}_${req.body.title.replace(/ /g, '_')}.gpx`, `${req.files.File.data}`, function (err) {
@@ -113,7 +112,6 @@ router.post('/hikes',
             return res.status(201).json({ message: "Hike inserted in the system" });
 
         } catch (error) {
-            console.log(error)
             res.status(503).json({ error: `Service unavailable` });
         }
 
@@ -127,7 +125,7 @@ router.get('/hikegpx/:hikeId', check('hikeId').isInt().withMessage('hikeId must 
         if (!errors.isEmpty())
             return res.status(404).json({ error: `Hike not found` });
         try {
-            let gpx = await hikeDao.getGpxByHikeId(db, req.params.hikeId);
+            let gpx = await hikeDao.getGpxByHikeId( req.params.hikeId);
             if (gpx !== undefined) {
                 req.params.hikeId = 2;
                 res.download(path.join(__dirname, `..//utils/gpxFiles/${gpx}`));
@@ -148,14 +146,14 @@ router.get('/hikedetails/:hikeId', check('hikeId').isInt().withMessage('hikeId m
             return res.status(404).json({ error: `Hike not found` });
         try {
             //Hike detailed information is collected
-            let hike = await hikeDao.getDetailsByHikeId(db, req.params.hikeId);
+            let hike = await hikeDao.getDetailsByHikeId( req.params.hikeId);
             if (hike === undefined)
                 return res.status(404).json({ error: `Hike not found` });
             const gpx = hike.gpx;
             let gpxContent = req.isAuthenticated() ? fs.readFileSync(path.join(__dirname, `..//utils/gpxFiles/${gpx}`), "utf8") : "";
 
             //Points information for that hike is collected
-            let dbList = await hikeDao.getPointsByHikeId(db, req.params.hikeId);
+            let dbList = await hikeDao.getPointsByHikeId( req.params.hikeId);
 
             hike = {
                 ...hike,

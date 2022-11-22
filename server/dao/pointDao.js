@@ -1,6 +1,12 @@
 
 'use strict';
-
+const { iAmTesting } = require('../test/mockDB/iAmTesting');
+const getMock = () => {
+    //faccio il require del mock solo se sto in testing
+    const { mockDB } = require('../test/mockDB/mockDB');
+    return mockDB;
+}
+const db = iAmTesting() ? getMock() : require('./openDb');
 /**
  * Insert a new point
  * @param {string} name the name of the point
@@ -13,10 +19,10 @@
  * @param {string} province the province of the point
  * @param {string} region the region of the point
  */
-exports.addPoint = (db, name,description,type,latitude,longitude,altitude,city,province,region) => {
+exports.addPoint = (name, description, type, latitude, longitude, altitude, city, province, region) => {
     return new Promise((resolve, reject) => {
         let sql = "INSERT INTO Point(name,description,type,latitude,longitude,altitude,city,province,region) VALUES (?,?,?,?,?,?,?,?,?)";
-        db.run(sql, [name,description,type,latitude,longitude,altitude,city,province,region], function (err) {
+        db.run(sql, [name, description, type, latitude, longitude, altitude, city, province, region], function (err) {
             if (err) {
                 reject(err);
             }
@@ -27,7 +33,7 @@ exports.addPoint = (db, name,description,type,latitude,longitude,altitude,city,p
     });
 }
 
-exports.addPointHike = (db, hikeId, pointId) => {
+exports.addPointHike = (hikeId, pointId) => {
     return new Promise(async (resolve, reject) => {
         let sql = "INSERT INTO HikePoint(hikeId,pointId) VALUES (?,?)";
         db.run(sql, [hikeId, pointId], (err) => {
