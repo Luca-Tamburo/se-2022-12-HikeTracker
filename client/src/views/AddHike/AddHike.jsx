@@ -11,10 +11,13 @@
  */
 
 //Imports
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Button, Spinner, Row, Col, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Field, Formik, Form as FormikForm } from "formik";
+
+//Contexts
+import { AuthContext } from '../../contexts/AuthContext';
 
 // Services
 import api from "../../services/api";
@@ -29,10 +32,16 @@ import AddHikeSchema from "../../validation/AddHikeSchema";
 import useNotification from "../../hooks/useNotification";
 
 const AddHike = (props) => {
+  const { userInfo, isloggedIn } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const notify = useNotification(); // Notification handler
   const navigate = useNavigate(); // Navigation handler
   const [selectedFile, setSelectedFile] = useState();
+
+  useEffect(() => {
+    if (isloggedIn && userInfo.role !== "localGuide")
+      navigate('/', { replace: true });
+  }, [isloggedIn]); //eslint-disable-line react-hooks/exhaustive-deps
 
   const initialValues = {
     title: "",
@@ -73,38 +82,38 @@ const AddHike = (props) => {
         onSubmit={(values) => handleSubmit(values)}
       >
         {({ values, handleSubmit, touched, isValid, setFieldValue }) => {
-          const disableSubmit = (!touched.title && !touched.photoFile && !touched.description && !touched.difficulty && !touched.expectedTime &&!touched.file) || !isValid;
+          const disableSubmit = (!touched.title && !touched.photoFile && !touched.description && !touched.difficulty && !touched.expectedTime && !touched.file) || !isValid;
           return (
             // TODO: Da portare in components e qui importare il singolo componente
             <Col xs={{ span: 10, offset: 1 }} className="mt-3">
               <FormikForm>
                 <Row>
                   <Col>
-                    <Input className="mt-3" id="title" name="title" type="text" placeholder="Insert the hike name" label="Name"/>
+                    <Input className="mt-3" id="title" name="title" type="text" placeholder="Insert the hike name" label="Name" />
                   </Col>
                   <Col>
-                    <Input className="mt-3" id="photoFile" name="photoFile" type="text" placeholder="Insert the hike url image" label="Image"/>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Input className="mt-3" id="difficulty" name="difficulty" type="select" placeholder="Insert the hike difficulty" label="Difficulty"/>
-                  </Col>
-                  <Col>
-                    <Input className="mt-3" id="expectedTime" name="expectedTime" type="text" placeholder="Insert the hike expected time in hour" label="Expected Time"/>
+                    <Input className="mt-3" id="photoFile" name="photoFile" type="text" placeholder="Insert the hike url image" label="Image" />
                   </Col>
                 </Row>
                 <Row>
                   <Col>
-                    <Input className="mt-3" id="description" name="description" type="text" placeholder="Insert the hike description" label="Description"/>
+                    <Input className="mt-3" id="difficulty" name="difficulty" type="select" placeholder="Insert the hike difficulty" label="Difficulty" />
+                  </Col>
+                  <Col>
+                    <Input className="mt-3" id="expectedTime" name="expectedTime" type="text" placeholder="Insert the hike expected time in hour" label="Expected Time" />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Input className="mt-3" id="description" name="description" type="text" placeholder="Insert the hike description" label="Description" />
                   </Col>
                   <Col>
                     <label for="file" className="fw-semibold fst-italic mt-3">File upload</label>
                     <input id="file" name="file" type="file" className="d-flex mt-3" onChange={(event) => {
-                        event.preventDefault();
-                        setSelectedFile(event.target.files[0]);
-                        setFieldValue("file", event.currentTarget.files[0]);
-                      }}
+                      event.preventDefault();
+                      setSelectedFile(event.target.files[0]);
+                      setFieldValue("file", event.currentTarget.files[0]);
+                    }}
                     />
                   </Col>
                 </Row>
@@ -119,7 +128,7 @@ const AddHike = (props) => {
                     </Row> */}
                 <Row>
                   <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}>
-                    {loading && (<Spinner animation="border" size="sm" as="span" role="status" aria-hidden="true" className="me-2"/>)}
+                    {loading && (<Spinner animation="border" size="sm" as="span" role="status" aria-hidden="true" className="me-2" />)}
                     Submit
                   </Button>
                 </Row>

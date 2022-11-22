@@ -80,13 +80,13 @@ const App = () => {
       <Utils.AppContainer isloggedIn={isloggedIn} userInfo={userInfo} handleLogout={handleLogout}>
         <Routes location={location} key={location.pathname}>
           <Route index path='/' element={<View.Home />} />
-          <Route path='/login' element={<View.Login handleSubmit={handleSubmit} />} />  
-          <Route path='/signup' element={<View.Register />} />
-          <Route path='/signup/:role' element={<View.RegisterRole />} />
+          <Route path='/login' element={<View.Login handleSubmit={handleSubmit} />} />
           <Route path='/hikes' element={<View.Hike />} />
           <Route path='/hikes/:hikeId' element={<View.HikeDetails isloggedIn={isloggedIn} userInfo={userInfo} />} />
           <Route path='/addHike' element={<View.AddHike userInfo={userInfo} />} />
           <Route element={<Utils.ProtectedRoute />}>
+            <Route path='/signup' element={<View.Register />} />
+            <Route path='/signup/:role' element={<View.RegisterRole />} />
             <Route path='/email/confirmed' element={<View.EmailConf />} />
             <Route path='/email/error' element={<View.EmailErr />} />
           </Route>
