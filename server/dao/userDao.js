@@ -12,12 +12,19 @@
 
 
 const crypto = require('crypto');
-
+const { iAmTesting } = require('../test/mockDB/iAmTesting');
+const getMock = () => {
+    //faccio il require del mock solo se sto in testing
+    const { mockDB } = require('../test/mockDB/mockDB');
+    return mockDB;
+}
+const db = iAmTesting() ? getMock() : require('./openDb');
+console.log(`sto testando? ${iAmTesting()?`si`:`no`}`);
 /**
  * Get the user info to put in the cookie, given the id
  * @param {number} id the id of the user
  */
-exports.getUserById = (db, id) => {
+exports.getUserById = (id) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM user WHERE id = ?';
         db.get(sql, [id], (err, row) => {
@@ -37,7 +44,7 @@ exports.getUserById = (db, id) => {
     });
 };
 
-exports.getUserAllInfosById = (db, id) => {
+exports.getUserAllInfosById = (id) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM user WHERE id = ?';
         db.get(sql, [id], (err, row) => {
@@ -66,7 +73,7 @@ exports.getUserAllInfosById = (db, id) => {
 * @param {string} email the email of the user to check
 * @param {string} password the password of the user to check
 */
-exports.getUser = (db, email, password) => {
+exports.getUser = (email, password) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM user WHERE email = ?';
         db.get(sql, [email], (err, row) => {
@@ -102,7 +109,7 @@ exports.getUser = (db, email, password) => {
  * Get the user id, given the email
  * @param {string} email the email of the user
  */
-exports.getUserByEmail = (db, email) => {
+exports.getUserByEmail = (email) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT id FROM user WHERE email = ?';
         db.get(sql, [email], (err, row) => {
@@ -122,7 +129,7 @@ exports.getUserByEmail = (db, email) => {
 * Get the user id, given the username
 * @param {string} username the email of the user
 */
-exports.getUserByUsername = (db, username) => {
+exports.getUserByUsername = (username) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT id FROM user WHERE username = ?';
         db.get(sql, [username], (err, row) => {
@@ -149,8 +156,8 @@ exports.getUserByUsername = (db, username) => {
  * @param {string} password the user password
  * @param {string} confirmationCode the user confirmationCode
  */
-exports.addUser = (db, email, username, role, name, surname, phoneNumber, password, confirmationCode) => {
-   
+exports.addUser = (email, username, role, name, surname, phoneNumber, password, confirmationCode) => {
+
     //creo sale
     const salt = crypto.randomBytes(8).toString('hex');
     //creo hash
@@ -158,12 +165,13 @@ exports.addUser = (db, email, username, role, name, surname, phoneNumber, passwo
         if (err) reject(err);
         return new Promise(async (resolve, reject) => {
             let sql = "INSERT INTO user(email, username, role, name, surname, phoneNumber, hash, salt,confirmationCode,verifiedEmail) VALUES (?,?,?,?,?,?,?,?,?,?)";
-            db.run(sql, [email, username, role, name, surname, phoneNumber, hashedPassword.toString('hex'), salt, confirmationCode, 0], (err) => {
-                if (err) {
-                    reject(err);
-                } 
-                    resolve(this.lastId);
-            });
+            db.run(sql, [email, username, role, name, surname, phoneNumber, hashedPassword.toString('hex'), salt, confirmationCode, 0],
+                function (err) {
+                    if (err) {
+                        reject(err);
+                    }
+                    resolve(this.lastID);
+                });
         });
     })
 }
@@ -173,7 +181,7 @@ exports.addUser = (db, email, username, role, name, surname, phoneNumber, passwo
 * Activate a user, given the confirmationCode
 * @param {string} confirmationCode the email of the user
 */
-exports.activateUser = (db, confirmationCode) => {
+exports.activateUser = (confirmationCode) => {
     return new Promise((resolve, reject) => {
         let sql = 'SELECT id FROM user WHERE confirmationCode=?';
         db.get(sql, [confirmationCode], (err, row) => {
@@ -198,7 +206,7 @@ exports.activateUser = (db, confirmationCode) => {
 * Delete a user, given the username. FOR TESTING
 * @param {string} username the username of the user
 */
-exports.deleteUser = (db, username) => {
+exports.deleteUser = (username) => {
 
     return new Promise((resolve, reject) => {
         const sql = `DELETE FROM user WHERE username = ?`;

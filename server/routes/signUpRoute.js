@@ -11,7 +11,6 @@ const path = require('path');
 const { roleValidator, optionalBecomeMandatory, emailAvailabilityCheck, usernameAvailabilityCheck,roleFormatter } = require("../utils/signUpUtils");
 const isNotLoggedIn = sessionUtils.isNotLoggedIn;
 
-const db = require('./openDb');
 
 // POST /api/signup
 // Sign up a new user
@@ -86,7 +85,7 @@ router.post("/signup", isNotLoggedIn,
             const phone = req.body.phoneNumber ? req.body.phoneNumber.trim() : null;
             
             //mando dati a dao
-            userDao.addUser(db, req.body.email.trim(), req.body.username.trim(), roleFormatter(req.body.role.trim()), name, surname, phone, req.body.password, jwt);
+            userDao.addUser( req.body.email.trim(), req.body.username.trim(), roleFormatter(req.body.role.trim()), name, surname, phone, req.body.password, jwt);
 
             //mando mail di conferma
             nodemailer.sendConfirmationEmail(req.body.username, req.body.email, url);
@@ -103,12 +102,12 @@ router.get("/signup/:confirmationCode",
         try {
 
             //chiamo una funzione di userdao che ritorna true se è riuscita a confermare l'utente, false altrimenti 
-            const ok = await userDao.activateUser(db, req.params.confirmationCode);
+            const ok = await userDao.activateUser( req.params.confirmationCode);
 
             //se tutto ok, ritorno una pagina html di conferma, altrimenti una pagina html di errore
             ok ?
-                res.sendFile(path.join(__dirname, '..//utils/afterConfirmEmailPages/confirm.html')) :
-                res.sendFile(path.join(__dirname, '..//utils/afterConfirmEmailPages/error.html'))
+                res.status(200).sendFile(path.join(__dirname, '..//utils/afterConfirmEmailPages/confirm.html')) :
+                res.status(404).sendFile(path.join(__dirname, '..//utils/afterConfirmEmailPages/error.html'))
         } catch (error) { res.status(503).json({ error: `Service unavailable` }); }
     });
 
