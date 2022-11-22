@@ -34,15 +34,23 @@ const AddHike = (props) => {
   const navigate = useNavigate(); // Navigation handler
   const [selectedFile, setSelectedFile] = useState();
 
+  const initialValues = {
+    title: "",
+    photoFile: "",
+    description: "",
+    difficulty: "",
+    expectedTime: "",
+    file: null,
+  }
 
   const handleSubmit = (values) => {
-     let formData = new FormData();
-     formData.append('File', selectedFile);
-     formData.append('title', values.title);
-     formData.append('description', values.description);
-     formData.append('expectedTime', values.expectedTime);
-     formData.append('difficulty', values.difficulty);
-     formData.append('photoFile', values.photoFile);
+    let formData = new FormData();
+    formData.append('File', selectedFile);
+    formData.append('title', values.title);
+    formData.append('description', values.description);
+    formData.append('expectedTime', values.expectedTime);
+    formData.append('difficulty', values.difficulty);
+    formData.append('photoFile', values.photoFile);
     setLoading(true);
 
     api.addHike(formData)
@@ -60,20 +68,12 @@ const AddHike = (props) => {
         <h1 className="fw-bold">Add your hike</h1>
       </div>
       <Formik
-        initialValues={{
-          title: "",
-          photoFile: "",
-          description: "",
-          difficulty: "",
-          expectedTime: "",
-          file: null,
-        }}
+        initialValues={initialValues}
         validationSchema={AddHikeSchema}
         onSubmit={(values) => handleSubmit(values)}
       >
         {({ values, handleSubmit, touched, isValid, setFieldValue }) => {
-          // TODO: Da fixare
-          // const disableSubmit = (!touched.name && !touched.photoFile && !touched.description && !touched.length && !touched.difficulty && !touched.expectedTime) || !isValid;
+          const disableSubmit = (!touched.title && !touched.photoFile && !touched.description && !touched.difficulty && !touched.expectedTime &&!touched.file) || !isValid;
           return (
             // TODO: Da portare in components e qui importare il singolo componente
             <Col xs={{ span: 10, offset: 1 }} className="mt-3">
@@ -100,7 +100,7 @@ const AddHike = (props) => {
                   </Col>
                   <Col>
                     <label for="file" className="fw-semibold fst-italic mt-3">File upload</label>
-                    <input id="file" name="file" type="file" onChange={(event) => {
+                    <input id="file" name="file" type="file" className="d-flex mt-3" onChange={(event) => {
                         event.preventDefault();
                         setSelectedFile(event.target.files[0]);
                         setFieldValue("file", event.currentTarget.files[0]);
@@ -108,6 +108,7 @@ const AddHike = (props) => {
                     />
                   </Col>
                 </Row>
+                {/* ADDITION FUNCTIONALITY FOR NEXT STORY */}
                 {/* <Row>
                         <Col>
                             <Input className="mt-3" id="startPoint" name="Start Point" type="text" placeholder="Insert the hike start point" label="Start point" />
@@ -117,8 +118,7 @@ const AddHike = (props) => {
                         </Col>
                     </Row> */}
                 <Row>
-                  {/* <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}> */}
-                  <Button variant="primary" type="submit" className="p-3 rounded-3 mt-4 w-100 fw-semibold">
+                  <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}>
                     {loading && (<Spinner animation="border" size="sm" as="span" role="status" aria-hidden="true" className="me-2"/>)}
                     Submit
                   </Button>

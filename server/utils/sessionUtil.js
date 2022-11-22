@@ -17,11 +17,12 @@ const passport = require("passport"); // auth middleware
 const LocalStrategy = require("passport-local").Strategy; // email and password for login
 const userDao = require("../dao/userDao"); // module for accessing the users in the DB
 const session = require("express-session"); // enable sessions
+const db = require('../routes/openDb');
 
 /*** Set up Passport ***/
 passport.use(
     new LocalStrategy({ usernameField: "email" }, function (email, password, done) {
-        userDao.getUser(email.toLowerCase(), password).then((user) => {
+        userDao.getUser(db, email.toLowerCase(), password).then((user) => {
             if (!user)
                 return done(null, false, {
                     error: "Incorrect email and/or password.",
@@ -43,7 +44,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-    userDao.getUserById(id).then((user) => {
+    userDao.getUserById(db, id).then((user) => {
         return done(null, user);
     })
         .catch((err) => {
@@ -54,25 +55,25 @@ passport.deserializeUser((id, done) => {
 // custom middleware: check if a given request is coming from an authenticated user
 const isLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) return next();
-    return res.status(401).json({ error: "not authenticated" });
+    return res.status(401).json({ error: "User not authenticated" });
 };
 
 // custom middleware: check if a given request is coming from an authenticated localGuide
 const isLoggedInLocalGuide = (req, res, next) => {
-    if (req.isAuthenticated() && req.user.role==="localGuide") return next();
-    return res.status(401).json({ error: "not authenticated" });
+    if (req.isAuthenticated() && req.user.role === "localGuide") return next();
+    return res.status(401).json({ error: "User not authenticated" });
 };
 
 // custom middleware: check if a given request is coming from an authenticated hiker
 const isLoggedInHiker = (req, res, next) => {
-    if (req.isAuthenticated() && req.user.role==="hiker") return next();
-    return res.status(401).json({ error: "not authenticated" });
+    if (req.isAuthenticated() && req.user.role === "hiker") return next();
+    return res.status(401).json({ error: "User not authenticated" });
 };
 
 // custom middleware: check if a given request is NOT coming from an authenticated user. Useful when you have to register as a new user, but you are already logged in as user
 const isNotLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) return next();
-    return res.status(401).json({ error: "you are already authenticated!" });
+    return res.status(401).json({ error: "You are already authenticated!" });
 };
 
-module.exports = { passport, session, isLoggedIn, isNotLoggedIn,isLoggedInLocalGuide,isLoggedInHiker };
+module.exports = { passport, session, isLoggedIn, isNotLoggedIn, isLoggedInLocalGuide, isLoggedInHiker };

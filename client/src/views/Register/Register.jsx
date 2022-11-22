@@ -35,8 +35,8 @@ const Register = () => {
     if (!isloggedIn)
         return (
             <>
-                <h1 className='fw-bold fst-italic text-center my-5'>Select your role</h1>
-                <Col xs={2} className='d-flex flex-column ms-5 mt-5 p-0'>
+                <h1 className='fw-bold fst-italic text-center mt-5'>Select your role</h1>
+                <Col xs={{span: 3, offset: 1 }} className='d-flex flex-column mt-5 p-0'>
                     <Link to={`/signup/hiker`} state={{ Role: "hiker" }}>
                         <Button variant="primary" className='p-3 rounded-3 mt-4 fw-semibold border' style={{ width: "200px" }}>
                             Hike
@@ -53,9 +53,8 @@ const Register = () => {
                         </Button>
                     </Link>
                 </Col>
-                <Col xs={{ span: 7, offset: 2 }} className='p-0 ms-auto'>
-                    {/* TODO: Da fixare */}
-                    <img alt='Authentication' src={authImg} className='ms-auto' style={{ width: 700 }} />
+                <Col xs={{ span: 6, offset: 2 }}className='p-0 ms-auto'>
+                    <img alt='Authentication' src={authImg} className='ms-auto' style={{ width: 750 }} />
                 </Col>
             </>
         );
