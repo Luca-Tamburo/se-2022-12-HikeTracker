@@ -15,7 +15,7 @@ import './Filter.css'
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import { useState, useRef } from 'react';
 import { BsFillTrashFill } from 'react-icons/bs'
-import { MapContainer, TileLayer, useMapEvent} from 'react-leaflet'
+import { MapContainer, Marker, TileLayer, useMapEvent} from 'react-leaflet'
 import L from "leaflet";
 
 // Constants
@@ -23,6 +23,7 @@ import { Filter as constFilter } from '../../../constants/index';
 
 //Hooks
 import LocationMarker from '../../ui-core/locate/locationMarker';
+import AddMarker from '../../ui-core/locate/AddMarker';
 
 
 const reg = ["Sicilia", "Piemonte", "Lombardia"]
@@ -43,6 +44,10 @@ const Filter = (props) => {
     const [difficulty, setDifficulty] = useState(0);
     const [expectedTime, setExpectedTime] = useState(0);
     const [length, setLength] = useState(0);
+
+    const [currentPosition, setCurrentPosition] = useState(false);
+
+    const [marker, setMarker] = useState(null);
 
 
     const [isRegionUnselected, setIsRegionUnselected] = useState(true);
@@ -92,6 +97,13 @@ const Filter = (props) => {
         setIsProvinceUnselected(false);
     }
 
+    const handlePosition = () =>{
+        setCurrentPosition(true);
+    }
+
+    const saveMarkers = (newMarkerCoords) => {
+        setMarker(newMarkerCoords)
+      };
 
     return (
         <>
@@ -168,7 +180,9 @@ const Filter = (props) => {
                     <Button className='mt-sm-3' onClick={handleSearch}>Search</Button>
                 </Col>
             </Row>
-            {range != 0 ? <Row className='mt-3'>
+            {range != 0 ? 
+            <>
+            <Row className='mt-3'>
                 <Col>
                     <MapContainer
                         style={{ height: "50vh" }}
@@ -177,11 +191,17 @@ const Filter = (props) => {
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
                         />
-                        <LocationMarker />
+                       {currentPosition ? <LocationMarker />:<AddMarker saveMarkers={saveMarkers} marker={marker}/>}
                     </MapContainer>
                 </Col>
 
             </Row>
+            <Row className=' mt-3'>
+                <Button className='d-sm' onClick={()=>{handlePosition()}}>
+                    Your Position
+                </Button>
+            </Row>
+            </>
                 : <></>}
         </>
     );
