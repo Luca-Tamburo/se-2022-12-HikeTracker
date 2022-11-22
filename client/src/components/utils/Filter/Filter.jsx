@@ -13,11 +13,17 @@
 //Imports
 import './Filter.css'
 import { Row, Col, Form, Button } from 'react-bootstrap';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { BsFillTrashFill } from 'react-icons/bs'
+import { MapContainer, TileLayer, useMapEvent} from 'react-leaflet'
+import L from "leaflet";
 
 // Constants
 import { Filter as constFilter } from '../../../constants/index';
+
+//Hooks
+import LocationMarker from '../../ui-core/locate/locationMarker';
+
 
 const reg = ["Sicilia", "Piemonte", "Lombardia"]
 
@@ -26,6 +32,8 @@ const prov = ["Torino", "Roma", "Milano"]
 const cit = ["Ivrea", "Rivarolo", "Ciriè"]
 
 const Filter = (props) => {
+    const ZOOM_LEVEL = 14;
+    const mapRef = useRef();
 
     const [region, setRegion] = useState("Region");
     const [province, setProvince] = useState("Province");
@@ -36,8 +44,13 @@ const Filter = (props) => {
     const [expectedTime, setExpectedTime] = useState(0);
     const [length, setLength] = useState(0);
 
+
     const [isRegionUnselected, setIsRegionUnselected] = useState(true);
     const [isProvinceUnselected, setIsProvinceUnselected] = useState(true);
+
+    const [center, setCenter] = useState({ lat: 13.084622, lng: 80.248357 });
+
+
 
     const handleSearch = () => {
         let v = [];
@@ -65,7 +78,6 @@ const Filter = (props) => {
         v.push(0)
 
         props.setFilter(v)
-
         setIsRegionUnselected(true);
         setIsProvinceUnselected(true);
     }
@@ -79,6 +91,7 @@ const Filter = (props) => {
         setRegion(event.target.value);
         setIsProvinceUnselected(false);
     }
+
 
     return (
         <>
@@ -155,6 +168,21 @@ const Filter = (props) => {
                     <Button className='mt-sm-3' onClick={handleSearch}>Search</Button>
                 </Col>
             </Row>
+            {range != 0 ? <Row className='mt-3'>
+                <Col>
+                    <MapContainer
+                        style={{ height: "50vh" }}
+                        center={center} scrollWheelZoom={true} whenCreated={(map) => this.setState({ map })} zoom={ZOOM_LEVEL} setView={true}>
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
+                        />
+                        <LocationMarker />
+                    </MapContainer>
+                </Col>
+
+            </Row>
+                : <></>}
         </>
     );
 }
