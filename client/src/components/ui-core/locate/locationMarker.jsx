@@ -4,7 +4,6 @@ import L from "leaflet";
 import { AuthContext } from "../../../contexts/AuthContext";
 
 const LocationMarker = (props) => {
-    const { userInfo, isloggedIn } = useContext(AuthContext);
 
     const [position, setPosition] = useState(null);
     const [bbox, setBbox] = useState([]);
