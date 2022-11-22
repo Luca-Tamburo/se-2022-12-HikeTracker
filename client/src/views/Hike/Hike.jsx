@@ -25,15 +25,14 @@ import api from '../../services/api';
 import useNotification from '../../hooks/useNotification';
 
 
-const Hike = (props) => {
-    const [loading, setLoading] = useState(false);
+const Hike = () => {
+    const [loading, setLoading] = useState(true);
     const [hikes, setHikes] = useState([]);
     const notify = useNotification();
 
     const [filter, setFilter] = useState([]);
 
     useEffect(() => {
-        setLoading(true);
         api.getHikes()
             .then(hikes => {
                 setHikes(hikes);
@@ -44,7 +43,7 @@ const Hike = (props) => {
                 else
                     notify.error(err.error)
             })
-            .finally(setLoading(false));
+            .finally(() => setLoading(false));
     }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {

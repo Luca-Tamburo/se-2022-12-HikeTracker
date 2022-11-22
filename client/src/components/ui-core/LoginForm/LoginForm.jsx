@@ -23,7 +23,6 @@ import LoginSchema from "../../../validation/LoginSchema";
 const LoginForm = (props) => {
   return (
     <Formik
-      validateOnMount
       initialValues={{ email: "", password: "" }}
       validationSchema={LoginSchema}
       onSubmit={(values) => props.handleSubmit(values)}

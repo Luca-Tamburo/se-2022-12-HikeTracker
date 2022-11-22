@@ -36,13 +36,13 @@ const AddHike = (props) => {
 
 
   const handleSubmit = (values) => {
-     let formData = new FormData();
-     formData.append('File', selectedFile);
-     formData.append('title', values.title);
-     formData.append('description', values.description);
-     formData.append('expectedTime', values.expectedTime);
-     formData.append('difficulty', values.difficulty);
-     formData.append('photoFile', values.photoFile);
+    let formData = new FormData();
+    formData.append('File', selectedFile);
+    formData.append('title', values.title);
+    formData.append('description', values.description);
+    formData.append('expectedTime', values.expectedTime);
+    formData.append('difficulty', values.difficulty);
+    formData.append('photoFile', values.photoFile);
     setLoading(true);
 
     api.addHike(formData)
