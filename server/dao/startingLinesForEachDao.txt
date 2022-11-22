@@ -1,0 +1,8 @@
+'use strict';
+const { iAmTesting } = require('../test/mockDB/iAmTesting');
+const getMock = () => {
+    //faccio il require del mock solo se sto in testing
+    const { mockDB } = require('../test/mockDB/mockDB');
+    return mockDB;
+}
+const db = iAmTesting() ? getMock() : require('./openDb');
