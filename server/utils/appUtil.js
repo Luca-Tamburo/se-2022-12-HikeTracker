@@ -6,13 +6,13 @@ exports.setApp = () => {
     const express = require("express");
     const morgan = require("morgan");       //loggin middleware
     const cors = require("cors");
-    const { passport, session } = require("./utils/sessionUtil");
+    const { passport, session } = require("./sessionUtil");
     const fileupload = require("express-fileupload");
 
     //Importing routes
-    const sessionRoute = require("./routes/sessionRoute");
-    const signUpRoute = require("./routes/signUpRoute");
-    const hikeRoute = require("./routes/hikeRoute");
+    const sessionRoute = require("../routes/sessionRoute");
+    const signUpRoute = require("../routes/signUpRoute");
+    const hikeRoute = require("../routes/hikeRoute");
 
     const app = new express();
     const port = 3001;

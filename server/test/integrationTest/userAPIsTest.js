@@ -6,7 +6,7 @@ setTesting(1);
 
 //npm run test_integration
 
-const { setApp } = require('../../setApp');
+const { setApp } = require('../../utils/appUtil');
 const app = setApp(); //app serve per far partire i test
 
 //Require the dev-dependencies
