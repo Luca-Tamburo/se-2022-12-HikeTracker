@@ -19,7 +19,7 @@ const isLoggedInLocalGuide = sessionUtil.isLoggedInLocalGuide;
 const isLoggedInHiker = sessionUtil.isLoggedInHiker;
 const fs = require('fs');
 const { typeValidator, difficultyValidator, typeFormatter, difficultyFormatter } = require("../utils/hikesUtils");
-const dayjs =require("dayjs");
+const dayjs = require("dayjs");
 
 const db = require('./openDb');
 
@@ -89,7 +89,7 @@ router.post('/hikes',
                 ascent = (finalTrackPoint.elevation - initialTrackPoint.elevation).toFixed(2);
 
             } catch (err) { //se non riesco ad utilizzare il gpx
-                return res.status(422).json({ error: `Wrong file sent` });
+                return res.status(422).json({ error: `Wrong file sent. Please upload a gpx file.` });
             }
 
             //creo lo startPoint nel db
@@ -99,7 +99,7 @@ router.post('/hikes',
             let pointTwoId = await pointDao.addPoint(db, "Just GPS coordinates", "Just GPS coordinates", "GPS coordinates", finalTrackPoint.latitude, finalTrackPoint.longitude, finalTrackPoint.elevation, undefined, undefined, undefined);
 
             //creo hike
-            const hikeId = await hikeDao.addHike(db, req.body.title, req.body.description, totalLength, req.body.expectedTime, ascent, difficultyFormatter(req.body.difficulty), pointOneId, pointTwoId, req.user.id,dayjs().format("YYYY-MM-DD"), req.body.photoFile);
+            const hikeId = await hikeDao.addHike(db, req.body.title, req.body.description, totalLength, req.body.expectedTime, ascent, difficultyFormatter(req.body.difficulty), pointOneId, pointTwoId, req.user.id, dayjs().format("YYYY-MM-DD"), req.body.photoFile);
 
             //linko hike e points in tabella hikePoint
             await pointDao.addPointHike(db, hikeId, pointOneId);
