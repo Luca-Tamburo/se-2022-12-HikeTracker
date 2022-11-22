@@ -18,7 +18,7 @@ const sqlite = require('sqlite3');
 // const { ok } = require('assert');
 // const { table } = require('console');
 
-const db = new sqlite.Database('mockHikeTracker.db', (err) => {
+const db = new sqlite.Database('./test/mockDB/mockHikeTracker.db', (err) => {
     if (err) throw err;
 })
 
@@ -46,7 +46,7 @@ function createTables() {
         })
 
         const point = 'CREATE TABLE IF NOT EXISTS "Point" ( "id"	INTEGER NOT NULL, "name"   TEXT, "description" TEXT, "type" TEXT, \
-                    "longitude" NUMBER, "latitude"   NUMBER, "altitude" NUMBER, "city" TEXT, "province" TEXT, PRIMARY KEY("id" AUTOINCREMENT));'
+                    "longitude" NUMBER, "latitude"   NUMBER, "altitude" NUMBER, "city" TEXT, "province" TEXT, "region" TEXT, PRIMARY KEY("id" AUTOINCREMENT));'
 
         db.run(point, (err) => {
             if (err) {
@@ -55,7 +55,7 @@ function createTables() {
         })
 
         const user = 'CREATE TABLE IF NOT EXISTS "User" ( "id"	INTEGER NOT NULL, "email"   TEXT, "username" TEXT, "role" TEXT, \
-        "name" TEXT, "surname"   TEXT, "phoneNumber" TEXT, "hash" TEXT, "salt" TEXT, "verified" INTEGER, "confirmationCode" TEXT, PRIMARY KEY("id" AUTOINCREMENT));'
+        "name" TEXT, "surname"   TEXT, "phoneNumber" TEXT, "hash" TEXT, "salt" TEXT, "verifiedEmail" INTEGER, "confirmationCode" TEXT, PRIMARY KEY("id" AUTOINCREMENT));'
 
         db.run(user, (err) => {
             if (err) {

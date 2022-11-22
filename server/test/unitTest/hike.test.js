@@ -1,29 +1,33 @@
-const hike_DAO = require('../dao/hikeDao');
-const { mockDB: db , createDatabase, deleteDatabase } = require('../mockDB.js/mockDB');
+'use strict';
 
-const { getHikes, addHike } = require("../dao/hikeDao");
-const { addPoint, addPointHike } = require('../dao/pointDao');
-const { addUser } = require('../dao/userDao');
+const { iAmTesting,setTesting }=require('../mockDB/iAmTesting');
+//va messo prima di chiamare il DAO. Così metti il setting a test. E usi il MOCKdao
+setTesting(1);
+const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
+
+const { getHikes, addHike } = require("../../dao/hikeDao");
+const { addPoint, addPointHike } = require('../../dao/pointDao');
+const { addUser } = require('../../dao/userDao');
 
 
 describe("test hikes", () => {
     beforeEach(async () => {
-        deleteDatabase
-        createDatabase
+        deleteDatabase();
+        createDatabase();
         try {
             //title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, photoFile
-            await addHike(db, "Trail to MONTE FERRA", "Leaving the car in the large parking lot ...", 13, 5, 1336.71, "Professional Hiker", 1, 2, 1, "2022-01-10", "https://images.unsplash.com/1");
-            await addHike(db, "Trail to ROCCA PATANUA", "Patanua means naked in Piedmontese, ...", 9, 5.5, 923.62, "Professional Hiker", 1, 2, 1, "2022-04-12", "https://images.unsplash.com/2");
+            await addHike("Trail to MONTE FERRA", "Leaving the car in the large parking lot ...", 13, 5, 1336.71, "Professional Hiker", 1, 2, 1, "2022-01-10", "https://images.unsplash.com/1");
+            await addHike("Trail to ROCCA PATANUA", "Patanua means naked in Piedmontese, ...", 9, 5.5, 923.62, "Professional Hiker", 1, 2, 1, "2022-04-12", "https://images.unsplash.com/2");
             //name, description, type, latitude, longitude, altitude, city, province, region
-            await addPoint(db, "Rifugio Melezè - Bellino - Val Varaita", "The building was a ...", "hut", 44.5742508675903, 6.98268919251859, 1757.43, "Bellino", "Cuneo", "Piemonte");
-            await addPoint(db, "Monte Ferra", "Peak of Monte Ferra", "gpsCoordinates", 44.6020777802914, 6.98475264944136, 3094.14, null, null, null);
+            await addPoint("Rifugio Melezè - Bellino - Val Varaita", "The building was a ...", "hut", 44.5742508675903, 6.98268919251859, 1757.43, "Bellino", "Cuneo", "Piemonte");
+            await addPoint("Monte Ferra", "Peak of Monte Ferra", "gpsCoordinates", 44.6020777802914, 6.98475264944136, 3094.14, null, null, null);
             //hikeId, pointId
-            await addPointHike(db, 1, 1)
-            await addPointHike(db, 1, 2)
-            await addPointHike(db, 2, 1)
-            await addPointHike(db, 2, 2)
+            await addPointHike(1, 1)
+            await addPointHike(1, 2)
+            await addPointHike(2, 1)
+            await addPointHike(2, 2)
             //email, username, role, name, surname, phoneNumber, password, confirmationCode
-            addUser(db, "antonioconte@gmail.com", "antonioconte", "localGuide", "antonio", "conte", "password", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFudG9uaW9jb2xlbGxpMTk5OEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFudG9jb2xlIn0.Vq9N8p9_6t-2yXJSKWzf4gm44TQ0k0zZJiA87Sh8Oog")
+            addUser("antonioconte@gmail.com", "antonioconte", "localGuide", "antonio", "conte", "password", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFudG9uaW9jb2xlbGxpMTk5OEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFudG9jb2xlIn0.Vq9N8p9_6t-2yXJSKWzf4gm44TQ0k0zZJiA87Sh8Oog")
         } catch (err) {
             console.log(err)
         }
