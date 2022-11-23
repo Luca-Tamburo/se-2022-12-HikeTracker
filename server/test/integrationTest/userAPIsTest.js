@@ -303,7 +303,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
     });
     step("Test15: goodSignup", async (done) => {
         let user = {
-            "email": "antoniocolelli1998@gmail.com",
+            "email": "hiketracker@gmail.com",
             "password": "Password20!",
             "role": "localGuide",
             "username": "antocole2022",
@@ -333,7 +333,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
     });
     it("Test17: goodConfirmCode", (done) => {
 
-        const confirmCode = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFudG9uaW9jb2xlbGxpMTk5OEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFudG9jb2xlMjAyMiJ9.H8MEp_pYoUtS3cn4XkWWrNJvKIryDDQy8h3lc0W02cI";
+        const confirmCode = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imhpa2V0cmFja2VyQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiYW50b2NvbGUyMDIyIn0.fe1IzIBfPop4VBOTNWlZOFAORSKJBrVAqt_buHmyhig";
 
         chai
             .request(server)
@@ -357,7 +357,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
     });
     step("Test19: TryToSignUpAnAlreadyExistingMail", async (done) => {
         let user = {
-            "email": "antoniocolelli1998@gmail.com",
+            "email": "hiketracker@gmail.com",
             "password": "Password20!",
             "role": "localGuide",
             "username": "antocole20221",
@@ -526,7 +526,7 @@ describe("Login.APItesting", () => {
     it("Test9: correct login",
         (done) => {
             const user = {
-                "email": "antoniocolelli1998@gmail.com",
+                "email": "hiketracker@gmail.com",
                 "password": "Password20!"
             }
             chai
