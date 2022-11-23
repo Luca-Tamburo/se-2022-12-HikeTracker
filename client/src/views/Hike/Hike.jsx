@@ -29,6 +29,7 @@ const Hike = () => {
     const [loading, setLoading] = useState(true);
     const [hikes, setHikes] = useState([]);
     const [hikesDisplay, setHikesDisplay] = useState([]);
+    const [marker, setMarker] = useState(undefined);
     const notify = useNotification();
 
     const [filter, setFilter] = useState(undefined);
@@ -62,7 +63,25 @@ const Hike = () => {
             console.log('entra 2');
             result = result.filter( hike => hike.province == filter[1])}
         if(filter && filter[2] !== 'City'){console.log('entra 3');result = result.filter( hike => hike.city === filter[2])}
-        //if(filter || filter.range == 0){result = result.filter( hike => hike.range === filter[3])}
+        if(filter || filter[3] == 0){
+            let v = [];
+            for (let index = 0; index < result.length; index++) {
+                let dst = 6372.795477598*1000*Math.acos(Math.sin(result[index].latitude*Math.PI/180)*Math.sin(marker.lat*Math.PI/180)+Math.cos(result[index].latitude*Math.PI/180)*Math.cos(marker.lat*Math.PI/180)*Math.cos(result[index].longitude*Math.PI/180-marker.lng*Math.PI/180))
+                //let dst = 6372.795477598*1000*Math.acos(Math.sin(result[index].latitude)*Math.sin(marker.lat)+Math.cos(result[index].latitude)*Math.cos(marker.lat)*Math.cos(result[index].longitude-marker.lng))
+                //console.log(index + ' ' + dst)
+
+                if(dst <= filter[3])
+                {   console.log('entra nel controllo')
+                    v.push(result[index]);
+                }
+                
+            }
+            //console.log(marker.lat + '   ' + marker.lng)
+
+            result= v;
+            
+        
+        }
         if(filter && filter[4] !== 0){console.log('entra 5');result = result.filter( hike => hike.difficulty === filter[4])}
         if(filter && filter[5] !== 0){console.log('entra 6');result = result.filter( hike => hike.ascent === filter[5])}
         if(filter && filter[6] !== 0){console.log('entra 7');result = result.filter( hike => hike.expectedTime === filter[6])}
@@ -76,7 +95,7 @@ const Hike = () => {
         <Row className='flex-fill'>
             <Col xs={{ span: 10, offset: 1 }} className='mt-3'>
                 <h1 className='fw-bold text-center mt-2'>Search your next hike</h1>
-                <Filter setFilter={setFilter} search={handleSearch} hikes={hikesDisplay}/>
+                <Filter setFilter={setFilter} search={handleSearch} hikes={hikes} setMarker={setMarker}/>
                 <Row>
                     {hikesDisplay.map((hike, index) => {
                         return (

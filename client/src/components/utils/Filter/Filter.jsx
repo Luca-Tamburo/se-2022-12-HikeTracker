@@ -122,6 +122,7 @@ const Filter = (props) => {
 
     const saveMarkers = (newMarkerCoords,circle) => {
         setMarker(newMarkerCoords)
+        props.setMarker(newMarkerCoords.getLatLng())
         setCircle(circle)
       };
 
@@ -163,7 +164,7 @@ const Filter = (props) => {
                 <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }}>
                     <Form>
                         <span>Range of {range} {''} mt</span>
-                        <Form.Range value={range} min='0' max='10000' onChange={e => setRange(e.target.value)} />
+                        <Form.Range value={range} min='0' max='100000' onChange={(e) => { setRange(e.target.value)}} />
                     </Form>
                 </Col>
             </Row>
@@ -220,7 +221,7 @@ const Filter = (props) => {
                                 </Marker>
                             )
                         })}
-                       {currentPosition ? <LocationMarker saveMarkers={saveMarkers} range ={range} circle ={circle}/>:<AddMarker saveMarkers={saveMarkers} marker={marker} circle ={circle} range = {range}/>}
+                       {currentPosition ? <LocationMarker saveMarkers={saveMarkers} range ={range} circle ={circle} id ={'location'}/>:<AddMarker saveMarkers={saveMarkers} marker={marker} circle ={circle} range = {range}/>}
                     </MapContainer>
                 </Col>
 
