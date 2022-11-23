@@ -6,338 +6,102 @@ setTesting(1);
 
 //npm run test_integration
 
-const { setApp } = require('../../utils/appUtil');
-const app = setApp(); //app serve per far partire i test
+const app = require('../../utils/appUtil');
 
 //Require the dev-dependencies
 const chai = require("chai");
 const chaiHttp = require("chai-http");
-const should = chai.should();
+chai.should();
 const server = "http://localhost:3001/api/";
 const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
-
 chai.use(chaiHttp);
+const fs = require('fs');
+const { step } = require('mocha-steps');
+const request = require('supertest');
+let agent = chai.request.agent(app);
+const expect = chai.expect;
 
+const hikeDao = require('../../dao/hikeDao');
+const cleanDb = async () => {
+    await deleteDatabase();
+    await createDatabase();
+}
+
+cleanDb();
 
 describe("Post.Hikes.APItesting", function () {
-    before('Clear the mock db', async function () {
-        deleteDatabase();
-        createDatabase();
-    });
 
-    step("Test1: wrong fields", (done) => {
-        let hike = {
-           "tite":"sss",
-           "descripton":"kkk",
-           "expectedime":33.33,
-           "difficuty":"Hiker",
-           "photoFie":"http://somelink/link"
-         }
-        chai
-            .request(server)
-            .post('hikes')
-            .auth('aldobaglio@gmail.com', 'password')
-            .field({"tite":"sss",
-                    "descripton":"kkk",
-                    "expectedime":33.33,
-                    "difficuty":"Hiker",
-                    "photoFie":"http://somelink/link"})
-            .attach('files', './test/RightFile.gpx', 'RightFile.gpx')
-            .end((err, res) => {
-                res.should.have.status(422);
-                done();
-            });
-    });
+    const localGuide = request.agent(server);
 
-    step("Test2: wrong time format", (done) => {
-        
-        chai
-            .request(server)
-            .post('hikes')
-            .field({title:"sss",
-                    description:"kkk",
-                    expectedTime:"this shouldnt be a string",
-                    difficulty:"Hiker",
-                    photoFile:"http://somelink/link "})
-            .attach('files', './test/RightFile.gpx', 'RightFile.gpx')
-            .end((err, res) => {
-                res.should.have.status(422);
-                done();
-            });
-    });
 
-    step("Test3: missing title", (done) => {
-        chai
-            .request(server)
-            .post('hikes')
-            .field({"description":"kkk",
-            "expectedTime":33.33,
-            "difficulty":"Hiker",
-            "photoFile":"http://somelink/link "
-            })
-            .attach('files', './test/RightFile.gpx', 'RightFile.gpx')
-            .end((err, res) => {
-                res.should.have.status(422);
-                done();
-            });
-    });
-
-    step("Test4: missing description", (done) => {
-        let hike = {
-           "title":"sss",
-           "expectedTime":33.33,
-           "difficulty":"Hiker",
-           "photoFile":"http://somelink/link "
-         }
-        chai
-            .request(server)
-            .post('hikes')
-            .field(hike)
-            .attach('files', './test/RightFile.gpx', 'RightFile.gpx')
-            .end((err, res) => {
-                res.should.have.status(422);
-                done();
-            });
-    });
-
-    step("Test5: missing expectedTime", (done) => {
-        let hike = {
-           "title":"sss",
-           "description":"kkk",
-           "difficulty":"Hiker",
-           "photoFile":"http://somelink/link "
-         }
-        chai
-            .request(server)
-            .post('hikes')
-            .field(hike)
-            .attach('files', './test/RightFile.gpx', 'RightFile.gpx')
-            .end((err, res) => {
-                res.should.have.status(422);
-                done();
-            });
-    });
-
-    step("Test6: missing difficulty", (done) => {
-        let hike = {
-           "title":"sss",
-           "description":"kkk",
-           "expectedTime":33.33,
-           "photoFile":"http://somelink/link "
-         }
-        chai
-            .request(server)
-            .post('hikes')
-            .field(hike)
-            .attach('files', './test/RightFile.gpx', 'RightFile.gpx')
-            .end((err, res) => {
-                res.should.have.status(422);
-                done();
-            });
-    });
-
-    step("Test7: missing photo file link", (done) => {
-        let hike = {
-           "title":"sss",
-           "description":"kkk",
-           "expectedTime":33.33,
-           "difficulty":"Hiker"
-         }
-        chai
-            .request(server)
-            .post('hikes')
-            .field(hike)
-            .attach('files', './test/RightFile.gpx', 'RightFile.gpx')
-            .end((err, res) => {
-                res.should.have.status(422);
-                done();
-            });
-    });
-
-    step("Test8: missing file", (done) => {
-        let hike = {
-           "title":"sss",
-           "description":"kkk",
-           "expectedTime":33.33,
-           "difficulty":"Hiker",
-           "photoFile":"http://somelink/link "
-         }
-        chai
-            .request(server)
-            .post('hikes')
-            .field(hike)
-            .end((err, res) => {
-                res.should.have.status(422);
-                done();
-            });
-    });
-
-    step("Test9: wrong file", (done) => {
-        let hike = {
-           "title":"sss",
-           "description":"kkk",
-           "expectedTime":33.33,
-           "difficulty":"Hiker",
-           "photoFile":"http://somelink/link "
-         }
-        chai
-            .request(server)
-            .post('hikes')
-            .field(hike)
-            .attach('files', './test/WrongFile.gpx', 'WrongFile.gpx')
-            .end((err, res) => {
-                res.should.have.status(422);
-                done();
-            });
-    });
-
-    step("Test10: hike inserted succesfully", (done) => {
-        let hike = {
-            "title" : "sss",
-            "description" : "kkk",
-            "expectedTime" : 33.33,
-            "difficulty" : "Hiker",
-            "photoFile" : "http://somelink/link"
-          }
-        
-        chai
-            .request(server)
-            .post('hikes')
-            //.type('form')
-
-            //.field(hike)
-
-            /*.field('title', 'sss')
-            .field('description', 'kkk')
-            .field('expectedTime', 33.33)
-            .field('difficulty','Hiker')
-            .field('photoFile','http://somelink/link')*/
-
-           /* .field({title: "sss",
-                   description:"kkk", 
-                   expectedTime:33.33,
-                   difficulty:"Hiker",
-                   photoFile:"http://somelink/link"})*/
-
-            .attach('files', './test/RightFile.gpx', 'RightFile.gpx')
-            //.send(hike)
+    step("Step1: registration of local guide", async (done) => {
+        let user = {
+            "email": "hiketracker@gmail.com",
+            "password": "Password20!",
+            "role": "localGuide",
+            "username": "antocole2022",
+            "name": "Antonio",
+            "surname": "Colelli",
+            "phoneNumber": "3311234567",
+        };
+        localGuide
+            .post('signup')
+            .send(user)
             .end((err, res) => {
                 res.should.have.status(201);
                 done();
             });
     });
 
+    step("Step2: validation of local guide", async (done) => {
 
+        const confirmCode = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imhpa2V0cmFja2VyQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiYW50b2NvbGUyMDIyIn0.fe1IzIBfPop4VBOTNWlZOFAORSKJBrVAqt_buHmyhig";
 
-    step("Test11: get hikes", (done) => {
-        
-        chai
-            .request(server)
-            .get('hikes')
+        localGuide
+            .get(`signup/${confirmCode}`)
             .end((err, res) => {
                 res.should.have.status(200);
                 done();
             });
     });
 
-
-});
-
-
-
-
-
-
-
-describe("GET.Hikes.APItesting", function () {
-    before('Clear the mock db', async function () {
-        deleteDatabase();
-        createDatabase();
+    step('Step3: login', (done) => {
+        let user = {
+            "email": "hiketracker@gmail.com",
+            "password": "Password20!"
+        };
+        localGuide
+            .post('sessions')
+            .send(user)
+            .end((err, res) => {
+                res.should.have.status(200);
+                done();
+            });
     });
 
-    step("Test1: hike inserted succesfully (we populate the db for testing get hike)", (done) => {
-        let hike = {
-           "title":"sss",
-           "description":"kkk",
-           "expectedTime":33.33,
-           "difficulty":"Hiker",
-           "photoFile":"http://somelink/link "
-         }
-        chai
-            .request(server)
-            .post('hikes')
-            //.send(hike)
-            .attach('fileField', './RightFile.gpx', 'RightFile.gpx')
-            .end((err, res) => {
+    step('Test1: Add Hike con successo', async function () {
+        await localGuide
+            .post('/hikes')
+            .set('content-type', 'multipart/form-data')
+            .field("title", "Metti qualcosa EDO")
+            .field("description", "Metti qualcosa EDO")
+            .field("expectedTime", 1)
+            .field("difficulty", "hikER")
+            .field("photoFile", "Metti un link EDO")
+            .attach('File', 'test/RightFile.gpx')
+            .then(function (res) {
                 res.should.have.status(201);
-                done();
             });
     });
 
-    step("Test2: hike inserted succesfully (we populate the db for testing get hike)", (done) => {
-        let hike = {
-           "title":"kkk",
-           "description":"sss",
-           "expectedTime":66.66,
-           "difficulty":"Hiker",
-           "photoFile":"http://somedifferentlink/link "
-         }
-        chai
-            .request(server)
-            .post('hikes')
-            //.send(hike)
-            .attach('fileField', './RightFile.gpx', 'RightFile.gpx')
-            .end((err, res) => {
-                res.should.have.status(201);
-                done();
+    step('Elimina tutti i gpx creati', async function () {
+        const hikes = await hikeDao.getHikes();
+        for (let hike of hikes) {
+            fs.unlink(`./utils/gpxFiles/${hike.id}_${hike.title.replace(/ /g, '_')}.gpx`, function (err, results) {
+                if (err) console.log(`./utils/gpxFiles/${hike.id}_${hike.title.replace(/ /g, '_')}.gpx not found`);
+                else console.log(`./utils/gpxFiles/${hike.id}_${hike.title.replace(/ /g, '_')}.gpx deleted`);
             });
-    });
 
-    step("Test3: wrong hikeID format", (done) => {
-        const hikeId = "This shouldnt be a string";
-        
-        chai
-            .request(server)
-            .get(`hikegpx/${hikeId}`)
-            .end((err, res) => {
-                res.should.have.status(503);
-                done();
-            });
-    });
-
-    step("Test4: hike not found", (done) => {
-        const hikeId = 3;
-        
-        chai
-            .request(server)
-            .get(`hikegpx/${hikeId}`)
-            .end((err, res) => {
-                res.should.have.status(404);
-                done();
-            });
-    });
-
-    step("Test5: hike 1 found", (done) => {
-        const hikeId = 1;
-        
-        chai
-            .request(server)
-            .get(`hikegpx/${hikeId}`)
-            .end((err, res) => {
-                res.should.have.status(200);
-                done();
-            });
-    });
-
-    step("Test5: hike 2 found", (done) => {
-        const hikeId = 2;
-        
-        chai
-            .request(server)
-            .get(`hikegpx/${hikeId}`)
-            .end((err, res) => {
-                res.should.have.status(200);
-                done();
-            });
+        }
     });
 });

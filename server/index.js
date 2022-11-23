@@ -18,10 +18,8 @@ setTesting(0);
 //App va chiamata per gli integration test, ma se la chiamo da index, 
 //index setta testing a 0 e quindi poi nei test si utilizza il db normale al posto del Mock
 //Quindi app viene configurato in un altro file indipendente dallo stato di testing 
-const {setApp}=require('./utils/appUtil');
+const app=require('./utils/appUtil');
 
-// ecco appc
-const app = setApp();
 
 
 

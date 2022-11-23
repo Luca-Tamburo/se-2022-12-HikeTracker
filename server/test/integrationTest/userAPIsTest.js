@@ -6,24 +6,28 @@ setTesting(1);
 
 //npm run test_integration
 
-const { setApp } = require('../../utils/appUtil');
-const app = setApp(); //app serve per far partire i test
+const app = require('../../utils/appUtil');
 
 //Require the dev-dependencies
 const chai = require("chai");
 const chaiHttp = require("chai-http");
-const should = chai.should();
+chai.should();
 const server = "http://localhost:3001/api/";
 const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
-
 chai.use(chaiHttp);
+const { step } = require('mocha-steps');
+const request = require('supertest');
+let agent = chai.request.agent(app);
+const expect = chai.expect;
 
+const cleanDb = async () => {
+    await deleteDatabase();
+    await createDatabase();
+}
+
+cleanDb();
 
 describe("Registration.Form.Procedure.APItesting", function () {
-    before('Clear the mock db', async function () {
-        deleteDatabase();
-        createDatabase();
-    });
 
     step("Test1: wrong fields", (done) => {
         let user = {
@@ -303,10 +307,10 @@ describe("Registration.Form.Procedure.APItesting", function () {
     });
     step("Test15: goodSignup", async (done) => {
         let user = {
-            "email": "hiketracker@gmail.com",
+            "email": "hiketracker1@gmail.com",
             "password": "Password20!",
             "role": "localGuide",
-            "username": "antocole2022",
+            "username": "antocole20221",
             "name": "Antonio",
             "surname": "Colelli",
             "phoneNumber": "3311234567",
@@ -316,6 +320,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
             .post('signup')
             .send(user)
             .end((err, res) => {
+                console.log(res)
                 res.should.have.status(201);
                 done();
             });
@@ -333,7 +338,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
     });
     it("Test17: goodConfirmCode", (done) => {
 
-        const confirmCode = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imhpa2V0cmFja2VyQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiYW50b2NvbGUyMDIyIn0.fe1IzIBfPop4VBOTNWlZOFAORSKJBrVAqt_buHmyhig";
+        const confirmCode = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imhpa2V0cmFja2VyMUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFudG9jb2xlMjAyMjEifQ.cxkWbbjScwBXCKh7CQvjxVP7ZX3geMQyaKYQEQS-P8E";
 
         chai
             .request(server)
@@ -357,10 +362,10 @@ describe("Registration.Form.Procedure.APItesting", function () {
     });
     step("Test19: TryToSignUpAnAlreadyExistingMail", async (done) => {
         let user = {
-            "email": "hiketracker@gmail.com",
+            "email": "hiketracker1@gmail.com",
             "password": "Password20!",
             "role": "localGuide",
-            "username": "antocole20221",
+            "username": "antocole202211",
             "name": "Antonio",
             "surname": "Colelli",
             "phoneNumber": "3311234567",
@@ -376,10 +381,10 @@ describe("Registration.Form.Procedure.APItesting", function () {
     });
     step("Test19: TryToSignUpAnAlreadyExistingUsername", async (done) => {
         let user = {
-            "email": "antoniocolelli19981@gmail.com",
+            "email": "antoniocolelli19981111@gmail.com",
             "password": "Password20!",
             "role": "localGuide",
-            "username": "antocole2022",
+            "username": "antocole20221",
             "name": "Antonio",
             "surname": "Colelli",
             "phoneNumber": "3311234567",
@@ -508,25 +513,10 @@ describe("Login.APItesting", () => {
                 });
         });
 
-    it("Test8: not verified user",
+    it("Test8: correct login",
         (done) => {
             const user = {
-                "email": "antonioconte@gmail.com",
-                "password": "passwordd"
-            }
-            chai
-                .request(server)
-                .post('sessions')
-                .send(user)
-                .end((err, res) => {
-                    res.should.have.status(401);
-                    done();
-                });
-        });
-    it("Test9: correct login",
-        (done) => {
-            const user = {
-                "email": "hiketracker@gmail.com",
+                "email": "hiketracker1@gmail.com",
                 "password": "Password20!"
             }
             chai
