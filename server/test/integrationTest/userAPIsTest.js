@@ -355,6 +355,44 @@ describe("Registration.Form.Procedure.APItesting", function () {
                 done();
             });
     });
+    step("Test19: TryToSignUpAnAlreadyExistingMail", async (done) => {
+        let user = {
+            "email": "antoniocolelli1998@gmail.com",
+            "password": "Password20!",
+            "role": "localGuide",
+            "username": "antocole20221",
+            "name": "Antonio",
+            "surname": "Colelli",
+            "phoneNumber": "3311234567",
+        };
+        chai
+            .request(server)
+            .post('signup')
+            .send(user)
+            .end((err, res) => {
+                res.should.have.status(409);
+                done();
+            });
+    });
+    step("Test19: TryToSignUpAnAlreadyExistingUsername", async (done) => {
+        let user = {
+            "email": "antoniocolelli19981@gmail.com",
+            "password": "Password20!",
+            "role": "localGuide",
+            "username": "antocole2022",
+            "name": "Antonio",
+            "surname": "Colelli",
+            "phoneNumber": "3311234567",
+        };
+        chai
+            .request(server)
+            .post('signup')
+            .send(user)
+            .end((err, res) => {
+                res.should.have.status(409);
+                done();
+            });
+    });
 });
 
 describe("Login.APItesting", () => {
