@@ -24,16 +24,17 @@ import authImg from '../../assets/authenticationImg.png'
 import { AuthContext } from "../../contexts/AuthContext";
 
 const Register = () => {
-    const { isloggedIn } = useContext(AuthContext);
+    const { isloggedIn } = true;
+    //useContext(AuthContext);
 
     if (!isloggedIn)
         return (
             <>
-                <h1 className='fw-bold fst-italic text-center mt-5'>Select your role</h1>
+                <h1 className='text-center fw-bold fst-italic  mt-5'>Select your role</h1>
                 <Col xs={{ span: 3, offset: 1 }} className='d-flex flex-column mt-5 p-0'>
                     <Link to={`/signup/hiker`} state={{ Role: "hiker" }}>
                         <Button variant="primary" className='p-3 rounded-3 mt-4 fw-semibold border' style={{ width: "200px" }}>
-                            Hike
+                            Hiker
                         </Button>
                     </Link>
                     <Link to={`/signup/localGuide`} state={{ Role: "localGuide" }}>

@@ -16,97 +16,232 @@ import userEvent from '@testing-library/user-event';
 import { Router, MemoryRouter } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
-import {RegisterFormHiker, RegisterFormAdvanced} from './RegisterForm'
-//Mock react-bootstrap
-jest.mock('react-bootstrap', () => {
+import { RegisterFormHiker, RegisterFormAdvanced } from './RegisterForm'
 
-    const Container = (props) => {
-        return (
-            <div>{props.children}</div>
-        )
-    }
-
-    const Button = ({ children, ...props }) => {
-        return (
-            <button {...props}>{children}</button>
-        )
-    }
-
-    return ({ Button, Container });
-})
 describe('RegisterFormHiker', () => {
 
-    const onSubmit = jest.fn();
+    const handleSubmit = jest.fn();
 
-    it('Check if RegisterForm has title', () => {
-        render(<RegisterFormHiker />, { wrapper: MemoryRouter });
-        expect(screen.getByRole('heading', {
-            name: /signup/i
-          })).toBeInTheDocument();
+    it(' has username label', () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByText(/username/i
+        )).toBeInTheDocument();
     });
 
+    it(' has email label', () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByText(/email/i
+        )).toBeInTheDocument();
+    });
+
+    it(' has password label', () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByPlaceholderText(/insert your password/i)).toBeInTheDocument();
+    });
+    it(' has password confimation label', () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByText(/confirmation password/i
+        )).toBeInTheDocument();
+    });
+
+    it(' has username field', () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByRole('textbox', {
+            name: /username/i
+        })).toBeInTheDocument();
+    });
+
+    it(' has email field', () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByRole('textbox', {
+            name: /email/i
+        })).toBeInTheDocument();
+    });
+
+    it('has password field', () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByPlaceholderText(/insert your password/i)).toBeInTheDocument();
+    });
+
+    it('has password confirmation field', () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByLabelText(/confirmation password/i)).toBeInTheDocument();
+    });
+
+
+    it('Check if RegisterForm has signup button', () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByRole('button', {
+            name: /sign up/i
+        })).toBeInTheDocument();
+    });
+
+    it('onSubmit is called after validation', async () => {
+        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+
+        const username = screen.getByRole('textbox', { name: /username/i });
+        const email = screen.getByRole('textbox', { name: /email/i });
+        const password = screen.getByPlaceholderText(/insert your password/i);
+        const confPassword = screen.getByLabelText(/confirmation password/i);
+        const submitButton = screen.getByRole('button', { name: /sign up/i })
+        userEvent.type(username, 'testUser');
+        userEvent.type(email, 'testEmail@gmail.com');
+        userEvent.type(password, 'testPassword1!');
+        userEvent.type(confPassword, 'testPassword1!');
+        userEvent.click(submitButton);
+
+        await waitFor(() => {
+            expect(handleSubmit).toHaveBeenCalledTimes(1);
+        })
+
+        expect(handleSubmit).toHaveBeenCalledWith({ username: "testUser", email: "testEmail@gmail.com", password: "testPassword1!", passwordConfirmation: "testPassword1!" })
+
+    })
+})
+
+describe('RegisterFormAdvanced', () => {
+
+    const handleSubmit = jest.fn();
+
     it('Check if RegisterForm has username label', () => {
-        render(<RegisterFormHiker />, { wrapper: MemoryRouter });
+        handleSubmit.mockClear();
+        render(<RegisterFormAdvanced handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByText(/username/i
-          )).toBeInTheDocument();
+        )).toBeInTheDocument();
     });
 
     it('Check if RegisterForm has email label', () => {
-        render(<RegisterFormHiker />, { wrapper: MemoryRouter });
+        handleSubmit.mockClear();
+        render(<RegisterFormAdvanced handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByText(/email/i
-          )).toBeInTheDocument();
+        )).toBeInTheDocument();
     });
 
     it('Check if RegisterForm has password label', () => {
-        render(<RegisterFormHiker />, { wrapper: MemoryRouter });
-        expect(screen.getByText(/password/i
-          )).toBeInTheDocument();
+        handleSubmit.mockClear();
+        render(<RegisterFormAdvanced handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByPlaceholderText(/insert your password/i)).toBeInTheDocument();
+    });
+
+    it('Check if RegisterForm has password confimation label', () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormAdvanced handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByText(/confirmation password/i
+        )).toBeInTheDocument();
+    });
+    it('has name label', () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormAdvanced handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByText(/first name/i
+        )).toBeInTheDocument();
+    });
+    it('has surname label', () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormAdvanced handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByText(/surname/i
+        )).toBeInTheDocument();
+    });
+    it('has phone number label', () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormAdvanced handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByText(/phone number/i
+        )).toBeInTheDocument();
     });
 
     it('Check if RegisterForm has username field', () => {
-        render(<RegisterFormHiker />, { wrapper: MemoryRouter });
+        handleSubmit.mockClear();
+        render(<RegisterFormAdvanced handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByRole('textbox', {
             name: /username/i
-          })).toBeInTheDocument();
-    });
-    
-    it('Check if RegisterForm has email field', () => {
-        render(<RegisterFormHiker />, { wrapper: MemoryRouter });
-        expect(screen.getByRole('textbox', {
-            name: /email/i
-          })).toBeInTheDocument();
-    });
-    
-    it('Check if RegisterForm has password field', () => {
-        render(<RegisterFormHiker />, { wrapper: MemoryRouter });
-        expect(screen.getByRole('textbox', {
-            name: /password/i
-          })).toBeInTheDocument();
+        })).toBeInTheDocument();
     });
 
-        
+    it('Check if RegisterForm has email field', () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormAdvanced handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByRole('textbox', { name: /email/i })).toBeInTheDocument();
+    });
+
+    it('has password field', () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormAdvanced handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByPlaceholderText(/insert your password/i)).toBeInTheDocument();
+    });
+
+    it('has password confirmation field', () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormAdvanced handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByLabelText(/confirmation password/i)).toBeInTheDocument();
+    });
+
+    it('has name field', () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormAdvanced handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByPlaceholderText(/insert your name/i)).toBeInTheDocument();
+    });
+    it('has surname field', () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormAdvanced handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByRole('textbox', { name: /surname/i })).toBeInTheDocument();
+    });
+    it('has phone number field', () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormAdvanced handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByRole('textbox', { name: /phone number/i })).toBeInTheDocument();
+    });
+
+
     it('Check if RegisterForm has signup button', () => {
-        render(<RegisterFormHiker />, { wrapper: MemoryRouter });
+        handleSubmit.mockClear();
+        render(<RegisterFormAdvanced handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByRole('button', {
             name: /sign up/i
-          })).toBeInTheDocument();
+        })).toBeInTheDocument();
     });
 
-    it('onSubmit is called after validation', async ()=>{
-       const username = screen.getByRole('textbox', {name: /username/i });
-       const email = screen.getByRole('textbox', {name: /email/i });
-       const password = screen.getByRole('textbox', {name: /password/i });
-        const submitButton = screen.getByRole('button', { name: /sign up/i })
-       userEvent.type(username, 'testUser');
-       userEvent.type(email, 'testEmail@gmail.com');
-       userEvent.type(password, 'testPassword');
+    it('onSubmit is called after validation', async () => {
+        handleSubmit.mockClear();
+        render(<RegisterFormAdvanced handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+
+        const username = screen.getByRole('textbox', { name: /username/i });
+        const email = screen.getByRole('textbox', { name: /email/i });
+        const password = screen.getByPlaceholderText(/insert your password/i)
+        const confPassword = screen.getByLabelText(/confirmation password/i);
+        const name = screen.getByPlaceholderText(/insert your name/i);
+        const surname = screen.getByRole('textbox', { name: /surname/i });
+        const number = screen.getByRole('textbox', { name: /phone number/i });
+
+        const submitButton = screen.getByRole('button', { name: /sign up/i });
+
+        userEvent.type(username, 'testUser');
+        userEvent.type(email, 'testEmail@gmail.com');
+        userEvent.type(password, 'testPassword1!');
+        userEvent.type(confPassword, 'testPassword1!');
+        userEvent.type(name, 'test');
+        userEvent.type(surname, 'user');
+        userEvent.type(number, '4591420462');
+
+        expect(submitButton).not.toBeDisabled();
+
         userEvent.click(submitButton);
 
-        await waitFor(()=>{
-            expect(onSubmit).toHaveBeenCalledTimes(1);
+        await waitFor(() => {
+            expect(handleSubmit).toHaveBeenCalledTimes(1);
         })
-        
-        expect(onSubmit).toHaveBeenCalledWith({username: "testUser", email: "testEmail@gmail.com", password: "testPassword"})
-        
+        await waitFor(() => {
+            expect(handleSubmit).toHaveBeenCalledWith({
+                username: "testUser", email: "testEmail@gmail.com", password: "testPassword1!", passwordConfirmation: "testPassword1!",
+                name: "test", surname: "user", phoneNumber: "4591420462"
+            });
+        })
     })
 })

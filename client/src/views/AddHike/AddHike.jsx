@@ -32,7 +32,8 @@ import AddHikeSchema from "../../validation/AddHikeSchema";
 import useNotification from "../../hooks/useNotification";
 
 const AddHike = (props) => {
-  const { userInfo, isloggedIn } = useContext(AuthContext);
+  const { userInfo, isloggedIn } = [true, true];
+  //useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const notify = useNotification(); // Notification handler
   const navigate = useNavigate(); // Navigation handler
@@ -97,7 +98,7 @@ const AddHike = (props) => {
                 </Row>
                 <Row>
                   <Col>
-                    <Input className="mt-3" id="difficulty" name="difficulty" type="select" placeholder="Insert the hike difficulty" label="Difficulty" />
+                    <Input className="mt-3" id="difficulty" name="difficulty" type="select" placeholder="Insert the hike difficulty" label="Hike's difficulty" />
                   </Col>
                   <Col>
                     <Input className="mt-3" id="expectedTime" name="expectedTime" type="text" placeholder="Insert the hike expected time in hour" label="Expected Time" />
@@ -108,13 +109,15 @@ const AddHike = (props) => {
                     <Input className="mt-3" id="description" name="description" type="text" placeholder="Insert the hike description" label="Description" />
                   </Col>
                   <Col>
-                    <label for="file" className="fw-semibold fst-italic mt-3">File upload</label>
-                    <input id="file" name="file" type="file" className="d-flex mt-3" onChange={(event) => {
+                  <Form.Group className="mt-3" controlId="file">
+                    <Form.Label className="fw-semibold fst-italic" >File upload</Form.Label>
+                     <input id="file" name="file" type="file" className="d-flex mt-3" onChange={(event) => {
                       event.preventDefault();
                       setSelectedFile(event.target.files[0]);
                       setFieldValue("file", event.currentTarget.files[0]);
                     }}
                     />
+                      </Form.Group>
                   </Col>
                 </Row>
                 {/* ADDITION FUNCTIONALITY FOR NEXT STORY */}

@@ -27,7 +27,7 @@ const Login = (props) => {
                 <LoginForm handleSubmit={props.handleSubmit} />
             </Col>
             <Col xs={5} md={4} lg={{ span: 5, offset: 1 }} className='p-0'>
-                <img alt='Login' src={loginImage} style={{ width: 650 }} />
+                <img  alt='Login' src={loginImage} style={{ width: 650 }} />
             </Col>
         </>
     );
