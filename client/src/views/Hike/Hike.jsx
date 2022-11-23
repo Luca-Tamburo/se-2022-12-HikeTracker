@@ -76,7 +76,7 @@ const Hike = () => {
         <Row className='flex-fill'>
             <Col xs={{ span: 10, offset: 1 }} className='mt-3'>
                 <h1 className='fw-bold text-center mt-2'>Search your next hike</h1>
-                <Filter setFilter={setFilter} search={handleSearch}/>
+                <Filter setFilter={setFilter} search={handleSearch} hikes={hikesDisplay}/>
                 <Row>
                     {hikesDisplay.map((hike, index) => {
                         return (

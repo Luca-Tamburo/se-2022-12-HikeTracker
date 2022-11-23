@@ -29,7 +29,7 @@ const icon = L.icon({
     iconSize: [25, 41],
     iconAnchor: [10, 41],
     popupAnchor: [2, -40],
-    iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
+    iconUrl: require("./icons8-montagna-64.png"),
     shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
   });
 
@@ -208,9 +208,18 @@ const Filter = (props) => {
                         style={{ height: "50vh" }}
                         center={center} scrollWheelZoom={true} whenCreated={(map) => this.setState({ map })} zoom={ZOOM_LEVEL} setView={true}>
                         <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
                         />
+                        {props.hikes.map((hike, index) => {
+                            return (
+                                <Marker key={index} position={[hike.latitude,hike.longitude]} icon={icon}>
+                                    <Popup>
+                                        {hike.title}
+                                    </Popup>
+                                </Marker>
+                            )
+                        })}
                        {currentPosition ? <LocationMarker saveMarkers={saveMarkers} range ={range} circle ={circle}/>:<AddMarker saveMarkers={saveMarkers} marker={marker} circle ={circle} range = {range}/>}
                     </MapContainer>
                 </Col>
