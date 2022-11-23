@@ -320,7 +320,6 @@ describe("Registration.Form.Procedure.APItesting", function () {
             .post('signup')
             .send(user)
             .end((err, res) => {
-                console.log(res)
                 res.should.have.status(201);
                 done();
             });
