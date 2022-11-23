@@ -1,11 +1,11 @@
 'use strict';
 
-const { iAmTesting,setTesting }=require('../mockDB/iAmTesting');
+const { iAmTesting, setTesting } = require('../mockDB/iAmTesting');
 //va messo prima di chiamare il DAO. Così metti il setting a test. E usi il MOCKdao
 setTesting(1);
 const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 
-const { getHikes, addHike } = require("../../dao/hikeDao");
+const { getHikes, addHike, getDetailsByHikeId } = require("../../dao/hikeDao");
 const { addPoint, addPointHike } = require('../../dao/pointDao');
 const { addUser } = require('../../dao/userDao');
 
@@ -33,6 +33,7 @@ describe("test hikes", () => {
         }
     })
     testgetHikes()
+    testgetDetailsByHikeId(1, 3) //id, wrongId
 });
 
 function testgetHikes() {
@@ -47,11 +48,16 @@ function testgetHikes() {
                 "expectedTime": 5,
                 "ascent": 1336.71,
                 "difficulty": "Professional Hiker",
-                "startPointId": 1,
-                "endPointId": 2,
-                "authorId": 1,
+                "authorName": "antonio",
+                "authorSurname": "conte",
                 "uploadDate": "2022-01-10",
-                "photoFile": "https://images.unsplash.com/1"
+                "photoFile": "https://images.unsplash.com/1",
+                "latitude": 44.5742508675903,
+                "longitude": 6.98268919251859,
+                "altitude": 1757.43,
+                "city": "Bellino",
+                "province": "Cuneo",
+                "region": "Piemonte"
             },
             {
                 "id": 2,
@@ -61,13 +67,47 @@ function testgetHikes() {
                 "expectedTime": 5.5,
                 "ascent": 923.62,
                 "difficulty": "Professional Hiker",
-                "startPointId": 1,
-                "endPointId": 2,
-                "authorId": 1,
+                "authorName": "antonio",
+                "authorSurname": "conte",
                 "uploadDate": "2022-04-12",
-                "photoFile": "https://images.unsplash.com/2"
+                "photoFile": "https://images.unsplash.com/2",
+                "latitude": 44.5742508675903,
+                "longitude": 6.98268919251859,
+                "altitude": 1757.43,
+                "city": "Bellino",
+                "province": "Cuneo",
+                "region": "Piemonte"
             }
         ]
         );
+    });
+}
+
+function testgetDetailsByHikeId(id, wongId) {
+    test("test getHikes", async () => {
+        let hikeDetails = await getDetailsByHikeId(id);
+        expect(hikeDetails).toEqual(
+            {
+                "id": 1,
+                "gpx": "1_Trail_to_MONTE_FERRA.gpx",
+                "title": "Trail to MONTE FERRA",
+                "description": "Leaving the car in the large parking lot ...",
+                "authorName": "antonio",
+                "authorSurname": "conte",
+                "uploadDate": "2022-01-10",
+                "photoFile": "https://images.unsplash.com/1",
+                "length": 9,
+                "expectedTime": 5.5,
+                "ascent": 923.62,
+                "difficulty": "Professional Hiker",
+                "startPointId": 1,
+                "endPointId": 2
+            }
+        );
+    });
+
+    test("test getHikes wrong id", async () => {
+        let hikeDetails = await getDetailsByHikeId(wongId);
+        expect(hikeDetails).toEqual(undefined);
     });
 }
