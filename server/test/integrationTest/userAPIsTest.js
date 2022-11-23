@@ -19,7 +19,6 @@ const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 chai.use(chaiHttp);
 
 
-
 describe("Registration.Form.Procedure.APItesting", function () {
     before('Clear the mock db', async function () {
         deleteDatabase();
@@ -332,8 +331,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
                 done();
             });
     });
- /* NON SO COME FARLO FUNZIONARE
-    step("Test17: goodConfirmCode", (done) => {
+    it("Test17: goodConfirmCode", (done) => {
 
         const confirmCode = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFudG9uaW9jb2xlbGxpMTk5OEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFudG9jb2xlMjAyMiJ9.H8MEp_pYoUtS3cn4XkWWrNJvKIryDDQy8h3lc0W02cI";
 
@@ -345,7 +343,56 @@ describe("Registration.Form.Procedure.APItesting", function () {
                 done();
             });
     });
-    */
+    it("Test18: sameGoodConfirmCodeAsBefore", (done) => {
+
+        const confirmCode = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFudG9uaW9jb2xlbGxpMTk5OEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFudG9jb2xlMjAyMiJ9.H8MEp_pYoUtS3cn4XkWWrNJvKIryDDQy8h3lc0W02cI";
+
+        chai
+            .request(server)
+            .get(`signup/${confirmCode}`)
+            .end((err, res) => {
+                res.should.have.status(404);
+                done();
+            });
+    });
+    step("Test19: TryToSignUpAnAlreadyExistingMail", async (done) => {
+        let user = {
+            "email": "antoniocolelli1998@gmail.com",
+            "password": "Password20!",
+            "role": "localGuide",
+            "username": "antocole20221",
+            "name": "Antonio",
+            "surname": "Colelli",
+            "phoneNumber": "3311234567",
+        };
+        chai
+            .request(server)
+            .post('signup')
+            .send(user)
+            .end((err, res) => {
+                res.should.have.status(409);
+                done();
+            });
+    });
+    step("Test19: TryToSignUpAnAlreadyExistingUsername", async (done) => {
+        let user = {
+            "email": "antoniocolelli19981@gmail.com",
+            "password": "Password20!",
+            "role": "localGuide",
+            "username": "antocole2022",
+            "name": "Antonio",
+            "surname": "Colelli",
+            "phoneNumber": "3311234567",
+        };
+        chai
+            .request(server)
+            .post('signup')
+            .send(user)
+            .end((err, res) => {
+                res.should.have.status(409);
+                done();
+            });
+    });
 });
 
 describe("Login.APItesting", () => {
@@ -476,8 +523,6 @@ describe("Login.APItesting", () => {
                     done();
                 });
         });
- /* NON SO COME FARLO FUNZIONARE
-
     it("Test9: correct login",
         (done) => {
             const user = {
@@ -493,5 +538,4 @@ describe("Login.APItesting", () => {
                     done();
                 });
         });
-        */
 });

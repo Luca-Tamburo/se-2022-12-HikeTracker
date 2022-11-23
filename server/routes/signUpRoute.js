@@ -8,7 +8,7 @@ const { secret } = require("../config/auth.config");
 const sign = require('jwt-encode');
 const nodemailer = require('../config/nodemailer.config');
 const path = require('path');
-const { roleValidator, optionalBecomeMandatory, emailAvailabilityCheck, usernameAvailabilityCheck,roleFormatter } = require("../utils/signUpUtils");
+const { roleValidator, optionalBecomeMandatory, emailAvailabilityCheck, usernameAvailabilityCheck, roleFormatter } = require("../utils/signUpUtils");
 const isNotLoggedIn = sessionUtils.isNotLoggedIn;
 
 
@@ -51,16 +51,14 @@ router.post("/signup", isNotLoggedIn,
 
     check("phoneNumber").if((value, { req }) => optionalBecomeMandatory(req.body.role)).exists().withMessage("This field is mandatory").bail()
         .isString().withMessage("This field must be a string (consider the prefix of the phone number)").bail()
-        .trim().isLength({ min: 2}).withMessage("This field is a string and must be from 2 characters").bail()
+        .trim().isLength({ min: 2 }).withMessage("This field is a string and must be from 2 characters").bail()
         .trim().matches(/^[+0-9][0-9 ]+$/).withMessage("This field must contain only numbers, the + for prefixes and spaces"),
 
     check("phoneNumber").if((value, { req }) => !optionalBecomeMandatory(req.body.role)).optional({ nullable: true })
         .isString().withMessage("This field must be a string (consider the prefix of the phone number)").bail()
         .trim().isLength({ min: 2 }).withMessage("This field is a string and must be from 2 characters").bail()
         .trim().matches(/^[+0-9][0-9 ]+$/).withMessage("This field must contain only numbers, the + for prefixes and spaces"),
-
     checksValidation, usernameAvailabilityCheck, emailAvailabilityCheck,
-
     async (req, res) => {
         try {
             //qui dentro creo confirmation code, chiamo userDao per inserire i del nuovo utente ned db e invio mail
@@ -83,10 +81,9 @@ router.post("/signup", isNotLoggedIn,
             const name = req.body.name ? req.body.name.trim() : null;
             const surname = req.body.surname ? req.body.surname.trim() : null;
             const phone = req.body.phoneNumber ? req.body.phoneNumber.trim() : null;
-            
-            //mando dati a dao
-            userDao.addUser( req.body.email.trim(), req.body.username.trim(), roleFormatter(req.body.role.trim()), name, surname, phone, req.body.password, jwt);
 
+            //mando dati a dao
+            await userDao.addUser(req.body.email.trim(), req.body.username.trim(), roleFormatter(req.body.role.trim()), name, surname, phone, req.body.password, jwt);
             //mando mail di conferma
             nodemailer.sendConfirmationEmail(req.body.username, req.body.email, url);
 
@@ -102,7 +99,7 @@ router.get("/signup/:confirmationCode",
         try {
 
             //chiamo una funzione di userdao che ritorna true se è riuscita a confermare l'utente, false altrimenti 
-            const ok = await userDao.activateUser( req.params.confirmationCode);
+            const ok = await userDao.activateUser(req.params.confirmationCode);
 
             //se tutto ok, ritorno una pagina html di conferma, altrimenti una pagina html di errore
             ok ?

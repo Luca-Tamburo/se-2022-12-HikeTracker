@@ -19,7 +19,7 @@ const getMock = () => {
     return mockDB;
 }
 const db = iAmTesting() ? getMock() : require('./openDb');
-console.log(`sto testando? ${iAmTesting()?`si`:`no`}`);
+console.log(`sto testando? ${iAmTesting() ? `si` : `no`}`);
 /**
  * Get the user info to put in the cookie, given the id
  * @param {number} id the id of the user
@@ -156,26 +156,34 @@ exports.getUserByUsername = (username) => {
  * @param {string} password the user password
  * @param {string} confirmationCode the user confirmationCode
  */
-exports.addUser = (email, username, role, name, surname, phoneNumber, password, confirmationCode) => {
+
+exports.addUser = async (email, username, role, name, surname, phoneNumber, password, confirmationCode) => {
 
     //creo sale
     const salt = crypto.randomBytes(8).toString('hex');
     //creo hash
-    crypto.scrypt(password, salt, 32, (err, hashedPassword) => {
-        if (err) reject(err);
-        return new Promise(async (resolve, reject) => {
-            let sql = "INSERT INTO user(email, username, role, name, surname, phoneNumber, hash, salt,confirmationCode,verifiedEmail) VALUES (?,?,?,?,?,?,?,?,?,?)";
-            db.run(sql, [email, username, role, name, surname, phoneNumber, hashedPassword.toString('hex'), salt, confirmationCode, 0],
-                function (err) {
-                    if (err) {
-                        reject(err);
-                    }
-                    resolve(this.lastID);
-                });
-        });
-    })
-}
+    const getHashPass = async (pass) => {
+        return new Promise((resolve, reject) => {
+            crypto.scrypt(pass, salt, 32, (err, hashedPassword) => {
+                resolve(hashedPassword.toString('hex'));
+            });
 
+        });
+    }
+    const hashedPassword = await getHashPass(password);
+    return new Promise((resolve, reject) => {
+        const sql = "INSERT INTO user(email, username, role, name, surname, phoneNumber, hash, salt,confirmationCode,verifiedEmail) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        db.run(sql, [email, username, role, name, surname, phoneNumber, hashedPassword, salt, confirmationCode, 0],
+            function (err) {
+                if (err) {
+
+                    reject(err);
+                } else {
+                    resolve(this.lastID);
+                }
+            });
+    });
+}
 
 /**
 * Activate a user, given the confirmationCode
