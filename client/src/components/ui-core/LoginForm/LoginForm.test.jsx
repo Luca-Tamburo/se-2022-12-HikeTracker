@@ -13,6 +13,8 @@
 // Imports
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { Router, MemoryRouter } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 
 import LoginForm from './LoginForm'
 
@@ -47,39 +49,39 @@ describe('LoginForm', () => {
 
     it('has email label', () => {
         handleSubmit.mockClear();
-        render(<LoginForm handleSubmit={handleSubmit} />);
+        render(<LoginForm handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByText(/email/i)).toBeInTheDocument();
     });
 
     it('has password label', () => {
         handleSubmit.mockClear();
-        render(<LoginForm handleSubmit={handleSubmit} />);
+        render(<LoginForm handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByText(/password/i)).toBeInTheDocument();
     });
 
     it('has email field', () => {
         handleSubmit.mockClear();
-        render(<LoginForm handleSubmit={handleSubmit} />);
+        render(<LoginForm handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByRole('textbox', { name: /email/i })).toBeInTheDocument();
     });
 
 
     it('has password field', () => {
         handleSubmit.mockClear();
-        render(<LoginForm handleSubmit={handleSubmit} />);
+        render(<LoginForm handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
     });
 
 
     it('has login button', () => {
         handleSubmit.mockClear();
-        render(<LoginForm handleSubmit={handleSubmit} />);
+        render(<LoginForm handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
     });
 
     it('handleSubmit is called after validation', async () => {
         handleSubmit.mockClear();
-        render(<LoginForm handleSubmit={handleSubmit} />);
+        render(<LoginForm handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         const email = screen.getByRole('textbox', { name: /email/i });
         const password = screen.getByLabelText(/password/i);
         const submitButton = screen.getByRole('button', { name: /login/i });

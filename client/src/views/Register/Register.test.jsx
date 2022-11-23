@@ -18,7 +18,7 @@ import { createMemoryHistory } from 'history';
 
 import Register from './Register';
 
-//Mock react-bootstrap
+/*Mock react-bootstrap
 jest.mock('react-bootstrap', () => {
 
     const Container = (props) => {
@@ -34,13 +34,13 @@ jest.mock('react-bootstrap', () => {
     }
 
     return ({ Button, Container });
-})
+})*/
 
 describe('RegisterComponent', () => {
     it('Check if Register has title', () => {
         render(<Register />, { wrapper: MemoryRouter });
         expect(screen.getByRole('heading', {
-            name: /select your role:/i
+            name: /Select your role/i
           })).toBeInTheDocument();
     });
 
@@ -65,6 +65,16 @@ describe('RegisterComponent', () => {
             name: /hut worker/i
           })).toBeInTheDocument();
     })
+
+    it('Check if the image is present', ()=>{
+        render(<Register />, { wrapper: MemoryRouter });
+        
+          expect(  screen.getByRole('img', {
+        name: /authentication/i
+      })).toBeInTheDocument();
+    })
+
+  
 
     it('Check if Register has the link to show registration form for hiker', () => {
         const history = createMemoryHistory();

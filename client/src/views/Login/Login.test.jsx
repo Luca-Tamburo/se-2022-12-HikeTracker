@@ -28,7 +28,7 @@ describe('LoginComponent', () => {
         
     });
     it('Check if Login has title', () => {
-;
+
         expect(screen.getByRole('heading', {
             name: /login/i
           })).toBeInTheDocument();
@@ -36,7 +36,7 @@ describe('LoginComponent', () => {
     it('Check if Login has Image', () => {
 
         expect(screen.getByRole('img', {
-            name: /home/i
+            name: /login/i
           })).toBeInTheDocument();
     });
 

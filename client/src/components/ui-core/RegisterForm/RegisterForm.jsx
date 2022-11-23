@@ -16,8 +16,6 @@ import { Button, Row, Col, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
 
-// Services
-import api from "../../../services/api";
 
 // Components
 import Input from "../../utils/Input/Input";
@@ -33,34 +31,18 @@ import registerForm from '../../../constants/registerForm'
 import useNotification from "../../../hooks/useNotification";
 
 const RegisterFormHiker = (props) => {
-  const [loading, setLoading] = useState(false);
-  const notify = useNotification(); // Notification handler
-  const navigate = useNavigate(); // Navigation handler
-
-  const handleSubmit = (credentials) => {
-    setLoading(true);
-    credentials["role"] = props.Role;
-    api
-      .addNewUser(credentials)
-      .then((user) => {
-        notify.success(` ${user.message}!`);
-        navigate("/", { replace: true });
-      })
-      .catch((err) => { notify.error(err.error) })
-      .finally(() => setLoading(false));
-  };
+  const loading=props.loading;
 
   return (
     <Formik
-      validateOnMount
-      initialValues={{
+        initialValues={{
         username: "",
         email: "",
         password: "",
         passwordConfirmation: "",
       }}
       validationSchema={RegisterSchema}
-      onSubmit={(values) => handleSubmit(values)}
+      onSubmit={(values) => props.handleSubmit(values)}
     >
       {({ touched, isValid }) => {
         const disableSubmit =
@@ -96,39 +78,21 @@ const RegisterFormHiker = (props) => {
 };
 
 const RegisterFormAdvanced = (props) => {
-  const [loading, setLoading] = useState(false);
-  const notify = useNotification(); // Notification handler
-  const navigate = useNavigate(); // Navigation handler
 
-  const handleSubmit = (credentials) => {
-    setLoading(true);
-    credentials["role"] = props.Role;
-    api
-      .addNewUser(credentials)
-      .then((user) => {
-        notify.success(` ${user.message}!`);
-        navigate("/", { replace: true });
-      })
-      .catch((err) => {
-        notify.error(err.error);
-      })
-      .finally(() => setLoading(false));
-  };
+  const loading=props.loading;
 
   return (
     <Formik
-      validateOnMount
-      initialValues={{
+        initialValues={{
         username: "",
         email: "",
         password: "",
         passwordConfirmation: "",
-        role: "",
         name: "",
         surname: "",
       }}
       validationSchema={RegisterAdvancedSchema}
-      onSubmit={(values) => handleSubmit(values)}
+      onSubmit={(values) => props.handleSubmit(values)}
     >
       {({ touched, isValid }) => {
         const disableSubmit =
@@ -150,7 +114,7 @@ const RegisterFormAdvanced = (props) => {
             </Row>
             <Row>
               <Col>
-                <Input className="mt-3" id="signup-name" name="name" type="text" placeholder="Insert your name" label="Name"/>
+                <Input className="mt-3" id="signup-name" name="name" type="text" placeholder="Insert your name" label="First name"/>
               </Col>
               <Col>
                 <Input className="mt-3" id="signup-surname" name="surname" type="text" placeholder="Insert your surname" label="Surname"/>
