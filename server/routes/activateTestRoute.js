@@ -1,7 +1,7 @@
 'use strict'
 const express = require('express');
 const router = express.Router();
-const { setTesting } = require('../mockDB/iAmTesting');
+const { setTesting } = require('../test/mockDB/mockDB');
 
 router.get('/setMock', [], async (req, res) => {
     try {
