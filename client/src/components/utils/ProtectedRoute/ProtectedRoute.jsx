@@ -6,7 +6,7 @@ import { useContext, useEffect } from "react";
 import { AuthContext } from '../../../contexts/AuthContext'
 
 const ProtectedRoute = () => {
-    const { userInfo, isloggedIn } = useContext(AuthContext);
+    const { isloggedIn } = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {

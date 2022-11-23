@@ -1,7 +1,8 @@
+'use strict';
+
 const { iAmTesting,setTesting }=require('../mockDB/iAmTesting');
 //va messo prima di chiamare il DAO. Così metti il setting a test. E usi il MOCKdao
 setTesting(1);
-
 const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 
 const { getHikes, addHike } = require("../../dao/hikeDao");

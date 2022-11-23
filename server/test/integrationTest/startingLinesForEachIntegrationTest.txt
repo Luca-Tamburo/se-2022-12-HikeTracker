@@ -1,0 +1,19 @@
+'use strict';
+
+//va messo prima di tutto, per inizializzare la variabile di stato. Così metti il setting a test. E usi il MOCKdb
+const { setTesting } = require('../mockDB/iAmTesting');
+setTesting(1);
+
+//npm run test_integration
+
+const { setApp } = require('../../utils/appUtil');
+const app = setApp(); //app serve per far partire i test
+
+//Require the dev-dependencies
+const chai = require("chai");
+const chaiHttp = require("chai-http");
+const should = chai.should();
+const server = "http://localhost:3001/api/";
+const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
+
+chai.use(chaiHttp);

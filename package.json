@@ -2,6 +2,7 @@
   "dependencies": {
     "@tmcw/togeojson": "^5.5.0",
     "concurrently": "^7.5.0",
+    "cypress-eslint-preprocessor": "^1.2.2",
     "fs": "^0.0.1-security",
     "gpxparser": "^3.0.8"
   },
