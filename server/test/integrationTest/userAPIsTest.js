@@ -19,7 +19,6 @@ const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 chai.use(chaiHttp);
 
 
-
 describe("Registration.Form.Procedure.APItesting", function () {
     before('Clear the mock db', async function () {
         deleteDatabase();
@@ -332,20 +331,6 @@ describe("Registration.Form.Procedure.APItesting", function () {
                 done();
             });
     });
- /* NON SO COME FARLO FUNZIONARE
-    step("Test17: goodConfirmCode", (done) => {
-
-        const confirmCode = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFudG9uaW9jb2xlbGxpMTk5OEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFudG9jb2xlMjAyMiJ9.H8MEp_pYoUtS3cn4XkWWrNJvKIryDDQy8h3lc0W02cI";
-
-        chai
-            .request(server)
-            .get(`signup/${confirmCode}`)
-            .end((err, res) => {
-                res.should.have.status(200);
-                done();
-            });
-    });
-    */
 });
 
 describe("Login.APItesting", () => {
@@ -476,9 +461,20 @@ describe("Login.APItesting", () => {
                     done();
                 });
         });
- /* NON SO COME FARLO FUNZIONARE
+    it("Test9: goodConfirmCode", (done) => {
 
-    it("Test9: correct login",
+        const confirmCode = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFudG9uaW9jb2xlbGxpMTk5OEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFudG9jb2xlMjAyMiJ9.H8MEp_pYoUtS3cn4XkWWrNJvKIryDDQy8h3lc0W02cI";
+
+        chai
+            .request(server)
+            .get(`signup/${confirmCode}`)
+            .end((err, res) => {
+                res.should.have.status(200);
+                done();
+            });
+    });
+
+    it("Test10: correct login",
         (done) => {
             const user = {
                 "email": "antoniocolelli1998@gmail.com",
@@ -493,5 +489,4 @@ describe("Login.APItesting", () => {
                     done();
                 });
         });
-        */
 });
