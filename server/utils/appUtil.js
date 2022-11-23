@@ -13,6 +13,7 @@ exports.setApp = () => {
     const sessionRoute = require("../routes/sessionRoute");
     const signUpRoute = require("../routes/signUpRoute");
     const hikeRoute = require("../routes/hikeRoute");
+    const activateMockRoute = require("../routes/activateTestRoute")
 
     const app = new express();
     const port = 3001;
@@ -52,7 +53,7 @@ exports.setApp = () => {
 
 
     /* --- APIs --- */
-    app.use("/api", sessionRoute, signUpRoute, hikeRoute);
+    app.use("/api", sessionRoute, signUpRoute, hikeRoute, activateMockRoute);
 
 
     // activate the server
