@@ -15,7 +15,7 @@ import './Filter.css'
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import { useState, useRef } from 'react';
 import { BsFillTrashFill } from 'react-icons/bs'
-import { MapContainer, Marker, TileLayer, useMapEvent} from 'react-leaflet'
+import { MapContainer, Marker, Popup, TileLayer, useMapEvent} from 'react-leaflet'
 import L from "leaflet";
 
 // Constants
@@ -25,10 +25,17 @@ import { Filter as constFilter } from '../../../constants/index';
 import LocationMarker from '../../ui-core/locate/locationMarker';
 import AddMarker from '../../ui-core/locate/AddMarker';
 
+const icon = L.icon({
+    iconSize: [25, 41],
+    iconAnchor: [10, 41],
+    popupAnchor: [2, -40],
+    iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
+    shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
+  });
 
 const reg = ["Sicilia", "Piemonte", "Lombardia"]
 
-const prov = ["Torino", "Roma", "Milano"]
+const prov = ["Torino", "Roma", "Cuneo"]
 
 const cit = ["Ivrea", "Rivarolo", "Ciriè"]
 
@@ -48,6 +55,7 @@ const Filter = (props) => {
     const [currentPosition, setCurrentPosition] = useState(false);
 
     const [marker, setMarker] = useState(null);
+    const [circle, setCircle] = useState(null);
 
 
     const [isRegionUnselected, setIsRegionUnselected] = useState(true);
@@ -58,42 +66,53 @@ const Filter = (props) => {
 
 
     const handleSearch = () => {
-        let v = [];
-        v.push(region)
-        v.push(province)
-        v.push(city)
-        v.push(range)
-        v.push(ascent)
-        v.push(difficulty)
-        v.push(expectedTime)
-        v.push(length)
+        let v = [] 
+        v.push(region);
+        v.push(province);
+        v.push(city);
+        v.push(range);
+        v.push(difficulty);
+        v.push(ascent);
+        v.push(expectedTime);
+        v.push(length);
 
         props.setFilter(v)
+        props.search()
     }
 
     const handleReset = () => {
-        let v = [];
-        v.push(0)
-        v.push(0)
-        v.push(0)
-        v.push(0)
-        v.push(0)
-        v.push(0)
-        v.push(0)
-        v.push(0)
 
-        props.setFilter(v)
         setIsRegionUnselected(true);
         setIsProvinceUnselected(true);
+        setRange(0)
+        setRegion('Region');
+        setProvince('Province');
+        setCity('City');
+        setDifficulty(0);
+        setAscent(0);
+        setExpectedTime(0);
+        setLength(0);
+
+        let v = [] 
+        v.push(region);
+        v.push(province);
+        v.push(city);
+        v.push(range);
+        v.push(difficulty);
+        v.push(ascent);
+        v.push(parseInt(expectedTime,10));
+        v.push(length);
+
+        props.setFilter(v)
     }
 
     const handleRegion = (event) => {
-        setProvince(event.target.value);
+        setRegion(event.target.value);
         setIsRegionUnselected(false);
     }
 
     const handleProvince = (event) => {
-        setRegion(event.target.value);
+        setProvince(event.target.value);
         setIsProvinceUnselected(false);
     }
 
@@ -101,8 +120,9 @@ const Filter = (props) => {
         setCurrentPosition(true);
     }
 
-    const saveMarkers = (newMarkerCoords) => {
+    const saveMarkers = (newMarkerCoords,circle) => {
         setMarker(newMarkerCoords)
+        setCircle(circle)
       };
 
     return (
@@ -154,7 +174,7 @@ const Filter = (props) => {
                         <option value={0}>Difficulty</option>
                         {constFilter[2].map((item, index) => {
                             return (
-                                <option key={index} value={item.value}>{item.title}</option>
+                                <option key={index} value={item.title}>{item.title}</option>
                             )
                         })}
                     </Form.Select>
@@ -191,7 +211,7 @@ const Filter = (props) => {
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
                         />
-                       {currentPosition ? <LocationMarker />:<AddMarker saveMarkers={saveMarkers} marker={marker}/>}
+                       {currentPosition ? <LocationMarker saveMarkers={saveMarkers} range ={range} circle ={circle}/>:<AddMarker saveMarkers={saveMarkers} marker={marker} circle ={circle} range = {range}/>}
                     </MapContainer>
                 </Col>
 

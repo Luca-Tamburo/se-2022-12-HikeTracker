@@ -28,12 +28,15 @@ const LocationMarker = (props) => {
       if(props.marker){
 
         map.removeLayer(props.marker)
+        map.removeLayer(props.circle)
       }
       let marker = L.marker([lat, lng], { icon });
-      props.saveMarkers(marker);
+      console.log(props.range)
+      const circle = L.circle(marker.getLatLng(), parseInt(props.range,10));
+      circle.addTo(map);
       marker.addTo(map)
+      props.saveMarkers(marker,circle);
       var l= marker.getLatLng()
-      console.log(l.lat)
     }
   });
   return null;
