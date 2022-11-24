@@ -43,14 +43,14 @@ const Filter = (props) => {
     const ZOOM_LEVEL = 14;
     const mapRef = useRef();
 
-    const [region, setRegion] = useState("Region");
-    const [province, setProvince] = useState("Province");
-    const [city, setCity] = useState("City");
-    const [range, setRange] = useState(0);
-    const [ascent, setAscent] = useState(0);
-    const [difficulty, setDifficulty] = useState(0);
-    const [expectedTime, setExpectedTime] = useState(0);
-    const [length, setLength] = useState(0);
+    const [region, setRegion] = useState(props.filter[0]);
+    const [province, setProvince] = useState(props.filter[1]);
+    const [city, setCity] = useState(props.filter[2]);
+    const [range, setRange] = useState(props.filter[3]);
+    const [ascent, setAscent] = useState(props.filter[4]);
+    const [difficulty, setDifficulty] = useState(props.filter[5]);
+    const [expectedTime, setExpectedTime] = useState(props.filter[6]);
+    const [length, setLength] = useState(props.filter[7]);
 
     const [currentPosition, setCurrentPosition] = useState(false);
 
@@ -66,18 +66,35 @@ const Filter = (props) => {
 
 
     const handleSearch = () => {
-        let v = [] 
-        v.push(region);
-        v.push(province);
-        v.push(city);
-        v.push(range);
-        v.push(difficulty);
-        v.push(ascent);
-        v.push(expectedTime);
-        v.push(length);
 
-        props.setFilter(v)
-        props.search()
+        let result = props.hikes;
+        if(region !=='Region'){console.log('entra 1');result = result.filter( hike => hike.region === region)}
+        if(province!== 'Province'){
+            console.log('entra 2');
+            result = result.filter( hike => hike.province == province)}
+        if(city !== 'City'){console.log('entra 3');result = result.filter( hike => hike.city === city)}
+        if(range !== 0){
+            console.log('entra nel range')
+            let v = [];
+            for (let index = 0; index < result.length; index++) {
+                console.log(marker)
+                let dst = 6372.795477598*1000*Math.acos(Math.sin(result[index].latitude*Math.PI/180)*Math.sin(marker.getLatLng().lat*Math.PI/180)+Math.cos(result[index].latitude*Math.PI/180)*Math.cos(marker.getLatLng().lat*Math.PI/180)*Math.cos(result[index].longitude*Math.PI/180-marker.getLatLng().lng*Math.PI/180))
+                console.log(dst)
+                if(dst <= range)
+                {   console.log('entra nel controllo')
+                    v.push(result[index]);
+                }
+                
+            }
+            result= v;
+        }
+        if(difficulty!== 0){console.log('entra 5');result = result.filter( hike => hike.difficulty === difficulty)}
+        if(ascent !== 0){console.log('entra 6');result = result.filter( hike => hike.ascent === ascent)}
+        if(expectedTime !== 0){console.log('entra 7');result = result.filter( hike => hike.expectedTime === expectedTime)}
+        if(length !== 0){console.log('entra 8');result = result.filter( hike => hike.length == length)}
+
+        console.log(result)
+        props.setHikesDisplay(result)
     }
 
     const handleReset = () => {
@@ -93,17 +110,7 @@ const Filter = (props) => {
         setExpectedTime(0);
         setLength(0);
 
-        let v = [] 
-        v.push(region);
-        v.push(province);
-        v.push(city);
-        v.push(range);
-        v.push(difficulty);
-        v.push(ascent);
-        v.push(parseInt(expectedTime,10));
-        v.push(length);
-
-        props.setFilter(v)
+        props.setHikesDisplay(props.hikes)
     }
 
     const handleRegion = (event) => {
@@ -122,7 +129,6 @@ const Filter = (props) => {
 
     const saveMarkers = (newMarkerCoords,circle) => {
         setMarker(newMarkerCoords)
-        props.setMarker(newMarkerCoords.getLatLng())
         setCircle(circle)
       };
 
@@ -198,7 +204,7 @@ const Filter = (props) => {
                 <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }} className='d-sm-flex'>
                     {/* TODO: Cambiare icone*/}
                     <Button variant='secondary' className=' mt-sm-3 me-sm-3' onClick={handleReset}><BsFillTrashFill />Reset</Button>
-                    <Button className='mt-sm-3' onClick={handleSearch}>Search</Button>
+                    <Button className='mt-sm-3' onClick={() => {handleSearch()}}>Search</Button>
                 </Col>
             </Row>
             {range != 0 ? 
