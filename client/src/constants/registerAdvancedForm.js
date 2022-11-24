@@ -1,4 +1,4 @@
-const UserEmail = [
+const registerAdvancedForm = [
     {
         id: 'signup-username',
         name: 'username',
@@ -12,10 +12,7 @@ const UserEmail = [
         type: 'email',
         placeholder: 'Insert your email',
         label: 'Email',
-    }
-]
-
-const NameSurname = [
+    },
     {
         id: 'signup-name',
         name: 'name',
@@ -30,19 +27,13 @@ const NameSurname = [
         placeholder: 'Insert your surname',
         label: 'Surname',
     },
-]
-
-const PhoneNumber = [
     {
         id: 'signup-number',
         name: 'phoneNumber',
         type: 'text',
         placeholder: 'Insert your phone number',
-        label: 'phoneNumber',
+        label: 'Phone number',
     },
-]
-
-const Password = [
     {
         id: 'signup-password',
         name: 'password',
@@ -56,14 +47,7 @@ const Password = [
         type: 'password',
         placeholder: 'Confirm your password',
         label: 'Confirm password',
-    },
-]
-
-const registerAdvancedForm = [
-    UserEmail,
-    NameSurname,
-    PhoneNumber,
-    Password
+    }
 ]
 
 export default registerAdvancedForm;

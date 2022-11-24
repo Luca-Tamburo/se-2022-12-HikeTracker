@@ -12,12 +12,14 @@
 
 // Imports
 import HikeCard from "./HikeCard/HikeCard";
+import UserCard from "./UserCard/UserCard";
 import Navbar from "./Navbar/Navbar";
 import LoginForm from "./LoginForm/LoginForm";
 import RegisterForm from "./RegisterForm/RegisterForm";
 
 export {
     HikeCard,
+    UserCard,
     Navbar,
     LoginForm,
     RegisterForm

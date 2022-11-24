@@ -108,7 +108,11 @@ const AddHike = (props) => {
                     );
                   })}
                   <Col xs={6}>
-                    <CustomField.Select className="mt-3" id="difficulty" name="difficulty" defaultLabel="Insert the hike difficulty" label="Hike's difficulty" />
+                    <CustomField.Select className="mt-3" id="difficulty" name="difficulty" defaultLabel="Insert the hike difficulty" label="Hike's difficulty" >
+                      <option value='Tourist'>Tourist</option>
+                      <option value='Hiker'>Hiker</option>
+                      <option value='Professional Hiker'>Professional Hiker</option>
+                    </CustomField.Select>
                   </Col>
                   <Col xs={6}>
                     <CustomField.TextArea className="mt-3" id="description" name="description" as="textarea" placeholder="Insert the hike description" label="Description" />

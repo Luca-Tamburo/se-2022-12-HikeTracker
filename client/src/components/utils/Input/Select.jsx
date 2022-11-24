@@ -14,8 +14,8 @@ const Select = ({ id, name, defaultValue = 0, defaultLabel = "", disabled, label
     })
 
     return (
-        <Form.Group className={className} controlId={id}>
-            <Form.Label className="fw-semibold">{label}</Form.Label>
+        <Form.Group className={className}>
+            <Form.Label htmlFor={id} className="fw-semibold">{label}</Form.Label>
             <Field as="select" id={id} name={name} className={classes} disabled={disabled}>
                 <option value={defaultValue}>{defaultLabel}</option>
                 {children}

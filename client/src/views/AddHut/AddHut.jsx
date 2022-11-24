@@ -58,7 +58,6 @@ const AddHut = (props) => {
         province: "",
         city: "",
         description: "",
-        // type: "",
     }
 
     const handleSubmit = (values) => {
@@ -75,7 +74,6 @@ const AddHut = (props) => {
         formData.append('province', values.province);
         formData.append('city', values.city);
         formData.append('description', values.description);
-        // formData.append('type', 'hut'); //Secondo me ci sta inserirlo di default
         setLoading(true);
 
         api.addHut(formData)

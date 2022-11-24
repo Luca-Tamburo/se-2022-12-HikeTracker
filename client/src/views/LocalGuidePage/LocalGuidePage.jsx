@@ -13,21 +13,39 @@
 // Imports
 import { Col } from "react-bootstrap";
 
+// Components - uiCore
+import LocalGuideServiceCard from "../../components/ui-core/LocalGuideServiceCard/LocalGuideServiceCard";
+
+// Constants
+import LocalGuideService from "../../constants/LocalGuideService";
+
 // Styles
 import maleAvatar from '../../assets/maleAvatar.png'
 import femaleAvatar from '../../assets/femaleAvatar.png'
+
+const user = {
+    name: 'baola',
+    gender: 'f'
+}
 
 const LocalGuidePage = () => {
     return (
         <>
             <Col xs={{ span: 10, offset: 1 }} className="mt-5">
                 <div className="d-flex justify-content-center">
-                    <img alt='avatar' src={maleAvatar} style={{ width: 180 }} />
-                    <h1 className="display-4 fw-bold mt-5 ms-3">Welcome giouvà</h1>
+                    {user.gender === 'm' ? <img alt='avatar' src={maleAvatar} style={{ width: 180 }} /> : user.gender === 'f' ? <img alt='avatar' src={femaleAvatar} style={{ width: 180 }} /> : <p1>Undefined</p1>}
+                    <h1 className="display-4 fw-bold mt-5 ms-3">Welcome {user.name}</h1>
                 </div>
-
-            </Col>
-
+                <div className="d-flex justify-content-around mt-3">
+                    {LocalGuideService.map((info, index) => {
+                        return (
+                            <Col xs={3}>
+                                <LocalGuideServiceCard key={index} info={info} />
+                            </Col>
+                        )
+                    })}
+                </div>
+            </Col >
         </>
 
     );

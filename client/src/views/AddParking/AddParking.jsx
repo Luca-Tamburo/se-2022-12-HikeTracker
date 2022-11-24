@@ -60,7 +60,6 @@ const AddParking = (props) => {
     const handleSubmit = (values) => {
         let formData = new FormData();
         formData.append('title', values.title);
-        // formData.append('photoFile', values.photoFile);
         formData.append('latitude', values.latitude);
         formData.append('longitude', values.longitude);
         formData.append('altitude', values.altitude);
