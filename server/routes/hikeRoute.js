@@ -123,7 +123,7 @@ router.get('/hikegpx/:hikeId', check('hikeId').isInt().withMessage('hikeId must 
     isLoggedInHiker, async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty())
-            return res.status(404).json({ error: `Hike not found` });
+            return res.status(422).json({ error: `Wrong hikeId` });
         try {
             let gpx = await hikeDao.getGpxByHikeId( req.params.hikeId);
             if (gpx !== undefined) {
@@ -143,7 +143,7 @@ router.get('/hikedetails/:hikeId', check('hikeId').isInt().withMessage('hikeId m
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty())
-            return res.status(404).json({ error: `Hike not found` });
+            return res.status(422).json({ error: `Wrong HikeId` });
         try {
             //Hike detailed information is collected
             let hike = await hikeDao.getDetailsByHikeId( req.params.hikeId);
