@@ -5,7 +5,7 @@ const { iAmTesting, setTesting } = require('../mockDB/iAmTesting');
 setTesting(1);
 const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 
-const { getHikes, addHike, getDetailsByHikeId } = require("../../dao/hikeDao");
+const { getHikes, addHike, getDetailsByHikeId, getGpxByHikeId , getPointsByHikeId} = require("../../dao/hikeDao");
 const { addPoint, addPointHike } = require('../../dao/pointDao');
 const { addUser } = require('../../dao/userDao');
 
@@ -36,11 +36,13 @@ describe("test hikes", () => {
         await cleanDb();
         await addHikes();
     });
-
+    
+    // Call tests
     testgetHikes()
     testgetDetailsByHikeId(1, 3) //id, wrongId
+    testgetGpxByHikeId(1, 3) //id, wrongId
+    testgetPointsByHikeId(1) //id
 });
-
 
 function testgetHikes() {
     test("test getHikes", async () => {
@@ -117,5 +119,52 @@ function testgetDetailsByHikeId(id, wongId) {
     test("test hikeDetails wrong id", async () => {
         let hikeDetails = await getDetailsByHikeId(wongId);
         expect(hikeDetails).toEqual(undefined);
+    });
+}
+
+function testgetGpxByHikeId(id, wongId) {
+    test("test getGpxByHikeId", async () => {
+
+        let gpx = await getGpxByHikeId(id);
+
+        expect(gpx).toEqual(
+            "1_Trail_to_MONTE_FERRA.gpx"
+        );
+    });
+
+    test("test getGpxByHikeId wrong id", async () => {
+        let gpx = await getGpxByHikeId(wongId);
+        expect(gpx).toEqual(undefined);
+    });
+}
+
+function testgetPointsByHikeId(id) {
+    test("test getPointsByHikeId", async () => {
+        let points = await getPointsByHikeId(id);
+        expect(points).toEqual([
+            {
+                "id": 1,
+                "name": "Rifugio Melezè - Bellino - Val Varaita",
+                "description": "The building was a ...",
+                "type": "hut",
+                "latitude": 44.5742508675903,
+                "longitude": 6.98268919251859,
+                "altitude": 1757.43,
+                "city": "Bellino",
+                "province": "Cuneo"
+            },
+            {
+                "id": 2,
+                "name": "Monte Ferra",
+                "description": "Peak of Monte Ferra",
+                "type": "gpsCoordinates",
+                "latitude": 44.6020777802914,
+                "longitude": 6.98475264944136,
+                "altitude": 3094.14,
+                "city": null,
+                "province": null,
+            }
+        ]
+        );
     });
 }
