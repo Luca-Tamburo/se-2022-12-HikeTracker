@@ -266,11 +266,6 @@ describe("Post.Hikes.APItesting", function () {
     });
 
 
-    //the tests under this line doesn't work because of authentication, you have to be an hiker to run them
-
-
-
-
     const hiker = request.agent(server);
 
 
@@ -319,20 +314,6 @@ describe("Post.Hikes.APItesting", function () {
             });
     });
 
-    /*step('Test10.5: Add Hike con successo (populate the db for next tests)', async function () {
-        await localGuide
-            .post('hikes')
-            .set('content-type', 'multipart/form-data')
-            .field({"title": "kkk",
-            "description": "sss",
-            "expectedTime": 66.66,
-            "difficulty": "Hiker",
-            "photoFile": "http://somelink/link"})
-            .attach('File', 'test/RightFile.gpx')
-            .then(function (res) {
-                res.should.have.status(201);
-            });
-    });*/
 
     step("Test12: wrong hikeID format", async function () {
 
@@ -341,16 +322,9 @@ describe("Post.Hikes.APItesting", function () {
         await hiker
                 .get(`hikegpx/${hikeId}`)
                 .then(function (res) {
-                    res.should.have.status(404);
+                    res.should.have.status(422);
                 });
 
-        /*chai
-            .request(server)
-            .get(`hikegpx/${hikeId}`)
-            .end((err, res) => {
-                res.should.have.status(422);
-                done();
-            });*/
     });
 
     step("Test13: hike not found", async function () {
@@ -386,6 +360,46 @@ describe("Post.Hikes.APItesting", function () {
                 .then(function (res) {
                     res.should.have.status(200);
                 });
+    });
+
+
+    step("Test16: get hike details, wrong hikeId format", (done) => {
+
+        const hikeId = "this shouldn't be a string";
+
+        chai
+            .request(server)
+            .get(`hikedetails/${hikeId}`)
+            .end((err, res) => {
+                res.should.have.status(422);
+                done();
+            });
+    });
+
+    step("Test16: get hike details, non existing hikeId", (done) => {
+
+        const hikeId = 3;
+
+        chai
+            .request(server)
+            .get(`hikedetails/${hikeId}`)
+            .end((err, res) => {
+                res.should.have.status(404);
+                done();
+            });
+    });
+
+    step("Test17: get hike details correctly", (done) => {
+
+        const hikeId = 2;
+
+        chai
+            .request(server)
+            .get(`hikedetails/${hikeId}`)
+            .end((err, res) => {
+                res.should.have.status(200);
+                done();
+            });
     });
 
 
