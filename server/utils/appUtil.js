@@ -12,6 +12,7 @@ const fileupload = require("express-fileupload");
 const sessionRoute = require("../routes/sessionRoute");
 const signUpRoute = require("../routes/signUpRoute");
 const hikeRoute = require("../routes/hikeRoute");
+const pointRoute = require("../routes/pointRoute");
 const activateMockRoute = require("../routes/activateTestRoute")
 
 const app = new express();
@@ -52,7 +53,7 @@ app.use(passport.session());
 
 
 /* --- APIs --- */
-app.use("/api", sessionRoute, signUpRoute, hikeRoute, activateMockRoute);
+app.use("/api", sessionRoute, signUpRoute, hikeRoute, pointRoute, activateMockRoute);
 
 
 // activate the server
