@@ -8,7 +8,7 @@ const { secret } = require("../config/auth.config");
 const sign = require('jwt-encode');
 const nodemailer = require('../config/nodemailer.config');
 const path = require('path');
-const { roleValidator, optionalBecomeMandatory, emailAvailabilityCheck, usernameAvailabilityCheck, roleFormatter } = require("../utils/signUpUtils");
+const { roleValidator, genderValidator, optionalBecomeMandatory, emailAvailabilityCheck, usernameAvailabilityCheck, roleFormatter, genderFormatter } = require("../utils/signUpUtils");
 const isNotLoggedIn = sessionUtils.isNotLoggedIn;
 
 
@@ -58,6 +58,13 @@ router.post("/signup", isNotLoggedIn,
         .isString().withMessage("This field must be a string (consider the prefix of the phone number)").bail()
         .trim().isLength({ min: 2 }).withMessage("This field is a string and must be from 2 characters").bail()
         .trim().matches(/^[+0-9][0-9 ]+$/).withMessage("This field must contain only numbers, the + for prefixes and spaces"),
+
+    check("gender").if((value, { req }) => optionalBecomeMandatory(req.body.role)).exists().withMessage("This field is mandatory").bail()
+        .isString().withMessage("This field must be a string").bail().custom((value, { req }) => (genderValidator(value))).withMessage("Invalid gender"),
+
+    check("gender").if((value, { req }) => !optionalBecomeMandatory(req.body.role)).optional({ nullable: true })
+        .isString().withMessage("This field must be a string").bail().custom((value, { req }) => (genderValidator(value))).withMessage("Invalid gender"),
+
     checksValidation, usernameAvailabilityCheck, emailAvailabilityCheck,
     async (req, res) => {
         try {
@@ -81,9 +88,10 @@ router.post("/signup", isNotLoggedIn,
             const name = req.body.name ? req.body.name.trim() : null;
             const surname = req.body.surname ? req.body.surname.trim() : null;
             const phone = req.body.phoneNumber ? req.body.phoneNumber.trim() : null;
+            const gender = req.body.gender ? req.body.gender.trim() : null;
 
             //mando dati a dao
-            await userDao.addUser(req.body.email.trim(), req.body.username.trim(), roleFormatter(req.body.role.trim()), name, surname, phone, req.body.password, jwt);
+            await userDao.addUser(req.body.email.trim(), req.body.username.trim(), roleFormatter(req.body.role.trim()), name, surname, genderFormatter(gender), phone, req.body.password, jwt);
             //mando mail di conferma
             nodemailer.sendConfirmationEmail(req.body.username, req.body.email, url);
 

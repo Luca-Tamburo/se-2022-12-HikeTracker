@@ -38,6 +38,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
             "namfe": "Test",
             "survname": "User",
             "phoneNumber": "+393322939333",
+            "gender": "M",
         };
         chai
             .request(server)
@@ -58,6 +59,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
             "name": "Test",
             "surname": "User",
             "phoneNumber": "+393322939333",
+            "gender": "M",
         };
         chai
             .request(server)
@@ -78,6 +80,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
             "name": "Test",
             "surname": "User",
             "phoneNumber": "+393322939333",
+            "gender": "M",
         };
         chai
             .request(server)
@@ -98,6 +101,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
             "name": "Test",
             "surname": "User",
             "phoneNumber": "+393322939333",
+            "gender": "M",
         };
         chai
             .request(server)
@@ -118,6 +122,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
             "name": "Test d",
             "surname": "User",
             "phoneNumber": "++393322939333",
+            "gender": "M",
         };
         chai
             .request(server)
@@ -129,7 +134,28 @@ describe("Registration.Form.Procedure.APItesting", function () {
             });
     });
 
-    step("Test6: missing mandatory credentials in hut worker", (done) => {
+    step("Test6: wrong  gender format", (done) => {
+        let user = {
+            "email": "userh@ikemail.com",
+            "password": "password",
+            "role": "hutWorker",
+            "username": "testuser11",
+            "name": "Test d",
+            "surname": "User",
+            "phoneNumber": "++393322939333",
+            "gender": "MN",
+        };
+        chai
+            .request(server)
+            .post('signup')
+            .send(user)
+            .end((err, res) => {
+                res.should.have.status(422);
+                done();
+            });
+    });
+
+    step("Test7: missing mandatory credentials in hut worker", (done) => {
         let user = {
             "email": "userh@ikemail.com",
             "password": "password",
@@ -147,7 +173,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
             });
     });
 
-    step("Test7: missing name in hut worker", (done) => {
+    step("Test8: missing name in hut worker", (done) => {
         let user = {
             "email": "userh@ikemail.com",
             "password": "password",
@@ -155,6 +181,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
             "username": "testuser11",
             "surname": "User",
             "phoneNumber": "+393322939333",
+            "gender": "M",
         };
         chai
             .request(server)
@@ -166,7 +193,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
             });
     });
 
-    step("Test8: wrong email type", (done) => {
+    step("Test9: wrong email type", (done) => {
         let user = {
             "email": 1111,
             "password": "password",
@@ -186,7 +213,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
             });
     });
 
-    step("Test9: wrong password type", (done) => {
+    step("Test10: wrong password type", (done) => {
         let user = {
             "email": "s303030@f.cio",
             "password": 222,
@@ -206,7 +233,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
             });
     });
 
-    step("Test10: wrong role type", (done) => {
+    step("Test11: wrong role type", (done) => {
         let user = {
             "email": "s303030@f.cio",
             "password": "password",
@@ -226,7 +253,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
             });
     });
 
-    step("Test11: wrong username type", (done) => {
+    step("Test12: wrong username type", (done) => {
         let user = {
             "email": "s303030@f.cio",
             "password": "password",
@@ -246,7 +273,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
             });
     });
 
-    step("Test12: wrong name type", (done) => {
+    step("Test13: wrong name type", (done) => {
         let user = {
             "email": "s303030@f.cio",
             "password": "password",
@@ -266,7 +293,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
             });
     });
 
-    step("Test13: wrong surname type", (done) => {
+    step("Test14: wrong surname type", (done) => {
         let user = {
             "email": "s303030@f.cio",
             "password": "password",
@@ -286,7 +313,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
             });
     });
 
-    step("Test14: wrong phoneNumber type", (done) => {
+    step("Test15: wrong phoneNumber type", (done) => {
         let user = {
             "email": "s303030@f.cio",
             "password": "password",
@@ -305,7 +332,29 @@ describe("Registration.Form.Procedure.APItesting", function () {
                 done();
             });
     });
-    step("Test15: goodSignup", async (done) => {
+
+    step("Test16: wrong gender type", (done) => {
+        let user = {
+            "email": "s303030@f.cio",
+            "password": "password",
+            "role": "hutWorker",
+            "username": "testuser11",
+            "name": "User",
+            "surname": "User",
+            "phoneNumber": "+393322939333",
+            "gender": 1,
+        };
+        chai
+            .request(server)
+            .post('signup')
+            .send(user)
+            .end((err, res) => {
+                res.should.have.status(422);
+                done();
+            });
+    });
+
+    step("Test17: goodSignup", async (done) => {
         let user = {
             "email": "hiketracker1@gmail.com",
             "password": "Password20!",
@@ -314,6 +363,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
             "name": "Antonio",
             "surname": "Colelli",
             "phoneNumber": "3311234567",
+            "gender": "M"
         };
         chai
             .request(server)
@@ -324,7 +374,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
                 done();
             });
     });
-    step("Test16: badConfirmCode", (done) => {
+    step("Test18: badConfirmCode", (done) => {
         const confirmCode = "ciao!";
 
         chai
@@ -335,7 +385,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
                 done();
             });
     });
-    it("Test17: goodConfirmCode", (done) => {
+    it("Test19: goodConfirmCode", (done) => {
 
         const confirmCode = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imhpa2V0cmFja2VyMUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFudG9jb2xlMjAyMjEifQ.cxkWbbjScwBXCKh7CQvjxVP7ZX3geMQyaKYQEQS-P8E";
 
@@ -347,7 +397,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
                 done();
             });
     });
-    it("Test18: sameGoodConfirmCodeAsBefore", (done) => {
+    it("Test20: sameGoodConfirmCodeAsBefore", (done) => {
 
         const confirmCode = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFudG9uaW9jb2xlbGxpMTk5OEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFudG9jb2xlMjAyMiJ9.H8MEp_pYoUtS3cn4XkWWrNJvKIryDDQy8h3lc0W02cI";
 
@@ -359,7 +409,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
                 done();
             });
     });
-    step("Test19: TryToSignUpAnAlreadyExistingMail", async (done) => {
+    step("Test21: TryToSignUpAnAlreadyExistingMail", async (done) => {
         let user = {
             "email": "hiketracker1@gmail.com",
             "password": "Password20!",
@@ -368,6 +418,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
             "name": "Antonio",
             "surname": "Colelli",
             "phoneNumber": "3311234567",
+            "gender": "M"
         };
         chai
             .request(server)
@@ -378,7 +429,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
                 done();
             });
     });
-    step("Test19: TryToSignUpAnAlreadyExistingUsername", async (done) => {
+    step("Test22: TryToSignUpAnAlreadyExistingUsername", async (done) => {
         let user = {
             "email": "antoniocolelli19981111@gmail.com",
             "password": "Password20!",
@@ -387,6 +438,7 @@ describe("Registration.Form.Procedure.APItesting", function () {
             "name": "Antonio",
             "surname": "Colelli",
             "phoneNumber": "3311234567",
+            "gender": "M"
         };
         chai
             .request(server)

@@ -55,7 +55,7 @@ function createTables() {
         })
 
         const user = 'CREATE TABLE IF NOT EXISTS "User" ( "id"	INTEGER NOT NULL, "email"   TEXT, "username" TEXT, "role" TEXT, \
-        "name" TEXT, "surname"   TEXT, "phoneNumber" TEXT, "hash" TEXT, "salt" TEXT, "verifiedEmail" INTEGER, "confirmationCode" TEXT, PRIMARY KEY("id" AUTOINCREMENT));'
+        "name" TEXT, "surname"   TEXT, "gender"   TEXT, "phoneNumber" TEXT, "hash" TEXT, "salt" TEXT, "verifiedEmail" INTEGER, "confirmationCode" TEXT, PRIMARY KEY("id" AUTOINCREMENT));'
 
         db.run(user, (err) => {
             if (err) {

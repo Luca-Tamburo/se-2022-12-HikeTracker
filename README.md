@@ -55,7 +55,8 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
       "name": "stefano",
       "surname": "pioli",
       "role": "hiker",
-      "phoneNumber": "+393456589563"
+      "phoneNumber": "+393456589563",
+      "gender":"M"
   }
   ```
 
@@ -79,7 +80,8 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
       "name": "stefano",
       "surname": "pioli",
       "role": "hiker",
-      "phoneNumber": "+393456589563"
+      "phoneNumber": "+393456589563",
+      "gender":"M"
   }
   ```
 
@@ -95,7 +97,8 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
       "name":"stefano",
       "surname":"pioli",
       "phoneNumber":"+393323232232",
-      "role":"localGuide"
+      "role":"localGuide",
+      "gender":"M"
   }
   ```
 
@@ -239,6 +242,28 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   - Response: The gpx file, or `503 Service Unavailable` (generic error). `404 NOT FOUND` If the gpx file is not present
   - Response body: _None_
 
+- POST `/api/parking`
+  - Description: Insert parking point in the system.
+  - Request body: An object representing the parking point
+  ```
+  {
+     "title":"parking",
+	"description":"big parking area near the start of the hike!",
+	"latitude": 44.57426,
+     "longitude": 6.98264,
+     "altitude": 3094,
+     "city": "Condove",
+     "province": "Torino ",
+     "region": "Piemonte"
+  }   
+  ```
+  - Response: `201 CREATED` (success), `422` if the input is not correct, `503 Service Unavailable` (generic error). 
+  - Response body: Confirmation message.
+  ```
+  {
+      "message": "Parking inserted in the system"
+  }
+  ```
 
 ## Database Tables
 
