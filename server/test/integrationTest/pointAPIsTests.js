@@ -41,6 +41,7 @@ describe("Post.Parking.APItesting", function () {
             "name": "Antonio",
             "surname": "Colelli",
             "phoneNumber": "3311234567",
+            "gender": "M",
         };
         localGuide
             .post('signup')

@@ -55,7 +55,8 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
       "name": "stefano",
       "surname": "pioli",
       "role": "hiker",
-      "phoneNumber": "+393456589563"
+      "phoneNumber": "+393456589563",
+      "gender":"M"
   }
   ```
 
@@ -79,7 +80,8 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
       "name": "stefano",
       "surname": "pioli",
       "role": "hiker",
-      "phoneNumber": "+393456589563"
+      "phoneNumber": "+393456589563",
+      "gender":"M"
   }
   ```
 
@@ -95,7 +97,8 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
       "name":"stefano",
       "surname":"pioli",
       "phoneNumber":"+393323232232",
-      "role":"localGuide"
+      "role":"localGuide",
+      "gender":"M"
   }
   ```
 

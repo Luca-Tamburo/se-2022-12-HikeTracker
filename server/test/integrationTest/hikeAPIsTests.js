@@ -43,6 +43,7 @@ describe("Post.Hikes.APItesting", function () {
             "name": "Antonio",
             "surname": "Colelli",
             "phoneNumber": "3311234567",
+            "gender": "M",
         };
         localGuide
             .post('signup')
@@ -278,6 +279,7 @@ describe("Post.Hikes.APItesting", function () {
             "name": "Edoardo",
             "surname": "Miccono",
             "phoneNumber": "3312345678",
+            "gender":"M",
         };
         hiker
             .post('signup')

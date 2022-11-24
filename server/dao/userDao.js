@@ -60,7 +60,8 @@ exports.getUserAllInfosById = (id) => {
                     name: row.name,
                     surname: row.surname,
                     role: row.role,
-                    phoneNumber: row.phoneNumber
+                    phoneNumber: row.phoneNumber,
+                    gender:row.gender
                 }
                 resolve(user);
             }
@@ -88,7 +89,8 @@ exports.getUser = (email, password) => {
                     name: row.name,
                     surname: row.surname,
                     role: row.role,
-                    phoneNumber: row.phoneNumber
+                    phoneNumber: row.phoneNumber,
+                    gender:row.gender
                 }
                 const salt = row.salt;
                 crypto.scrypt(password, salt, 32, (err, hashedPassword) => {
@@ -157,7 +159,7 @@ exports.getUserByUsername = (username) => {
  * @param {string} confirmationCode the user confirmationCode
  */
 
-exports.addUser = async (email, username, role, name, surname, phoneNumber, password, confirmationCode) => {
+exports.addUser = async (email, username, role, name, surname, gender,phoneNumber, password, confirmationCode) => {
 
     //creo sale
     const salt = crypto.randomBytes(8).toString('hex');
@@ -172,8 +174,8 @@ exports.addUser = async (email, username, role, name, surname, phoneNumber, pass
     }
     const hashedPassword = await getHashPass(password);
     return new Promise((resolve, reject) => {
-        const sql = "INSERT INTO user(email, username, role, name, surname, phoneNumber, hash, salt,confirmationCode,verifiedEmail) VALUES (?,?,?,?,?,?,?,?,?,?)";
-        db.run(sql, [email, username, role, name, surname, phoneNumber, hashedPassword, salt, confirmationCode, 0],
+        const sql = "INSERT INTO user(email, username, role, name, surname,gender, phoneNumber, hash, salt,confirmationCode,verifiedEmail) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        db.run(sql, [email, username, role, name, surname,gender, phoneNumber, hashedPassword, salt, confirmationCode, 0],
             function (err) {
                 if (err) {
 
