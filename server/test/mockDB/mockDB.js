@@ -74,7 +74,7 @@ function createTables() {
         })
 
         const hut = 'CREATE TABLE IF NOT EXISTS "Hut" ( "id"	INTEGER NOT NULL, "roomsNumber"   INTEGER, "bedsNumber" INTEGER, "whenIsOpen" TEXT, \
-        "phoneNumber" TEXT, "photosPath"   TEXT, "pointID" INTEGER, FOREIGN KEY("pointId") REFERENCES "Point"("id")  PRIMARY KEY("id" AUTOINCREMENT));'
+        "phoneNumber" TEXT, "photoFile"   TEXT, "pointID" INTEGER, FOREIGN KEY("pointId") REFERENCES "Point"("id")  PRIMARY KEY("id" AUTOINCREMENT));'
 
         db.run(hut, (err) => {
             if (err) {

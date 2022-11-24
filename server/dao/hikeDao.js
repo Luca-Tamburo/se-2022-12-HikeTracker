@@ -56,7 +56,6 @@ exports.addHike = (title, description, length, expectedTime, ascent, difficulty,
 }
 
 
-
 /**
  * Get hikes from the system (general information)
  */
@@ -90,7 +89,6 @@ exports.getHikes = () => {
                     city: r.city,
                     province: r.province,
                     region: r.region
-
                 }
             ));
             resolve(hikes);
