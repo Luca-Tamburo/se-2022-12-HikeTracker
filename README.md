@@ -1,5 +1,15 @@
+![sonarcloud analysis workflow](https://github.com/Luca-Tamburo/se-2022-12-HikeTracker/actions/workflows/sonarcloud.yml/badge.svg)
+---
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-orange.svg)](https://sonarcloud.io/summary/new_code?id=Luca-Tamburo_se-2022-12-HikeTracker)
+---
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Luca-Tamburo_se-2022-12-HikeTracker&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Luca-Tamburo_se-2022-12-HikeTracker)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Luca-Tamburo_se-2022-12-HikeTracker&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=Luca-Tamburo_se-2022-12-HikeTracker)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Luca-Tamburo_se-2022-12-HikeTracker&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Luca-Tamburo_se-2022-12-HikeTracker)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Luca-Tamburo_se-2022-12-HikeTracker&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Luca-Tamburo_se-2022-12-HikeTracker)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Luca-Tamburo_se-2022-12-HikeTracker&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=Luca-Tamburo_se-2022-12-HikeTracker)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Luca-Tamburo_se-2022-12-HikeTracker&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Luca-Tamburo_se-2022-12-HikeTracker)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Luca-Tamburo_se-2022-12-HikeTracker&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Luca-Tamburo_se-2022-12-HikeTracker)
 # HikeTracker
-
 Project developed by ***Team-12*** for the course "Software Engineering II," attended during the academic year 2022/23 at Politecnico di Torino, Master's Degree in Computer Engineering.
 
 ## Table of Contents
