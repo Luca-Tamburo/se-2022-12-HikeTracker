@@ -1,15 +1,3 @@
-/*
-* -------------------------------------------------------------------- 
-*
-* Package:         client
-* Module:          components/utils/Input
-* File:            Input.jsx
-* 
-* Copyright (c) 2022 - se2022-Team12
-* All rights reserved.
-* --------------------------------------------------------------------
-*/
-
 // Imports
 import { Form } from "react-bootstrap";
 import { Field, ErrorMessage, useField } from "formik";
@@ -17,7 +5,7 @@ import { Field, ErrorMessage, useField } from "formik";
 // ClassNames
 import classNames from "classnames";
 
-const Input = ({ id, name, type, placeholder, disabled, className, label }) => {
+const TextArea = ({ id, name, placeholder, disabled, className, label }) => {
     const [field, meta] = useField(name);
 
     const classes = classNames({
@@ -30,11 +18,12 @@ const Input = ({ id, name, type, placeholder, disabled, className, label }) => {
     return (
         <Form.Group className={className} controlId={id}>
             <Form.Label htmlFor={id} className="fw-semibold text-primary-dark" >{label}</Form.Label>
-            <Field id={id} name={field.name} type={type} placeholder={placeholder} className={classes} disabled={disabled} />
+            <Field as="textarea" id={id} name={field.name} placeholder={placeholder} className={classes} disabled={disabled} />
             <Form.Text className='text-danger'>
                 <ErrorMessage name={field.name} />
             </Form.Text>
         </Form.Group>
     );
 }
-export default Input;
+
+export default TextArea;

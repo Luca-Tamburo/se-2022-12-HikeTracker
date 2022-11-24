@@ -13,5 +13,8 @@
 // Imports
 import Filter from './Filter';
 import registerForm from './registerForm';
+import AddHikeForm from './AddHikeForm'
+import AddParkingForm from './AddParkingForm'
+import AddHutForm from './AddHutForm'
 
-export { Filter, registerForm }
+export { Filter, registerForm, AddHikeForm, AddParkingForm, AddHutForm }

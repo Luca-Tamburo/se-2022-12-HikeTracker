@@ -23,7 +23,10 @@ import { AuthContext } from '../../contexts/AuthContext';
 import api from "../../services/api";
 
 // Components
-import Input from "../../components/utils/Input/Input";
+import * as CustomField from "../../components/utils/Input/index";
+
+// Constants
+import { AddHikeForm } from "../../constants";
 
 // Validations
 import AddHikeSchema from "../../validation/AddHikeSchema";
@@ -89,39 +92,40 @@ const AddHike = (props) => {
             <Col xs={{ span: 10, offset: 1 }} className="mt-3">
               <FormikForm>
                 <Row>
-                  <Col>
-                    <Input className="mt-3" id="title" name="title" type="text" placeholder="Insert the hike name" label="Name" />
+                  {AddHikeForm.map((input, index) => {
+                    return (
+                      <Col xs={input.xsCol}>
+                        <CustomField.Input
+                          className='mt-3'
+                          type='text'
+                          key={index}
+                          id={input.idName}
+                          name={input.idName}
+                          placeholder={input.placeholder}
+                          label={input.label}
+                        />
+                      </Col>
+                    );
+                  })}
+                  <Col xs={6}>
+                    <CustomField.Select className="mt-3" id="difficulty" name="difficulty" defaultLabel="Insert the hike difficulty" label="Hike's difficulty" />
                   </Col>
-                  <Col>
-                    <Input className="mt-3" id="photoFile" name="photoFile" type="text" placeholder="Insert the hike url image" label="Image" />
+                  <Col xs={6}>
+                    <CustomField.TextArea className="mt-3" id="description" name="description" as="textarea" placeholder="Insert the hike description" label="Description" />
                   </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Input className="mt-3" id="difficulty" name="difficulty" type="select" placeholder="Insert the hike difficulty" label="Hike's difficulty" />
+                  <Col xs={6}>
+                    <Form.Group className="mt-3" controlId="file">
+                      <Form.Label className="fw-semibold fst-italic" >File upload</Form.Label>
+                      <input id="file" name="file" type="file" className="d-flex mt-3" onChange={(event) => {
+                        event.preventDefault();
+                        setSelectedFile(event.target.files[0]);
+                        setFieldValue("file", event.currentTarget.files[0]);
+                      }}
+                      />
+                    </Form.Group>
                   </Col>
-                  <Col>
-                    <Input className="mt-3" id="expectedTime" name="expectedTime" type="text" placeholder="Insert the hike expected time in hour" label="Expected Time" />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Input className="mt-3" id="description" name="description" type="text" placeholder="Insert the hike description" label="Description" />
-                  </Col>
-                  <Col>
-                  <Form.Group className="mt-3" controlId="file">
-                    <Form.Label className="fw-semibold fst-italic" >File upload</Form.Label>
-                     <input id="file" name="file" type="file" className="d-flex mt-3" onChange={(event) => {
-                      event.preventDefault();
-                      setSelectedFile(event.target.files[0]);
-                      setFieldValue("file", event.currentTarget.files[0]);
-                    }}
-                    />
-                      </Form.Group>
-                  </Col>
-                </Row>
-                {/* ADDITION FUNCTIONALITY FOR NEXT STORY */}
-                {/* <Row>
+                  {/* ADDITION FUNCTIONALITY FOR NEXT STORY */}
+                  {/* <Row>
                         <Col>
                             <Input className="mt-3" id="startPoint" name="Start Point" type="text" placeholder="Insert the hike start point" label="Start point" />
                         </Col>
@@ -129,7 +133,6 @@ const AddHike = (props) => {
                             <Input className="mt-3" id="endPoint" name="end Point" type="text" placeholder="Insert the hike end point" label="End point" />
                         </Col>
                     </Row> */}
-                <Row>
                   <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}>
                     {loading && (<Spinner animation="border" size="sm" as="span" role="status" aria-hidden="true" className="me-2" />)}
                     Submit
@@ -140,7 +143,7 @@ const AddHike = (props) => {
           );
         }}
       </Formik>
-    </div>
+    </div >
   );
 };
 

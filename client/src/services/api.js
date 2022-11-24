@@ -85,6 +85,22 @@ const api = {
                 .catch((err) => reject(err.response.data));
         })
     },
+
+    addHut: (formData) => {
+        return new Promise((resolve, reject) => {
+            axios.post(SERVER_URL + 'hut', formData, { withCredentials: true })
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err.response.data));
+        })
+    },
+
+    addParking: (formData) => {
+        return new Promise((resolve, reject) => {
+            axios.post(SERVER_URL + 'parking', formData, { withCredentials: true })
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err.response.data));
+        })
+    },
 }
 
 export default api;

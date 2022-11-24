@@ -85,11 +85,16 @@ const App = () => {
           <Route path='/signup/:role' element={<View.RegisterRole />} />
           <Route path='/hikes' element={<View.Hike />} />
           <Route path='/hikes/:hikeId' element={<View.HikeDetails isloggedIn={isloggedIn} userInfo={userInfo} />} />
+          <Route path='/localGuide/:localGuideId' element={<View.LocalGuidePage />} />
           <Route path='/addHike' element={<View.AddHike userInfo={userInfo} />} />
+          {/* <Route element={<Utils.LocalGuideProtectedRoute />} > */}
+          <Route path='/addHut' element={<View.AddHut />} />
+          <Route path='/addParking' element={<View.AddParking />} />
           <Route element={<Utils.ProtectedRoute />}>
             <Route path='/email/confirmed' element={<View.EmailConf />} />
             <Route path='/email/error' element={<View.EmailErr />} />
           </Route>
+          {/* </Route> */}
           <Route path='*' element={<View.ErrorView />} />
         </Routes>
       </Utils.AppContainer>

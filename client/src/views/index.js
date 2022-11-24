@@ -20,7 +20,10 @@ import RegisterRole from './Register/RegisterRole';
 import HikeDetails from './HikeDetails/HikeDetails';
 import EmailConf from './Email/EmailConf';
 import EmailErr from './Email/EmailErr';
+import LocalGuidePage from './LocalGuidePage/LocalGuidePage';
 import AddHike from './AddHike/AddHike';
+import AddHut from './AddHut/AddHut';
+import AddParking from './AddParking/AddParking';
 
 export {
     ErrorView,
@@ -32,5 +35,8 @@ export {
     EmailConf,
     EmailErr,
     HikeDetails,
-    AddHike
+    LocalGuidePage,
+    AddHike,
+    AddHut,
+    AddParking,
 }
