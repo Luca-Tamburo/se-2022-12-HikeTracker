@@ -72,8 +72,7 @@ describe('Login', () => {
             cy.get('input[placeholder="Insert your email"]').clear().type(verifiedAccount.email);
             cy.get('input[placeholder="Insert your password"]').clear().type(verifiedAccount.password);
             cy.get('button').contains(/login/i).click();
-            cy.wait(1000);
-            cy.url().should('eq', 'http://localhost:3000/');
+
         });
     });
 })
