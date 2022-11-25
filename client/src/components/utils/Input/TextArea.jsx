@@ -16,7 +16,7 @@ const TextArea = ({ id, name, placeholder, disabled, className, label }) => {
     })
 
     return (
-        <Form.Group className={className} controlId={id}>
+        <Form.Group className={className}>
             <Form.Label htmlFor={id} className="fw-semibold text-primary-dark" >{label}</Form.Label>
             <Field as="textarea" id={id} name={field.name} placeholder={placeholder} className={classes} disabled={disabled} />
             <Form.Text className='text-danger'>
