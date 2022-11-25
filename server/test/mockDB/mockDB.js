@@ -142,12 +142,12 @@ async function createDatabase() {
 
             createTables();
 
-             setTimeout(() => {
+        /*     setTimeout(() => {
 
                  insertusers();
 
              }, 1000);
-
+*/
             resolve('ok')
         } catch (error) {
             reject(error);
