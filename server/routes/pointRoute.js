@@ -19,9 +19,9 @@ router.post('/parking',
     check("latitude").exists().withMessage("This field is mandatory").bail().isNumeric(),
     check("longitude").exists().withMessage("This field is mandatory").bail().isNumeric(),
     check("altitude").exists().withMessage("This field is mandatory").bail().isNumeric(),
-    check("title").exists().withMessage("This field is mandatory").bail().isString(),
-    check("description").exists().withMessage("This field is mandatory").bail().isString(),
-    check("title").exists().withMessage("This field is mandatory").bail().isString(),
+    check("city").exists().withMessage("This field is mandatory").bail().isString(),
+    check("province").exists().withMessage("This field is mandatory").bail().isString(),
+    check("region").exists().withMessage("This field is mandatory").bail().isString(),
     checksValidation, async (req, res) => {
         try {
             //create parking point in db

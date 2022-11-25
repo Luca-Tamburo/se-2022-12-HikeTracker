@@ -151,7 +151,6 @@ describe("Post.Parking.APItesting", function () {
                 "province": "Torino ",
                 "region": "Piemonte"
             })
-            .attach('File', 'test/RightFile.gpx')
             .then(function (res) {
                 res.should.have.status(201);
             });
