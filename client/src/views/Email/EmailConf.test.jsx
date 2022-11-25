@@ -19,7 +19,7 @@ describe('Email confirmation', () => {
 
     it('have the confirmation text', () => {
         render(<EmailConf />);
-        expect(screen.getByAltText(/Account successfully confirmed!/)).toBeInTheDocument();
+        expect(screen.getByText(/Account successfully confirmed!/)).toBeInTheDocument();
     });
 
     it('have the subtitle', () => {
