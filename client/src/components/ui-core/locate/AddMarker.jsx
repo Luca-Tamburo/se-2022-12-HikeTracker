@@ -33,7 +33,7 @@ const LocationMarker = (props) => {
       let marker = L.marker([lat, lng], { icon });
       console.log(props.range)
       const circle = L.circle(marker.getLatLng(), parseInt(props.range,10));
-      circle.addTo(map);
+      //circle.addTo(map);
       marker.addTo(map)
       props.saveMarkers(marker,circle);
       var l= marker.getLatLng()
