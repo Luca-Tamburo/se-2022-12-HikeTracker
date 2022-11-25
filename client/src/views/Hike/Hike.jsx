@@ -54,7 +54,7 @@ const Hike = () => {
                 <h1 className='fw-bold text-center mt-2'>Search your next hike</h1>
                 <Filter setFilter={setFilter} filter={filter} hikes={hikes} setHikesDisplay={setHikesDisplay}/>
                 <Row>
-                    {hikesDisplay.map((hike, index) => {
+                    {hikesDisplay.length ==0 ?<h2 className='d-flex justify-content-center fw-bold mb-3'>No Hikes</h2>: hikesDisplay.map((hike, index) => {
                         return (
                             <HikeCard key={index} hike={hike} loading={loading} />
                         )

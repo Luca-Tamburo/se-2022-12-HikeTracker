@@ -25,7 +25,7 @@ const registerForm = [
         name: 'passwordConfirmation',
         type: 'password',
         placeholder: 'Confirm your password',
-        label: 'Confirmation password',
+        label: 'Confirm password',
     },
 ]
 

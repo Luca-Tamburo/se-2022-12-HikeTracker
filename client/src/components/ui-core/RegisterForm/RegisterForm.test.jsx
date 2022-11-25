@@ -44,7 +44,7 @@ describe('RegisterFormHiker', () => {
     it(' has password confimation label', () => {
         handleSubmit.mockClear();
         render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
-        expect(screen.getByText(/confirmation password/i
+        expect(screen.getByText(/confirm password/i
         )).toBeInTheDocument();
     });
 
@@ -73,7 +73,7 @@ describe('RegisterFormHiker', () => {
     it('has password confirmation field', () => {
         handleSubmit.mockClear();
         render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
-        expect(screen.getByLabelText(/confirmation password/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/confirm password/i)).toBeInTheDocument();
     });
 
 
@@ -91,7 +91,7 @@ describe('RegisterFormHiker', () => {
         const username = screen.getByRole('textbox', { name: /username/i });
         const email = screen.getByRole('textbox', { name: /email/i });
         const password = screen.getByPlaceholderText(/insert your password/i);
-        const confPassword = screen.getByLabelText(/confirmation password/i);
+        const confPassword = screen.getByLabelText(/confirm password/i);
         const submitButton = screen.getByRole('button', { name: /sign up/i })
         userEvent.type(username, 'testUser');
         userEvent.type(email, 'testEmail@gmail.com');
@@ -135,13 +135,13 @@ describe('RegisterFormAdvanced', () => {
     it('Check if RegisterForm has password confimation label', () => {
         handleSubmit.mockClear();
         render(<RegisterFormAdvanced handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
-        expect(screen.getByText(/confirmation password/i
+        expect(screen.getByText(/confirm password/i
         )).toBeInTheDocument();
     });
     it('has name label', () => {
         handleSubmit.mockClear();
         render(<RegisterFormAdvanced handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
-        expect(screen.getByText(/first name/i
+        expect(screen.getByText('Name'
         )).toBeInTheDocument();
     });
     it('has surname label', () => {
@@ -180,7 +180,7 @@ describe('RegisterFormAdvanced', () => {
     it('has password confirmation field', () => {
         handleSubmit.mockClear();
         render(<RegisterFormAdvanced handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
-        expect(screen.getByLabelText(/confirmation password/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/confirm password/i)).toBeInTheDocument();
     });
 
     it('has name field', () => {
@@ -215,7 +215,7 @@ describe('RegisterFormAdvanced', () => {
         const username = screen.getByRole('textbox', { name: /username/i });
         const email = screen.getByRole('textbox', { name: /email/i });
         const password = screen.getByPlaceholderText(/insert your password/i)
-        const confPassword = screen.getByLabelText(/confirmation password/i);
+        const confPassword = screen.getByLabelText(/confirm password/i);
         const name = screen.getByPlaceholderText(/insert your name/i);
         const surname = screen.getByRole('textbox', { name: /surname/i });
         const number = screen.getByRole('textbox', { name: /phone number/i });

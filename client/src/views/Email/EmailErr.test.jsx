@@ -19,7 +19,7 @@ describe('Email confirmation', () => {
 
     it('have the error text', () => {
         render(<EmailErr />);
-        expect(screen.getByAltText(/Wrong confirmation code or user already confirmed/)).toBeInTheDocument();
+        expect(screen.getByText(/Wrong confirmation code or user already confirmed/)).toBeInTheDocument();
     });
 
     it('have the subtitle', () => {

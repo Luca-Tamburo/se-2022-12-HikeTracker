@@ -31,10 +31,10 @@ const LocationMarker = (props) => {
             console.log(props.range)
             let c = L.circle(e.latlng, parseInt(props.range,10));
             props.saveMarkers(L.marker(e.latlng,icon),c)
-            c.addTo(map);
+            //c.addTo(map);
             setBbox(e.bounds.toBBoxString().split(","));
         });
-    }, [props.range]);
+    }, []);
 
     return position === null ? null : (
         <Marker position={position} icon={icon}>
