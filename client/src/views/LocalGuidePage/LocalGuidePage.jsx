@@ -24,8 +24,8 @@ import maleAvatar from '../../assets/maleAvatar.png'
 import femaleAvatar from '../../assets/femaleAvatar.png'
 
 const user = {
-    name: 'baola',
-    gender: 'f'
+    name: 'aldo',
+    gender: 'm'
 }
 
 const LocalGuidePage = () => {
@@ -33,7 +33,7 @@ const LocalGuidePage = () => {
         <>
             <Col xs={{ span: 10, offset: 1 }} className="mt-5">
                 <div className="d-flex justify-content-center">
-                    {user.gender === 'm' ? <img alt='avatar' src={maleAvatar} style={{ width: 180 }} /> : user.gender === 'f' ? <img alt='avatar' src={femaleAvatar} style={{ width: 180 }} /> : <p1>Undefined</p1>}
+                    {user.gender === 'm' ? <img alt='avatar' src={maleAvatar} style={{ width: 180 }} /> : user.gender === 'f' ? <img alt='avatar' src={femaleAvatar} style={{ width: 180 }} /> : <></>}
                     <h1 className="display-4 fw-bold mt-5 ms-3">Welcome {user.name}</h1>
                 </div>
                 <div className="d-flex justify-content-around mt-3">

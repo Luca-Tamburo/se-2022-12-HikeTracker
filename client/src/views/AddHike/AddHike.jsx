@@ -51,7 +51,7 @@ const AddHike = (props) => {
     title: "",
     photoFile: "",
     description: "",
-    difficulty: "",
+    difficulty: "none",
     expectedTime: "",
     file: null,
   }
@@ -94,11 +94,10 @@ const AddHike = (props) => {
                 <Row>
                   {AddHikeForm.map((input, index) => {
                     return (
-                      <Col xs={input.xsCol}>
+                      <Col xs={input.xsCol} key={index}>
                         <CustomField.Input
                           className='mt-3'
                           type='text'
-                          key={index}
                           id={input.idName}
                           name={input.idName}
                           placeholder={input.placeholder}
@@ -108,7 +107,7 @@ const AddHike = (props) => {
                     );
                   })}
                   <Col xs={6}>
-                    <CustomField.Select className="mt-3" id="difficulty" name="difficulty" defaultLabel="Insert the hike difficulty" label="Hike's difficulty" >
+                    <CustomField.Select className="mt-3" id="difficulty" name="difficulty" defaultLabel="Insert the hike difficulty" defaultValue="none" label="Hike's difficulty" >
                       <option value='Tourist'>Tourist</option>
                       <option value='Hiker'>Hiker</option>
                       <option value='Professional Hiker'>Professional Hiker</option>
