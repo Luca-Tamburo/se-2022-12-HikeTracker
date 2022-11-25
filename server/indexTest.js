@@ -17,7 +17,12 @@
 
 const { setTesting }=require('./test/mockDB/iAmTesting');
 setTesting(1);
+const { createDatabase, deleteDatabase } = require('./test/mockDB/mockDB');
+const cleanDb = async () => {
+    await deleteDatabase();
+    await createDatabase();
+}
 
-
+cleanDb();
 const app=require('./utils/appUtil');
 
