@@ -88,10 +88,10 @@ router.post("/signup", isNotLoggedIn,
             const name = req.body.name ? req.body.name.trim() : null;
             const surname = req.body.surname ? req.body.surname.trim() : null;
             const phone = req.body.phoneNumber ? req.body.phoneNumber.trim() : null;
-            const gender = req.body.gender ? req.body.gender.trim() : null;
+            const gender = req.body.gender ? genderFormatter(req.body.gender.trim()) : null;
 
             //mando dati a dao
-            await userDao.addUser(req.body.email.trim(), req.body.username.trim(), roleFormatter(req.body.role.trim()), name, surname, genderFormatter(gender), phone, req.body.password, jwt);
+            await userDao.addUser(req.body.email.trim(), req.body.username.trim(), roleFormatter(req.body.role.trim()), name, surname, gender, phone, req.body.password, jwt);
             //mando mail di conferma
             nodemailer.sendConfirmationEmail(req.body.username, req.body.email, url);
 
