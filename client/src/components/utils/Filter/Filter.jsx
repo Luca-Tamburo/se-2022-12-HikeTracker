@@ -15,8 +15,10 @@ import './Filter.css'
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import { useState, useRef } from 'react';
 import { BsFillTrashFill } from 'react-icons/bs'
-import { MapContainer, Marker, Popup, TileLayer, useMapEvent} from 'react-leaflet'
+import { MapContainer, Marker, Popup, TileLayer, useMapEvent,Circle} from 'react-leaflet'
 import L from "leaflet";
+
+import { __REGIONS, getCitiesForProvince,getProvinceForRegion, getProvinceName,getRegionName } from '../../../lib/helpers/location'
 
 // Constants
 import { Filter as constFilter } from '../../../constants/index';
@@ -40,17 +42,20 @@ const prov = ["Torino", "Roma", "Cuneo"]
 const cit = ["Ivrea", "Rivarolo", "Ciriè"]
 
 const Filter = (props) => {
-    const ZOOM_LEVEL = 14;
+    const ZOOM_LEVEL = 8;
     const mapRef = useRef();
 
-    const [region, setRegion] = useState(props.filter[0]);
-    const [province, setProvince] = useState(props.filter[1]);
-    const [city, setCity] = useState(props.filter[2]);
-    const [range, setRange] = useState(props.filter[3]);
-    const [ascent, setAscent] = useState(props.filter[4]);
-    const [difficulty, setDifficulty] = useState(props.filter[5]);
-    const [expectedTime, setExpectedTime] = useState(props.filter[6]);
-    const [length, setLength] = useState(props.filter[7]);
+    const [region, setRegion] = useState('Region');
+    const [province, setProvince] = useState('Province');
+    const [city, setCity] = useState('City');
+    const [range, setRange] = useState(0);
+    const [ascentMin, setAscentMin] = useState(0);
+    const [ascentMax, setAscentMax] = useState(undefined);
+    const [difficulty, setDifficulty] = useState(undefined);
+    const [expectedTimeMin, setExpectedTimeMin] = useState(0);
+    const [expectedTimeMax, setExpectedTimeMax] = useState(undefined);
+    const [lengthMin, setLengthMin] = useState(0);
+    const [lengthMax, setLengthMax] = useState(undefined);
 
     const [currentPosition, setCurrentPosition] = useState(false);
 
@@ -61,17 +66,17 @@ const Filter = (props) => {
     const [isRegionUnselected, setIsRegionUnselected] = useState(true);
     const [isProvinceUnselected, setIsProvinceUnselected] = useState(true);
 
-    const [center, setCenter] = useState({ lat: 13.084622, lng: 80.248357 });
+    const [center, setCenter] = useState({ lat: 45.072384, lng: 7.6414976 });
 
 
 
     const handleSearch = () => {
 
         let result = props.hikes;
-        if(region !=='Region'){console.log('entra 1');result = result.filter( hike => hike.region === region)}
+        if(region !=='Region'){console.log('entra 1');result = result.filter( hike => hike.region === getRegionName(parseInt(region)))}
         if(province!== 'Province'){
             console.log('entra 2');
-            result = result.filter( hike => hike.province == province)}
+            result = result.filter( hike => hike.province == getProvinceName(parseInt(province)))}
         if(city !== 'City'){console.log('entra 3');result = result.filter( hike => hike.city === city)}
         if(range !== 0){
             console.log('entra nel range')
@@ -88,16 +93,27 @@ const Filter = (props) => {
             }
             result= v;
         }
-        if(difficulty!== 0){console.log('entra 5');result = result.filter( hike => hike.difficulty === difficulty)}
-        if(ascent !== 0){console.log('entra 6');result = result.filter( hike => hike.ascent === ascent)}
-        if(expectedTime !== 0){console.log('entra 7');result = result.filter( hike => hike.expectedTime === expectedTime)}
-        if(length !== 0){console.log('entra 8');result = result.filter( hike => hike.length == length)}
+        if(difficulty){console.log('entra 5');result = result.filter( hike => hike.difficulty === difficulty)}
+        if(ascentMin !== 0){console.log('entra 6');result = result.filter( hike => hike.ascent >= ascentMin)}
+        if(ascentMax){console.log('entra 6');result = result.filter( hike => hike.ascent <= ascentMax)}
+        if(expectedTimeMin !== 0){console.log('entra 7'); 
+        result.forEach(element => {
+            console.log(element.expectedTime)
+        });
+        result = result.filter( hike => hike.expectedTime >= expectedTimeMin)}
+        if(expectedTimeMax){console.log('entra 7'); 
+        result.forEach(element => {
+            console.log(element.expectedTime)
+        });
+        result = result.filter( hike => hike.expectedTime <= expectedTimeMax)}
+        if(lengthMin !== 0){console.log('entra 8');result = result.filter( hike => hike.length >= lengthMin)}
+        if(lengthMax){console.log('entra 8');result = result.filter( hike => hike.length <= lengthMax)}
 
         console.log(result)
         props.setHikesDisplay(result)
     }
 
-    const handleReset = () => {
+    const handleReset = (e) => {
 
         setIsRegionUnselected(true);
         setIsProvinceUnselected(true);
@@ -106,11 +122,17 @@ const Filter = (props) => {
         setProvince('Province');
         setCity('City');
         setDifficulty(0);
-        setAscent(0);
-        setExpectedTime(0);
-        setLength(0);
+        setAscentMin(0);
+        setAscentMax(undefined);
+        setExpectedTimeMin(0);
+        setExpectedTimeMax(undefined);
+        setLengthMin(0);
+        setLengthMax(undefined);
+        console.log(EventTarget.toString())
+        
 
         props.setHikesDisplay(props.hikes)
+
     }
 
     const handleRegion = (event) => {
@@ -131,6 +153,7 @@ const Filter = (props) => {
         setMarker(newMarkerCoords)
         setCircle(circle)
       };
+      console.log(region)
 
     return (
         <>
@@ -138,33 +161,27 @@ const Filter = (props) => {
             {/* Geographical area and ascent filters*/}
             <Row>
                 <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }} >
-                    <Form.Select data-testid="region-select" className='mt-sm-3' onChange={(event) => handleRegion(event)}>
-                        <option value={undefined}>Region</option>
-                        {reg.map((item, index) => {
-                            return (
-                                <option key={index} value={item} >{item}</option>
-                            )
-                        })}
+                    <Form.Select data-testid="region-select" value ={region} className='mt-sm-3' onChange={(event) => handleRegion(event)} >
+                        <option value={0}>Region</option>
+                        {__REGIONS.map(r => (
+                            <option key={r.regione} value={r.regione}>{r.nome}</option>
+                        ))}
                     </Form.Select>
                 </Col>
-                <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }}>
-                    <Form.Select data-testid="province-select" className='mt-sm-3' disabled={isRegionUnselected} onChange={(event) => handleProvince(event)}>
-                        <option value={undefined}>Province</option>
-                        {prov.map((item, index) => {
-                            return (
-                                <option key={index} value={item} >{item}</option>
-                            )
-                        })}
+                <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }} >
+                    <Form.Select data-testid="province-select" value ={province} className='mt-sm-3' disabled={isRegionUnselected} onChange={(event) => handleProvince(event)} >
+                        <option value={0}>Province</option>
+                        {getProvinceForRegion(parseInt(region)).map(p => (
+                            <option key={p.provincia} value={p.provincia}>{p.nome}</option>
+                        ))}
                     </Form.Select>
                 </Col>
-                <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }}>
-                    <Form.Select data-testid="city-select" className='mt-sm-3' disabled={isProvinceUnselected} onChange={(event) => { setCity(event.target.value) }}>
-                        <option value={undefined}>City</option>
-                        {cit.map((item, index) => {
-                            return (
-                                <option key={index} value={item.value} >{item.title}</option>
-                            )
-                        })}
+                <Col>
+                    <Form.Select data-testid="city-select" className='mt-sm-3' value={city} disabled={isProvinceUnselected} onChange={(event) => { setCity(event.target.value) }}>
+                        <option value={0}>City</option>
+                        {getCitiesForProvince(parseInt(province)).map(c => (
+                            <option key={c.comune} value={c.nome}>{c.nome}</option>
+                        ))}
                     </Form.Select>
                 </Col>
                 <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }}>
@@ -173,11 +190,8 @@ const Filter = (props) => {
                         <Form.Range value={range} min='0' max='100000' onChange={(e) => { setRange(e.target.value)}} />
                     </Form>
                 </Col>
-            </Row>
-            <Row>
-                {/* Other filters*/}
-                <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }}>
-                    <Form.Select data-testid="difficulty-select" className='mt-sm-3' onChange={(event) => { setDifficulty(event.target.value) }}>
+                <Col >
+                    <Form.Select data-testid="difficulty-select" className='mt-sm-3' value ={difficulty} onChange={(event) => { setDifficulty(event.target.value) }}>
                         <option value={0}>Difficulty</option>
                         {constFilter[2].map((item, index) => {
                             return (
@@ -186,22 +200,48 @@ const Filter = (props) => {
                         })}
                     </Form.Select>
                 </Col>
-                <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }}>
+            </Row>
+            <Row>
+                {/* Other filters*/}
+                <Col>
+
+                <Col>
                     <Form>
-                        <Form.Control data-testid="ascent-select" className='mt-sm-3' type='number' min='0' placeholder='Ascent' onChange={(event) => { setAscent(event.target.value) }} />
+                        <Form.Control data-testid="ascent-select-min" className='mt-sm-3' type='number' min='0' placeholder='Ascent Min' onChange={(event) => { setAscentMin(event.target.value) }} />
                     </Form>
                 </Col>
-                <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }}>
+                <Col>
                     <Form>
-                        <Form.Control data-testid="expectideTime-select" className='mt-sm-3' type='number' min='0' placeholder='Expectide Time' onChange={(event) => { setExpectedTime(event.target.value) }} />
+                        <Form.Control data-testid="ascent-select-max" className='mt-sm-3' type='number' min='0' placeholder='Ascent Max' onChange={(event) => { setAscentMax(event.target.value) }} />
                     </Form>
                 </Col>
-                <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }}>
+                </Col>
+                <Col>
+                <Col>
                     <Form>
-                        <Form.Control data-testid="length-select" className='mt-sm-3' type='number' min='0' placeholder='Length' onChange={(event) => { setLength(event.target.value) }} />
+                        <Form.Control data-testid="expectideTime-select-min" className='mt-sm-3' type='number' min='0' placeholder='Expectide Time Min' onChange={(event) => { setExpectedTimeMin(event.target.value) }} />
                     </Form>
                 </Col>
-                <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }} className='d-sm-flex'>
+                <Col>
+                    <Form>
+                        <Form.Control data-testid="expectideTime-select-max" className='mt-sm-3' type='number' min='0' placeholder='Expectide Time Max' onChange={(event) => { setExpectedTimeMax(event.target.value) }} />
+                    </Form>
+                </Col>
+                </Col>
+                <Col >
+
+                <Col>
+                    <Form>
+                        <Form.Control data-testid="length-select-min" className='mt-sm-3' type='number' min='0' placeholder='Length Min' onChange={(event) => { setLengthMin(event.target.value) }} />
+                    </Form>
+                </Col>
+                <Col>
+                    <Form>
+                        <Form.Control data-testid="length-select-max" className='mt-sm-3' type='number' min='0' placeholder='Length Max' onChange={(event) => { setLengthMax(event.target.value) }} />
+                    </Form>
+                </Col>
+                    </Col>    
+                <Col className='d-sm-flex'>
                     {/* TODO: Cambiare icone*/}
                     <Button variant='secondary' className=' mt-sm-3 me-sm-3' onClick={handleReset}><BsFillTrashFill />Reset</Button>
                     <Button className='mt-sm-3' onClick={() => {handleSearch()}}>Search</Button>
@@ -214,6 +254,8 @@ const Filter = (props) => {
                     <MapContainer
                         style={{ height: "50vh" }}
                         center={center} scrollWheelZoom={true} whenCreated={(map) => this.setState({ map })} zoom={ZOOM_LEVEL} setView={true}>
+                        {marker?
+                        <Circle center={marker.getLatLng()} radius={range} />:<></>}
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
@@ -227,7 +269,8 @@ const Filter = (props) => {
                                 </Marker>
                             )
                         })}
-                       {currentPosition ? <LocationMarker saveMarkers={saveMarkers} range ={range} circle ={circle} id ={'location'}/>:<AddMarker saveMarkers={saveMarkers} marker={marker} circle ={circle} range = {range}/>}
+                       {currentPosition ? <LocationMarker saveMarkers={saveMarkers} range ={range} circle ={circle} id ={'location'}/>:
+                       <AddMarker saveMarkers={saveMarkers} marker={marker} circle ={circle} range = {range}/>}
                     </MapContainer>
                 </Col>
 
