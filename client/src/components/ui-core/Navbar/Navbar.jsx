@@ -14,7 +14,7 @@
 import './Navbar.css';
 import React from 'react';
 import { useContext } from 'react';
-import { Container, Navbar as MyNavbar, Button } from 'react-bootstrap';
+import { Container, Navbar as MyNavbar, Button, Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaHome } from 'react-icons/fa';
 import { BiUser } from 'react-icons/bi';
@@ -34,11 +34,6 @@ const Navbar = (props) => {
                 <Link to={'/'}>
                     <FaHome className='home-icon-navbar' />
                 </Link>
-                {/* TODO: Da cancellare quando avremo la pagina per la localGuide */}
-                {isloggedIn && userInfo.role === "localGuide" ?
-                    <Link to={'/addHike'}>
-                        <Button className='btn-navbar rounded-pill mx-sm-2'>Add Hike</Button>
-                    </Link> : <></>}
                 {!isloggedIn ?
                     <div className='d-flex d-sm-block flex-column justify-content-center align-items-center'>
                         <Link to={'/signup'}>
@@ -48,11 +43,35 @@ const Navbar = (props) => {
                             <Button className='btn-navbar mx-sm-2'>Login</Button>
                         </Link>
                     </div> :
-                    <div className='d-flex d-sm-block justify-content-center align-items-center'>
-                        <BiUser className='me-2' />
-                        <span className='fw-bold'>{userInfo.username}</span>
-                        <Button className='ms-3' onClick={props.handleLogout}>Logout</Button>
-                    </div>
+                    (
+                        userInfo.role === "localGuide" ?
+                            <>
+                                <BiUser className='me-2' />
+                                <Dropdown>
+                                    <Dropdown.Toggle variant="primary" id="user-dropdown">
+                                        Hi, {userInfo.username}
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item>
+                                            <Link to={'/addHike'}>
+                                                Add hike
+                                            </Link>
+                                        </Dropdown.Item>
+                                        <Dropdown.Item>
+                                            <Link to={'/addHut'}>
+                                                Add hut
+                                            </Link>
+                                        </Dropdown.Item>
+                                        <Dropdown.Item>
+                                            <Link to={'/addParking'}>
+                                                Add parking lot
+                                            </Link>
+                                        </Dropdown.Item>
+                                        <Dropdown.Item onClick={props.handleLogout}>Logout</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            </> : <></>
+                    )
                 }
             </Container>
         </MyNavbar>
