@@ -3,7 +3,7 @@ import classNames from "classnames";
 
 import { Field, ErrorMessage, useField } from "formik";
 
-const Select = ({ id, name, defaultValue = 0, defaultLabel = "", disabled, label, className, children, ...props }) => {
+const Select = ({ id, name, defaultValue = 0, defaultLabel = "", disabled, label, className, children }) => {
     const [field, meta] = useField(name);
 
     const classes = classNames({

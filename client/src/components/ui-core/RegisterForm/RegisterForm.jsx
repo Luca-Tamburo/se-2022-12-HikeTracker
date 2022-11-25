@@ -91,7 +91,7 @@ const RegisterFormAdvanced = (props) => {
         name: "",
         surname: "",
         phoneNumber: "",
-        gender: "",
+        gender: "none",
       }}
       validationSchema={RegisterAdvancedSchema}
       onSubmit={(values) => props.handleSubmit(values)}
@@ -117,7 +117,7 @@ const RegisterFormAdvanced = (props) => {
                 );
               })}
               <Col xs={6}>
-                <CustomField.Select id='gender-select' name='gender' defaultLabel="Select your gender" label='Gender' className="mt-3" >
+                <CustomField.Select id='gender' name='gender' defaultLabel="Select your gender" defaultValue="none" label='Gender' className="mt-3" >
                   <option value='M'>Male</option>
                   <option value='F'>Female</option>
                   <option value='U'>Not specified</option>

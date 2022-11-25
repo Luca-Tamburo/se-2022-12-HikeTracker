@@ -45,32 +45,35 @@ const Navbar = (props) => {
                     </div> :
                     (
                         userInfo.role === "localGuide" ?
-                            <>
-                                <BiUser className='me-2' />
-                                <Dropdown>
-                                    <Dropdown.Toggle variant="primary" id="user-dropdown">
-                                        Hi, {userInfo.username}
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item>
-                                            <Link to={'/addHike'}>
-                                                Add hike
-                                            </Link>
-                                        </Dropdown.Item>
-                                        <Dropdown.Item>
-                                            <Link to={'/addHut'}>
-                                                Add hut
-                                            </Link>
-                                        </Dropdown.Item>
-                                        <Dropdown.Item>
-                                            <Link to={'/addParking'}>
-                                                Add parking lot
-                                            </Link>
-                                        </Dropdown.Item>
-                                        <Dropdown.Item onClick={props.handleLogout}>Logout</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
-                            </> : <></>
+                            <Dropdown drop='start'>
+                                <Dropdown.Toggle variant="primary" id="user-dropdown">
+                                    Hi, {userInfo.name}
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item>
+                                        <Link to={'/localGuide'}>
+                                            Profile
+                                        </Link>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item>
+                                        <Link to={'/addHike'}>
+                                            Add hike
+                                        </Link>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item>
+                                        <Link to={'/addHut'}>
+                                            Add hut
+                                        </Link>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item>
+                                        <Link to={'/addParking'}>
+                                            Add parking lot
+                                        </Link>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item onClick={props.handleLogout}>Logout</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                            : <h4 className='fw-bold mt-2 p-0'>Hi, {userInfo.name}</h4>
                     )
                 }
             </Container>

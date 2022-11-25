@@ -47,7 +47,6 @@ const AddParking = (props) => {
 
     const initialValues = {
         title: "",
-        // photoFile: "",
         latitude: "",
         longitude: "",
         altitude: "",
