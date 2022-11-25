@@ -28,7 +28,7 @@ const cleanDb = async () => {
 
 cleanDb();
 
-describe("Post.Parking.APItesting", function () {
+describe("Post.Parking.Hut.APItesting", function () {
 
     const localGuide = request.agent(server);
 
@@ -150,6 +150,201 @@ describe("Post.Parking.APItesting", function () {
                 "city": "Condove",
                 "province": "Torino ",
                 "region": "Piemonte"
+            })
+            .then(function (res) {
+                res.should.have.status(201);
+            });
+    });
+
+
+    //Add Hut testing down here
+
+
+    step("Test5: wrong hut fields", async function() {
+        
+        await localGuide
+            .post('hut')
+            .set('content-type', 'multipart/form-data')
+            .field({
+                "tile":"nice hut",
+                "photoile" : "https://some/nice/photo",
+                "roomsumber" : 4,
+                "bedsumber" : 16,
+                "phoneumber" : "+393412345678",
+                "latiude": 44.57426,
+                "longiude": 6.98264,
+                "alitude": 3094,
+                "regon": "Piemonte",
+                "prvince": "Torino ",
+                "ciy": "Condove",
+                "desciption":"there are beds and sheets"
+            })
+            .then(function (res) {
+                res.should.have.status(422);
+            });
+    });
+
+    step("Test6: wrong hut roomsNumber format", async function() {
+        
+        await localGuide
+            .post('hut')
+            .set('content-type', 'multipart/form-data')
+            .field({
+                "title":"nice hut",
+                "photoFile" : "https://some/nice/photo",
+                "roomsNumber" : "this shouldn't be a string",
+                "bedsNumber" : 16,
+                "phoneNumber" : "+393412345678",
+                "latitude": 44.57426,
+                "longitude": 6.98264,
+                "altitude": 3094,
+                "region": "Piemonte",
+                "province": "Torino ",
+                "city": "Condove",
+                "description":"there are beds and sheets"
+            })
+            .then(function (res) {
+                res.should.have.status(422);
+            });
+    });
+
+    step("Test7: wrong hut bedsNumber format", async function() {
+        
+        await localGuide
+            .post('hut')
+            .set('content-type', 'multipart/form-data')
+            .field({
+                "title":"nice hut",
+                "photoFile" : "https://some/nice/photo",
+                "roomsNumber" : 4,
+                "bedsNumber" : "this shouldn't be a string",
+                "phoneNumber" : "+393412345678",
+                "latitude": 44.57426,
+                "longitude": 6.98264,
+                "altitude": 3094,
+                "region": "Piemonte",
+                "province": "Torino ",
+                "city": "Condove",
+                "description":"there are beds and sheets"
+            })
+            .then(function (res) {
+                res.should.have.status(422);
+            });
+    });
+
+    step("Test8: wrong hut latitude format", async function() {
+        
+        await localGuide
+            .post('hut')
+            .set('content-type', 'multipart/form-data')
+            .field({
+                "title":"nice hut",
+                "photoFile" : "https://some/nice/photo",
+                "roomsNumber" : 4,
+                "bedsNumber" : 16,
+                "phoneNumber" : "+393412345678",
+                "latitude": "this shouldn't be a string",
+                "longitude": 6.98264,
+                "altitude": 3094,
+                "region": "Piemonte",
+                "province": "Torino ",
+                "city": "Condove",
+                "description":"there are beds and sheets"
+            })
+            .then(function (res) {
+                res.should.have.status(422);
+            });
+    });
+
+    step("Test9: wrong hut longitude format", async function() {
+        
+        await localGuide
+            .post('hut')
+            .set('content-type', 'multipart/form-data')
+            .field({
+                "title":"nice hut",
+                "photoFile" : "https://some/nice/photo",
+                "roomsNumber" : 4,
+                "bedsNumber" : 16,
+                "phoneNumber" : "+393412345678",
+                "latitude": 44.57426,
+                "longitude": "this shouldn't be a string",
+                "altitude": 3094,
+                "region": "Piemonte",
+                "province": "Torino ",
+                "city": "Condove",
+                "description":"there are beds and sheets"
+            })
+            .then(function (res) {
+                res.should.have.status(422);
+            });
+    });
+
+    step("Test10: wrong hut altitude format", async function() {
+        
+        await localGuide
+            .post('hut')
+            .set('content-type', 'multipart/form-data')
+            .field({
+                "title":"nice hut",
+                "photoFile" : "https://some/nice/photo",
+                "roomsNumber" : 4,
+                "bedsNumber" : 16,
+                "phoneNumber" : "+393412345678",
+                "latitude": 44.57426,
+                "longitude": 6.98264,
+                "altitude": "this shouldn't be a string",
+                "region": "Piemonte",
+                "province": "Torino ",
+                "city": "Condove",
+                "description":"there are beds and sheets"
+            })
+            .then(function (res) {
+                res.should.have.status(422);
+            });
+    });
+
+    step("Test11: missing information (no title)", async function() {
+        
+        await localGuide
+            .post('hut')
+            .set('content-type', 'multipart/form-data')
+            .field({
+                "photoFile" : "https://some/nice/photo",
+                "roomsNumber" : 4,
+                "bedsNumber" : 16,
+                "phoneNumber" : "+393412345678",
+                "latitude": 44.57426,
+                "longitude": 6.98264,
+                "altitude": 3094,
+                "region": "Piemonte",
+                "province": "Torino ",
+                "city": "Condove",
+                "description":"there are beds and sheets"
+            })
+            .then(function (res) {
+                res.should.have.status(422);
+            });
+    });
+
+    step("Test12: Add Hut success", async function() {
+        
+        await localGuide
+            .post('hut')
+            .set('content-type', 'multipart/form-data')
+            .field({
+                "title":"nice hut",
+                "photoFile" : "https://some/nice/photo",
+                "roomsNumber" : 4,
+                "bedsNumber" : 16,
+                "phoneNumber" : "+393412345678",
+                "latitude": 47.57426,
+                "longitude": 7.98264,
+                "altitude": 3000,
+                "region": "Piemonte",
+                "province": "Torino ",
+                "city": "Condove",
+                "description":"there are beds and sheets"
             })
             .then(function (res) {
                 res.should.have.status(201);
