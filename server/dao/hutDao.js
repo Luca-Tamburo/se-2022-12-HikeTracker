@@ -30,3 +30,29 @@ const db = iAmTesting() ? getMock() : require('./openDb');
         );
     });
 }
+
+exports.getHutById = (id) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM Hut WHERE id = ?';
+        db.get(sql, [id], (err, r) => {
+            if (err) {
+                reject(err);
+            }
+            else if (r === undefined)
+                resolve(undefined);
+            else {
+                resolve(
+                    {
+                        id : r.id,
+                        roomsNumber : r.roomsNumber,
+                        bedsNumber : r.bedsNumber,
+                        whenIsOpen : r.whenIsOpen,
+                        phoneNumber : r.phoneNumber,
+                        photoFile : r.photoFile,
+                        pointId : r.pointId
+                    }
+                );
+            }
+        });
+    });
+}
