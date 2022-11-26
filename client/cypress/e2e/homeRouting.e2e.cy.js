@@ -11,7 +11,7 @@
 */
 
 // TODO: Capire come si può rallentare l'esecuzione dei test
-describe('Home', () => {
+describe('Home routes', () => {
   it('goes to home', () => {
     cy.visit('/');
     cy.wait(1000)
