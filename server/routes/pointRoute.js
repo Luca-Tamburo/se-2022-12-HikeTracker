@@ -1,3 +1,15 @@
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         server
+* Module:          routes
+* File:            pointRoute.js
+*
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
+
 'use strict'
 
 const express = require('express');
@@ -59,7 +71,7 @@ router.post('/parking',
             //create hut point in db
             let pointId = await pointDao.addPoint(req.body.title, req.body.description, "hut", req.body.latitude, req.body.longitude, req.body.altitude, req.body.city, req.body.province, req.body.region);
 
-            let hutId = await hutDao.addHut(req.body.roomsNumber, req.body.bedsNumber, "null", req.body.phoneNumber, req.body.photoFile, pointId);
+            await hutDao.addHut(req.body.roomsNumber, req.body.bedsNumber, "null", req.body.phoneNumber, req.body.photoFile, pointId);
 
             return res.status(201).json({ message: "Hut inserted in the system" });
         } catch (error) {

@@ -60,20 +60,18 @@ router.post('/hikes',
                 return res.status(422).json({ error: `No GPX sent` });
             }
 
-            //ste variabili mi servono fuori dal try, quindi le dichiaro fuori con let, poi le uso in try. Se le avessi dichiarate in try, fuori dal try non esisterebbero
+            // Variables needed outside the try
             let totalLength;
             let finalTrackPoint;
             let initialTrackPoint;
             let ascent;
 
-            //provo ad utilizzare il gpx
+            //Use gpx file
             try {
-
-                //lavora con i dati del gpx, senza ancora creare il file lato server. Il file si crea dopo che hai inserito la hike nel sistema
                 const track = await parseGpx(req.files.File.data);
 
-                //trova distanza totale usando una funzione di parse-gpx
-                totalLength = (track.totalDistance() / 1000).toFixed(3); //trasporta in km con 3 cifre dopo virgola
+                //Find total distance using a parse-gpx function (in km with 3 decimal places)
+                totalLength = (track.totalDistance() / 1000).toFixed(3); 
 
                 //trova punto più basso (che sicuramente è quello iniziale, però ho pensato che magari dal punto di partenza scendi un po' e poi risali, quindi nel dubbio lo trovo)
                 //    EDIT NON POSSO FARE QUEL RAGIONAMENTO. MOTIVO: PRENDI 1_MONTE_FERRA.GPX. RIGO 87 ALTEZZA 1754, DAL NULLA PERCHè PRECEDENTE E SUCCESSIVO SONO A 1800. 
@@ -95,24 +93,18 @@ router.post('/hikes',
                 //trova ascent, cioè differenza tra punto più alto e punto più basso (è lo start point ma per sicurezza me lo cerco)
                 ascent = (finalTrackPoint.elevation - initialTrackPoint.elevation).toFixed(2);
 
-            } catch (err) { //se non riesco ad utilizzare il gpx
+            } catch (err) { //gpx could not be properly used
                 return res.status(422).json({ error: `Wrong file sent. Please upload a gpx file.` });
             }
 
-            //creo lo startPoint nel db
+            //Create startPoint and endPoint, hike and link hike-points in hikePoint
             let pointOneId = await pointDao.addPoint("Just GPS coordinates", "Just GPS coordinates", "GPS coordinates", initialTrackPoint.latitude, initialTrackPoint.longitude, initialTrackPoint.elevation, undefined, undefined, undefined);
-
-            //creo lo endPoint nel db
             let pointTwoId = await pointDao.addPoint("Just GPS coordinates", "Just GPS coordinates", "GPS coordinates", finalTrackPoint.latitude, finalTrackPoint.longitude, finalTrackPoint.elevation, undefined, undefined, undefined);
-
-            //creo hike
             const hikeId = await hikeDao.addHike(req.body.title, req.body.description, totalLength, req.body.expectedTime, ascent, difficultyFormatter(req.body.difficulty), pointOneId, pointTwoId, req.user.id, dayjs().format("YYYY-MM-DD"), req.body.photoFile);
-
-            //linko hike e points in tabella hikePoint
             await pointDao.addPointHike(hikeId, pointOneId);
             await pointDao.addPointHike(hikeId, pointTwoId);
 
-            //QUANDO CREI IL FILE, CREALO CON IDHIKE_TITOLOHIKE.gpx
+            //Create gpx file and save it as IDHIKE_TITOLOHIKE.gpx
             fs.writeFileSync(`./utils/gpxFiles/${hikeId}_${req.body.title.replace(/ /g, '_')}.gpx`, `${req.files.File.data}`, function (err) {
                 if (err) throw err;
             });
