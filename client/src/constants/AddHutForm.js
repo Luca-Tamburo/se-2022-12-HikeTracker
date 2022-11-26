@@ -13,9 +13,9 @@
 // Formik fields name
 const FieldInput = [
     { xsCol: '6', idName: 'title', placeholder: 'Insert the hut name', label: 'Name' },
-    { xsCol: '6', idName: 'photoFile', placeholder: 'Insert the hut url image', label: 'Image' },
+    { xsCol: '6', idName: 'photoFile', placeholder: 'Insert the hut image url', label: 'Image' },
     { xsCol: '4', idName: 'room', placeholder: 'Insert the number of rooms', label: 'Number of rooms' },
-    { xsCol: '4', idName: 'bed', placeholder: 'Insert the number of bed', label: 'Number of beds' },
+    { xsCol: '4', idName: 'bed', placeholder: 'Insert the number of beds', label: 'Number of beds' },
     { xsCol: '4', idName: 'phoneNumber', placeholder: 'Insert the hut phone number', label: 'Phone number' },
     { xsCol: '4', idName: 'latitude', placeholder: 'Insert the hut latitude in mt', label: 'Latitude' },
     { xsCol: '4', idName: 'longitude', placeholder: 'Insert the hut longitude in mt', label: 'Longitude' },
