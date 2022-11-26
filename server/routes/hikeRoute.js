@@ -1,24 +1,32 @@
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         server
+* Module:          routes
+* File:            hikeRoute.js
+*
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
+
 'use strict'
 
 const express = require('express');
 const hikeDao = require('../dao/hikeDao');
 const pointDao = require('../dao/pointDao');
 const router = express.Router();
-const { hikes, HikeDetails } = require('../models/hikeModel');
 const { Point } = require('../models/pointModel');
 const path = require('path');
 const { check, validationResult } = require("express-validator"); // validation middleware
 const { checksValidation } = require("../utils/validationUtil");
 
-const valUtil = require("../utils/validationUtil");
-const { Console } = require('console');
 const parseGpx = require('parse-gpx');
 const sessionUtil = require("../utils/sessionUtil");
-const isLoggedIn = sessionUtil.isLoggedIn;
 const isLoggedInLocalGuide = sessionUtil.isLoggedInLocalGuide;
 const isLoggedInHiker = sessionUtil.isLoggedInHiker;
 const fs = require('fs');
-const { typeValidator, difficultyValidator, typeFormatter, difficultyFormatter } = require("../utils/hikesUtils");
+const {difficultyValidator, difficultyFormatter} = require("../utils/hikesUtils");
 const dayjs = require("dayjs");
 
 
