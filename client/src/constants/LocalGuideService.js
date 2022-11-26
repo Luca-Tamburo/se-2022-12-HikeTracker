@@ -5,21 +5,21 @@ import AddParkingService from '../assets/localGuideService/AddParkingService.png
 
 const LocalGuideService = [
     {
-        addName: 'hike',
+        addName: 'Add hike',
         url: 'addHike',
         title: 'Add hike',
         description: 'Enter your hike to improve our system',
         photoFile: AddHikeService
     },
     {
-        addName: 'hut',
+        addName: 'Add hut',
         url: 'addHut',
         title: 'Add hut',
         description: 'Enter your hut to improve our system',
         photoFile: AddHutService
     },
     {
-        addName: 'parking',
+        addName: 'Add parking',
         url: 'addParking',
         title: 'Add parking lot',
         description: 'Enter your parking lot to improve our system',

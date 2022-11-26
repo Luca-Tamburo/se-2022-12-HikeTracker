@@ -3,7 +3,7 @@
 *
 * Package:         client
 * Module:          cypress/e2e
-* File:            login.cy.js
+* File:            login.e2e.cy.js
 *
 * Copyright (c) 2022 - se2022-Team12
 * All rights reserved.

@@ -1,3 +1,15 @@
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         client
+* Module:          components/utils/Input
+* File:            TextArea.jsx
+* 
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
+
 // Imports
 import { Form } from "react-bootstrap";
 import { Field, ErrorMessage, useField } from "formik";
@@ -19,9 +31,11 @@ const TextArea = ({ id, name, placeholder, disabled, className, label }) => {
         <Form.Group className={className}>
             <Form.Label htmlFor={id} className="fw-semibold text-primary-dark" >{label}</Form.Label>
             <Field as="textarea" id={id} name={field.name} placeholder={placeholder} className={classes} disabled={disabled} />
-            <Form.Text className='text-danger'>
-                <ErrorMessage name={field.name} />
-            </Form.Text>
+            {(meta.touched && meta.error) &&
+                <Form.Text data-testid='error-message' className='text-danger'>
+                    <ErrorMessage name={field.name} />
+                </Form.Text>
+            }
         </Form.Group>
     );
 }

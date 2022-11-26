@@ -16,7 +16,7 @@ jest.mock('react-bootstrap', () => {
     return ({ Form })
 })
 
-const testProps = {
+const props = {
     id: "test-input",
     name: "testInput",
     type: "text",
@@ -24,28 +24,101 @@ const testProps = {
     label: "Test Input"
 }
 
-const Component = () => {
-    return (
-        <Formik>
-            <Input {...testProps} />
-        </Formik>
-    )
+const initialValues = { testInput: "" };
+const initialTouched = { testInput: true };
+const initialErrors = { testInput: "Validation error" };
+
+const initialProps = {
+    default: { initialValues },
+    success: { initialValues, initialTouched },
+    error: { initialValues, initialTouched, initialErrors },
 }
 
-const setup = () => render(<Component />, { wrapper: MemoryRouter })
+const Component = {
+    Default: () => {
+        return (
+            <Formik {...initialProps.default}>
+                <Input {...props} />
+            </Formik>
+        )
+    },
+    Disabled: () => {
+        return (
+            <Formik {...initialProps.default}>
+                <Input {...props} disabled />
+            </Formik>
+        )
+    },
+    Success: () => {
+        return (
+            <Formik {...initialProps.success}>
+                <Input {...props} />
+            </Formik>
+        )
+    },
+    Error: () => {
+        return (
+            <Formik {...initialProps.error}>
+                <Input {...props} />
+            </Formik>
+        )
+    },
+}
 
-beforeEach(setup)
+const setup = {
+    default: () => render(<Component.Default />, { wrapper: MemoryRouter }),
+    disabled: () => render(<Component.Disabled />, { wrapper: MemoryRouter }),
+    success: () => render(<Component.Success />, { wrapper: MemoryRouter }),
+    error: () => render(<Component.Error />, { wrapper: MemoryRouter }),
+}
 
 describe("Input component", () => {
-    it("Component is correctly rendered", () => {
-        expect(screen.getByRole('textbox', { name: testProps.label })).toBeInTheDocument()
+    it("is correctly rendered", () => {
+        setup.default();
+        expect(screen.getByRole('textbox', { name: props.label })).toBeInTheDocument()
     })
 
-    it("Input name is correctly set", () => {
-        expect(screen.getByRole('textbox', { name: testProps.label })).toHaveAttribute("name", testProps.name)
+    it.each(Object.keys(props).filter(attr => attr !== 'label'))
+        ("Input %s is correctly set", (attribute) => {
+            setup.default();
+
+            expect(screen.getByLabelText(props.label)).toHaveAttribute(attribute, props[attribute])
+        })
+
+    it('is not disable if props is not true', () => {
+        setup.default();
+        expect(screen.getByLabelText(props.label).disabled).toBe(false);
     })
-    
-    it("Input type is correctly set", () => {
-        expect(screen.getByRole('textbox', { name: testProps.label })).toHaveAttribute("type", testProps.type)
+
+    it('is disable if props is true', () => {
+        setup.disabled();
+        expect(screen.getByLabelText(props.label).disabled).toBe(true);
+    })
+
+    it('error style is applied when a validation error occurs', () => {
+        setup.error();
+        expect(screen.getByLabelText(props.label)).toHaveClass('is-invalid');
+        expect(screen.getByLabelText(props.label)).not.toHaveClass('is-valid');
+    })
+
+    it('success style is applied when a validation error occurs', () => {
+        setup.success();
+        expect(screen.getByLabelText(props.label)).toHaveClass('is-valid');
+        expect(screen.getByLabelText(props.label)).not.toHaveClass('is-invalid');
+    })
+
+    it('error message is not showed if there is no validation error', () => {
+        setup.default();
+        expect(screen.queryByTestId(/error-message/i)).not.toBeInTheDocument();
+    })
+
+    it('error message is showed if there is validation error', () => {
+        setup.error();
+        expect(screen.getByTestId(/error-message/i).innerHTML).toBe(initialErrors.testInput)
+    })
+    it('user is able to type and change input value', async () => {
+        setup.default();
+        await userEvent.type(screen.getByLabelText(props.label), "New value")
+        expect(screen.getByLabelText(props.label)).toHaveAttribute("value", "New value")
     })
 })

@@ -27,9 +27,9 @@ const cleanDb = async () => {
     await createDatabase();
 }
 
-cleanDb();
 
 describe("Post.Hikes.APItesting", function () {
+    before(()=>{cleanDb();});
 
     const localGuide = request.agent(server);
 
@@ -373,7 +373,7 @@ describe("Post.Hikes.APItesting", function () {
             .request(server)
             .get(`hikedetails/${hikeId}`)
             .end((err, res) => {
-                res.should.have.status(422);
+                res.should.have.status(404);
                 done();
             });
     });

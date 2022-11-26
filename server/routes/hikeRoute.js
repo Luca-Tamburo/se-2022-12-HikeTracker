@@ -1,24 +1,32 @@
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         server
+* Module:          routes
+* File:            hikeRoute.js
+*
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
+
 'use strict'
 
 const express = require('express');
 const hikeDao = require('../dao/hikeDao');
 const pointDao = require('../dao/pointDao');
 const router = express.Router();
-const { hikes, HikeDetails } = require('../models/hikeModel');
 const { Point } = require('../models/pointModel');
 const path = require('path');
 const { check, validationResult } = require("express-validator"); // validation middleware
 const { checksValidation } = require("../utils/validationUtil");
 
-const valUtil = require("../utils/validationUtil");
-const { Console } = require('console');
 const parseGpx = require('parse-gpx');
 const sessionUtil = require("../utils/sessionUtil");
-const isLoggedIn = sessionUtil.isLoggedIn;
 const isLoggedInLocalGuide = sessionUtil.isLoggedInLocalGuide;
-const isLoggedInHiker = sessionUtil.isLoggedInHiker;
+const isLoggedIn = sessionUtil.isLoggedIn;
 const fs = require('fs');
-const { typeValidator, difficultyValidator, typeFormatter, difficultyFormatter } = require("../utils/hikesUtils");
+const {difficultyValidator, difficultyFormatter} = require("../utils/hikesUtils");
 const dayjs = require("dayjs");
 
 
@@ -52,20 +60,18 @@ router.post('/hikes',
                 return res.status(422).json({ error: `No GPX sent` });
             }
 
-            //ste variabili mi servono fuori dal try, quindi le dichiaro fuori con let, poi le uso in try. Se le avessi dichiarate in try, fuori dal try non esisterebbero
+            // Variables needed outside the try
             let totalLength;
             let finalTrackPoint;
             let initialTrackPoint;
             let ascent;
 
-            //provo ad utilizzare il gpx
+            //Use gpx file
             try {
-
-                //lavora con i dati del gpx, senza ancora creare il file lato server. Il file si crea dopo che hai inserito la hike nel sistema
                 const track = await parseGpx(req.files.File.data);
 
-                //trova distanza totale usando una funzione di parse-gpx
-                totalLength = (track.totalDistance() / 1000).toFixed(3); //trasporta in km con 3 cifre dopo virgola
+                //Find total distance using a parse-gpx function (in km with 3 decimal places)
+                totalLength = (track.totalDistance() / 1000).toFixed(3); 
 
                 //trova punto più basso (che sicuramente è quello iniziale, però ho pensato che magari dal punto di partenza scendi un po' e poi risali, quindi nel dubbio lo trovo)
                 //    EDIT NON POSSO FARE QUEL RAGIONAMENTO. MOTIVO: PRENDI 1_MONTE_FERRA.GPX. RIGO 87 ALTEZZA 1754, DAL NULLA PERCHè PRECEDENTE E SUCCESSIVO SONO A 1800. 
@@ -87,24 +93,18 @@ router.post('/hikes',
                 //trova ascent, cioè differenza tra punto più alto e punto più basso (è lo start point ma per sicurezza me lo cerco)
                 ascent = (finalTrackPoint.elevation - initialTrackPoint.elevation).toFixed(2);
 
-            } catch (err) { //se non riesco ad utilizzare il gpx
+            } catch (err) { //gpx could not be properly used
                 return res.status(422).json({ error: `Wrong file sent. Please upload a gpx file.` });
             }
 
-            //creo lo startPoint nel db
+            //Create startPoint and endPoint, hike and link hike-points in hikePoint
             let pointOneId = await pointDao.addPoint("Just GPS coordinates", "Just GPS coordinates", "GPS coordinates", initialTrackPoint.latitude, initialTrackPoint.longitude, initialTrackPoint.elevation, undefined, undefined, undefined);
-
-            //creo lo endPoint nel db
             let pointTwoId = await pointDao.addPoint("Just GPS coordinates", "Just GPS coordinates", "GPS coordinates", finalTrackPoint.latitude, finalTrackPoint.longitude, finalTrackPoint.elevation, undefined, undefined, undefined);
-
-            //creo hike
             const hikeId = await hikeDao.addHike(req.body.title, req.body.description, totalLength, req.body.expectedTime, ascent, difficultyFormatter(req.body.difficulty), pointOneId, pointTwoId, req.user.id, dayjs().format("YYYY-MM-DD"), req.body.photoFile);
-
-            //linko hike e points in tabella hikePoint
             await pointDao.addPointHike(hikeId, pointOneId);
             await pointDao.addPointHike(hikeId, pointTwoId);
 
-            //QUANDO CREI IL FILE, CREALO CON IDHIKE_TITOLOHIKE.gpx
+            //Create gpx file and save it as IDHIKE_TITOLOHIKE.gpx
             fs.writeFileSync(`./utils/gpxFiles/${hikeId}_${req.body.title.replace(/ /g, '_')}.gpx`, `${req.files.File.data}`, function (err) {
                 if (err) throw err;
             });
@@ -120,7 +120,7 @@ router.post('/hikes',
 
 // GET /api/hikegpx/:hikeId
 router.get('/hikegpx/:hikeId', check('hikeId').isInt().withMessage('hikeId must be a number'),
-    isLoggedInHiker, async (req, res) => {
+isLoggedIn, async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty())
             return res.status(422).json({ error: `Wrong hikeId` });
@@ -143,7 +143,7 @@ router.get('/hikedetails/:hikeId', check('hikeId').isInt().withMessage('hikeId m
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty())
-            return res.status(422).json({ error: `Wrong HikeId` });
+            return res.status(404).json({ error: `Wrong HikeId` });
         try {
             //Hike detailed information is collected
             let hike = await hikeDao.getDetailsByHikeId(req.params.hikeId);

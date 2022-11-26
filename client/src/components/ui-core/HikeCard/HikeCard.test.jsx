@@ -56,13 +56,19 @@ jest.mock('react-bootstrap', () => {
         )
     }
 
+    const Placeholder = (props) => {
+        return (
+            <div>{props.children}</div>
+        );
+    }
+
     const Col = (props) => {
         return (
             <div>{props.children}</div>
         )
     }
 
-    return ({ Card, Col });
+    return ({ Card, Col, Placeholder });
 })
 
 const testHike = {
@@ -98,7 +104,7 @@ describe('Hike card component', () => {
         expect(screen.getByAltText("card-image")).toHaveAttribute("src", expected.image)
     })
 
-    it("user is able to navigate when card is clicked", () => {
+    it("user is able to navigate when card is clicked", async () => {
         const history = createMemoryHistory()
         render(
             <Router location={history.location} navigator={history}>
@@ -107,7 +113,7 @@ describe('Hike card component', () => {
         );
         const linkDom = screen.getByRole('link');
         expect(linkDom).toHaveAttribute('href', expected.url);
-        userEvent.click(linkDom);
+        await userEvent.click(linkDom);
         expect(history.location.pathname).toBe(expected.url)
 
     })

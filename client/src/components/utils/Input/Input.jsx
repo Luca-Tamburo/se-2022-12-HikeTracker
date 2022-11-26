@@ -31,9 +31,11 @@ const Input = ({ id, name, type, placeholder, disabled, className, label }) => {
         <Form.Group className={className}>
             <Form.Label htmlFor={id} className="fw-semibold text-primary-dark" >{label}</Form.Label>
             <Field id={id} name={field.name} type={type} placeholder={placeholder} className={classes} disabled={disabled} />
-            <Form.Text className='text-danger'>
-                <ErrorMessage name={field.name} />
-            </Form.Text>
+            {(meta.touched && meta.error) &&
+                <Form.Text data-testid='error-message' className='text-danger'>
+                    <ErrorMessage name={field.name} />
+                </Form.Text>
+            }
         </Form.Group>
     );
 }

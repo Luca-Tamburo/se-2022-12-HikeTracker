@@ -47,14 +47,14 @@ const Hike = () => {
             .finally(() => setLoading(false));
     }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
-    
+
     return (
         <Row className='flex-fill'>
             <Col xs={{ span: 10, offset: 1 }} className='mt-3'>
                 <h1 className='fw-bold text-center mt-2'>Search your next hike</h1>
-                <Filter setFilter={setFilter} filter={filter} hikes={hikes} setHikesDisplay={setHikesDisplay}/>
+                <Filter setFilter={setFilter} filter={filter} hikes={hikes} setHikesDisplay={setHikesDisplay} />
                 <Row>
-                    {hikesDisplay.length ==0 ?<h2 className='d-flex justify-content-center fw-bold mb-3'>No Hikes</h2>: hikesDisplay.map((hike, index) => {
+                    {hikesDisplay.length == 0 ? <h2 className='d-flex justify-content-center fw-bold mb-3'>No Matched Hikes</h2> : hikesDisplay.map((hike, index) => {
                         return (
                             <HikeCard key={index} hike={hike} loading={loading} />
                         )

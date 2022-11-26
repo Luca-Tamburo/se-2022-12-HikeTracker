@@ -57,8 +57,8 @@ const App = () => {
       .then(() => {
         setUserInfo(undefined);
         setIsloggedIn(false)
-        notify.success(`See you soon!`);
         navigate('/', { replace: true });
+        notify.success(`See you soon!`);
       })
       .catch((err) => notify.error(err.error));
   }
@@ -68,8 +68,8 @@ const App = () => {
       .then((user) => {
         setUserInfo(user);
         setIsloggedIn(true);
+        navigate(-1, { replace: true });
         notify.success(`Welcome ${user.username}!`);
-        navigate("/", { replace: true });
       })
       .catch((err) => notify.error(err.error));
   };

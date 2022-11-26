@@ -18,31 +18,6 @@ import { createMemoryHistory } from 'history';
 
 import LoginForm from './LoginForm'
 
-/*
-
-jest.mock('react-bootstrap', () => {
-    const Form = (props) => {
-        return (
-            <div>{props.children}</div>
-        );
-    }
-    return ({Form });
-})
-jest.mock('react-bootstrap', () => {
-    const Formik = (props) => {
-        return (
-            <div>{props.children}</div>
-        );
-    }
-    return ({Formik });
-})
-*/
-// const mockInput = jest.fn();
-//     jest.mock('../../utils/Input/Input', () => () => {
-//         mockInput();
-//         return <mock-Input data-testid='Input' />
-//     })
-
 describe('LoginForm', () => {
 
     const handleSubmit = jest.fn();
@@ -85,14 +60,14 @@ describe('LoginForm', () => {
         const email = screen.getByRole('textbox', { name: /email/i });
         const password = screen.getByLabelText(/password/i);
         const submitButton = screen.getByRole('button', { name: /login/i });
-         
-        userEvent.type(email, 'testEmail@gmail.com');
-        userEvent.type(password, 'testPassword1!');
-           
-        expect(submitButton).not.toBeDisabled();
+
+        await userEvent.type(email, 'testEmail@gmail.com');
+        await userEvent.type(password, 'testPassword1!');
+
+        expect(submitButton.disabled).toBe(false)
 
         userEvent.click(submitButton);
-    
+
         await waitFor(() => {
             expect(handleSubmit).toHaveBeenCalledTimes(1);
         })
