@@ -75,4 +75,3 @@ exports.addPointHike = (hikeId, pointId) => {
         });
     });
 }
-

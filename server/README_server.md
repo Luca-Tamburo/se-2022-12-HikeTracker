@@ -23,3 +23,11 @@ Write here all the function offered by the server components, with inputs, outpu
 |   getGpxByHikeId  |   id (of the hike)    |   gpx file path if present, undefined otherwise, optional errors  |   Gets gpx file path from DB given the id of the hike |
 |   getDetailsByHikeId  |   id (of the hike)    |   All information about one hike, with author name    |   Gets hike info from DB given its id    |
 |   getPointsByHikeId   |   id (of the hike)    |   List of points  |   Gets all points relevant for one specified hike given its id    |
+
+### pointDao.js
+
+|   Function name     |     Input   |   Output  |   Description |
+| ----------------- | :-----------: | ---------: | --------: |
+|   addPoint    |   name, description, type, latitude, longitude, altitude, city, province, region |  ID of last modified item |  Inserts one point in DB |
+|   addPointHike |   hikeId, pointId |   ID of last modified item    | Inserts one hike-point relationship in DB   |
+|   getPointById  |   id (of the point)    |   All information about one point, undefined otherwise  |   Gets point info from DB given its id |

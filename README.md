@@ -321,6 +321,10 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
  antonioconte@gmail.com : password
  Email NOT verified
 ```
+```
+ adrianahevia@gmail.com : Password#20
+ Email verified
+```
 
 ### The tables used in this project are
 
