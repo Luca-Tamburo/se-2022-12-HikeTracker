@@ -143,7 +143,7 @@ router.get('/hikedetails/:hikeId', check('hikeId').isInt().withMessage('hikeId m
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty())
-            return res.status(422).json({ error: `Wrong HikeId` });
+            return res.status(404).json({ error: `Wrong HikeId` });
         try {
             //Hike detailed information is collected
             let hike = await hikeDao.getDetailsByHikeId(req.params.hikeId);
