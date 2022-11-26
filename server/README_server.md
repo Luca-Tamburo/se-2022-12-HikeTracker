@@ -31,3 +31,9 @@ Write here all the function offered by the server components, with inputs, outpu
 |   addPoint    |   name, description, type, latitude, longitude, altitude, city, province, region |  ID of last modified item |  Inserts one point in DB |
 |   addPointHike |   hikeId, pointId |   ID of last modified item    | Inserts one hike-point relationship in DB   |
 |   getPointById  |   id (of the point)    |   All information about one point, undefined otherwise  |   Gets point info from DB given its id |
+
+### hutDao.js
+
+|   Function name     |     Input   |   Output  |   Description |
+| ----------------- | :-----------: | ---------: | --------: |
+|   addHut    |   roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photoFile, pointId |  ID of last modified item |  Inserts one hut in DB |

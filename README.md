@@ -265,6 +265,33 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   }
   ```
 
+- POST `/api/hut`
+  - Description: Insert hut in the system.
+  - Request body: An object representing the hut information
+  ```
+  {
+     "title":"hut ...",
+	"description":"breakfast included ...",
+	"latitude": 44.57426,
+     "longitude": 6.98264,
+     "altitude": 3094,
+     "city": "Condove",
+     "province": "Torino ",
+     "region": "Piemonte"
+     "roomsNumber": 2,
+	"bedsNumber": 3,
+     "phoneNumber": "+393323232232",
+     "photoFile": "http:// ... "
+  }   
+  ```
+  - Response: `201 CREATED` (success), `422` if the input is not correct, `503 Service Unavailable` (generic error). 
+  - Response body: Confirmation message.
+  ```
+  {
+      "message": "Hut inserted in the system"
+  }
+  ```
+
 ## Database Tables
 
 #### _Hike_ includes all hikes specifications
