@@ -39,8 +39,8 @@ const LocalGuidePage = () => {
                 <div className="d-flex justify-content-around mt-3">
                     {LocalGuideService.map((info, index) => {
                         return (
-                            <Col xs={3}>
-                                <LocalGuideServiceCard key={index} info={info} />
+                            <Col xs={3} key={index}>
+                                <LocalGuideServiceCard info={info} />
                             </Col>
                         )
                     })}

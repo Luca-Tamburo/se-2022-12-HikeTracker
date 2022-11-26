@@ -35,7 +35,7 @@ import AddParkingSchema from "../../validation/AddParkingSchema";
 import useNotification from "../../hooks/useNotification";
 
 const AddParking = (props) => {
-    const { userInfo, isloggedIn } = useContext(AuthContext);
+    // const { userInfo, isloggedIn } = useContext(AuthContext);
     const [loading, setLoading] = useState(false);
     const notify = useNotification(); // Notification handler
     const navigate = useNavigate(); // Navigation handler
@@ -96,11 +96,10 @@ const AddParking = (props) => {
                                     <Row>
                                         {AddParkingForm[0].map((input, index) => {
                                             return (
-                                                <Col xs={input.xsCol}>
+                                                <Col xs={input.xsCol} key={index}>
                                                     <CustomField.Input
                                                         className='mt-3'
                                                         type='text'
-                                                        key={index}
                                                         id={input.idName}
                                                         name={input.idName}
                                                         placeholder={input.placeholder}
@@ -111,10 +110,9 @@ const AddParking = (props) => {
                                         })}
                                         {AddParkingForm[1].map((input, index) => {
                                             return (
-                                                <Col xs={input.xsCol}>
+                                                <Col xs={input.xsCol} key={index}>
                                                     <CustomField.Select
                                                         className='mt-3'
-                                                        key={index}
                                                         id={input.idName}
                                                         name={input.idName}
                                                         defaultLabel={input.defaultLabel}

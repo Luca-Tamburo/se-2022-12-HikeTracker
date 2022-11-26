@@ -30,7 +30,7 @@ const Navbar = (props) => {
                 <MyNavbar.Brand>
                     <img src={logo} alt='Logo Icon' width='230' />
                 </MyNavbar.Brand>
-                <Link to={'/'}>
+                <Link to={'/'} data-testid='home-button' >
                     <FaHome className='home-icon-navbar' />
                 </Link>
                 {!isloggedIn ?
@@ -49,25 +49,17 @@ const Navbar = (props) => {
                                     Hi, {userInfo.name}
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
-                                    <Dropdown.Item>
-                                        <Link to={'/localGuide'}>
-                                            Profile
-                                        </Link>
+                                    <Dropdown.Item as={Link} to="/localGuide">
+                                        Profile
                                     </Dropdown.Item>
-                                    <Dropdown.Item>
-                                        <Link to={'/addHike'}>
-                                            Add hike
-                                        </Link>
+                                    <Dropdown.Item as={Link} to="/addHike">
+                                        Add hike
                                     </Dropdown.Item>
-                                    <Dropdown.Item>
-                                        <Link to={'/addHut'}>
-                                            Add hut
-                                        </Link>
+                                    <Dropdown.Item as={Link} to="/addHut">
+                                        Add hut
                                     </Dropdown.Item>
-                                    <Dropdown.Item>
-                                        <Link to={'/addParking'}>
-                                            Add parking lot
-                                        </Link>
+                                    <Dropdown.Item as={Link} to="/addParking">
+                                        Add parking lot
                                     </Dropdown.Item>
                                     <Dropdown.Item onClick={props.handleLogout}>Logout</Dropdown.Item>
                                 </Dropdown.Menu>

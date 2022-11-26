@@ -13,20 +13,45 @@
 // Imports
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Router } from 'react-router-dom';
+import { Router, MemoryRouter } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
 import ErrorView from './ErrorView';
 
+//Mock react-bootstrap
+jest.mock('react-bootstrap', () => {
+    const Row = (props) => {
+        return (
+            <div>{props.children}</div>
+        );
+    }
+
+    const Button = ({ children, ...props }) => {
+        return (
+            <button {...props}>{children}</button>
+        )
+    }
+
+    return ({ Row, Button });
+})
+
 describe('Error view', () => {
 
     it('have the error text', () => {
-        render(<ErrorView />);
-        expect(screen.getByAltText(/Page Not Found/)).toBeInTheDocument();
+        const history = createMemoryHistory();
+        render(
+            <Router location={history.location} navigator={history}>
+                <ErrorView />
+            </Router>);
+        screen.getByRole('heading', { name: /page not found/i })
     });
 
     it('have the "Back to home" button', () => {
-        render(<ErrorView />, { wrapper: MemoryRouter });
+        const history = createMemoryHistory();
+        render(
+            <Router location={history.location} navigator={history}>
+                <ErrorView />
+            </Router>);
         expect(screen.getByRole('button', { name: /back to home/i })).toBeInTheDocument();
     });
 

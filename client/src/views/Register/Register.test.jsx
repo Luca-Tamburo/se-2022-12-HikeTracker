@@ -18,10 +18,10 @@ import { createMemoryHistory } from 'history';
 
 import Register from './Register';
 
-/*Mock react-bootstrap
+//Mock react-bootstrap
 jest.mock('react-bootstrap', () => {
 
-    const Container = (props) => {
+    const Col = (props) => {
         return (
             <div>{props.children}</div>
         )
@@ -33,83 +33,41 @@ jest.mock('react-bootstrap', () => {
         )
     }
 
-    return ({ Button, Container });
-})*/
+    return ({ Button, Col });
+})
 
-describe('RegisterComponent', () => {
-    it('Check if Register has title', () => {
-        render(<Register />, { wrapper: MemoryRouter });
-        expect(screen.getByRole('heading', {
-            name: /Select your role/i
-          })).toBeInTheDocument();
-    });
+const registerRole = [
+    { role: 'heading', name: 'Select your role', label: 'Text' },
+    { role: 'button', name: 'Hiker', label: 'Hiker button' },
+    { role: 'button', name: 'Local guide', label: 'Local guide button' },
+    { role: 'button', name: 'Hut worker', label: 'Hut worker button' },
+    { role: 'img', name: 'Authentication', label: 'Image' },
+]
 
-    it('Check if the hiker button is present', ()=>{
-        render(<Register />, { wrapper: MemoryRouter });
-        
-          expect(screen.getByRole('button', {
-            name: /hiker/i
-          })).toBeInTheDocument();
-    })
-    it('Check if the local guide button is present', ()=>{
-        render(<Register />, { wrapper: MemoryRouter });
-        
-          expect(screen.getByRole('button', {
-            name: /local guide/i
-          })).toBeInTheDocument();
-    })
-    it('Check if the hut worker button is present', ()=>{
-        render(<Register />, { wrapper: MemoryRouter });
-        
-          expect(screen.getByRole('button', {
-            name: /hut worker/i
-          })).toBeInTheDocument();
-    })
+const registerFormLink = [
+    { name: 'Hiker', path: '/signup/hiker' },
+    { name: 'Local guide', path: '/signup/localGuide' },
+    { name: 'Hut worker', path: '/signup/hutWorker' },
+]
 
-    it('Check if the image is present', ()=>{
-        render(<Register />, { wrapper: MemoryRouter });
-        
-          expect(  screen.getByRole('img', {
-        name: /authentication/i
-      })).toBeInTheDocument();
-    })
+describe('Register view', () => {
 
-  
+    it.each(registerRole)
+        ('has the correct $label', (item) => {
+            render(<Register />, { wrapper: MemoryRouter });
+            expect(screen.getByRole(item.role, { name: item.name })).toBeInTheDocument();
+        })
 
-    it('Check if Register has the link to show registration form for hiker', () => {
-        const history = createMemoryHistory();
-        render(
-            <Router location={history.location} navigator={history}>
-                <Register />
-            </Router>);
-        const link = screen.getByRole('link', { name: 'Hiker' })
-        expect(link).toHaveAttribute('href', '/signup/hiker');
-        userEvent.click(screen.getByRole('link', { name: 'Hiker' }));
-        expect(history.location.pathname).toBe('/signup/hiker')
-    }
-    )
-    it('Check if Register has the link to show registration form for local guide', () => {
-        const history = createMemoryHistory();
-        render(
-            <Router location={history.location} navigator={history}>
-                <Register />
-            </Router>);
-        const link = screen.getByRole('link', { name: 'Local guide' })
-        expect(link).toHaveAttribute('href', '/signup/localGuide');
-        userEvent.click(screen.getByRole('link', { name: 'Local guide' }));
-        expect(history.location.pathname).toBe('/signup/localGuide')
-    }
-    )
-    it('Check if Register has the link to show registration form for hut worker', () => {
-        const history = createMemoryHistory();
-        render(
-            <Router location={history.location} navigator={history}>
-                <Register />
-            </Router>);
-        const link = screen.getByRole('link', { name: 'Hut worker' })
-        expect(link).toHaveAttribute('href', '/signup/hutWorker');
-        userEvent.click(screen.getByRole('link', { name: 'Hut worker' }));
-        expect(history.location.pathname).toBe('/signup/hutWorker')
-    }
-    )
+    it.each(registerFormLink)
+        ('has the correct $path to show registration form for $name', async (item) => {
+            const history = createMemoryHistory();
+            render(
+                <Router location={history.location} navigator={history}>
+                    <Register />
+                </Router>);
+            const link = screen.getByRole('link', { name: item.name })
+            expect(link).toHaveAttribute('href', item.path);
+            await userEvent.click(screen.getByRole('link', { name: item.name }));
+            expect(history.location.pathname).toBe(item.path)
+        })
 })

@@ -19,25 +19,43 @@ import { createMemoryHistory } from 'history';
 
 import Login from './Login';
 
+//Mock react-bootstrap
+jest.mock('react-bootstrap', () => {
 
-describe('LoginComponent', () => {
+    const Col = (props) => {
+        return (
+            <div>{props.children}</div>
+        )
+    }
+
+    return ({ Col });
+})
+
+// Mock custom components
+const mockLogin = jest.fn();
+jest.mock('../../components/ui-core/LoginForm/LoginForm', () => () => {
+    mockLogin();
+    return <mock-Login data-testid='Login' />
+})
+
+describe('Login page', () => {
     const handleSubmit = jest.fn();
-    beforeEach(() => {
+
+    it('has title', () => {
         handleSubmit.mockClear();
-        render(<Login handleSubmit={handleSubmit} />,{ wrapper: MemoryRouter }); 
-        
+        render(<Login handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByRole('heading', { name: /login/i })).toBeInTheDocument();
     });
-    it('Check if Login has title', () => {
 
-        expect(screen.getByRole('heading', {
-            name: /login/i
-          })).toBeInTheDocument();
+    it('has image', () => {
+        handleSubmit.mockClear();
+        render(<Login handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByRole('img', { name: /login/i })).toBeInTheDocument();
     });
-    it('Check if Login has Image', () => {
 
-        expect(screen.getByRole('img', {
-            name: /login/i
-          })).toBeInTheDocument();
-    });
+    it('form is render', () => {
+        render(<Login handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByTestId('Login')).toBeInTheDocument();
+    })
 
 });
