@@ -26,7 +26,7 @@ router.post('/parking',
     checksValidation, async (req, res) => {
         try {
             //create parking point in db
-            let pointId = await pointDao.addPoint(req.body.title, req.body.description, "parking lot", req.body.latitude, req.body.longitude, req.body.altitude, req.body.city, req.body.province, req.body.region);
+            await pointDao.addPoint(req.body.title, req.body.description, "parking lot", req.body.latitude, req.body.longitude, req.body.altitude, req.body.city, req.body.province, req.body.region);
             return res.status(201).json({ message: "Parking inserted in the system" });
         } catch (error) {
             res.status(503).json({ error: `Service unavailable` });
