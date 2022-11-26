@@ -15,7 +15,7 @@ import { Button } from "react-bootstrap";
 import { Formik, Form } from "formik";
 
 // Components - utils
-import Input from "../../utils/Input/Input";
+import * as CustomField from "../../utils/Input/index";
 
 // Validations
 import LoginSchema from "../../../validation/LoginSchema";
@@ -31,8 +31,8 @@ const LoginForm = (props) => {
         const disableSubmit = (!touched.email && !touched.password) || !isValid;
         return (
           <Form>
-            <Input className="mt-3" id="login-email" name="email" type="email" placeholder="Insert your email" label="Email"/>
-            <Input className="mt-3" id="login-password" name="password" type="password" placeholder="Insert your password" label="Password"/>
+            <CustomField.Input className="mt-3" id="login-email" name="email" type="email" placeholder="Insert your email" label="Email" />
+            <CustomField.Input className="mt-3" id="login-password" name="password" type="password" placeholder="Insert your password" label="Password" />
             <Button variant="primary" type="submit" className="w-100 fw-semibold border mt-4 py-2" disabled={disableSubmit}>
               Login
             </Button>

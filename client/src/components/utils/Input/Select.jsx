@@ -20,9 +20,11 @@ const Select = ({ id, name, defaultValue = 0, defaultLabel = "", disabled, label
                 <option value={defaultValue}>{defaultLabel}</option>
                 {children}
             </Field>
-            <Form.Text className='text-danger'>
-                <ErrorMessage name={field.name} />
-            </Form.Text>
+            {(meta.touched && meta.error) &&
+                <Form.Text data-testid='error-message' className='text-danger'>
+                    <ErrorMessage name={field.name} />
+                </Form.Text>
+            }
         </Form.Group>
     );
 }

@@ -17,7 +17,6 @@ import { useContext } from 'react';
 import { Container, Navbar as MyNavbar, Button, Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaHome } from 'react-icons/fa';
-import { BiUser } from 'react-icons/bi';
 
 import logo from '../../../assets/logo/logo-no-background.png';
 
@@ -73,7 +72,10 @@ const Navbar = (props) => {
                                     <Dropdown.Item onClick={props.handleLogout}>Logout</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
-                            : <h4 className='fw-bold mt-2 p-0'>Hi, {userInfo.name}</h4>
+                            : <div className='d-flex'>
+                                <h4 className='fw-bold mt-2 me-3 p-0'>Hi, {userInfo.name}</h4>
+                                <Button className='rounded-3' onClick={props.handleLogout}>Logout</Button>
+                            </div>
                     )
                 }
             </Container>

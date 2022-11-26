@@ -11,7 +11,7 @@
 */
 
 // Imports
-import { render, screen, within } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
 
 import Filter from './Filter';
@@ -42,6 +42,18 @@ jest.mock('react-bootstrap', () => {
         )
     }
 
+    Form.Control = (props) => {
+        return (
+            <input {...props}>{props.children}</input>
+        )
+    }
+
+    Form.Range = (props) => {
+        return (
+            <input {...props}>{props.children}</input>
+        )
+    }
+
     const Button = ({ children, ...props }) => {
         return (
             <button {...props}>{children}</button>
@@ -51,37 +63,77 @@ jest.mock('react-bootstrap', () => {
     return ({ Row, Col, Form, Button });
 })
 
-const testFiter = {
-    range: "Less than 500 mt",
-    ascent: "Between 0 and 1000 mt",
-    difficulty: "Tourist",
-    expectedTime: "Less than 2.30 h",
-    length: "Less than 5 km",
-}
+// Mock react-leaflet
+jest.mock('react-leaflet', () => {
+    const MapContainer = (props) => {
+        return (
+            <div>{props.children}</div>
+        )
+    }
 
-const expected = [
-    { label: "range-select", expect: testFiter.range },
-    { label: "ascent-select", expect: testFiter.ascent },
-    { label: "difficulty-select", expect: testFiter.difficulty },
-    { label: "expectideTime-select", expect: testFiter.expectedTime },
-    { label: "length-select", expect: testFiter.length },
+    const Marker = (props) => {
+        return (
+            <div>{props.children}</div>
+        )
+    }
+
+    const Popup = (props) => {
+        return (
+            <div>{props.children}</div>
+        )
+    }
+
+    const TileLayer = (props) => {
+        return (
+            <div>{props.children}</div>
+        )
+    }
+
+    const Circle = (props) => {
+        return (
+            <div>{props.children}</div>
+        )
+    }
+    return ({ MapContainer, Marker, Popup, TileLayer, Circle });
+
+})
+
+const dataTestId = [
+    'region-select',
+    'province-select',
+    'city-select',
+    'range-select',
+    'difficulty-select',
+    'ascent-select-min',
+    'ascent-select-max',
+    'expectideTime-select-min',
+    'expectideTime-select-max',
+    'length-select-min',
+    'length-select-max',
 ]
 
 describe('Filter components', () => {
 
-    it('exits', () => {
+    it('is rendered', () => {
         render(<Filter />);
-        expect(screen.getAllByRole('combobox')).toHaveLength(7)
+        expect(screen.getAllByRole('combobox')).toHaveLength(4)
+        expect(screen.getByTestId('range-select')).toBeInTheDocument()
+        expect(screen.getAllByRole('spinbutton')).toHaveLength(6)
+        expect(screen.getAllByRole('button')).toHaveLength(2)
     });
 
-    it.each(expected)
-        ('have the correct $label', (item) => {
+    it.each(dataTestId)
+        ('have the correct %s', (item) => {
             render(<Filter />);
-            const dropdown = screen.getByTestId(item.label);
-            user.selectOptions(dropdown, within(dropdown).getByRole('option', { name: item.expect }));
+            expect(screen.getByTestId(item)).toBeInTheDocument();
         })
 
-    it('button is rendered and it works', () => {
+    it('reset button is rendered and it works', () => {
+        render(<Filter />);
+        user.click(screen.getByRole('button', { name: /reset/i }))
+    })
+
+    it('search button is rendered and it works', () => {
         render(<Filter />);
         user.click(screen.getByRole('button', { name: /search/i }))
     })

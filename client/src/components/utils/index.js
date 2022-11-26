@@ -15,7 +15,6 @@ import Filter from './Filter/Filter'
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute'
 import LocalGuideProtectedRoute from './ProtectedRoute/LocalGuideProtectedRoute'
 import Input from './Input/Input'
-import Check from './Input/Check'
 import Select from './Input/Select'
 
 export {
@@ -24,6 +23,5 @@ export {
     ProtectedRoute,
     LocalGuideProtectedRoute,
     Input,
-    Check,
     Select,
 }

@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 
 import { Formik } from 'formik'
 
-import Input from './Input'
+import TextArea from './Input'
 
 jest.mock('react-bootstrap', () => {
     const Form = ({ children, ...props }) => <form {...props}>{children}</form>
@@ -19,7 +19,6 @@ jest.mock('react-bootstrap', () => {
 const props = {
     id: "test-input",
     name: "testInput",
-    type: "text",
     placeholder: "This is a test",
     label: "Test Input"
 }
@@ -38,28 +37,28 @@ const Component = {
     Default: () => {
         return (
             <Formik {...initialProps.default}>
-                <Input {...props} />
+                <TextArea {...props} />
             </Formik>
         )
     },
     Disabled: () => {
         return (
             <Formik {...initialProps.default}>
-                <Input {...props} disabled />
+                <TextArea {...props} disabled />
             </Formik>
         )
     },
     Success: () => {
         return (
             <Formik {...initialProps.success}>
-                <Input {...props} />
+                <TextArea {...props} />
             </Formik>
         )
     },
     Error: () => {
         return (
             <Formik {...initialProps.error}>
-                <Input {...props} />
+                <TextArea {...props} />
             </Formik>
         )
     },
@@ -72,16 +71,15 @@ const setup = {
     error: () => render(<Component.Error />, { wrapper: MemoryRouter }),
 }
 
-describe("Input component", () => {
+describe("TextArea component", () => {
     it("is correctly rendered", () => {
         setup.default();
         expect(screen.getByRole('textbox', { name: props.label })).toBeInTheDocument()
     })
 
     it.each(Object.keys(props).filter(attr => attr !== 'label'))
-        ("Input %s is correctly set", (attribute) => {
+        ("%s is correctly set", (attribute) => {
             setup.default();
-
             expect(screen.getByLabelText(props.label)).toHaveAttribute(attribute, props[attribute])
         })
 

@@ -26,7 +26,7 @@ const LocalGuideServiceCard = ({ info }) => {
                     <Card.Text className='crop-text-10'>{info.description}</Card.Text>
                     <Link to={`/${info.url}`}>
                         <Button>
-                            Add {info.addName}
+                            {info.addName}
                         </Button>
                     </Link>
                 </Card.Body>
