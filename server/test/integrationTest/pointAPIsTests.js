@@ -155,6 +155,25 @@ describe("Post.Parking.Hut.APItesting", function () {
             });
     });
 
+    step('Test5: Add parking negative altitude', async function () {
+        await localGuide
+            .post('parking')
+            .set('content-type', 'multipart/form-data')
+            .field({
+                "title":"parking",
+                "description":"big parking area near the start of the hike!",
+                "latitude": 44.57426,
+                "longitude": 6.98264,
+                "altitude": -3094,
+                "city": "Condove",
+                "province": "Torino ",
+                "region": "Piemonte"
+            })
+            .then(function (res) {
+                res.should.have.status(422);
+            });
+    });
+
 
     //Add Hut testing down here
 
