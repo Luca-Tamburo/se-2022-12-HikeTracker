@@ -45,4 +45,33 @@ exports.addPointHike = (hikeId, pointId) => {
     });
 }
 
-
+/**
+ * Get point by id
+ */
+ exports.getPointById = (id) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM Point WHERE id = ?';
+        db.get(sql, [id], (err, r) => {
+            if (err) {
+                reject(err);
+            }
+            else if (r === undefined)
+                resolve(undefined);
+            else {
+                resolve(
+                    {
+                        id: r.id,
+                        name: r.name,
+                        description: r.description,
+                        type: r.type,
+                        latitude: r.latitude,
+                        longitude: r.longitude,
+                        altitude: r.altitude,
+                        city: r.city,
+                        province: r.province
+                    }
+                );
+            }
+        });
+    });
+}

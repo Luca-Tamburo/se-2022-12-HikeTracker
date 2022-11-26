@@ -121,7 +121,7 @@ const AddParking = (props) => {
                                                 </Col>
                                             );
                                         })}
-                                        <CustomField.TextArea className="mt-3" id="description" name="description" placeholder="Insert the hut description" label="Description" />
+                                        <CustomField.TextArea className="mt-3" id="description" name="description" placeholder="Insert the parking description" label="Description" />
                                         <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}>
                                             {loading && (<Spinner animation="border" size="sm" as="span" role="status" aria-hidden="true" className="me-2" />)}
                                             Submit

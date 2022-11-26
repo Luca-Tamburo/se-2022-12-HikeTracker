@@ -15,7 +15,6 @@ chai.should();
 const server = "http://localhost:3001/api/";
 const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 chai.use(chaiHttp);
-const fs = require('fs');
 const { step } = require('mocha-steps');
 const request = require('supertest');
 let agent = chai.request.agent(app);
@@ -26,9 +25,9 @@ const cleanDb = async () => {
     await createDatabase();
 }
 
-cleanDb();
 
 describe("Post.Parking.Hut.APItesting", function () {
+    before(()=>{cleanDb();});
 
     const localGuide = request.agent(server);
 
@@ -153,6 +152,25 @@ describe("Post.Parking.Hut.APItesting", function () {
             })
             .then(function (res) {
                 res.should.have.status(201);
+            });
+    });
+
+    step('Test5: Add parking negative altitude', async function () {
+        await localGuide
+            .post('parking')
+            .set('content-type', 'multipart/form-data')
+            .field({
+                "title":"parking",
+                "description":"big parking area near the start of the hike!",
+                "latitude": 44.57426,
+                "longitude": 6.98264,
+                "altitude": -3094,
+                "city": "Condove",
+                "province": "Torino ",
+                "region": "Piemonte"
+            })
+            .then(function (res) {
+                res.should.have.status(422);
             });
     });
 
