@@ -25,4 +25,8 @@ const cleanDb = async () => {
     await createDatabase();
 }
 
-cleanDb();
+describe("bla bla bla", function () {
+    before(()=>{cleanDb();});
+    ...
+
+}

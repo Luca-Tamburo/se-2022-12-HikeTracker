@@ -27,9 +27,9 @@ const cleanDb = async () => {
     await createDatabase();
 }
 
-cleanDb();
 
 describe("Post.Hikes.APItesting", function () {
+    before(()=>{cleanDb();});
 
     const localGuide = request.agent(server);
 

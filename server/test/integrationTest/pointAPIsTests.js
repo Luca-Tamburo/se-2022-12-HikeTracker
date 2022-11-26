@@ -15,7 +15,6 @@ chai.should();
 const server = "http://localhost:3001/api/";
 const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 chai.use(chaiHttp);
-const fs = require('fs');
 const { step } = require('mocha-steps');
 const request = require('supertest');
 let agent = chai.request.agent(app);
@@ -26,9 +25,9 @@ const cleanDb = async () => {
     await createDatabase();
 }
 
-cleanDb();
 
 describe("Post.Parking.Hut.APItesting", function () {
+    before(()=>{cleanDb();});
 
     const localGuide = request.agent(server);
 
