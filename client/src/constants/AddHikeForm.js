@@ -14,7 +14,7 @@
 const AddHikeForm = [
     { xsCol: '6', idName: 'title', placeholder: 'Insert the hike name', label: 'Name' },
     { xsCol: '6', idName: 'photoFile', placeholder: 'Insert the hike url image', label: 'Image' },
-    { xsCol: '6', idName: 'expectedTime', placeholder: 'Insert the hike expectide time', label: 'Expected Time' },
+    { xsCol: '6', idName: 'expectedTime', placeholder: 'Insert the hike expected time', label: 'Expected Time' },
 ]
 
 export default AddHikeForm;
