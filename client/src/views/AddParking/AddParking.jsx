@@ -136,7 +136,6 @@ const AddParking = (props) => {
                                                     <CustomField.Input
                                                         className='mt-3'
                                                         type='text'
-                                                        key={index}
                                                         id={input.idName}
                                                         name={input.idName}
                                                         placeholder={input.placeholder}
@@ -150,7 +149,6 @@ const AddParking = (props) => {
                                                 <Col xs={input.xsCol}>
                                                     <CustomField.Select
                                                         className='mt-3'
-                                                        key={index}
                                                         id={input.idName}
                                                         name={input.idName}
                                                         defaultLabel={input.defaultLabel}

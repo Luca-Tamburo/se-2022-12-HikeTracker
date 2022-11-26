@@ -154,7 +154,6 @@ const AddHut = (props) => {
                                                 <Col xs={input.xsCol}>
                                                     <CustomField.Select
                                                         className='mt-3'
-                                                        key={index}
                                                         id={input.idName}
                                                         name={input.idName}
                                                         defaultLabel={input.defaultLabel}
