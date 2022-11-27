@@ -36,6 +36,40 @@ import AddParkingSchema from "../../validation/AddParkingSchema";
 import useNotification from "../../hooks/useNotification";
 import SetYourLocation from "../../components/ui-core/locate/setYourLocation";
 
+import { __REGIONS, getCitiesForProvince, getProvinceForRegion, getProvinceName, getRegionName } from '../../lib/helpers/location'
+
+const RemoveMarker = (props) => {
+
+    let map = useMap();
+    if (props.marker) {
+        map.removeLayer(props.marker)
+    }
+}
+
+const Region = (props) => {
+    return (
+        __REGIONS.map(r => (
+            <option key={r.regione} value={r.regione}>{r.nome}</option>
+        ))
+    );
+}
+
+const Province = (props) => {
+    return (
+        getProvinceForRegion(parseInt(props.region)).map(p => (
+            <option key={p.provincia} value={p.provincia}>{p.nome}</option>
+        ))
+    );
+}
+
+const City = (props) => {
+
+    return (
+        getCitiesForProvince(parseInt(props.province)).map(c => (
+            <option key={c.comune} value={c.nome}>{c.nome}</option>
+        ))
+    );
+}
 const icon = L.icon({
     iconSize: [25, 41],
     iconAnchor: [10, 41],
@@ -57,6 +91,8 @@ const AddParking = (props) => {
     const [location, setLocation] = useState(false)
     const [longitude, setLongitude] = useState(false)
     const [latitude, setLatitude] = useState(false)
+    const [region, setRegion] = useState(false)
+    const [province, setProvince] = useState(false)
 
     const initialValues = {
         title: "",
@@ -75,8 +111,8 @@ const AddParking = (props) => {
         formData.append('latitude', values.latitude);
         formData.append('longitude', values.longitude);
         formData.append('altitude', values.altitude);
-        formData.append('region', values.region);
-        formData.append('province', values.province);
+        formData.append('region', getRegionName(values.region));
+        formData.append('province', getProvinceName(values.province));
         formData.append('city', values.city);
         formData.append('description', values.description);
         setLoading(true);
@@ -96,12 +132,13 @@ const AddParking = (props) => {
     };
 
     const handleOnChange = (e) => {
-        console.log(e.target.id)
         if (e.target.id === "latitude") { setLatitude(e.target.value) }
         if (e.target.id === "longitude") { setLongitude(e.target.value) }
+        if (e.target.id === "region") { setRegion(e.target.value) }
+        if (e.target.id === "province") { setProvince(e.target.value) }
     }
+    console.log(mapPosition)
 
-    console.log(position)
     return (
         <div>
             <div className="d-flex justify-content-center mt-4">
@@ -129,6 +166,7 @@ const AddParking = (props) => {
                                                         name={input.idName}
                                                         placeholder={input.placeholder}
                                                         label={input.label}
+
                                                     />
                                                 </Col>
                                             );
@@ -142,7 +180,12 @@ const AddParking = (props) => {
                                                         name={input.idName}
                                                         defaultLabel={input.defaultLabel}
                                                         label={input.label}
-                                                    />
+                                                        defaultValue="none"
+                                                    >
+                                                        {input.idName == 'region' ? <Region setRegion={setRegion} /> : <></>}
+                                                        {input.idName == 'province' && region ? <Province region={region} /> : <></>}
+                                                        {input.idName == 'city' && province ? <City province={province} /> : <></>}
+                                                    </CustomField.Select>
                                                 </Col>
                                             );
                                         })}
@@ -163,12 +206,20 @@ const AddParking = (props) => {
                                     />
                                     {location ? <SetYourLocation setCenter={setCenter} setLocation={setLocation} /> : <></>}
                                     {mapPosition ? <AddMarker saveMarkers={saveMarkers} marker={marker} /> :
-                                        <></>}
-                                    {latitude && longitude ? <Marker position={[latitude, longitude]} icon={icon}></Marker> : <></>}
+                                        <RemoveMarker marker={marker} />}
+                                    {!mapPosition && latitude && longitude ? <Marker position={[latitude, longitude]} icon={icon}></Marker> : <></>}
                                 </MapContainer>
                                 <Row>
                                     <div className="d-flex justify-content-evenly mt-2">
-                                        <Button onClick={() => { setMapPosition(true); setLocation(false); setLongitude(false); setLatitude(false) }}>Set Position on the Map</Button>
+                                        {/* <Button onClick={() => { setMapPosition(true); setLocation(false); setLongitude(false); setLatitude(false) }}>Set Position on the Map</Button> */}
+                                        <Form>
+                                            <Form.Check
+                                                type="switch"
+                                                id="custom-switch"
+                                                label="Set Position on the Map"
+                                                onChange={(e) => { setMapPosition(!mapPosition); setLocation(!location); }}
+                                            />
+                                        </Form>
                                         <Button onClick={() => { setMapPosition(false); setLocation(true) }}>Center Your Postion</Button>
                                     </div>
                                 </Row>
