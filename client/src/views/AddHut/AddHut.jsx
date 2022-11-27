@@ -31,7 +31,7 @@ import * as CustomField from "../../components/utils/Input/index";
 import { AddHutForm } from "../../constants";
 
 // Validations
-import AddHutSchema from "../../validation/AddHutSchema";
+import {AddHutSchema,AddHutSchemaMap} from "../../validation/AddHutSchema";
 
 // Hooks
 import useNotification from "../../hooks/useNotification";
@@ -112,6 +112,9 @@ const AddHut = (props) => {
     }
 
     const handleSubmit = (values) => {
+        if(!marker){
+            notify.error("Choose a point on the map!")
+        }else{
         let formData = new FormData();
         formData.append('title', values.title);
         formData.append('photoFile', values.photoFile);
@@ -143,7 +146,8 @@ const AddHut = (props) => {
             })
             .catch((err) => notify.error(err.error))
             .finally(() => setLoading(false));
-    };
+        }
+        };
     const saveMarkers = (newMarkerCoords, circle) => {
         setMarker(newMarkerCoords)
     };
@@ -162,7 +166,7 @@ const AddHut = (props) => {
             </div>
             <Formik
                 initialValues={initialValues}
-                validationSchema={AddHutSchema}
+                validationSchema={mapPosition?AddHutSchemaMap:AddHutSchema}
                 onSubmit={(values) => handleSubmit(values)}
             >
                 {({ values, handleSubmit, touched, isValid, setFieldValue }) => {

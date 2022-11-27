@@ -30,7 +30,7 @@ import * as CustomField from "../../components/utils/Input/index";
 import { AddParkingForm } from "../../constants";
 
 // Validations
-import AddParkingSchema from "../../validation/AddParkingSchema";
+import {AddParkingSchema,AddParkingSchemaMap} from "../../validation/AddParkingSchema";
 
 // Hooks
 import useNotification from "../../hooks/useNotification";
@@ -106,7 +106,9 @@ const AddParking = (props) => {
     }
 
     const handleSubmit = (values) => {
-
+if(!marker){
+        notify.error("Choose a point on the map!")
+    }else{
         console.log(getRegionName(parseInt(values.region)))
         let formData = new FormData();
         formData.append('title', values.title);
@@ -138,7 +140,8 @@ const AddParking = (props) => {
             })
             .catch((err) => notify.error(err.error))
             .finally(() => setLoading(false));
-    };
+        }
+        };
 
     const saveMarkers = (newMarkerCoords, circle) => {
         setMarker(newMarkerCoords)
@@ -159,7 +162,7 @@ const AddParking = (props) => {
             </div>
             <Formik
                 initialValues={initialValues}
-                validationSchema={AddParkingSchema}
+                validationSchema={mapPosition?AddParkingSchemaMap:AddParkingSchema}
                 onSubmit={(values) => handleSubmit(values)}
             >
                 {({ values, handleSubmit, touched, isValid, setFieldValue }) => {
