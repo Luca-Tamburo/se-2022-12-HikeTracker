@@ -12,42 +12,47 @@
 
 // Imports
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { Router, MemoryRouter } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { MemoryRouter } from 'react-router-dom';
 
-import Register from './Register';
+// Components
+import Login from './Login';
 
-//Mock react-bootstrap
+// Mock react-bootstrap
 jest.mock('react-bootstrap', () => {
 
-    const Container = (props) => {
+    const Col = (props) => {
         return (
             <div>{props.children}</div>
         )
     }
 
-    const Button = ({ children, ...props }) => {
-        return (
-            <button {...props}>{children}</button>
-        )
-    }
-
-    return ({ Button, Container });
+    return ({ Col });
 })
 
-describe('LoginComponent', () => {
-    it('Check if Login has title', () => {
-        render(<Login />, { wrapper: MemoryRouter });
-        expect(screen.getByRole('heading', {
-            name: /login/i
-          })).toBeInTheDocument();
-    });
-    it('Check if Login has Image', () => {
-        render(<Login />, { wrapper: MemoryRouter });
-        expectscreen.getByRole('img', {
-            name: /home/i
-          }).toBeInTheDocument();
+// Mock custom components
+const mockLogin = jest.fn();
+jest.mock('../../components/ui-core/LoginForm/LoginForm', () => () => {
+    mockLogin();
+    return <mock-Login data-testid='Login' />
+})
+
+describe('Login page', () => {
+    const handleSubmit = jest.fn();
+
+    it('has title', () => {
+        handleSubmit.mockClear();
+        render(<Login handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByRole('heading', { name: /login/i })).toBeInTheDocument();
     });
 
+    it('has image', () => {
+        handleSubmit.mockClear();
+        render(<Login handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByRole('img', { name: /login/i })).toBeInTheDocument();
+    });
+
+    it('form is render', () => {
+        render(<Login handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByTestId('Login')).toBeInTheDocument();
+    })
 });

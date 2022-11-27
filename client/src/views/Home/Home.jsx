@@ -31,7 +31,6 @@ const Home = () => {
                     <p className='home-hike-list mb-5'>Click here to see the list of hikes </p>
                 </Link>
             </div>
-
         </>
     );
 }

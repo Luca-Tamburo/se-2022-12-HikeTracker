@@ -14,6 +14,7 @@
 import { Link } from 'react-router-dom';
 import { Row, Button } from 'react-bootstrap';
 
+// Icons
 import { TbError404 } from 'react-icons/tb'
 
 const ErrorView = () => {

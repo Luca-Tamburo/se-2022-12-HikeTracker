@@ -11,33 +11,25 @@
 */
 
 //Imports
-import { Row, Col, Form, Container, Button } from 'react-bootstrap';
-
+import { Col } from 'react-bootstrap';
 
 //Components
 import LoginForm from '../../components/ui-core/LoginForm/LoginForm';
+
+// Styles
 import loginImage from '../../assets/loginImage.png'
 
 const Login = (props) => {
-
-
     return (
-        <Row >
-            <div className='mb-5 d-flex flex-column justify-content-center align-items-center' style={{ zIndex: 99 }}>
-                <h1 className='text-center fw-bold fst-italic mt-4 mb-4'>Login</h1>
-            </div>
-            <Col className='ms-5 me-5'>
+        <>
+            <h1 className='text-center fw-bold fst-italic mt-5 mb-0'>Login</h1>
+            <Col xs={9} sm={4} md={5} lg={5} className='mx-auto mx-sm-0 ms-sm-3'>
                 <LoginForm handleSubmit={props.handleSubmit} />
             </Col>
-            <Col>
-                <img
-                    alt='Home'
-                    src={loginImage}
-                    className="top-0 start-0 p-0 w-100 h-100"
-                    style={{ objectFit: 'cover', objectPosition: "center center" }}
-                />
+            <Col sm={4} md={4} lg={{ span: 5, offset: 1 }} className='d-none d-sm-block'>
+                <img alt='Login' src={loginImage} style={{ width: 600 }} />
             </Col>
-        </Row >
+        </>
     );
 }
 

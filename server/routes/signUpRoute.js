@@ -8,9 +8,8 @@ const { secret } = require("../config/auth.config");
 const sign = require('jwt-encode');
 const nodemailer = require('../config/nodemailer.config');
 const path = require('path');
-const { roleValidator, optionalBecomeMandatory, emailAvailabilityCheck, usernameAvailabilityCheck } = require("../utils/signUpUtils");
+const { roleValidator, genderValidator, optionalBecomeMandatory, emailAvailabilityCheck, usernameAvailabilityCheck, roleFormatter, genderFormatter } = require("../utils/signUpUtils");
 const isNotLoggedIn = sessionUtils.isNotLoggedIn;
-
 
 
 // POST /api/signup
@@ -22,7 +21,7 @@ router.post("/signup", isNotLoggedIn,
         .isEmail().withMessage("This field must be a an email").normalizeEmail(),
 
     check("username").exists().withMessage("This field is mandatory").bail()
-        .isString().isLength({ min: 3, max: 40 }).withMessage("This field is a string and must be from 7 to 40 characters").bail()
+        .isString().withMessage("This field is a string").bail()
         .matches(/^[A-Za-z_][A-Za-z0-9_]+$/).withMessage("This field must contain only letters,numbers, underscore. Can't start with a number"),
 
     check("role").exists().withMessage("This field is mandatory").bail()
@@ -30,8 +29,12 @@ router.post("/signup", isNotLoggedIn,
 
     check("password").exists().withMessage("This field is mandatory").bail()
         .isString().withMessage("This field must be a string").bail()
-        .isLength({ min: 1 }).withMessage("This field is a string and must be from 5 to 40 characters"),
-
+        .isStrongPassword({
+            minLength: 8,
+            minLowercase: 1,
+            minSymbols: 1,
+            minNumbers: 1
+        }).withMessage("Invalid password"),
     //per name, surname, phone number doppia validazione, per quando sono opzionali e per quando sono obbligatori
 
     check("name").if((value, { req }) => optionalBecomeMandatory(req.body.role)).exists().withMessage("This field is mandatory").bail()
@@ -48,16 +51,21 @@ router.post("/signup", isNotLoggedIn,
 
     check("phoneNumber").if((value, { req }) => optionalBecomeMandatory(req.body.role)).exists().withMessage("This field is mandatory").bail()
         .isString().withMessage("This field must be a string (consider the prefix of the phone number)").bail()
-        .trim().isLength({ min: 5, max: 40 }).withMessage("This field is a string and must be from 5 to 40 characters").bail()
+        .trim().isLength({ min: 2 }).withMessage("This field is a string and must be from 2 characters").bail()
         .trim().matches(/^[+0-9][0-9 ]+$/).withMessage("This field must contain only numbers, the + for prefixes and spaces"),
 
     check("phoneNumber").if((value, { req }) => !optionalBecomeMandatory(req.body.role)).optional({ nullable: true })
         .isString().withMessage("This field must be a string (consider the prefix of the phone number)").bail()
-        .trim().isLength({ min: 5, max: 40 }).withMessage("This field is a string and must be from 5 to 40 characters").bail()
+        .trim().isLength({ min: 2 }).withMessage("This field is a string and must be from 2 characters").bail()
         .trim().matches(/^[+0-9][0-9 ]+$/).withMessage("This field must contain only numbers, the + for prefixes and spaces"),
 
-    checksValidation, usernameAvailabilityCheck, emailAvailabilityCheck,
+    check("gender").if((value, { req }) => optionalBecomeMandatory(req.body.role)).exists().withMessage("This field is mandatory").bail()
+        .isString().withMessage("This field must be a string").bail().custom((value, { req }) => (genderValidator(value))).withMessage("Invalid gender"),
 
+    check("gender").if((value, { req }) => !optionalBecomeMandatory(req.body.role)).optional({ nullable: true })
+        .isString().withMessage("This field must be a string").bail().custom((value, { req }) => (genderValidator(value))).withMessage("Invalid gender"),
+
+    checksValidation, usernameAvailabilityCheck, emailAvailabilityCheck,
     async (req, res) => {
         try {
             //qui dentro creo confirmation code, chiamo userDao per inserire i del nuovo utente ned db e invio mail
@@ -68,19 +76,22 @@ router.post("/signup", isNotLoggedIn,
                 username: req.body.username
             };
 
+
+
             //creo il jwt
             const jwt = sign(data, secret);
 
             //creo l'url
             const url = "http://localhost:3001/api/signup/" + jwt;
-            
+
 
             const name = req.body.name ? req.body.name.trim() : null;
-            const surname =req.body.surname ? req.body.surname.trim(): null;
-            const phone = req.body.phoneNumber ? req.body.phoneNumber.trim(): null;
+            const surname = req.body.surname ? req.body.surname.trim() : null;
+            const phone = req.body.phoneNumber ? req.body.phoneNumber.trim() : null;
+            const gender = req.body.gender ? genderFormatter(req.body.gender.trim()) : null;
+
             //mando dati a dao
-            await userDao.addUser(req.body.email.trim(), req.body.username.trim(), req.body.role.trim(), name, surname, phone, req.body.password, jwt);
-            
+            await userDao.addUser(req.body.email.trim(), req.body.username.trim(), roleFormatter(req.body.role.trim()), name, surname, gender, phone, req.body.password, jwt);
             //mando mail di conferma
             nodemailer.sendConfirmationEmail(req.body.username, req.body.email, url);
 
@@ -100,8 +111,8 @@ router.get("/signup/:confirmationCode",
 
             //se tutto ok, ritorno una pagina html di conferma, altrimenti una pagina html di errore
             ok ?
-                res.sendFile(path.join(__dirname, '..//utils/afterConfirmEmailPages/confirm.html')) :
-                res.sendFile(path.join(__dirname, '..//utils/afterConfirmEmailPages/error.html'))
+                res.status(200).sendFile(path.join(__dirname, '..//utils/afterConfirmEmailPages/confirm.html')) :
+                res.status(404).sendFile(path.join(__dirname, '..//utils/afterConfirmEmailPages/error.html'))
         } catch (error) { res.status(503).json({ error: `Service unavailable` }); }
     });
 

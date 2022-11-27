@@ -1,18 +1,28 @@
 
 'use strict';
-
-//DB access module
-const sqlite = require('sqlite3');
-
-//Open the database
-const db = new sqlite.Database('hikeTracker.sqlite3', (err) => {
-    if (err) throw err;
-});
-
-exports.addPoint = (name) => {
+const { iAmTesting } = require('../test/mockDB/iAmTesting');
+const getMock = () => {
+    //faccio il require del mock solo se sto in testing
+    const { mockDB } = require('../test/mockDB/mockDB');
+    return mockDB;
+}
+const db = iAmTesting() ? getMock() : require('./openDb');
+/**
+ * Insert a new point
+ * @param {string} name the name of the point
+ * @param {string} description the description of the point
+ * @param {string} type the type of the point
+ * @param {number} latitude the latitude of the point
+ * @param {number} longitude the longitude of the point
+ * @param {number} altitude the altitude of the point
+ * @param {string} city the city of the point
+ * @param {string} province the province of the point
+ * @param {string} region the region of the point
+ */
+exports.addPoint = (name, description, type, latitude, longitude, altitude, city, province, region) => {
     return new Promise((resolve, reject) => {
-        let sql = "INSERT INTO Point(name) VALUES (?)";
-        db.run(sql, [name], function (err) {
+        let sql = "INSERT INTO Point(name,description,type,latitude,longitude,altitude,city,province,region) VALUES (?,?,?,?,?,?,?,?,?)";
+        db.run(sql, [name, description, type, latitude, longitude, altitude, city, province, region], function (err) {
             if (err) {
                 reject(err);
             }
@@ -22,20 +32,6 @@ exports.addPoint = (name) => {
         );
     });
 }
-/*
-exports.createFilm = (film, userId) => {
-    return new Promise((resolve, reject) => {
-        const sql = 'INSERT INTO films (title, favorite, watchdate, rating, user) VALUES (?, ?, ?, ?, ?)';
-        db.run(sql, [film.title, film.favorite ? 1 : 0, film.date ? dayjs(film.date).format('YYYY-MM-DD') : null, film.rating, userId], function (err) {
-            if (err) {
-                reject(err);
-                return;
-            }
-            resolve(this.lastID);
-        });
-    });
-};
-*/
 
 exports.addPointHike = (hikeId, pointId) => {
     return new Promise(async (resolve, reject) => {
@@ -49,4 +45,33 @@ exports.addPointHike = (hikeId, pointId) => {
     });
 }
 
-
+/**
+ * Get point by id
+ */
+ exports.getPointById = (id) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM Point WHERE id = ?';
+        db.get(sql, [id], (err, r) => {
+            if (err) {
+                reject(err);
+            }
+            else if (r === undefined)
+                resolve(undefined);
+            else {
+                resolve(
+                    {
+                        id: r.id,
+                        name: r.name,
+                        description: r.description,
+                        type: r.type,
+                        latitude: r.latitude,
+                        longitude: r.longitude,
+                        altitude: r.altitude,
+                        city: r.city,
+                        province: r.province
+                    }
+                );
+            }
+        });
+    });
+}

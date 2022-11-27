@@ -5,8 +5,6 @@
 * Module:          src/services
 * File:            api.js
 *
-* Description:     APIs call list
-*
 * Copyright (c) 2022 - se2022-Team12
 * All rights reserved.
 * --------------------------------------------------------------------
@@ -25,7 +23,9 @@ const api = {
         return new Promise((resolve, reject) => {
             axios.post(SERVER_URL + 'signup', credentials, { withCredentials: true })
                 .then(res => resolve(res.data))
-                .catch(err => {console.log(err);reject(err.response.data)});
+                .catch(err => {
+                    reject(err.response.data)
+                });
         })
     },
 
@@ -51,7 +51,7 @@ const api = {
         return new Promise((resolve, reject) => {
             axios.get(SERVER_URL + 'sessions/current', { withCredentials: true })
                 .then((res) => resolve(res.data))
-                .catch((err) => reject(err.response.data));
+                .catch((err) => { reject(err.response.data) });
         })
     },
 
@@ -65,28 +65,31 @@ const api = {
 
     getHikeDetails: (hikeId) => {
         return new Promise((resolve, reject) => {
-            axios.get(SERVER_URL + `hikedetails/${hikeId}`)
+            axios.get(SERVER_URL + `hikedetails/${hikeId}`, { withCredentials: true })
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err));
+        })
+    },
+
+    addHike: (formData) => {
+        return new Promise((resolve, reject) => {
+            axios.post(SERVER_URL + 'hikes', formData, { withCredentials: true })
                 .then((res) => resolve(res.data))
                 .catch((err) => reject(err.response.data));
         })
     },
 
-    putHike: (title, description, length, expectedTime, ascent, difficulty, startPointName, endPointName, authorId, uploadDate, photoFile) => {
+    addHut: (formData) => {
         return new Promise((resolve, reject) => {
-            const data = {
-                'title': title,
-                'description': description,
-                'length': length,
-                'expectedTime': expectedTime,
-                'ascent': ascent,
-                'difficulty': difficulty,
-                'startPointName': startPointName,
-                'endPointName': endPointName,
-                'authorId': authorId,
-                'uploadDate': uploadDate,
-                'photoFile': photoFile
-            }
-            axios.put(SERVER_URL + 'hikes', data)
+            axios.post(SERVER_URL + 'hut', formData, { withCredentials: true })
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err.response.data));
+        })
+    },
+
+    addParking: (formData) => {
+        return new Promise((resolve, reject) => {
+            axios.post(SERVER_URL + 'parking', formData, { withCredentials: true })
                 .then((res) => resolve(res.data))
                 .catch((err) => reject(err.response.data));
         })

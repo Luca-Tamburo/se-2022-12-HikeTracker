@@ -1,162 +1,125 @@
 /*
-* -------------------------------------------------------------------- 
-*
-* Package:         client
-* Module:          ui-core
-* File:            RegisterForm.jsx
-* 
-* Copyright (c) 2022 - se2022-Team12
-* All rights reserved.
-* --------------------------------------------------------------------
-*/
+ * --------------------------------------------------------------------
+ *
+ * Package:         client
+ * Module:          ui-core/RegisterForm
+ * File:            RegisterForm.jsx
+ *
+ * Copyright (c) 2022 - se2022-Team12
+ * All rights reserved.
+ * --------------------------------------------------------------------
+ */
 
 // Imports
-import { useState, useContext } from 'react';
-import { Button, Spinner, Row, Col } from 'react-bootstrap';
-import { useNavigate } from "react-router-dom";
-import { Field, Formik, Form } from 'formik';
-import * as Yup from 'yup';
-
-// Services
-import api from '../../../services/api'
+import { Button, Row, Col, Spinner } from "react-bootstrap";
+import { Formik, Form } from "formik";
 
 // Components
-import Input from "../../utils/Input"
+import * as CustomField from "../../utils/Input/index";
 
-// Contexts
-import { AuthContext } from "../../../contexts/AuthContext";
+// Validation
+import RegisterSchema from "../../../validation/RegisterSchema";
+import RegisterAdvancedSchema from "../../../validation/RegisterAdvancedSchema";
 
-// Hooks
-import useNotification from '../../../hooks/useNotification';
+// Constants
+import registerForm from '../../../constants/registerForm'
+import registerAdvancedForm from '../../../constants/registerAdvancedForm'
 
 const RegisterFormHiker = (props) => {
-    const [loading, setLoading] = useState(false);
-//    const [, , setDirty] = useContext(AuthContext);
-    const notify = useNotification(); // Notification handler
-    const navigate = useNavigate(); // Navigation handler
+  const loading = props.loading;
 
-    const handleSubmit = (credentials) => {
-        //setLoading(true);
-        credentials["role"]=props.Role;
-        console.log(credentials)
-        console.log("sss")
-        api.addNewUser(credentials)
-            .then(user => {
-                
-                //setDirty(true);
-                notify.success(` ${user.message}!`)
-                navigate('/', { replace: true });
-            })
-            .catch(err => notify.error(err))
-          //  .finally(() => setLoading(false));
-    }
-
-    const RegisterSchema = Yup.object().shape({
-        username: Yup.string().required('Username requested'),
-        email: Yup.string().email('Email is not valid').required('Email needed'),
-        password: Yup.string().required('Password needed')
-    });
-
-    return (
-        <Formik validateOnMount initialValues={{ username: '', email: '', password: '' }} validationSchema={RegisterSchema} onSubmit={(values) => handleSubmit(values)}>
-            {({ touched, isValid }) => {
-                const disableSubmit = (!touched.username && !touched.password && !touched.email) || !isValid || loading;
-                return (
-                    <Form>
-                        <Row>
-                            <Input className="mt-3" id="signup-username" name="username" type="text" placeholder="Insert your username" label="Username" />
-
-                        </Row>
-                        <Row>
-                            <Input className="mt-3" id="signup-email" name="email" type="email" placeholder="Insert your email" label="Email" />
-
-                            <Input className="mt-3" id="signup-password" name="password" type="password" placeholder="Insert your password" label="Password" />
-
-                        </Row>
-
-                        <Row>
-                            <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}>
-                                {loading && <Spinner animation='grow' size='sm' as='span' role='status' aria-hidden='true' className='me-2' />}
-                                Sign up
-                            </Button>
-                        </Row>
-                    </Form>
-                );
-            }}
-        </Formik>
-    );
-}
-
+  return (
+    <Formik
+      initialValues={{ username: "", email: "", password: "", passwordConfirmation: "" }}
+      validationSchema={RegisterSchema}
+      onSubmit={(values) => props.handleSubmit(values)}
+    >
+      {({ touched, isValid }) => {
+        const disableSubmit =
+          (!touched.username && !touched.password && !touched.email && !touched.passwordConfirmation) || !isValid;
+        return (
+          <Form>
+            {registerForm.map((input, index) => {
+              return (
+                <Col xs={12} key={index}>
+                  <CustomField.Input
+                    id={input.id}
+                    name={input.name}
+                    type={input.type}
+                    placeholder={input.placeholder}
+                    label={input.label}
+                    className="mt-3"
+                  />
+                </Col>
+              )
+            })}
+            <Button variant="primary" type="submit" className="p-3 rounded-3 mt-4 w-100 fw-semibold" disabled={disableSubmit}>
+              {loading && <Spinner animation='border' size='sm' as='span' role='status' aria-hidden='true' className='me-2' />}
+              Sign up
+            </Button>
+          </Form>
+        );
+      }}
+    </Formik>
+  );
+};
 
 const RegisterFormAdvanced = (props) => {
-    const [loading, setLoading] = useState(false);
-    const [, , setDirty] = useContext(AuthContext);
-    const notify = useNotification(); // Notification handler
-    const navigate = useNavigate(); // Navigation handler  
 
+  const loading = props.loading;
 
-    const handleSubmit = (credentials) => {
-        //setLoading(true);
-        credentials["role"]=props.Role;
-        api.addNewUser(credentials)
-            .then(user => {
-                //setDirty(true);
-                navigate('/', { replace: true });
-            })
-            .catch(err => notify.error(err))
-            //.finally(() => setLoading(false));
-    }
-
-    const RegisterSchema = Yup.object().shape({
-        username: Yup.string().required('Username requested'),
-        email: Yup.string().email('Email is not valid').required('Email needed'),
-        password: Yup.string().required('Password needed'),
-        name: Yup.string().required('Name needed'),
-        phoneNumber: Yup.string().required('Phone number needed'),
-        surname: Yup.string().required("Name needed")
-    });
-
-    return (
-        <Formik validateOnMount initialValues={{ username: '', email: '', password: '', role: '', name: '', surname: '' }} validationSchema={RegisterSchema} onSubmit={(values) => handleSubmit(values)}>
-            {({ touched, isValid }) => {
-                const disableSubmit = (!touched.username && !touched.password && !touched.email) || !isValid || loading;
+  return (
+    <Formik
+      initialValues={{
+        username: "",
+        email: "",
+        password: "",
+        passwordConfirmation: "",
+        name: "",
+        surname: "",
+        phoneNumber: "",
+        gender: "none",
+      }}
+      validationSchema={RegisterAdvancedSchema}
+      onSubmit={(values) => props.handleSubmit(values)}
+    >
+      {({ touched, isValid }) => {
+        const disableSubmit =
+          (!touched.username && !touched.password && !touched.email && !touched.passwordConfirmation && !touched.name && !touched.surname && !touched.phoneNumber && !touched.gender) || !isValid;
+        return (
+          <Form>
+            <Row>
+              {registerAdvancedForm.map((input, index) => {
                 return (
-                    <Form>
-                        <Row>
-                            <Col>
-                                <Input className="mt-3" id="signup-username" name="username" type="text" placeholder="Insert your username" label="Username" />
-                            </Col>
-                            <Col>
-                                <Input className="mt-3" id="signup-password" name="password" type="password" placeholder="Insert your password" label="Password" />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                            <Input className="mt-3" id="signup-email" name="email" type="email" placeholder="Insert your email" label="Email" />
-                        </Col>
-                        <Col>
-                                <Input className="mt-3" id="signup-number" name="phoneNumber" type="text" placeholder="Insert your phone number" label="Phone number" />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Input className="mt-3" id="signup-name" name="name" type="text" placeholder="Insert your name" label="Name" />
-                            </Col>
-                            <Col>
-                                <Input className="mt-3" id="signup-surname" name="surname" type="text" placeholder="Insert your surname" label="Surname" />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}>
-                                {loading && <Spinner animation='grow' size='sm' as='span' role='status' aria-hidden='true' className='me-2' />}
-                                Sign up
-                            </Button>
-                        </Row>
-                    </Form>
+                  <Col xs={6} key={index}>
+                    <CustomField.Input
+                      className='mt-3'
+                      id={input.id}
+                      name={input.name}
+                      type={input.type}
+                      placeholder={input.placeholder}
+                      label={input.label}
+                    />
+                  </Col>
                 );
-            }}
-        </Formik>
-    );
-}
+              })}
+              <Col xs={6}>
+                <CustomField.Select id='gender' name='gender' defaultLabel="Select your gender" defaultValue="none" label='Gender' className="mt-3" >
+                  <option value='M'>Male</option>
+                  <option value='F'>Female</option>
+                  <option value='U'>Not specified</option>
+                </CustomField.Select>
+              </Col>
+              <Button variant="primary" type="submit" className="p-3 rounded-3 mt-4 w-100 fw-semibold" disabled={disableSubmit}>
+                {loading && <Spinner animation='border' size='sm' as='span' role='status' aria-hidden='true' className='me-2' />}
+                Sign up
+              </Button>
+            </Row>
+          </Form>
+        );
+      }}
+    </Formik >
+  );
+};
 
 export { RegisterFormHiker, RegisterFormAdvanced };

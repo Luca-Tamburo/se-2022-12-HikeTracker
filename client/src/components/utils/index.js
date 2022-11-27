@@ -10,10 +10,18 @@
 * --------------------------------------------------------------------
 */
 
-import AppContainer from './AppContainer';
-import Filter from './Filter'
+import AppContainer from './AppContainer/AppContainer';
+import Filter from './Filter/Filter'
+import ProtectedRoute from './ProtectedRoute/ProtectedRoute'
+import LocalGuideProtectedRoute from './ProtectedRoute/LocalGuideProtectedRoute'
+import Input from './Input/Input'
+import Select from './Input/Select'
 
 export {
     AppContainer,
-    Filter
+    Filter,
+    ProtectedRoute,
+    LocalGuideProtectedRoute,
+    Input,
+    Select,
 }

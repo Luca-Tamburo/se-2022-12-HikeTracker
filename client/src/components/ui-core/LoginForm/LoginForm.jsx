@@ -10,37 +10,19 @@
  * --------------------------------------------------------------------
  */
 
-//Imports
-import { useState, useContext } from "react";
-import { Button, Spinner, Row } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+// Imports
+import { Button } from "react-bootstrap";
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
 
-// Services
-import api from "../../../services/api";
+// Components - utils
+import * as CustomField from "../../utils/Input/index";
 
-//Components
-import Input from "./Input";
-
-// Contexts
-import { AuthContext } from "../../../contexts/AuthContext";
-
-// Hooks
-import useNotification from "../../../hooks/useNotification";
+// Validations
+import LoginSchema from "../../../validation/LoginSchema";
 
 const LoginForm = (props) => {
-
-
-
-  const LoginSchema = Yup.object().shape({
-    email: Yup.string().email("Email not valid").required("Email Required"),
-    password: Yup.string().required("Password Required"),
-  });
-
   return (
     <Formik
-      validateOnMount
       initialValues={{ email: "", password: "" }}
       validationSchema={LoginSchema}
       onSubmit={(values) => props.handleSubmit(values)}
@@ -49,36 +31,11 @@ const LoginForm = (props) => {
         const disableSubmit = (!touched.email && !touched.password) || !isValid;
         return (
           <Form>
-            <Row>
-              <Input
-                className="mt-3"
-                id="login-email"
-                name="email"
-                type="email"
-                placeholder="Insert your email"
-                label="Email"
-              />
-            </Row>
-            <Row>
-              <Input
-                className="mt-3"
-                id="login-password"
-                name="password"
-                type="password"
-                placeholder="Insert your password"
-                label="Password"
-              />
-            </Row>
-            <Row>
-              <Button
-                variant="primary"
-                type="submit"
-                className=" p-3 rounded-3 mt-4  fw-semibold border "
-                disabled={disableSubmit}
-              >
-                Login
-              </Button>
-            </Row>
+            <CustomField.Input id="login-email" name="email" type="email" placeholder="Insert your email" label="Email" />
+            <CustomField.Input className="mt-3" id="login-password" name="password" type="password" placeholder="Insert your password" label="Password" />
+            <Button variant="primary" type="submit" className="w-100 fw-semibold border mt-4 py-2" disabled={disableSubmit}>
+              Login
+            </Button>
           </Form>
         );
       }}

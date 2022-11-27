@@ -16,17 +16,28 @@ import { MemoryRouter } from 'react-router-dom';
 
 import Hike from './Hike';
 
+//Mock react-bootstrap
+jest.mock('react-bootstrap', () => {
+    const Row = (props) => {
+        return (
+            <div>{props.children}</div>
+        );
+    }
+
+    const Col = (props) => {
+        return (
+            <div>{props.children}</div>
+        );
+    }
+
+    return ({ Row, Col });
+})
+
 // Mock custom components
 const mockFilter = jest.fn();
 jest.mock('../../components/utils/Filter/Filter', () => () => {
     mockFilter();
     return <mock-Filter data-testid='Filter' />
-})
-
-const mockHikeCard = jest.fn();
-jest.mock('../../components/ui-core/HikeCard/HikeCard', () => () => {
-    mockHikeCard();
-    return <mock-HikeCard data-testid='HikeCard' />
 })
 
 describe('Hikes View', () => {
@@ -41,8 +52,4 @@ describe('Hikes View', () => {
         expect(screen.getByTestId('Filter')).toBeInTheDocument();
     });
 
-    it('correctly renders the Hike card component', () => {
-        render(<Hike />, { wrapper: MemoryRouter });
-        expect(screen.getAllByTestId('HikeCard')).toBeInTheDocument();
-    });
 });

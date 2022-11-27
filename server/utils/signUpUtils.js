@@ -8,6 +8,12 @@ const roleValidator = (inputRole) => {
     return (role === "hiker" || role === "localguide" || role === "platformmanager" || role === "hutworker" || role === "emergencyoperator");
 };
 
+const genderValidator = (inputGender) => {
+    const gender = inputGender.toLowerCase();
+    return (gender === "m" || gender === "f" || gender === "u");
+};
+
+
 //custom rule to check if the user is trying to inscribe a role that needs name,surname,phone number mandatorialy
 const optionalBecomeMandatory = (inputRole) => {
     const role = inputRole.toLowerCase();
@@ -30,4 +36,34 @@ const usernameAvailabilityCheck = (req, res, next) => {
         })
 };
 
-module.exports = { roleValidator, optionalBecomeMandatory,emailAvailabilityCheck,usernameAvailabilityCheck };
+const roleFormatter = (role) => {
+    let roleFormatted;
+    switch (role.toLowerCase()) {
+        case 'hiker': roleFormatted = 'hiker';
+            break;
+        case 'localguide': roleFormatted = 'localGuide';
+            break;
+        case 'platformmanager': roleFormatted = 'platformManager';
+            break;
+        case 'hutworker': roleFormatted = 'hutWorker';
+            break;
+        case 'emergencyoperator': roleFormatted = 'emergencyOperator';
+            break;
+    }
+    return roleFormatted;
+}
+
+const genderFormatter = (gender) => {
+    let genderFormatted;
+    switch (gender.toLowerCase()) {
+        case 'm': genderFormatted = 'M';
+            break;
+        case 'f': genderFormatted = 'F';
+            break;
+        case 'u': genderFormatted = 'U';
+            break;
+    }
+    return genderFormatted;
+}
+
+module.exports = { roleValidator, genderValidator, optionalBecomeMandatory, emailAvailabilityCheck, usernameAvailabilityCheck, roleFormatter, genderFormatter };

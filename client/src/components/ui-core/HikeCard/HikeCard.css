@@ -30,8 +30,8 @@ a {
     cursor: pointer;
 }
 
-.crop-text-20 {
-    -webkit-line-clamp: 20;
+.crop-text-10 {
+    -webkit-line-clamp: 10;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;

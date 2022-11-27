@@ -10,21 +10,32 @@
 * --------------------------------------------------------------------
 */
 
-'use strict';
 
-//DB access module
-const sqlite = require('sqlite3');
 const crypto = require('crypto');
-
-//Open the database
-const db = new sqlite.Database('hikeTracker.sqlite3', (err) => {
-    if (err) throw err;
-});
-
+const { iAmTesting } = require('../test/mockDB/iAmTesting');
+const getMock = () => {
+    //faccio il require del mock solo se sto in testing
+    const { mockDB } = require('../test/mockDB/mockDB');
+    return mockDB;
+}
+const db = iAmTesting() ? getMock() : require('./openDb');
+console.log(`sto testando? ${iAmTesting() ? `si` : `no`}`);
 /**
  * Get the user info to put in the cookie, given the id
  * @param {number} id the id of the user
  */
+
+ const nomiMaiuscoli = (nome) => {
+
+    const v = nome.toLowerCase().split(" ");
+    let f = "";
+    for (let n of v) {
+        const nn = n.charAt(0).toUpperCase() + n.slice(1);
+        f = f + " " + nn;
+    }
+    return f.trim();
+}
+
 exports.getUserById = (id) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM user WHERE id = ?';
@@ -38,6 +49,31 @@ exports.getUserById = (id) => {
                     id: row.id,
                     email: row.email,
                     role: row.role
+                }
+                resolve(user);
+            }
+        });
+    });
+};
+
+exports.getUserAllInfosById = (id) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM user WHERE id = ?';
+        db.get(sql, [id], (err, row) => {
+            if (err)
+                reject(err);
+            else if (row === undefined)
+                resolve({ error: 'User not found.' });
+            else {
+                const user = {
+                    id: row.id,
+                    email: row.email,
+                    username: row.username,
+                    name: row.name ? nomiMaiuscoli(row.name) : undefined,
+                    surname: row.surname ? nomiMaiuscoli(row.surname) : undefined,
+                    role: row.role,
+                    phoneNumber: row.phoneNumber,
+                    gender:row.gender
                 }
                 resolve(user);
             }
@@ -62,10 +98,11 @@ exports.getUser = (email, password) => {
                     id: row.id,
                     email: row.email,
                     username: row.username,
-                    name: row.name,
-                    surname: row.surname,
+                    name: row.name ? nomiMaiuscoli(row.name) : undefined,
+                    surname: row.surname ? nomiMaiuscoli(row.surname) : undefined,
                     role: row.role,
-                    phoneNumber: row.phoneNumber
+                    phoneNumber: row.phoneNumber,
+                    gender:row.gender
                 }
                 const salt = row.salt;
                 crypto.scrypt(password, salt, 32, (err, hashedPassword) => {
@@ -133,25 +170,34 @@ exports.getUserByUsername = (username) => {
  * @param {string} password the user password
  * @param {string} confirmationCode the user confirmationCode
  */
-exports.addUser = (email, username, role, name, surname, phoneNumber, password, confirmationCode) => {
-   
+
+exports.addUser = async (email, username, role, name, surname, gender,phoneNumber, password, confirmationCode) => {
+
     //creo sale
     const salt = crypto.randomBytes(8).toString('hex');
     //creo hash
-    crypto.scrypt(password, salt, 32, (err, hashedPassword) => {
-        if (err) reject(err);
-        return new Promise(async (resolve, reject) => {
-            let sql = "INSERT INTO user(email, username, role, name, surname, phoneNumber, hash, salt,confirmationCode,verifiedEmail) VALUES (?,?,?,?,?,?,?,?,?,?)";
-            db.run(sql, [email, username, role, name, surname, phoneNumber, hashedPassword.toString('hex'), salt, confirmationCode, 0], (err) => {
-                if (err) {
-                    reject(err);
-                } 
-                    resolve(this.lastId);
+    const getHashPass = async (pass) => {
+        return new Promise((resolve, reject) => {
+            crypto.scrypt(pass, salt, 32, (err, hashedPassword) => {
+                resolve(hashedPassword.toString('hex'));
             });
-        });
-    })
-}
 
+        });
+    }
+    const hashedPassword = await getHashPass(password);
+    return new Promise((resolve, reject) => {
+        const sql = "INSERT INTO user(email, username, role, name, surname,gender, phoneNumber, hash, salt,confirmationCode,verifiedEmail) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        db.run(sql, [email, username, role, name, surname,gender, phoneNumber, hashedPassword, salt, confirmationCode, 0],
+            function (err) {
+                if (err) {
+
+                    reject(err);
+                } else {
+                    resolve(this.lastID);
+                }
+            });
+    });
+}
 
 /**
 * Activate a user, given the confirmationCode
@@ -183,7 +229,6 @@ exports.activateUser = (confirmationCode) => {
 * @param {string} username the username of the user
 */
 exports.deleteUser = (username) => {
-    console.log(username)
 
     return new Promise((resolve, reject) => {
         const sql = `DELETE FROM user WHERE username = ?`;

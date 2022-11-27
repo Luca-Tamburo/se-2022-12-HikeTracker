@@ -1,0 +1,27 @@
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         client
+* Module:          src/components/utils/Filter
+* File:            Filter.css
+*
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
+
+.form-control::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: black !important;
+    opacity: 1;
+}
+
+.form-control:-ms-input-placeholder {
+    /* Internet Explorer */
+    color: black !important;
+}
+
+.form-control::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: black !important;
+}

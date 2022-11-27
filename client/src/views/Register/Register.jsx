@@ -2,7 +2,7 @@
 * --------------------------------------------------------------------
 *
 * Package:         client
-* Module:          views
+* Module:          views/Register
 * File:            Register.js
 *
 * Description:     Registration page
@@ -12,41 +12,32 @@
 * --------------------------------------------------------------------
 */
 
-
 // Imports
-import { useContext, useEffect, useState } from "react";
-import { Row, Col, Dropdown, Table, Button } from "react-bootstrap";
-import { useNavigate, Link } from "react-router-dom";
+import { useContext } from "react";
+import { Col, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-// Components
-import { RegisterFormHiker, RegisterFormAdvanced } from "../../components/ui-core/RegisterForm/RegisterForm";
+// Styles
+import authImg from '../../assets/authenticationImg.png'
 
 // Contexts
 import { AuthContext } from "../../contexts/AuthContext";
 
 const Register = () => {
-    const [session] = useContext(AuthContext);
-    const navigate = useNavigate(); // Navigation handler
+    const { isloggedIn } = useContext(AuthContext);
 
-    useEffect(() => {
-        if (session.loggedIn)
-            navigate('/', { replace: true });
-    }, []); //eslint-disable-line react-hooks/exhaustive-deps
-
-
-    if (!session.loggedIn)
+    if (!isloggedIn)
         return (
-            <Col className='mb-5 d-flex flex-column justify-content-center align-items-center'><Row>
-                <h2 className='text-center fw-bold fst-italic mb-4'>Select your role:</h2>
-            </Row>
-                <div className="d-flex">
+            <>
+                <h1 className='text-center fw-bold fst-italic mt-5'>Select your role</h1>
+                <Col xs={12} sm={4} md={5} lg={{ span: 3, offset: 1 }} className='d-flex flex-column align-items-center align-items-md-start mt-sm-5 p-0'>
                     <Link to={`/signup/hiker`} state={{ Role: "hiker" }}>
                         <Button variant="primary" className='p-3 rounded-3 mt-4 fw-semibold border' style={{ width: "200px" }}>
-                            Hike
+                            Hiker
                         </Button>
                     </Link>
                     <Link to={`/signup/localGuide`} state={{ Role: "localGuide" }}>
-                        <Button variant="primary" className='p-3 rounded-3 mt-4 mx-5 fw-semibold border' style={{ width: "200px" }}>
+                        <Button variant="primary" className='p-3 rounded-3 mt-4 fw-semibold border' style={{ width: "200px" }}>
                             Local guide
                         </Button>
                     </Link>
@@ -55,11 +46,12 @@ const Register = () => {
                             Hut worker
                         </Button>
                     </Link>
-                </div>
-            </Col>
+                </Col>
+                <Col sm={6} md={5} lg={{ span: 6, offset: 2 }} className='d-none d-sm-block p-0 ms-lg-auto'>
+                    <img alt='Authentication' src={authImg} className='' style={{ width: 700 }} />
+                </Col>
+            </>
         );
 }
-
-
 
 export default Register;

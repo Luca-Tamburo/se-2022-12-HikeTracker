@@ -13,8 +13,13 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const { passport, session, isLoggedIn } = require("../utils/sessionUtil");
+const sessionUtil= require("../utils/sessionUtil");
+const passport=sessionUtil.passport;
+const isLoggedIn=sessionUtil.isLoggedIn;
+
 const { check, checksValidation } = require("../utils/validationUtil");
+const userDao = require("../dao/userDao"); // module for accessing the users in the DB
+
 
 /*** TEST API ***/
 
@@ -81,10 +86,11 @@ router.delete("/sessions/current", isLoggedIn, (req, res) => {
 
 // GET /api/sessions/current
 // check whether the user is logged in or not
-router.get("/sessions/current", (req, res) => {
+router.get("/sessions/current", async (req, res) => {
     try {
         if (req.isAuthenticated()) {
-            res.status(200).json(req.user);
+            const userInfo=await userDao.getUserAllInfosById( req.user.id);
+            res.status(200).json(userInfo);
         } else res.status(401).json({ error: "Unauthenticated user!" });
     } catch (error) {
         res.status(503).json({ error: `Database error during the login` }).end();

@@ -2,7 +2,7 @@
 * -------------------------------------------------------------------- 
 *
 * Package:         client
-* Module:          src/views/Home/Home
+* Module:          src/views/Home
 * File:            Home.test.jsx
 *
 * Copyright (c) 2022 - se2022-Team12
@@ -16,6 +16,7 @@ import userEvent from '@testing-library/user-event';
 import { Router, MemoryRouter } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
+// Components
 import Home from './Home';
 
 describe('HomeView', () => {
@@ -30,7 +31,7 @@ describe('HomeView', () => {
         expect(screen.getByText(/Welcome to HikeTracker/i)).toBeInTheDocument();
     });
 
-    it('Check if Home have the link to show the hike list', () => {
+    it('Check if Home have the link to show the hike list', async () => {
         const history = createMemoryHistory();
         render(
             <Router location={history.location} navigator={history}>
@@ -38,8 +39,7 @@ describe('HomeView', () => {
             </Router>);
         const link = screen.getByRole('link', { name: 'Click here to see the list of hikes' })
         expect(link).toHaveAttribute('href', '/hikes');
-        userEvent.click(screen.getByRole('link', { name: 'Click here to see the list of hikes' }));
+        await userEvent.click(screen.getByRole('link', { name: 'Click here to see the list of hikes' }));
         expect(history.location.pathname).toBe('/hikes')
-    }
-    )
+    });
 });
