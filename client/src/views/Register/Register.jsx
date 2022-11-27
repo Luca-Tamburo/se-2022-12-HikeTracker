@@ -24,14 +24,13 @@ import authImg from '../../assets/authenticationImg.png'
 import { AuthContext } from "../../contexts/AuthContext";
 
 const Register = () => {
-    const { isloggedIn } = true;
-    //useContext(AuthContext);
+    const { isloggedIn } = useContext(AuthContext);
 
     if (!isloggedIn)
         return (
             <>
-                <h1 className='text-center fw-bold fst-italic  mt-5'>Select your role</h1>
-                <Col xs={{ span: 3, offset: 1 }} className='d-flex flex-column mt-5 p-0'>
+                <h1 className='text-center fw-bold fst-italic mt-5'>Select your role</h1>
+                <Col xs={12} sm={4} md={5} lg={{ span: 3, offset: 1 }} className='d-flex flex-column align-items-center align-items-md-start mt-sm-5 p-0'>
                     <Link to={`/signup/hiker`} state={{ Role: "hiker" }}>
                         <Button variant="primary" className='p-3 rounded-3 mt-4 fw-semibold border' style={{ width: "200px" }}>
                             Hiker
@@ -48,8 +47,8 @@ const Register = () => {
                         </Button>
                     </Link>
                 </Col>
-                <Col xs={{ span: 6, offset: 2 }} className='p-0 ms-auto'>
-                    <img alt='Authentication' src={authImg} className='ms-auto' style={{ width: 750 }} />
+                <Col sm={6} md={5} lg={{ span: 6, offset: 2 }} className='d-none d-sm-block p-0 ms-lg-auto'>
+                    <img alt='Authentication' src={authImg} className='' style={{ width: 700 }} />
                 </Col>
             </>
         );

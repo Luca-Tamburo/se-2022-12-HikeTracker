@@ -118,9 +118,9 @@ describe('Navbar component', () => {
         render(<AuthContext.Provider value={value.default}>
             <Navbar />
         </AuthContext.Provider>, { wrapper: MemoryRouter });
-        expect(screen.getByTestId('home-button')).toHaveAttribute('href', '/');
-
+        expect(screen.getByTestId('home-icon-button')).toHaveAttribute('href', '/');
     });
+
 
     it.each(links)(
         'have $title link', (link) => {

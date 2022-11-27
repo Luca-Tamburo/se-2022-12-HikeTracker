@@ -60,7 +60,7 @@ const Hike = () => {
                         )
                     })}
                 </Row>
-            </Col>
+            </Col >
         </Row >
     );
 }

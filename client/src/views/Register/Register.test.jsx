@@ -18,6 +18,9 @@ import { createMemoryHistory } from 'history';
 
 import Register from './Register';
 
+// Contexts
+import { AuthContext } from "../../contexts/AuthContext";
+
 //Mock react-bootstrap
 jest.mock('react-bootstrap', () => {
 
@@ -50,11 +53,21 @@ const registerFormLink = [
     { name: 'Hut worker', path: '/signup/hutWorker' },
 ]
 
+const value = {
+    default: {
+        userInfo: null,
+        isloggedIn: false
+    }
+
+}
 describe('Register view', () => {
 
     it.each(registerRole)
         ('has the correct $label', (item) => {
-            render(<Register />, { wrapper: MemoryRouter });
+            render(
+                <AuthContext.Provider value={value.default}>
+                    <Register />
+                </AuthContext.Provider>, { wrapper: MemoryRouter });
             expect(screen.getByRole(item.role, { name: item.name })).toBeInTheDocument();
         })
 
@@ -62,9 +75,11 @@ describe('Register view', () => {
         ('has the correct $path to show registration form for $name', async (item) => {
             const history = createMemoryHistory();
             render(
-                <Router location={history.location} navigator={history}>
-                    <Register />
-                </Router>);
+                <AuthContext.Provider value={value.default}>
+                    <Router location={history.location} navigator={history}>
+                        <Register />
+                    </Router>
+                </AuthContext.Provider>);
             const link = screen.getByRole('link', { name: item.name })
             expect(link).toHaveAttribute('href', item.path);
             await userEvent.click(screen.getByRole('link', { name: item.name }));

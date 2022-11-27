@@ -19,9 +19,9 @@ const HikeCard = ({ hike, loading }) => {
 
     if (!loading) {
         return (
-            <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 4 }} xl={{ span: 3 }} className='my-4'>
+            <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 4 }} className='my-4'>
                 <Link to={`/hikes/${hike.id}`}>
-                    <Card className='border-0 shadow' style={{ width: '18rem' }}>
+                    <Card className='border-0 shadow'>
                         <Card.Img alt='card-image' variant='top' src={hike.photoFile} style={{ height: '200px', objectFit: 'cover', objectPosition: 'center center' }} />
                         <Card.Body>
                             <Card.Title className='fw-bold'>{hike.title}</Card.Title>
@@ -39,8 +39,8 @@ const HikeCard = ({ hike, loading }) => {
     } else {
         // Placeholder section
         return (
-            <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 4 }} xl={{ span: 3 }} className='mt-4'>
-                <Card className='border-0 shadow' style={{ width: '18rem' }}>
+            <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 4 }} className='mt-4'>
+                <Card className='border-0 shadow'>
                     <Card.Img alt='card-image' variant='top' style={{ height: '200px', objectFit: 'cover', objectPosition: 'center center' }} />
                     <Card.Body>
                         <Placeholder as={Card.Title} animation="glow">

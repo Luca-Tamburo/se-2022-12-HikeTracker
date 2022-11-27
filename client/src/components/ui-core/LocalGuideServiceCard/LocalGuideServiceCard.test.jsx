@@ -50,26 +50,21 @@ jest.mock('react-bootstrap', () => {
         )
     }
 
-    const Col = (props) => {
-        return (
-            <div>{props.children}</div>
-        )
-    }
-
     const Button = ({ children, ...props }) => {
         return (
             <button {...props}>{children}</button>
         )
     }
 
-    return ({ Card, Col, Button });
+    return ({ Card, Button });
 })
 
 const info = {
     photoFile: "https://unsplash.com/photos/phIFdC6lA4E",
     title: "Add Hike",
     description: "Ty for the contribute",
-    addName: "addHike"
+    addName: "addHike",
+    icon: "icon.svgq"
 }
 
 const expected = {

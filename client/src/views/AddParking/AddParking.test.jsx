@@ -16,16 +16,73 @@ import userEvent from '@testing-library/user-event';
 import { Router, MemoryRouter } from 'react-router-dom';
 import AddParking from './AddParking';
 
-const hutLabel = [
-    'Name',
-    'Latitude',
-    'Longitude',
-    'Altitude',
-    'Region',
-    'Province',
-    'City',
-    'Description',
-]
+//Mock react-bootstrap
+jest.mock('react-bootstrap', () => {
+    const Row = (props) => {
+        return (
+            <nav>{props.children}</nav>
+        );
+    }
+
+    const Col = (props) => {
+        return (
+            <div>{props.children}</div>
+        )
+    }
+
+    const Spinner = (props) => {
+        return (
+            <div>{props.children}</div>
+        )
+    }
+
+    const Button = ({ children, ...props }) => {
+        return (
+            <button {...props}>{children}</button>
+        )
+    }
+    return ({ Row, Col, Spinner, Button });
+})
+
+// Mock custom components
+const mockInput = jest.fn();
+jest.mock('../../components/utils/Input/Input', () => () => {
+    mockInput();
+    return <mock-Input data-testid='Input' />
+})
+const mockSelect = jest.fn();
+jest.mock('../../components/utils/Input/Select', () => () => {
+    mockSelect();
+    return <mock-Select data-testid='Select' />
+})
+const mockTextArea = jest.fn();
+jest.mock('../../components/utils/Input/TextArea', () => () => {
+    mockTextArea();
+    return <mock-TextArea data-testid='TextArea' />
+})
+
+// Mock react-leaflet
+jest.mock('react-leaflet', () => {
+    const MapContainer = (props) => {
+        return (
+            <div>{props.children}</div>
+        )
+    }
+
+    const Marker = (props) => {
+        return (
+            <div>{props.children}</div>
+        )
+    }
+
+    const TileLayer = (props) => {
+        return (
+            <div>{props.children}</div>
+        )
+    }
+    return ({ MapContainer, Marker, TileLayer });
+
+})
 
 describe('Addut page', () => {
 
@@ -36,12 +93,12 @@ describe('Addut page', () => {
         expect(screen.getByRole('heading', { name: /add your parking/i })).toBeInTheDocument();
     });
 
-    it.each(hutLabel)
-        ('has the correct %s field and it exists', (item) => {
-            handleSubmit.mockClear();
-            render(<AddParking handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
-            expect(screen.getByLabelText(item)).toBeInTheDocument();
-        })
+    it('has form fiels', () => {
+        render(<AddParking handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getAllByTestId('Input')).toHaveLength(4);
+        expect(screen.getAllByTestId('Select')).toHaveLength(3);
+        expect(screen.getByTestId('TextArea')).toBeInTheDocument();
+    });
 
     it('has Submit button', () => {
         handleSubmit.mockClear();

@@ -53,12 +53,7 @@ const api = {
         return new Promise((resolve, reject) => {
             axios.get(SERVER_URL + 'sessions/current', { withCredentials: true })
                 .then((res) => resolve(res.data))
-                .catch((err) => {
-                    if (err.response.status === 401) //se l'errore è causato dal fatto che l'utente non è autenticato... amen , non lo propago
-                        resolve(null)
-                    else
-                        reject(err.response.data)
-                });
+                .catch((err) => { reject(err.response.data) });
         })
     },
 

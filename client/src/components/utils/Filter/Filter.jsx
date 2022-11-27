@@ -167,40 +167,40 @@ const Filter = (props) => {
             {/* TODO: Dividere in 2 sottocomponenti ed importarli */}
             {/* Geographical area and ascent filters*/}
             <Row>
-                <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }} >
-                    <Form.Select data-testid="region-select" value={region} className='mt-sm-3' onChange={(event) => handleRegion(event)} >
+                <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
+                    <Form.Select data-testid="region-select" value={region} className='mt-3 mt-sm-3' onChange={(event) => handleRegion(event)} >
                         <option value={0}>Region</option>
                         {__REGIONS.map(r => (
                             <option key={r.regione} value={r.regione}>{r.nome}</option>
                         ))}
                     </Form.Select>
                 </Col>
-                <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }} >
-                    <Form.Select data-testid="province-select" value={province} className='mt-sm-3' disabled={isRegionUnselected} onChange={(event) => handleProvince(event)} >
+                <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
+                    <Form.Select data-testid="province-select" value={province} className='mt-3 mt-sm-3' disabled={isRegionUnselected} onChange={(event) => handleProvince(event)} >
                         <option value={0}>Province</option>
                         {getProvinceForRegion(parseInt(region)).map(p => (
                             <option key={p.provincia} value={p.provincia}>{p.nome}</option>
                         ))}
                     </Form.Select>
                 </Col>
-                <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }}>
-                    <Form.Select data-testid="city-select" className='mt-sm-3' value={city} disabled={isProvinceUnselected} onChange={(event) => { setCity(event.target.value) }}>
+                <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }}>
+                    <Form.Select data-testid="city-select" className='mt-3 mt-sm-3' value={city} disabled={isProvinceUnselected} onChange={(event) => { setCity(event.target.value) }}>
                         <option value={0}>City</option>
                         {getCitiesForProvince(parseInt(province)).map(c => (
                             <option key={c.comune} value={c.nome}>{c.nome}</option>
                         ))}
                     </Form.Select>
                 </Col>
-                <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }}>
-                    <Form>
+                <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }}>
+                    <Form className='my-2 mt-sm-2 mt-lg-0' >
                         <span>Range of {range} {''} mt</span>
                         <Form.Range data-testid="range-select" value={range} min='0' max='100000' onChange={(e) => { setRange(e.target.value) }} />
                     </Form>
                 </Col>
             </Row>
             {/* Other filters*/}
-            <Row className='align-items-end mt-4'>
-                <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }}>
+            <Row className='align-items-end mt-sm-2 mt-md-0'>
+                <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }}>
                     <Form.Select data-testid="difficulty-select" value={difficulty} onChange={(event) => { setDifficulty(event.target.value) }}>
                         <option value={0}>Difficulty</option>
                         {constFilter[2].map((item, index) => {
@@ -210,8 +210,8 @@ const Filter = (props) => {
                         })}
                     </Form.Select>
                 </Col>
-                <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }}>
-                    <p className='fw-bold mb-0'>Ascent (mt)</p>
+                <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }}>
+                    <p className='fw-bold my-2 my-sm-2 mt-md-0 mb-0'>Ascent (mt)</p>
                     <div className='d-flex'>
                         <Form className='pe-2'>
                             <Form.Control data-testid="ascent-select-min" type='number' min='0' placeholder='Min' onChange={(event) => { setAscentMin(event.target.value) }} />
@@ -221,19 +221,19 @@ const Filter = (props) => {
                         </Form>
                     </div>
                 </Col>
-                <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }}>
-                    <p className='fw-bold mb-0'>Expectide time (hr)</p>
+                <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }}>
+                    <p className='fw-bold my-2 my-sm-2 mb-0'>Expected time (hr)</p>
                     <div className='d-flex'>
                         <Form className='pe-2'>
-                            <Form.Control data-testid="expectideTime-select-min" type='number' min='0' placeholder='Min' onChange={(event) => { setExpectedTimeMin(event.target.value) }} />
+                            <Form.Control data-testid="expectedTime-select-min" type='number' min='0' placeholder='Min' onChange={(event) => { setExpectedTimeMin(event.target.value) }} />
                         </Form>
                         <Form>
-                            <Form.Control data-testid="expectideTime-select-max" type='number' min='0' placeholder='Max' onChange={(event) => { setExpectedTimeMax(event.target.value) }} />
+                            <Form.Control data-testid="expectedTime-select-max" type='number' min='0' placeholder='Max' onChange={(event) => { setExpectedTimeMax(event.target.value) }} />
                         </Form>
                     </div>
                 </Col>
-                <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }}>
-                    <p className='fw-bold mb-0'>Length (km)</p>
+                <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }}>
+                    <p className='fw-bold my-2 my-sm-2 mb-0'>Length (km)</p>
                     <div className='d-flex'>
                         <Form className='pe-2'>
                             <Form.Control data-testid="length-select-min" type='number' min='0' placeholder='Min' onChange={(event) => { setLengthMin(event.target.value) }} />
@@ -243,11 +243,11 @@ const Filter = (props) => {
                         </Form>
                     </div>
                 </Col>
-                <Col>
-                    <Button variant='secondary' className='mt-sm-3 me-sm-3' onClick={handleReset}>
+                <Col className='mt-3 mt-sm-3'>
+                    <Button variant='secondary' className='me-3' onClick={handleReset}>
                         <BiReset /> Reset
                     </Button>
-                    <Button className='mt-sm-3' onClick={() => { handleSearch() }}>
+                    <Button onClick={() => { handleSearch() }}>
                         <BsSearch /> Search
                     </Button>
                 </Col>

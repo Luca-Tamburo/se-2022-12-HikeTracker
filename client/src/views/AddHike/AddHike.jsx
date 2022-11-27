@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { Field, Formik, Form as FormikForm } from "formik";
 
 //Contexts
-import { AuthContext } from '../../contexts/AuthContext';
+// import { AuthContext } from '../../contexts/AuthContext';
 
 // Services
 import api from "../../services/api";
@@ -35,17 +35,16 @@ import AddHikeSchema from "../../validation/AddHikeSchema";
 import useNotification from "../../hooks/useNotification";
 
 const AddHike = (props) => {
-  const { userInfo, isloggedIn } = [true, true];
-  //useContext(AuthContext);
+  // const { userInfo, isloggedIn } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const notify = useNotification(); // Notification handler
   const navigate = useNavigate(); // Navigation handler
   const [selectedFile, setSelectedFile] = useState();
 
-  useEffect(() => {
-    if (isloggedIn && userInfo.role !== "localGuide")
-      navigate('/', { replace: true });
-  }, [isloggedIn]); //eslint-disable-line react-hooks/exhaustive-deps
+  // useEffect(() => {
+  //   if (isloggedIn && userInfo.role !== "localGuide")
+  //     navigate('/', { replace: true });
+  // }, [isloggedIn]); //eslint-disable-line react-hooks/exhaustive-deps
 
   const initialValues = {
     title: "",
@@ -77,7 +76,7 @@ const AddHike = (props) => {
   };
   return (
     <div>
-      <div className="d-flex justify-content-center mt-5">
+      <div className="d-flex justify-content-center mt-5 mb-3">
         <h1 className="fw-bold">Add your hike</h1>
       </div>
       <Formik

@@ -55,15 +55,16 @@ const RegisterFormHiker = (props) => {
           <Form>
             {registerForm.map((input, index) => {
               return (
-                <CustomField.Input
-                  key={index}
-                  id={input.id}
-                  name={input.name}
-                  type={input.type}
-                  placeholder={input.placeholder}
-                  label={input.label}
-                  className="mt-3"
-                />
+                <Col xs={12} key={index}>
+                  <CustomField.Input
+                    id={input.id}
+                    name={input.name}
+                    type={input.type}
+                    placeholder={input.placeholder}
+                    label={input.label}
+                    className="mt-3"
+                  />
+                </Col>
               )
             })}
             <Button variant="primary" type="submit" className="p-3 rounded-3 mt-4 w-100 fw-semibold" disabled={disableSubmit}>

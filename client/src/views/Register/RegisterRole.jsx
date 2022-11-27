@@ -34,21 +34,20 @@ import api from "../../services/api";
 import { AuthContext } from "../../contexts/AuthContext";
 
 const RegisterRole = () => {
-    const { isloggedIn } = useContext(AuthContext);
-    const navigate = useNavigate(); // Navigation handler
-    const location = useLocation();
-    const role = location.state.Role;
-    const [loading, setLoading] = useState(false);
-    const notify = useNotification(); // Notification handler
-  
-
-    useEffect(() => {
-        if (isloggedIn)
-            navigate('/', { replace: true });
-    }, []); //eslint-disable-line react-hooks/exhaustive-deps
+  const { isloggedIn } = useContext(AuthContext);
+  const navigate = useNavigate(); // Navigation handler
+  const location = useLocation();
+  const role = location.state.Role;
+  const [loading, setLoading] = useState(false);
+  const notify = useNotification(); // Notification handler
 
 
-    
+  useEffect(() => {
+    if (isloggedIn)
+      navigate('/', { replace: true });
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
+
+
   const handleSubmit = (credentials) => {
     setLoading(true);
     credentials["role"] = role;
@@ -61,18 +60,29 @@ const RegisterRole = () => {
       .finally(() => setLoading(false));
   };
 
-    return (
+  return (
+    <>
+      <h1 className='text-center fw-bold fst-italic mt-4'>Signup</h1>
+      {role === 'hiker' ?
         <>
-            <h1 className='text-center fw-bold fst-italic mt-5'>Signup</h1>
-            <Col xs={3} md={5} className='mx-auto p-0'>
-                {role === 'hiker' ? <RegisterFormHiker Role={role} handleSubmit={handleSubmit} loading={loading} setLoading={setLoading}/> :
-                 <RegisterFormAdvanced Role={role} handleSubmit={handleSubmit} loading={loading} setLoading={setLoading}/>}
-            </Col>
-            <Col xs={5} md={4} lg={{ span: 5, offset: 1 }} className='p-0'>
-                <img alt='Registration' src={registerImg} style={{ width: 550 }} />
-            </Col>
+          <Col xs={10} sm={10} md={5} lg={5} xl={5} className='ms-4 mb-3 ms-lg-5'>
+            <RegisterFormHiker Role={role} handleSubmit={handleSubmit} loading={loading} setLoading={setLoading} />
+          </Col>
+          <Col md={4} lg={{ span: 5, offset: 1 }} xl={{ span: 4, offset: 2 }} className='d-none d-md-block'>
+            <img alt='Registration' src={registerImg} style={{ width: 500 }} />
+          </Col>
+        </> :
+        <>
+          <Col xs={10} sm={10} md={6} lg={6} xl={5} className='ms-4 mb-3 ms-lg-5'>
+            <RegisterFormAdvanced Role={role} handleSubmit={handleSubmit} loading={loading} setLoading={setLoading} />
+          </Col>
+          <Col md={4} lg={4} xl={{ span: 4, offset: 2 }} className='d-none d-md-block'>
+            <img alt='Registration' src={registerImg} style={{ width: 500 }} />
+          </Col>
         </>
-    );
+      }
+    </>
+  );
 }
 
 export default RegisterRole

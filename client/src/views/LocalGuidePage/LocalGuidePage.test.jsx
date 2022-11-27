@@ -18,6 +18,7 @@ import { act } from 'react-dom/test-utils';
 import { createMemoryHistory } from 'history';
 
 import LocalGuidePage from './LocalGuidePage'
+import { AuthContext } from "../../contexts/AuthContext";
 
 //Mock react-bootstrap
 jest.mock('react-bootstrap', () => {
@@ -28,7 +29,13 @@ jest.mock('react-bootstrap', () => {
         )
     }
 
-    return ({ Col });
+    const Row = (props) => {
+        return (
+            <div>{props.children}</div>
+        )
+    }
+
+    return ({ Col, Row });
 })
 
 // Mock custom components
@@ -38,20 +45,39 @@ jest.mock('../../components/ui-core/LocalGuideServiceCard/LocalGuideServiceCard'
     return <mock-LocalGuideServiceCard data-testid='LocalGuideServiceCard' />
 })
 
+const value = {
+    localGuide: {
+        userInfo: {
+            name: "aldo",
+            role: "localGuide",
+            gender: "M"
+        },
+        isloggedIn: true
+    }
+
+}
+
+
 describe('Local guide page', () => {
 
     it('has welcome name', () => {
-        render(<LocalGuidePage />, { wrapper: MemoryRouter });
+        render(<AuthContext.Provider value={value.localGuide}>
+            <LocalGuidePage />
+        </AuthContext.Provider>, { wrapper: MemoryRouter });
         expect(screen.getByText(/welcome/i)).toBeInTheDocument();
     });
 
     it('has user image', () => {
-        render(<LocalGuidePage />, { wrapper: MemoryRouter });
+        render(<AuthContext.Provider value={value.localGuide}>
+            <LocalGuidePage />
+        </AuthContext.Provider>, { wrapper: MemoryRouter });
         expect(screen.getByRole('img', { name: /avatar/i })).toBeInTheDocument();
     });
 
     it('card is render', () => {
-        render(<LocalGuidePage />, { wrapper: MemoryRouter });
+        render(<AuthContext.Provider value={value.localGuide}>
+            <LocalGuidePage />
+        </AuthContext.Provider>, { wrapper: MemoryRouter });
         expect(screen.getAllByTestId('LocalGuideServiceCard')).toHaveLength(3)
     })
 

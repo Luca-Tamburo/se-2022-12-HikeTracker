@@ -11,7 +11,8 @@
  */
 
 // Imports
-import { Col } from "react-bootstrap";
+import { useContext } from "react";
+import { Col, Row } from "react-bootstrap";
 
 // Components - uiCore
 import LocalGuideServiceCard from "../../components/ui-core/LocalGuideServiceCard/LocalGuideServiceCard";
@@ -19,32 +20,31 @@ import LocalGuideServiceCard from "../../components/ui-core/LocalGuideServiceCar
 // Constants
 import LocalGuideService from "../../constants/LocalGuideService";
 
+import { AuthContext } from "../../contexts/AuthContext";
+
 // Styles
 import maleAvatar from '../../assets/maleAvatar.png'
 import femaleAvatar from '../../assets/femaleAvatar.png'
 
-const user = {
-    name: 'aldo',
-    gender: 'm'
-}
-
 const LocalGuidePage = () => {
+    const { userInfo, isloggedIn } = useContext(AuthContext);
+
     return (
         <>
             <Col xs={{ span: 10, offset: 1 }} className="mt-5">
                 <div className="d-flex justify-content-center">
-                    {user.gender === 'm' ? <img alt='avatar' src={maleAvatar} style={{ width: 180 }} /> : user.gender === 'f' ? <img alt='avatar' src={femaleAvatar} style={{ width: 180 }} /> : <></>}
-                    <h1 className="display-4 fw-bold mt-5 ms-3">Welcome {user.name}</h1>
+                    {userInfo.gender === 'M' ? <img alt='avatar' src={maleAvatar} style={{ width: 180 }} /> : userInfo.gender === 'F' ? <img alt='avatar' src={femaleAvatar} style={{ width: 180 }} /> : <></>}
+                    <h1 className="display-5 fw-bold mt-5">Welcome {userInfo.name}</h1>
                 </div>
-                <div className="d-flex justify-content-around mt-3">
+                <Row className="justify-content-center mt-3">
                     {LocalGuideService.map((info, index) => {
                         return (
-                            <Col xs={3} key={index}>
+                            <Col xs={12} sm={6} md={4} lg={3} key={index}>
                                 <LocalGuideServiceCard info={info} />
                             </Col>
                         )
                     })}
-                </div>
+                </Row>
             </Col >
         </>
 
