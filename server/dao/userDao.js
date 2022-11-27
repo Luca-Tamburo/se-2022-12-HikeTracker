@@ -24,6 +24,18 @@ console.log(`sto testando? ${iAmTesting() ? `si` : `no`}`);
  * Get the user info to put in the cookie, given the id
  * @param {number} id the id of the user
  */
+
+const nomiMaiuscoli = (nome) => {
+
+    const v = nome.toLowerCase().split(" ");
+    let f = "";
+    for (let n of v) {
+        const nn = n.charAt(0).toUpperCase() + n.slice(1);
+        f = f + " " + nn;
+    }
+    return f.trim();
+}
+
 exports.getUserById = (id) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM user WHERE id = ?';
@@ -57,11 +69,11 @@ exports.getUserAllInfosById = (id) => {
                     id: row.id,
                     email: row.email,
                     username: row.username,
-                    name: row.name,
-                    surname: row.surname,
+                    name: row.name ? nomiMaiuscoli(row.name) : undefined,
+                    surname: row.surname ? nomiMaiuscoli(row.surname) : undefined,
                     role: row.role,
                     phoneNumber: row.phoneNumber,
-                    gender:row.gender
+                    gender: row.gender
                 }
                 resolve(user);
             }
@@ -86,11 +98,11 @@ exports.getUser = (email, password) => {
                     id: row.id,
                     email: row.email,
                     username: row.username,
-                    name: row.name,
-                    surname: row.surname,
+                    name: row.name ? nomiMaiuscoli(row.name) : undefined,
+                    surname: row.surname ? nomiMaiuscoli(row.surname) : undefined,
                     role: row.role,
                     phoneNumber: row.phoneNumber,
-                    gender:row.gender
+                    gender: row.gender
                 }
                 const salt = row.salt;
                 crypto.scrypt(password, salt, 32, (err, hashedPassword) => {
@@ -159,7 +171,7 @@ exports.getUserByUsername = (username) => {
  * @param {string} confirmationCode the user confirmationCode
  */
 
-exports.addUser = async (email, username, role, name, surname, gender,phoneNumber, password, confirmationCode) => {
+exports.addUser = async (email, username, role, name, surname, gender, phoneNumber, password, confirmationCode) => {
 
     //creo sale
     const salt = crypto.randomBytes(8).toString('hex');
@@ -175,7 +187,7 @@ exports.addUser = async (email, username, role, name, surname, gender,phoneNumbe
     const hashedPassword = await getHashPass(password);
     return new Promise((resolve, reject) => {
         const sql = "INSERT INTO user(email, username, role, name, surname,gender, phoneNumber, hash, salt,confirmationCode,verifiedEmail) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-        db.run(sql, [email, username, role, name, surname,gender, phoneNumber, hashedPassword, salt, confirmationCode, 0],
+        db.run(sql, [email, username, role, name, surname, gender, phoneNumber, hashedPassword, salt, confirmationCode, 0],
             function (err) {
                 if (err) {
 
