@@ -28,7 +28,7 @@ import * as CustomField from "../../components/utils/Input/index";
 import { AddHutForm } from "../../constants";
 
 // Validations
-import AddHutSchema from "../../validation/AddHutSchema";
+import { AddHutSchema, AddHutSchemaMap } from "../../validation/AddHutSchema";
 
 // Hooks
 import useNotification from "../../hooks/useNotification";
@@ -109,34 +109,38 @@ const AddHut = () => {
     }
 
     const handleSubmit = (values) => {
-        let formData = new FormData();
-        formData.append('title', values.title);
-        formData.append('photoFile', values.photoFile);
-        formData.append('roomsNumber', values.room);
-        formData.append('bedsNumber', values.bed);
-        formData.append('phoneNumber', values.phoneNumber);
-        if (!mapPosition) {
-            formData.append('longitude', values.longitude);
-            formData.append('latitude', values.latitude);
-        }
-        else {
-            formData.append('longitude', marker.getLatLng().lng);
-            formData.append('latitude', marker.getLatLng().lat);
-        };
-        formData.append('altitude', values.altitude);
-        formData.append('region', getRegionName(parseInt(values.region)));
-        formData.append('province', getProvinceName(parseInt(values.province)));
-        formData.append('city', values.city);
-        formData.append('description', values.description);
-        setLoading(true);
+        if (!marker) {
+            notify.error("Choose a point on the map!")
+        } else {
+            let formData = new FormData();
+            formData.append('title', values.title);
+            formData.append('photoFile', values.photoFile);
+            formData.append('roomsNumber', values.room);
+            formData.append('bedsNumber', values.bed);
+            formData.append('phoneNumber', values.phoneNumber);
+            if (!mapPosition) {
+                formData.append('longitude', values.longitude);
+                formData.append('latitude', values.latitude);
+            }
+            else {
+                formData.append('longitude', marker.getLatLng().lng);
+                formData.append('latitude', marker.getLatLng().lat);
+            };
+            formData.append('altitude', values.altitude);
+            formData.append('region', getRegionName(parseInt(values.region)));
+            formData.append('province', getProvinceName(parseInt(values.province)));
+            formData.append('city', values.city);
+            formData.append('description', values.description);
+            setLoading(true);
 
-        api.addHut(formData)
-            .then(() => {
-                notify.success(`Hut correctly added`);
-                navigate("/", { replace: true });
-            })
-            .catch((err) => notify.error(err.error))
-            .finally(() => setLoading(false));
+            api.addHut(formData)
+                .then(() => {
+                    notify.success(`Hut correctly added`);
+                    navigate("/", { replace: true });
+                })
+                .catch((err) => notify.error(err.error))
+                .finally(() => setLoading(false));
+        }
     };
     const saveMarkers = (newMarkerCoords, circle) => {
         setMarker(newMarkerCoords)
@@ -156,15 +160,17 @@ const AddHut = () => {
             </div>
             <Formik
                 initialValues={initialValues}
-                validationSchema={AddHutSchema}
+                validationSchema={mapPosition ? AddHutSchemaMap : AddHutSchema}
                 onSubmit={(values) => handleSubmit(values)}
             >
                 {({ values, handleSubmit, touched, isValid, setFieldValue }) => {
-                    let disableSubmit = mapPosition ?
-                        (!touched.title && !touched.photoFile && !touched.room && !touched.bed && !touched.phoneNumber && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description) || !isValid
-                        : (!touched.title && !touched.photoFile && !touched.room && !touched.bed && !touched.phoneNumber && !touched.latitude && !touched.longitude && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description) || !isValid
+                    // let disableSubmit = mapPosition ?
+                    //     (!touched.title && !touched.photoFile && !touched.room && !touched.bed && !touched.phoneNumber && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description) || !isValid
+                    //     : (!touched.title && !touched.photoFile && !touched.room && !touched.bed && !touched.phoneNumber && !touched.latitude && !touched.longitude && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description) || !isValid
 
-                    console.log(disableSubmit)
+                    // console.log(disableSubmit)
+                    const disableSubmit = (!touched.title && !touched.photoFile && !touched.room && !touched.bed && !touched.phoneNumber && !touched.latitude && !touched.longitude && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description) || !isValid;
+                    const disableSubmit2 = (!touched.title && !touched.photoFile && !touched.room && !touched.bed && !touched.phoneNumber && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description);
                     return (
                         <Row>
                             <Col xs={10} sm={6} className="mt-3 ms-5 ms-sm-5 p-0">
@@ -205,7 +211,7 @@ const AddHut = () => {
                                             );
                                         })}
                                         <CustomField.TextArea className="mt-3" id="description" name="description" placeholder="Insert the hut description" label="Description" />
-                                        <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}>
+                                        <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={mapPosition ? disableSubmit2 : disableSubmit}>
                                             {loading && (<Spinner animation="border" size="sm" as="span" role="status" aria-hidden="true" className="me-2" />)}
                                             Submit
                                         </Button>
