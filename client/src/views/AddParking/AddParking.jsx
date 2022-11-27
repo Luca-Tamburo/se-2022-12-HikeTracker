@@ -116,16 +116,29 @@ const AddParking = (props) => {
     }
 
     const handleSubmit = (values) => {
+
+        console.log(getRegionName(parseInt(values.region)))
         let formData = new FormData();
         formData.append('title', values.title);
-        formData.append('latitude', values.latitude);
-        formData.append('longitude', values.longitude);
+        if(!mapPosition){
+            console.log('entra')
+            formData.append('longitude', values.longitude);
+            formData.append('latitude', values.latitude);
+        }
+        else{
+            console.log('entra 2')
+            formData.append('longitude', marker.getLatLng().lng);
+            formData.append('latitude', marker.getLatLng().lat);
+        }
         formData.append('altitude', values.altitude);
-        formData.append('region', getRegionName(values.region));
-        formData.append('province', getProvinceName(values.province));
+        formData.append('region', getRegionName(parseInt(values.region)));
+        formData.append('province', getProvinceName(parseInt(values.province)));
         formData.append('city', values.city);
         formData.append('description', values.description);
         setLoading(true);
+
+        
+        //console.log(formData.get('longitude'))
 
         api.addParking(formData)
             .then(() => {
