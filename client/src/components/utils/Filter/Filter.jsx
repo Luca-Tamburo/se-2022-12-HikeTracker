@@ -63,13 +63,13 @@ const Filter = (props) => {
   const [province, setProvince] = useState("Province");
   const [city, setCity] = useState("City");
   const [range, setRange] = useState(0);
-  const [ascentMin, setAscentMin] = useState(0);
-  const [ascentMax, setAscentMax] = useState(undefined);
+  const [ascentMin, setAscentMin] = useState("");
+  const [ascentMax, setAscentMax] = useState("");
   const [difficulty, setDifficulty] = useState(undefined);
-  const [expectedTimeMin, setExpectedTimeMin] = useState(0);
-  const [expectedTimeMax, setExpectedTimeMax] = useState(undefined);
-  const [lengthMin, setLengthMin] = useState(0);
-  const [lengthMax, setLengthMax] = useState(undefined);
+  const [expectedTimeMin, setExpectedTimeMin] = useState("");
+  const [expectedTimeMax, setExpectedTimeMax] = useState("");
+  const [lengthMin, setLengthMin] = useState("");
+  const [lengthMax, setLengthMax] = useState("");
 
   const [currentPosition, setCurrentPosition] = useState(false);
 
@@ -132,7 +132,7 @@ const Filter = (props) => {
       console.log("entra 5");
       result = result.filter((hike) => hike.difficulty === difficulty);
     }
-    if (ascentMin !== 0) {
+    if (ascentMin) {
       console.log("entra 6");
       result = result.filter((hike) => hike.ascent >= ascentMin);
     }
@@ -140,7 +140,7 @@ const Filter = (props) => {
       console.log("entra 6");
       result = result.filter((hike) => hike.ascent <= ascentMax);
     }
-    if (expectedTimeMin !== 0) {
+    if (expectedTimeMin) {
       console.log("entra 7");
       result.forEach((element) => {
         console.log(element.expectedTime);
@@ -154,7 +154,7 @@ const Filter = (props) => {
       });
       result = result.filter((hike) => hike.expectedTime <= expectedTimeMax);
     }
-    if (lengthMin !== 0) {
+    if (lengthMin) {
       console.log("entra 8");
       result = result.filter((hike) => hike.length >= lengthMin);
     }
@@ -176,12 +176,12 @@ const Filter = (props) => {
     setProvince("Province");
     setCity("City");
     setDifficulty(0);
-    setAscentMin(0);
-    setAscentMax(undefined);
-    setExpectedTimeMin(0);
-    setExpectedTimeMax(undefined);
-    setLengthMin(0);
-    setLengthMax(undefined);
+    setAscentMin("");
+    setAscentMax("");
+    setExpectedTimeMin("");
+    setExpectedTimeMax("");
+    setLengthMin("");
+    setLengthMax("");
     console.log(EventTarget.toString());
 
     props.setHikesDisplay(props.hikes);
@@ -212,7 +212,6 @@ const Filter = (props) => {
       setProvince(event.target.value);
       setIsProvinceUnselected(false);
       setIsCityUnselected(false);
-
     }
   };
 
@@ -328,19 +327,31 @@ const Filter = (props) => {
                 min="0"
                 placeholder="Min"
                 onChange={(event) => {
+                  if (parseFloat(event.target.value) >= parseFloat(ascentMax))
+                    setAscentMax(event.target.value);
                   setAscentMin(event.target.value);
                 }}
+                value={ascentMin}
               />
             </Form>
             <Form>
               <Form.Control
                 data-testid="ascent-select-max"
                 type="number"
-                min="0"
+                min={ascentMin ? ascentMin : 0}
                 placeholder="Max"
                 onChange={(event) => {
-                  setAscentMax(event.target.value);
+                  ascentMin && event.target.value
+                    ? setAscentMax(
+                        parseFloat(event.target.value) >= parseFloat(ascentMin)
+                          ? event.target.value
+                          : ascentMax === ""
+                          ? parseFloat(ascentMin)
+                          : ""
+                      )
+                    : setAscentMax(event.target.value);
                 }}
+                value={ascentMax}
               />
             </Form>
           </div>
@@ -355,8 +366,14 @@ const Filter = (props) => {
                 min="0"
                 placeholder="Min"
                 onChange={(event) => {
+                  if (
+                    parseFloat(event.target.value) >=
+                    parseFloat(expectedTimeMax)
+                  )
+                    setExpectedTimeMax(event.target.value);
                   setExpectedTimeMin(event.target.value);
                 }}
+                value={expectedTimeMin}
               />
             </Form>
             <Form>
@@ -366,8 +383,18 @@ const Filter = (props) => {
                 min="0"
                 placeholder="Max"
                 onChange={(event) => {
-                  setExpectedTimeMax(event.target.value);
+                  expectedTimeMin && event.target.value
+                    ? setExpectedTimeMax(
+                        parseFloat(event.target.value) >=
+                          parseFloat(expectedTimeMin)
+                          ? event.target.value
+                          : expectedTimeMax === ""
+                          ? parseFloat(expectedTimeMin)
+                          : ""                      )
+                    : setExpectedTimeMax(event.target.value);
                 }}
+ 
+                value={expectedTimeMax}
               />
             </Form>
           </div>
@@ -382,8 +409,11 @@ const Filter = (props) => {
                 min="0"
                 placeholder="Min"
                 onChange={(event) => {
+                  if (parseFloat(event.target.value) >= parseFloat(lengthMax))
+                    setLengthMax(event.target.value);
                   setLengthMin(event.target.value);
                 }}
+                value={lengthMin}
               />
             </Form>
             <Form>
@@ -393,8 +423,16 @@ const Filter = (props) => {
                 min="0"
                 placeholder="Max"
                 onChange={(event) => {
-                  setLengthMax(event.target.value);
+                  lengthMin && event.target.value
+                    ? setLengthMax(
+                        parseFloat(event.target.value) >= parseFloat(lengthMin)
+                          ? event.target.value
+                          : lengthMax === ""
+                          ? parseFloat(lengthMin)
+                          : ""                       )
+                    : setLengthMax(event.target.value);
                 }}
+                value={lengthMax}
               />
             </Form>
           </div>
