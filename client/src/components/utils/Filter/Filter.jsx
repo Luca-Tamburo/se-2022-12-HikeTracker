@@ -49,11 +49,6 @@ const icon = L.icon({
   shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png",
 });
 
-const reg = ["Sicilia", "Piemonte", "Lombardia"];
-
-const prov = ["Torino", "Roma", "Cuneo"];
-
-const cit = ["Ivrea", "Rivarolo", "Ciriè"];
 
 const Filter = (props) => {
   const ZOOM_LEVEL = 8;
