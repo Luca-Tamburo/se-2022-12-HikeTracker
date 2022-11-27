@@ -2,7 +2,7 @@
  * --------------------------------------------------------------------
  *
  * Package:         client
- * Module:          ui-core
+ * Module:          ui-core/RegisterForm
  * File:            RegisterForm.jsx
  *
  * Copyright (c) 2022 - se2022-Team12
@@ -11,9 +11,7 @@
  */
 
 // Imports
-import { useState } from "react";
 import { Button, Row, Col, Spinner } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
 
 // Components
@@ -27,30 +25,18 @@ import RegisterAdvancedSchema from "../../../validation/RegisterAdvancedSchema";
 import registerForm from '../../../constants/registerForm'
 import registerAdvancedForm from '../../../constants/registerAdvancedForm'
 
-// Hooks
-import useNotification from "../../../hooks/useNotification";
-
 const RegisterFormHiker = (props) => {
   const loading = props.loading;
 
   return (
     <Formik
-      initialValues={{
-        username: "",
-        email: "",
-        password: "",
-        passwordConfirmation: "",
-      }}
+      initialValues={{ username: "", email: "", password: "", passwordConfirmation: "" }}
       validationSchema={RegisterSchema}
       onSubmit={(values) => props.handleSubmit(values)}
     >
       {({ touched, isValid }) => {
         const disableSubmit =
-          (!touched.username &&
-            !touched.password &&
-            !touched.email &&
-            !touched.passwordConfirmation) ||
-          !isValid;
+          (!touched.username && !touched.password && !touched.email && !touched.passwordConfirmation) || !isValid;
         return (
           <Form>
             {registerForm.map((input, index) => {

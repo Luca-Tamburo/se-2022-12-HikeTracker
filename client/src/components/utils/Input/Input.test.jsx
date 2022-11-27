@@ -1,9 +1,22 @@
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         client
+* Module:          src/components/utils/Input
+* File:            Input.test.jsx
+*
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
+
+// Imports
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
-
 import { Formik } from 'formik'
 
+// Components
 import Input from './Input'
 
 jest.mock('react-bootstrap', () => {
@@ -116,6 +129,7 @@ describe("Input component", () => {
         setup.error();
         expect(screen.getByTestId(/error-message/i).innerHTML).toBe(initialErrors.testInput)
     })
+
     it('user is able to type and change input value', async () => {
         setup.default();
         await userEvent.type(screen.getByLabelText(props.label), "New value")

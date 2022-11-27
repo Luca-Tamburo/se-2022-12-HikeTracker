@@ -11,10 +11,12 @@
 */
 
 // Imports
-import Filter from './Filter';
-import registerForm from './registerForm';
 import AddHikeForm from './AddHikeForm'
-import AddParkingForm from './AddParkingForm'
 import AddHutForm from './AddHutForm'
+import AddParkingForm from './AddParkingForm'
+import Filter from './Filter';
+import LocalGuideService from './LocalGuideService';
+import registerAdvancedForm from './registerAdvancedForm';
+import registerForm from './registerForm';
 
-export { Filter, registerForm, AddHikeForm, AddParkingForm, AddHutForm }
+export { Filter, registerForm, registerAdvancedForm, AddHikeForm, AddParkingForm, AddHutForm, LocalGuideService }

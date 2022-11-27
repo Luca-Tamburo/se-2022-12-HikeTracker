@@ -12,14 +12,12 @@
 
 // Imports
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { Router, MemoryRouter } from 'react-router-dom';
-import { act } from 'react-dom/test-utils';
-import { createMemoryHistory } from 'history';
+import { MemoryRouter } from 'react-router-dom';
 
+// Components
 import Login from './Login';
 
-//Mock react-bootstrap
+// Mock react-bootstrap
 jest.mock('react-bootstrap', () => {
 
     const Col = (props) => {
@@ -57,5 +55,4 @@ describe('Login page', () => {
         render(<Login handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByTestId('Login')).toBeInTheDocument();
     })
-
 });

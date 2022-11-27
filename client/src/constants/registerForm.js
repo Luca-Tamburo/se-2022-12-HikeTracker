@@ -1,3 +1,16 @@
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         client
+* Module:          src/constants
+* File:            registerForm.js
+*
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
+
+// Register field info
 const registerForm = [
     {
         id: 'signup-username',

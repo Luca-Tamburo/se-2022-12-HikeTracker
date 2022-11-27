@@ -2,6 +2,7 @@
 * -------------------------------------------------------------------- 
 *
 * Package:         client
+* Module:          src
 * File:            App.jsx
 * 
 * Copyright (c) 2022 - se2022-Team12
@@ -16,10 +17,10 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { Spinner } from 'react-bootstrap';
 
-//Components - utils
+// Components - utils
 import * as Utils from './components/utils/index'
 
-//Views
+// Views
 import * as View from './views/index';
 
 // Services
@@ -40,7 +41,7 @@ const App = () => {
   const [userInfo, setUserInfo] = useState();
   const [loading, setLoading] = useState(true)
 
-  //implementing session
+  // Implementing session
   useEffect(() => {
     api.getUserInfo()
       .then((user) => {
@@ -82,7 +83,6 @@ const App = () => {
 
   if (!loading)
     return (
-      //crei provider context
       <AuthContext.Provider value={{ userInfo, isloggedIn }}>
         <Utils.AppContainer handleLogout={handleLogout}>
           <Routes location={location} key={location.pathname}>

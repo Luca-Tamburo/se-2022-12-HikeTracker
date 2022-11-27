@@ -2,7 +2,7 @@
 * --------------------------------------------------------------------
 *
 * Package:         client
-* Module:          views
+* Module:          views/Register
 * File:            RegisterRole.js
 *
 * Description:     Registration page
@@ -11,7 +11,6 @@
 * All rights reserved.
 * --------------------------------------------------------------------
 */
-
 
 // Imports
 import { useContext, useEffect, useState } from "react";
@@ -41,12 +40,10 @@ const RegisterRole = () => {
   const [loading, setLoading] = useState(false);
   const notify = useNotification(); // Notification handler
 
-
   useEffect(() => {
     if (isloggedIn)
       navigate('/', { replace: true });
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
-
 
   const handleSubmit = (credentials) => {
     setLoading(true);

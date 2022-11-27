@@ -1,3 +1,16 @@
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         client
+* Module:          src/constants
+* File:            registerAdvancedForm.js
+*
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
+
+// Advanced register field info
 const registerAdvancedForm = [
     {
         id: 'signup-username',

@@ -16,7 +16,6 @@ import { Card, Col, Placeholder } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const HikeCard = ({ hike, loading }) => {
-
     if (!loading) {
         return (
             <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 4 }} className='my-4'>

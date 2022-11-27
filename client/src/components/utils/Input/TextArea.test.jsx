@@ -1,9 +1,23 @@
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         client
+* Module:          components/utils/Input
+* File:            TextArea.test.jsx
+* 
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
+
+// Imports
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 
 import { Formik } from 'formik'
 
+// Components
 import TextArea from './Input'
 
 jest.mock('react-bootstrap', () => {

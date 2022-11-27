@@ -2,7 +2,7 @@
 * --------------------------------------------------------------------
 *
 * Package:         client
-* Module:          views
+* Module:          views/Register
 * File:            Register.js
 *
 * Description:     Registration page

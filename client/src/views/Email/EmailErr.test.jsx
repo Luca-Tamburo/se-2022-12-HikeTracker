@@ -2,7 +2,7 @@
 * -------------------------------------------------------------------- 
 *
 * Package:         client
-* Module:          src/views/Email/EmailErr
+* Module:          src/views/Email
 * File:            EmailErr.test.jsx
 *
 * Copyright (c) 2022 - se2022-Team12
@@ -13,6 +13,7 @@
 // Imports
 import { render, screen } from '@testing-library/react';
 
+// Components
 import EmailErr from './EmailErr';
 
 describe('Email confirmation', () => {

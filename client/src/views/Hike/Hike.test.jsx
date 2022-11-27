@@ -32,6 +32,7 @@ jest.mock('react-bootstrap', () => {
 
     return ({ Row, Col });
 })
+
 // Mock custom components
 const mockFilter = jest.fn();
 jest.mock('../../components/utils/Filter/Filter', () => () => {

@@ -1,6 +1,18 @@
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         client
+* Module:          src/components/utils/Input
+* File:            Select.jsx
+*
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
+
+// Imports
 import { Form } from "react-bootstrap";
 import classNames from "classnames";
-
 import { Field, ErrorMessage, useField } from "formik";
 
 const Select = ({ id, name, defaultValue = 0, defaultLabel = "", disabled, label, className, children }) => {

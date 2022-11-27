@@ -11,11 +11,11 @@
 */
 
 // Imports
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Router, MemoryRouter } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { MemoryRouter } from 'react-router-dom';
 
+// Components
 import { RegisterFormHiker } from './RegisterForm'
 
 describe('RegisterFormHiker', () => {
@@ -39,6 +39,7 @@ describe('RegisterFormHiker', () => {
         render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByPlaceholderText(/insert your password/i)).toBeInTheDocument();
     });
+
     it('has password confimation label', () => {
         handleSubmit.mockClear();
         render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
@@ -95,6 +96,5 @@ describe('RegisterFormHiker', () => {
         })
 
         expect(handleSubmit).toHaveBeenCalledWith({ username: "testUser", email: "testEmail@gmail.com", password: "testPassword1!", passwordConfirmation: "testPassword1!" })
-
     })
 })

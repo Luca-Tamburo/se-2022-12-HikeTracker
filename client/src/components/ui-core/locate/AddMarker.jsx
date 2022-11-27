@@ -1,14 +1,19 @@
-import React from "react";
-import {
-  MapContainer,
-  Marker,
-  TileLayer,
-  useMapEvents,
-} from "react-leaflet";
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         client
+* Module:          src/components/ui-core/Locate
+* File:            AddMarker.jsx
+*
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
+
+//Imports
+import { useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-
-import { Icon } from "leaflet";
 
 const icon = L.icon({
   iconSize: [25, 41],
@@ -20,25 +25,19 @@ const icon = L.icon({
 
 const LocationMarker = (props) => {
 
-  
-
   const map = useMapEvents({
     click: (e) => {
       const { lat, lng } = e.latlng;
-      if(props.marker){
+      if (props.marker) {
         map.removeLayer(props.marker)
-        //map.removeLayer(props.circle)
       }
       let marker = L.marker([lat, lng], { icon });
       const circle = L.circle(marker.getLatLng(), 10);
-      //circle.addTo(map);
       marker.addTo(map)
-      props.saveMarkers(marker,circle);
-      //var l= marker.getLatLng()
+      props.saveMarkers(marker, circle);
     }
   });
   return null;
 }
-
 
 export default LocationMarker;

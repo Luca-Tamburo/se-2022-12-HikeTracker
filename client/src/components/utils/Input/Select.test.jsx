@@ -1,9 +1,21 @@
-import { render, screen, within } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { MemoryRouter } from 'react-router-dom'
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         client
+* Module:          src/components/utils/Input
+* File:            Select.test.jsx
+*
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
 
+// Imports
+import { render, screen, within } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import { Formik } from 'formik'
 
+// Components
 import Select from './Select'
 
 jest.mock('react-bootstrap', () => {

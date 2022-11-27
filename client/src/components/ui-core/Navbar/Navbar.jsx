@@ -14,17 +14,14 @@
 import "./Navbar.css";
 import React from "react";
 import { useContext } from "react";
-import {
-  Container,
-  Navbar as MyNavbar,
-  Button,
-  Dropdown,
-} from "react-bootstrap";
+import { Container, Navbar as MyNavbar, Button, Dropdown, } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
 
+// Styles
 import logo from "../../../assets/logo/logo-no-background.png";
 
+// Contexts
 import { AuthContext } from "../../../contexts/AuthContext";
 
 const Navbar = (props) => {

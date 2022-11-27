@@ -2,7 +2,7 @@
 * -------------------------------------------------------------------- 
 *
 * Package:         client
-* Module:          src/views/Register/Register
+* Module:          src/views/Register
 * File:            Register.test.jsx
 *
 * Copyright (c) 2022 - se2022-Team12
@@ -16,6 +16,7 @@ import userEvent from '@testing-library/user-event';
 import { Router, MemoryRouter } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
+// Components
 import Register from './Register';
 
 // Contexts
@@ -58,8 +59,8 @@ const value = {
         userInfo: null,
         isloggedIn: false
     }
-
 }
+
 describe('Register view', () => {
 
     it.each(registerRole)

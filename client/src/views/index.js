@@ -11,32 +11,32 @@
 */
 
 // Imports
-import ErrorView from './ErrorView/ErrorView';
-import Home from './Home/Home';
-import Hike from './Hike/Hike';
-import Login from './Login/Login';
-import Register from './Register/Register';
-import RegisterRole from './Register/RegisterRole';
-import HikeDetails from './HikeDetails/HikeDetails';
-import EmailConf from './Email/EmailConf';
-import EmailErr from './Email/EmailErr';
-import LocalGuidePage from './LocalGuidePage/LocalGuidePage';
 import AddHike from './AddHike/AddHike';
 import AddHut from './AddHut/AddHut';
 import AddParking from './AddParking/AddParking';
+import EmailConf from './Email/EmailConf';
+import EmailErr from './Email/EmailErr';
+import ErrorView from './ErrorView/ErrorView';
+import Hike from './Hike/Hike';
+import HikeDetails from './HikeDetails/HikeDetails';
+import Home from './Home/Home';
+import Login from './Login/Login';
+import LocalGuidePage from './LocalGuidePage/LocalGuidePage';
+import Register from './Register/Register';
+import RegisterRole from './Register/RegisterRole';
 
 export {
-    ErrorView,
-    Home,
-    Hike,
-    Login,
-    Register,
-    RegisterRole,
-    EmailConf,
-    EmailErr,
-    HikeDetails,
-    LocalGuidePage,
     AddHike,
     AddHut,
     AddParking,
+    EmailConf,
+    EmailErr,
+    ErrorView,
+    Hike,
+    HikeDetails,
+    Home,
+    Login,
+    LocalGuidePage,
+    Register,
+    RegisterRole,
 }

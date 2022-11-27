@@ -2,7 +2,7 @@
 * --------------------------------------------------------------------
 *
 * Package:         client
-* Module:          views
+* Module:          views/Email
 * File:            EmailConf.js
 *
 * Copyright (c) 2022 - se2022-Team12

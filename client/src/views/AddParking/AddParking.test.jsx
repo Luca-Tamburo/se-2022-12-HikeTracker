@@ -11,9 +11,8 @@
 */
 
 // Imports
-import { render, screen, waitFor, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { Router, MemoryRouter } from 'react-router-dom';
+import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import AddParking from './AddParking';
 
 //Mock react-bootstrap
@@ -50,11 +49,13 @@ jest.mock('../../components/utils/Input/Input', () => () => {
     mockInput();
     return <mock-Input data-testid='Input' />
 })
+
 const mockSelect = jest.fn();
 jest.mock('../../components/utils/Input/Select', () => () => {
     mockSelect();
     return <mock-Select data-testid='Select' />
 })
+
 const mockTextArea = jest.fn();
 jest.mock('../../components/utils/Input/TextArea', () => () => {
     mockTextArea();

@@ -11,20 +11,17 @@
  */
 
 //Imports
-import { useState, useEffect, useContext } from "react";
+import { useState } from "react";
 import { Button, Spinner, Row, Col, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { Field, Formik, Form as FormikForm } from "formik";
-import { MapContainer, Marker, Popup, TileLayer, useMapEvent, Circle, useMap } from 'react-leaflet'
-import setYourLocation from '../../components/ui-core/locate/AddMarker';
-import AddMarker from '../../components/ui-core/locate/AddMarker';
+import { Formik, Form as FormikForm } from "formik";
+import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
 import L from "leaflet";
-import { BiMap } from 'react-icons/bi'
 
 // Services
 import api from "../../services/api";
 
-// Components
+// Components - Input
 import * as CustomField from "../../components/utils/Input/index";
 
 // Constants
@@ -36,7 +33,9 @@ import AddHutSchema from "../../validation/AddHutSchema";
 // Hooks
 import useNotification from "../../hooks/useNotification";
 import SetYourLocation from "../../components/ui-core/locate/setYourLocation";
+import AddMarker from '../../components/ui-core/locate/AddMarker';
 
+// Helpers
 import { __REGIONS, getCitiesForProvince, getProvinceForRegion, getProvinceName, getRegionName } from '../../lib/helpers/location'
 
 const RemoveMarker = (props) => {
@@ -80,7 +79,7 @@ const icon = L.icon({
     shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
 });
 
-const AddHut = (props) => {
+const AddHut = () => {
     const ZOOM_LEVEL = 8;
     const [loading, setLoading] = useState(false);
     const notify = useNotification(); // Notification handler
@@ -88,8 +87,6 @@ const AddHut = (props) => {
     const [center, setCenter] = useState({ lat: 45.072384, lng: 7.6414976 });
     const [marker, setMarker] = useState(null);
     const [mapPosition, setMapPosition] = useState(false);
-    const [position, setPosition] = useState(null);
-    const [bbox, setBbox] = useState([]);
     const [location, setLocation] = useState(false)
     const [longitude, setLongitude] = useState(false)
     const [latitude, setLatitude] = useState(false)
@@ -118,13 +115,11 @@ const AddHut = (props) => {
         formData.append('roomsNumber', values.room);
         formData.append('bedsNumber', values.bed);
         formData.append('phoneNumber', values.phoneNumber);
-        if(!mapPosition){
-            console.log('entra')
+        if (!mapPosition) {
             formData.append('longitude', values.longitude);
             formData.append('latitude', values.latitude);
         }
-        else{
-            console.log('entra 2')
+        else {
             formData.append('longitude', marker.getLatLng().lng);
             formData.append('latitude', marker.getLatLng().lat);
         };
@@ -138,7 +133,6 @@ const AddHut = (props) => {
         api.addHut(formData)
             .then(() => {
                 notify.success(`Hut correctly added`);
-                // TODO: Forse è meglio reindizzare la local guide o nella sua pagina o nella pagina delle hike, oppure utilizzare -1 per tornare a quello precedente
                 navigate("/", { replace: true });
             })
             .catch((err) => notify.error(err.error))
@@ -166,11 +160,14 @@ const AddHut = (props) => {
                 onSubmit={(values) => handleSubmit(values)}
             >
                 {({ values, handleSubmit, touched, isValid, setFieldValue }) => {
-                    const disableSubmit = (!touched.title && !touched.photoFile && !touched.room && !touched.bed && !touched.phoneNumber && !touched.latitude && !touched.longitude && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description) || !isValid;
+                    let disableSubmit = mapPosition ?
+                        (!touched.title && !touched.photoFile && !touched.room && !touched.bed && !touched.phoneNumber && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description) || !isValid
+                        : (!touched.title && !touched.photoFile && !touched.room && !touched.bed && !touched.phoneNumber && !touched.latitude && !touched.longitude && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description) || !isValid
+
+                    console.log(disableSubmit)
                     return (
                         <Row>
                             <Col xs={10} sm={6} className="mt-3 ms-5 ms-sm-5 p-0">
-                                {/* TODO: Da portare in components e qui importare il singolo componente */}
                                 <FormikForm onChange={(e) => { handleOnChange(e) }}>
                                     <Row>
                                         {AddHutForm[0].map((input, index) => {
@@ -184,7 +181,7 @@ const AddHut = (props) => {
                                                         name={input.idName}
                                                         placeholder={input.placeholder}
                                                         label={input.label}
-                                                        disabled = {mapPosition && (input.idName == 'latitude'|| input.idName == 'longitude') ? true:false}
+                                                        disabled={mapPosition && (input.idName === 'latitude' || input.idName === 'longitude') ? true : false}
                                                     />
                                                 </Col>
                                             );
@@ -200,9 +197,9 @@ const AddHut = (props) => {
                                                         label={input.label}
                                                         defaultValue="none"
                                                     >
-                                                        {input.idName == 'region' ? <Region setRegion={setRegion} /> : <></>}
-                                                        {input.idName == 'province' && region ? <Province region={region} /> : <></>}
-                                                        {input.idName == 'city' && province ? <City province={province} /> : <></>}
+                                                        {input.idName === 'region' ? <Region setRegion={setRegion} /> : <></>}
+                                                        {input.idName === 'province' && region ? <Province region={region} /> : <></>}
+                                                        {input.idName === 'city' && province ? <City province={province} /> : <></>}
                                                     </CustomField.Select>
                                                 </Col>
                                             );

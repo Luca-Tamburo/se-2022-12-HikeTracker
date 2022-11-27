@@ -2,8 +2,8 @@
  * --------------------------------------------------------------------
  *
  * Package:         client
- * Module:          src/views/Home
- * File:            Home.jsx
+ * Module:          src/views/AddHike
+ * File:            AddHike.jsx
  *
  * Copyright (c) 2022 - se2022-Team12
  * All rights reserved.
@@ -11,18 +11,15 @@
  */
 
 //Imports
-import { useState, useEffect, useContext } from "react";
+import { useState } from "react";
 import { Button, Spinner, Row, Col, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { Field, Formik, Form as FormikForm } from "formik";
-
-//Contexts
-// import { AuthContext } from '../../contexts/AuthContext';
+import { Formik, Form as FormikForm } from "formik";
 
 // Services
 import api from "../../services/api";
 
-// Components
+// Components - Input
 import * as CustomField from "../../components/utils/Input/index";
 
 // Constants
@@ -34,17 +31,11 @@ import AddHikeSchema from "../../validation/AddHikeSchema";
 // Hooks
 import useNotification from "../../hooks/useNotification";
 
-const AddHike = (props) => {
-  // const { userInfo, isloggedIn } = useContext(AuthContext);
+const AddHike = () => {
   const [loading, setLoading] = useState(false);
   const notify = useNotification(); // Notification handler
   const navigate = useNavigate(); // Navigation handler
   const [selectedFile, setSelectedFile] = useState();
-
-  // useEffect(() => {
-  //   if (isloggedIn && userInfo.role !== "localGuide")
-  //     navigate('/', { replace: true });
-  // }, [isloggedIn]); //eslint-disable-line react-hooks/exhaustive-deps
 
   const initialValues = {
     title: "",
@@ -68,7 +59,6 @@ const AddHike = (props) => {
     api.addHike(formData)
       .then(() => {
         notify.success(`Hike correctly added`);
-        // TODO: Forse è meglio reindizzare la local guide o nella sua pagina o nella pagina delle hike, oppure utilizzare -1 per tornare a quello precedente
         navigate("/", { replace: true });
       })
       .catch((err) => notify.error(err.error))
@@ -87,7 +77,6 @@ const AddHike = (props) => {
         {({ values, handleSubmit, touched, isValid, setFieldValue }) => {
           const disableSubmit = (!touched.title && !touched.photoFile && !touched.description && !touched.difficulty && !touched.expectedTime && !touched.file) || !isValid;
           return (
-            // TODO: Da portare in components e qui importare il singolo componente
             <Col xs={{ span: 10, offset: 1 }} className="mt-3">
               <FormikForm>
                 <Row>

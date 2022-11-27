@@ -1,7 +1,19 @@
-import React, { useEffect, useState,useContext} from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents} from "react-leaflet";
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         client
+* Module:          src/components/ui-core/Locate
+* File:            LocationMarker.jsx
+*
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
+
+// Imports
+import { useEffect, useState } from "react";
+import { Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
-import { AuthContext } from "../../../contexts/AuthContext";
 
 const icon = L.icon({
     iconSize: [25, 41],
@@ -9,7 +21,7 @@ const icon = L.icon({
     popupAnchor: [2, -40],
     iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
     shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
-  });
+});
 
 const LocationMarker = (props) => {
 
@@ -24,17 +36,17 @@ const LocationMarker = (props) => {
             setPosition(e.latlng);
             map.flyTo(e.latlng, map.getZoom());
             console.log(props.circle)
-            if(props.circle){
+            if (props.circle) {
                 console.log('entra')
                 map.removeLayer(props.circle)
             }
             console.log(props.range)
-            let c = L.circle(e.latlng, parseInt(props.range,10));
-            props.saveMarkers(L.marker(e.latlng,icon),c)
+            let c = L.circle(e.latlng, parseInt(props.range, 10));
+            props.saveMarkers(L.marker(e.latlng, icon), c)
             //c.addTo(map);
             setBbox(e.bounds.toBBoxString().split(","));
         });
-    }, []);
+    }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
     return position === null ? null : (
         <Marker position={position} icon={icon}>
@@ -47,7 +59,6 @@ const LocationMarker = (props) => {
             </Popup>
         </Marker>
     );
-
 }
 
 export default LocationMarker;

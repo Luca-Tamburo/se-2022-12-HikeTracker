@@ -14,6 +14,7 @@
 import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
 
+// Components
 import Filter from './Filter';
 
 //Mock react-bootstrap

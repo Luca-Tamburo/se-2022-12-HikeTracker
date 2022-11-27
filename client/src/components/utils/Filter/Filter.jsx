@@ -10,23 +10,19 @@
  * --------------------------------------------------------------------
  */
 
-//Imports
+// Imports
 import "./Filter.css";
 import { Row, Col, Form, Button } from "react-bootstrap";
-import { useState, useRef } from "react";
+import { useState } from "react";
+import { MapContainer, Marker, Popup, TileLayer, Circle } from "react-leaflet";
+import L from "leaflet";
+
+// Icons
 import { BiReset } from "react-icons/bi";
 import { BsSearch } from "react-icons/bs";
 import { GiPositionMarker } from "react-icons/gi";
-import {
-  MapContainer,
-  Marker,
-  Popup,
-  TileLayer,
-  useMapEvent,
-  Circle,
-} from "react-leaflet";
-import L from "leaflet";
 
+// Helpers
 import {
   __REGIONS,
   getCitiesForProvince,
@@ -38,7 +34,7 @@ import {
 // Constants
 import { Filter as constFilter } from "../../../constants/index";
 
-//Hooks
+// Hooks
 import LocationMarker from "../../ui-core/locate/locationMarker";
 import AddMarker from "../../ui-core/locate/AddMarker";
 
@@ -50,10 +46,8 @@ const icon = L.icon({
   shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png",
 });
 
-
 const Filter = (props) => {
   const ZOOM_LEVEL = 8;
-  const mapRef = useRef();
 
   const [region, setRegion] = useState("Region");
   const [province, setProvince] = useState("Province");
@@ -219,7 +213,6 @@ const Filter = (props) => {
     setMarker(newMarkerCoords);
     setCircle(circle);
   };
-  console.log(region);
 
   return (
     <>

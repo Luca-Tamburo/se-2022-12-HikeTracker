@@ -1,8 +1,22 @@
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         client
+* Module:          src/constants
+* File:            LocalGuideService.js
+*
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
 
+// Imports
+// Styles
 import AddHikeService from '../assets/localGuideService/AddHikeService.png';
 import AddHutService from '../assets/localGuideService/AddHutService.png';
 import AddParkingService from '../assets/localGuideService/AddParkingService.png';
 
+// Icons
 import { GiMountainRoad } from 'react-icons/gi'
 import { BsHouseFill } from 'react-icons/bs'
 import { FaParking } from 'react-icons/fa'

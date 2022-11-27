@@ -3,7 +3,7 @@
 *
 * Package:         client
 * Module:          src/components/ui-core/LoginForm
-* File:            RegisterForm.test.jsx
+* File:            LoginForm.test.jsx
 *
 * Copyright (c) 2022 - se2022-Team12
 * All rights reserved.
@@ -13,9 +13,9 @@
 // Imports
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Router, MemoryRouter } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { MemoryRouter } from 'react-router-dom';
 
+// Components
 import LoginForm from './LoginForm'
 
 describe('LoginForm', () => {

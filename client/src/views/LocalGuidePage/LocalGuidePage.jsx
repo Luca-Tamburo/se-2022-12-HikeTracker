@@ -20,6 +20,7 @@ import LocalGuideServiceCard from "../../components/ui-core/LocalGuideServiceCar
 // Constants
 import LocalGuideService from "../../constants/LocalGuideService";
 
+// Contexts
 import { AuthContext } from "../../contexts/AuthContext";
 
 // Styles

@@ -12,8 +12,7 @@
 
 // Imports
 import { render, screen } from '@testing-library/react';
-import { Router, MemoryRouter } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { MemoryRouter } from 'react-router-dom';
 import Navbar from './Navbar';
 
 import { AuthContext } from '../../../contexts/AuthContext'

@@ -2,7 +2,7 @@
 * -------------------------------------------------------------------- 
 *
 * Package:         client
-* Module:          src/views/LocalGuidePage/LocalGuidePage
+* Module:          src/views/LocalGuidePage
 * File:            LocalGuidePage.test.jsx
 *
 * Copyright (c) 2022 - se2022-Team12
@@ -12,13 +12,13 @@
 
 // Imports
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { Router, MemoryRouter } from 'react-router-dom';
-import { act } from 'react-dom/test-utils';
-import { createMemoryHistory } from 'history';
+import { MemoryRouter } from 'react-router-dom';
 
-import LocalGuidePage from './LocalGuidePage'
+// Contexts
 import { AuthContext } from "../../contexts/AuthContext";
+
+// Components
+import LocalGuidePage from './LocalGuidePage'
 
 //Mock react-bootstrap
 jest.mock('react-bootstrap', () => {
@@ -56,7 +56,6 @@ const value = {
     }
 
 }
-
 
 describe('Local guide page', () => {
 

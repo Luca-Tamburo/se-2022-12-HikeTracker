@@ -2,6 +2,7 @@
 * -------------------------------------------------------------------- 
 *
 * Package:         client
+* Module:          src
 * File:            index.js
 * 
 * Copyright (c) 2022 - se2022-Team12

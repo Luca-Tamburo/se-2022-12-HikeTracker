@@ -11,31 +11,23 @@
  */
 
 // Imports
-import React, { useState, useEffect } from "react";
+import { useContext } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Row, Col, ListGroup, Button, NavItem, Spinner } from "react-bootstrap";
-import { useContext } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
-import { Link } from "react-router-dom";
+import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
+
+// Views
 import ErrorView from "../ErrorView/ErrorView";
-// Api
+
+// Services
 import api from "../../services/api";
+
+// Contexts
+import { AuthContext } from "../../contexts/AuthContext";
 
 // Hooks
 import useNotification from "../../hooks/useNotification";
-
-import {
-  MapContainer,
-  TileLayer,
-  useMap,
-  Marker,
-  Popup,
-  Polyline,
-} from "react-leaflet";
-import { geoJson } from "leaflet";
-let gpxParser = require("gpxparser");
-
-const position = [51.505, -0.09];
 
 var tj = require("togeojson"),
   // node doesn't have xml parsing or a dom. use xmldom
@@ -51,10 +43,8 @@ const HikeDetails = (props) => {
   const [hike, setHike] = useState(undefined);
   const [start, setStart] = useState(null);
   const { userInfo, isloggedIn } = useContext(AuthContext);
-  const [hiker, setHiker] = useState(true);
   const { hikeId } = useParams();
   const notify = useNotification();
-  const [converted, setConverted] = useState();
   const [loading, setLoading] = useState(false);
 
   const startIcon = L.icon({

@@ -10,6 +10,7 @@
 * --------------------------------------------------------------------
 */
 
+// Imports
 import * as Yup from 'yup';
 
 const AddHutSchema = Yup.object().shape({

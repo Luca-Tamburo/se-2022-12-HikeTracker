@@ -11,9 +11,8 @@
 */
 
 // Imports
-import { render, screen, waitFor, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { Router, MemoryRouter } from 'react-router-dom';
+import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import AddHike from './AddHike';
 
 const hikeLabel = [

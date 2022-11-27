@@ -1,3 +1,15 @@
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         client
+* Module:          components/utils/ProtectedRoute
+* File:            LocalGuideProtectedRoute.jsx
+* 
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
+
 //Imports
 import { Outlet, useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";

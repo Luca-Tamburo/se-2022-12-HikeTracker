@@ -11,19 +11,17 @@
  */
 
 //Imports
-import { useState, useEffect, useContext } from "react";
+import { useState } from "react";
 import { Button, Spinner, Row, Col, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { Field, Formik, Form as FormikForm } from "formik";
-import { MapContainer, Marker, Popup, TileLayer, useMapEvent, Circle, useMap } from 'react-leaflet'
-import setYourLocation from '../../components/ui-core/locate/AddMarker';
-import AddMarker from '../../components/ui-core/locate/AddMarker';
+import { Formik, Form as FormikForm } from "formik";
+import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
 import L from "leaflet";
 
 // Services
 import api from "../../services/api";
 
-// Components
+// Components - Input
 import * as CustomField from "../../components/utils/Input/index";
 
 // Constants
@@ -35,14 +33,16 @@ import AddParkingSchema from "../../validation/AddParkingSchema";
 // Hooks
 import useNotification from "../../hooks/useNotification";
 import SetYourLocation from "../../components/ui-core/locate/setYourLocation";
+import AddMarker from '../../components/ui-core/locate/AddMarker';
 
+// Helpers
 import { __REGIONS, getCitiesForProvince, getProvinceForRegion, getProvinceName, getRegionName } from '../../lib/helpers/location'
 
 const RemoveMarker = (props) => {
-    
     let map = useMap();
-    if(props.marker){
-        map.removeLayer(props.marker)}
+    if (props.marker) {
+        map.removeLayer(props.marker)
+    }
 }
 
 const Region = (props) => {
@@ -62,7 +62,6 @@ const Province = (props) => {
 }
 
 const City = (props) => {
-
     return (
         getCitiesForProvince(parseInt(props.province)).map(c => (
             <option key={c.comune} value={c.nome}>{c.nome}</option>
@@ -77,7 +76,7 @@ const icon = L.icon({
     shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
 });
 
-const AddParking = (props) => {
+const AddParking = () => {
     const ZOOM_LEVEL = 8;
     const [loading, setLoading] = useState(false);
     const notify = useNotification(); // Notification handler
@@ -85,8 +84,6 @@ const AddParking = (props) => {
     const [center, setCenter] = useState({ lat: 45.072384, lng: 7.6414976 });
     const [marker, setMarker] = useState(null);
     const [mapPosition, setMapPosition] = useState(false);
-    const [position, setPosition] = useState(null);
-    const [bbox, setBbox] = useState([]);
     const [location, setLocation] = useState(false)
     const [longitude, setLongitude] = useState(false)
     const [latitude, setLatitude] = useState(false)
@@ -110,12 +107,12 @@ const AddParking = (props) => {
         console.log(getRegionName(parseInt(values.region)))
         let formData = new FormData();
         formData.append('title', values.title);
-        if(!mapPosition){
+        if (!mapPosition) {
             console.log('entra')
             formData.append('longitude', values.longitude);
             formData.append('latitude', values.latitude);
         }
-        else{
+        else {
             console.log('entra 2')
             formData.append('longitude', marker.getLatLng().lng);
             formData.append('latitude', marker.getLatLng().lat);
@@ -127,13 +124,9 @@ const AddParking = (props) => {
         formData.append('description', values.description);
         setLoading(true);
 
-        
-        //console.log(formData.get('longitude'))
-
         api.addParking(formData)
             .then(() => {
                 notify.success(`Parking correctly added`);
-                // TODO: Forse è meglio reindizzare la local guide o nella sua pagina o nella pagina delle hike, oppure utilizzare -1 per tornare a quello precedente
                 navigate("/", { replace: true });
             })
             .catch((err) => notify.error(err.error))
@@ -167,7 +160,7 @@ const AddParking = (props) => {
                     return (
                         <Row>
                             <Col xs={6} className="mt-3 ms-5">
-                                <FormikForm onChange={(e) => { handleOnChange(e)}}>
+                                <FormikForm onChange={(e) => { handleOnChange(e) }}>
                                     <Row>
                                         {AddParkingForm[0].map((input, index) => {
                                             return (
@@ -179,7 +172,7 @@ const AddParking = (props) => {
                                                         name={input.idName}
                                                         placeholder={input.placeholder}
                                                         label={input.label}
-                                                        disabled = {mapPosition && (input.idName == 'latitude'|| input.idName == 'longitude') ? true:false}
+                                                        disabled={mapPosition && (input.idName === 'latitude' || input.idName === 'longitude') ? true : false}
                                                     />
                                                 </Col>
                                             );
@@ -195,9 +188,9 @@ const AddParking = (props) => {
                                                         label={input.label}
                                                         defaultValue="none"
                                                     >
-                                                        {input.idName == 'region' ? <Region setRegion={setRegion} /> : <></>}
-                                                        {input.idName == 'province' && region ? <Province region={region} /> : <></>}
-                                                        {input.idName == 'city' && province ? <City province={province} /> : <></>}
+                                                        {input.idName === 'region' ? <Region setRegion={setRegion} /> : <></>}
+                                                        {input.idName === 'province' && region ? <Province region={region} /> : <></>}
+                                                        {input.idName === 'city' && province ? <City province={province} /> : <></>}
                                                     </CustomField.Select>
                                                 </Col>
                                             );
@@ -224,16 +217,15 @@ const AddParking = (props) => {
                                 </MapContainer>
                                 <Row>
                                     <div className="d-flex justify-content-evenly mt-2">
-                                        {/* <Button onClick={() => { setMapPosition(true); setLocation(false); setLongitude(false); setLatitude(false) }}>Set Position on the Map</Button> */}
                                         <Form>
                                             <Form.Check
                                                 type="switch"
                                                 id="custom-switch"
                                                 label="Set Position on the Map"
-                                                onChange={(e)=>{setMapPosition(!mapPosition); setLocation(!location);}}
+                                                onChange={(e) => { setMapPosition(!mapPosition); setLocation(!location); }}
                                             />
-                                         </Form>   
-                                            <Button onClick={() => { setMapPosition(false); setLocation(true) }}>Center Your Postion</Button>
+                                        </Form>
+                                        <Button onClick={() => { setMapPosition(false); setLocation(true) }}>Center Your Postion</Button>
                                     </div>
                                 </Row>
                             </Col>

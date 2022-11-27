@@ -1,7 +1,17 @@
-import { useState } from "react"
-import { Form } from "react-bootstrap"
-import classnames from 'classnames'
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         client
+* Module:          src/components/utils/Input
+* File:            Check.jsx
+*
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
 
+// Imports
+import classnames from 'classnames'
 import { useField, Field } from "formik";
 
 const Check = ({ id, name, label, ...props }) => {
@@ -18,8 +28,6 @@ const Check = ({ id, name, label, ...props }) => {
             <Field type="checkbox" hidden name={field.name} label={label} {...props} />
             {label}
         </label>
-
-
     )
 }
 

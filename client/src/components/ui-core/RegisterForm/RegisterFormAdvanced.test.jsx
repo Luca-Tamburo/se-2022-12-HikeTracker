@@ -13,11 +13,9 @@
 // Imports
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Router, MemoryRouter } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { MemoryRouter } from 'react-router-dom';
 
 import { RegisterFormAdvanced } from './RegisterForm'
-
 
 describe('RegisterFormAdvanced', () => {
 
@@ -161,6 +159,7 @@ describe('RegisterFormAdvanced', () => {
         await waitFor(() => {
             expect(handleSubmit).toHaveBeenCalledTimes(1);
         })
+
         await waitFor(() => {
             expect(handleSubmit).toHaveBeenCalledWith({
                 username: "testUser", email: "testEmail@gmail.com", password: "testPassword1!", passwordConfirmation: "testPassword1!",
