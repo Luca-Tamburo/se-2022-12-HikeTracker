@@ -39,11 +39,10 @@ import SetYourLocation from "../../components/ui-core/locate/setYourLocation";
 import { __REGIONS, getCitiesForProvince, getProvinceForRegion, getProvinceName, getRegionName } from '../../lib/helpers/location'
 
 const RemoveMarker = (props) => {
-
+    
     let map = useMap();
-    if (props.marker) {
-        map.removeLayer(props.marker)
-    }
+    if(props.marker){
+        map.removeLayer(props.marker)}
 }
 
 const Region = (props) => {
@@ -93,6 +92,7 @@ const AddParking = (props) => {
     const [latitude, setLatitude] = useState(false)
     const [region, setRegion] = useState(false)
     const [province, setProvince] = useState(false)
+
 
     const initialValues = {
         title: "",
@@ -166,12 +166,12 @@ const AddParking = (props) => {
                     const disableSubmit = (!touched.title && !touched.photoFile && !touched.latitude && !touched.longitude && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description) || !isValid;
                     return (
                         <Row>
-                            <Col xs={10} sm={6} className="mt-3 ms-5 mt-3 ms-5 ms-sm-5 p-0">
-                                <FormikForm onChange={(e) => { handleOnChange(e) }}>
+                            <Col xs={6} className="mt-3 ms-5">
+                                <FormikForm onChange={(e) => { handleOnChange(e)}}>
                                     <Row>
                                         {AddParkingForm[0].map((input, index) => {
                                             return (
-                                                <Col xs={input.xsCol} sm={input.smCol} key={index}>
+                                                <Col xs={input.xsCol}>
                                                     <CustomField.Input
                                                         className='mt-3'
                                                         type='text'
@@ -179,14 +179,14 @@ const AddParking = (props) => {
                                                         name={input.idName}
                                                         placeholder={input.placeholder}
                                                         label={input.label}
-
+                                                        disabled = {mapPosition && (input.idName == 'latitude'|| input.idName == 'longitude') ? true:false}
                                                     />
                                                 </Col>
                                             );
                                         })}
                                         {AddParkingForm[1].map((input, index) => {
                                             return (
-                                                <Col xs={input.xsCol} sm={input.smCol} key={index}>
+                                                <Col xs={input.xsCol}>
                                                     <CustomField.Select
                                                         className='mt-3'
                                                         id={input.idName}
@@ -210,7 +210,7 @@ const AddParking = (props) => {
                                     </Row>
                                 </FormikForm>
                             </Col>
-                            <Col xs={{ span: 10, offset: 1 }} sm={4} className='mt-4 mb-5 p-sm-0 me-sm-1'>
+                            <Col xs={4}>
                                 <MapContainer
                                     center={center} scrollWheelZoom={true} whenCreated={(map) => this.setState({ map })} zoom={ZOOM_LEVEL} setView={true}>
                                     <TileLayer
@@ -230,10 +230,10 @@ const AddParking = (props) => {
                                                 type="switch"
                                                 id="custom-switch"
                                                 label="Set Position on the Map"
-                                                onChange={(e) => { setMapPosition(!mapPosition); setLocation(!location); }}
+                                                onChange={(e)=>{setMapPosition(!mapPosition); setLocation(!location);}}
                                             />
-                                        </Form>
-                                        <Button onClick={() => { setMapPosition(false); setLocation(true) }}>Center Your Postion</Button>
+                                         </Form>   
+                                            <Button onClick={() => { setMapPosition(false); setLocation(true) }}>Center Your Postion</Button>
                                     </div>
                                 </Row>
                             </Col>

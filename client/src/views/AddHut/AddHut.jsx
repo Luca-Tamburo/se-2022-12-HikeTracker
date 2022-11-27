@@ -184,6 +184,7 @@ const AddHut = (props) => {
                                                         name={input.idName}
                                                         placeholder={input.placeholder}
                                                         label={input.label}
+                                                        disabled = {mapPosition && (input.idName == 'latitude'|| input.idName == 'longitude') ? true:false}
                                                     />
                                                 </Col>
                                             );
