@@ -10,19 +10,15 @@
  * --------------------------------------------------------------------
  */
 
-// Imports
+//Imports
 import "./Filter.css";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useState } from "react";
-import { MapContainer, Marker, Popup, TileLayer, Circle } from "react-leaflet";
-import L from "leaflet";
-
-// Icons
 import { BiReset } from "react-icons/bi";
 import { BsSearch } from "react-icons/bs";
-import { GiPositionMarker } from "react-icons/gi";
+import { MapContainer, Marker, Popup, TileLayer, Circle, } from "react-leaflet";
+import L from "leaflet";
 
-// Helpers
 import {
   __REGIONS,
   getCitiesForProvince,
@@ -34,7 +30,7 @@ import {
 // Constants
 import { Filter as constFilter } from "../../../constants/index";
 
-// Hooks
+//Hooks
 import LocationMarker from "../../ui-core/locate/locationMarker";
 import AddMarker from "../../ui-core/locate/AddMarker";
 
@@ -45,6 +41,7 @@ const icon = L.icon({
   iconUrl: require("../../../assets/mapIcons/mountain.png"),
   shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png",
 });
+
 
 const Filter = (props) => {
   const ZOOM_LEVEL = 8;
@@ -83,7 +80,7 @@ const Filter = (props) => {
       if (!(province === "Province" || province === "0")) {
         console.log("entra 2");
         result = result.filter(
-          (hike) => hike.province == getProvinceName(parseInt(province))
+          (hike) => hike.province === getProvinceName(parseInt(province))
         );
 
         if (!(city === "City" || city === "0")) {
@@ -93,7 +90,6 @@ const Filter = (props) => {
       }
     }
     if (range !== 0) {
-      console.log("entra nel range");
       let v = [];
       for (let index = 0; index < result.length; index++) {
         console.log(marker);
@@ -112,48 +108,39 @@ const Filter = (props) => {
           );
         console.log(dst);
         if (dst <= range) {
-          console.log("entra nel controllo");
           v.push(result[index]);
         }
       }
       result = v;
     }
     if (difficulty) {
-      console.log("entra 5");
       result = result.filter((hike) => hike.difficulty === difficulty);
     }
     if (ascentMin) {
-      console.log("entra 6");
       result = result.filter((hike) => hike.ascent >= ascentMin);
     }
     if (ascentMax) {
-      console.log("entra 6");
       result = result.filter((hike) => hike.ascent <= ascentMax);
     }
     if (expectedTimeMin) {
-      console.log("entra 7");
       result.forEach((element) => {
         console.log(element.expectedTime);
       });
       result = result.filter((hike) => hike.expectedTime >= expectedTimeMin);
     }
     if (expectedTimeMax) {
-      console.log("entra 7");
       result.forEach((element) => {
         console.log(element.expectedTime);
       });
       result = result.filter((hike) => hike.expectedTime <= expectedTimeMax);
     }
     if (lengthMin) {
-      console.log("entra 8");
       result = result.filter((hike) => hike.length >= lengthMin);
     }
     if (lengthMax) {
-      console.log("entra 8");
       result = result.filter((hike) => hike.length <= lengthMax);
     }
 
-    console.log(result);
     props.setHikesDisplay(result);
   };
 
@@ -221,50 +208,93 @@ const Filter = (props) => {
       {/* Geographical area and ascent filters*/}
       <Row>
         <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
-          <Form.Select data-testid="region-select" value={region} className='mt-3 mt-sm-3' onChange={(event) => handleRegion(event)} >
+          <Form.Select
+            data-testid="region-select"
+            value={region}
+            className='mt-3 mt-sm-3'
+            onChange={(event) => handleRegion(event)}
+          >
             <option value={0}>Region</option>
-            {__REGIONS.map(r => (
-              <option key={r.regione} value={r.regione}>{r.nome}</option>
+            {__REGIONS.map((r) => (
+              <option key={r.regione} value={r.regione}>
+                {r.nome}
+              </option>
             ))}
           </Form.Select>
         </Col>
         <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
-          <Form.Select data-testid="province-select" value={province} className='mt-3 mt-sm-3' disabled={isRegionUnselected} onChange={(event) => handleProvince(event)} >
+          <Form.Select
+            data-testid="province-select"
+            value={province}
+            className='mt-3 mt-sm-3'
+            disabled={isProvinceUnselected}
+            onChange={(event) => handleProvince(event)}
+          >
             <option value={0}>Province</option>
-            {getProvinceForRegion(parseInt(region)).map(p => (
-              <option key={p.provincia} value={p.provincia}>{p.nome}</option>
+            {getProvinceForRegion(parseInt(region)).map((p) => (
+              <option key={p.provincia} value={p.provincia}>
+                {p.nome}
+              </option>
             ))}
           </Form.Select>
         </Col>
-        <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }}>
-          <Form.Select data-testid="city-select" className='mt-3 mt-sm-3' value={city} disabled={isProvinceUnselected} onChange={(event) => { setCity(event.target.value) }}>
+        <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
+          <Form.Select
+            data-testid="city-select"
+            className='mt-3 mt-sm-3'
+            value={city}
+            disabled={isCityUnselected}
+            onChange={(event) => {
+              setCity(event.target.value);
+            }}
+          >
             <option value={0}>City</option>
-            {getCitiesForProvince(parseInt(province)).map(c => (
-              <option key={c.comune} value={c.nome}>{c.nome}</option>
+            {getCitiesForProvince(parseInt(province)).map((c) => (
+              <option key={c.comune} value={c.nome}>
+                {c.nome}
+              </option>
             ))}
           </Form.Select>
         </Col>
-        <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }}>
-          <Form className='my-2 mt-sm-2 mt-lg-0' >
-            <span>Range of {range} {''} mt</span>
-            <Form.Range data-testid="range-select" value={range} min='0' max='100000' onChange={(e) => { setRange(e.target.value) }} />
+        <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
+          <Form className='my-2 mt-sm-2 mt-lg-0'>
+            <span>
+              Range of {range} {""} mt
+            </span>
+            <Form.Range
+              data-testid="range-select"
+              value={range}
+              min="0"
+              max="100000"
+              onChange={(e) => {
+                setRange(e.target.value);
+              }}
+            />
           </Form>
         </Col>
       </Row>
       {/* Other filters*/}
-      <Row className='align-items-end mt-sm-2 mt-md-0'>
-        <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }}>
-          <Form.Select data-testid="difficulty-select" value={difficulty} onChange={(event) => { setDifficulty(event.target.value) }}>
+      <Row className="align-items-end mt-sm-2 mt-md-0">
+        <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
+          <Form.Select
+            data-testid="difficulty-select"
+            value={difficulty}
+            onChange={(event) => {
+              setDifficulty(event.target.value);
+            }}
+          >
             <option value={0}>Difficulty</option>
             {constFilter[2].map((item, index) => {
               return (
-                <option key={index} value={item.title}>{item.title}</option>
-              )
+                <option key={index} value={item.title}>
+                  {item.title}
+                </option>
+              );
             })}
           </Form.Select>
         </Col>
-        <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }}>
-          <p className="fw-bold mb-0">Ascent (mt)</p>
+        <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
+          <p className='fw-bold my-2 my-sm-2 mt-md-0 mb-0'>Ascent (mt)</p>
           <div className="d-flex">
             <Form className="pe-2">
               <Form.Control
@@ -302,8 +332,8 @@ const Filter = (props) => {
             </Form>
           </div>
         </Col>
-        <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }}>
-          <p className="fw-bold mb-0">Expectide time (hr)</p>
+        <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
+          <p className='fw-bold my-2 my-sm-2 mb-0'>Expected time (hr)</p>
           <div className="d-flex">
             <Form className="pe-2">
               <Form.Control
@@ -345,8 +375,8 @@ const Filter = (props) => {
             </Form>
           </div>
         </Col>
-        <Col xs={{ span: 12 }} md={{ span: 5 }} lg={{ span: 2 }}>
-          <p className="fw-bold mb-0">Length (km)</p>
+        <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
+          <p className='fw-bold my-2 my-sm-2 mb-0'>Length (km)</p>
           <div className="d-flex">
             <Form className="pe-2">
               <Form.Control
@@ -383,28 +413,22 @@ const Filter = (props) => {
             </Form>
           </div>
         </Col>
-        <Col>
+        <Col className='mt-3 mt-sm-3'>
           <Button
             variant="secondary"
-            className="mt-sm-3 me-sm-3"
+            className='me-3'
             onClick={handleReset}
           >
             <BiReset /> Reset
           </Button>
           <Button
-            className="mt-sm-3"
             onClick={() => {
               handleSearch();
             }}
           >
             <BsSearch /> Search
           </Button>
-          {parseInt(range) !== 0 &&
-            <Button className='mt-sm-3 ms-sm-3' variant="info" onClick={() => { handlePosition() }}>
-              <GiPositionMarker />Your Position
-            </Button>}
         </Col>
-
       </Row>
       {
         parseInt(range) !== 0 ?
@@ -433,6 +457,12 @@ const Filter = (props) => {
                     <AddMarker saveMarkers={saveMarkers} marker={marker} circle={circle} range={range} />}
                 </MapContainer>
               </Col>
+
+            </Row>
+            <Row className=' mt-3'>
+              <Button className='d-sm' onClick={() => { handlePosition() }}>
+                Your Position
+              </Button>
             </Row>
           </>
           : <></>
@@ -440,5 +470,4 @@ const Filter = (props) => {
     </>
   )
 }
-
 export default Filter;

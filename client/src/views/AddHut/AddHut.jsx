@@ -118,12 +118,10 @@ const AddHut = (props) => {
             formData.append('bedsNumber', values.bed);
             formData.append('phoneNumber', values.phoneNumber);
             if (!mapPosition) {
-                console.log('entra')
                 formData.append('longitude', values.longitude);
                 formData.append('latitude', values.latitude);
             }
             else {
-                console.log('entra 2')
                 formData.append('longitude', marker.getLatLng().lng);
                 formData.append('latitude', marker.getLatLng().lat);
             };
@@ -137,7 +135,6 @@ const AddHut = (props) => {
             api.addHut(formData)
                 .then(() => {
                     notify.success(`Hut correctly added`);
-                    // TODO: Forse è meglio reindizzare la local guide o nella sua pagina o nella pagina delle hike, oppure utilizzare -1 per tornare a quello precedente
                     navigate("/", { replace: true });
                 })
                 .catch((err) => notify.error(err.error))

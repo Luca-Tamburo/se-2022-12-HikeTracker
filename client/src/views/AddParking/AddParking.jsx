@@ -130,7 +130,6 @@ const AddParking = (props) => {
             api.addParking(formData)
                 .then(() => {
                     notify.success(`Parking correctly added`);
-                    // TODO: Forse è meglio reindizzare la local guide o nella sua pagina o nella pagina delle hike, oppure utilizzare -1 per tornare a quello precedente
                     navigate("/", { replace: true });
                 })
                 .catch((err) => notify.error(err.error))
@@ -168,12 +167,12 @@ const AddParking = (props) => {
 
                     return (
                         <Row>
-                            <Col xs={6} className="mt-3 ms-5">
+                            <Col xs={10} sm={6} className="mt-3 ms-5 ms-sm-5 p-0">
                                 <FormikForm onChange={(e) => { handleOnChange(e) }}>
                                     <Row>
                                         {AddParkingForm[0].map((input, index) => {
                                             return (
-                                                <Col xs={input.xsCol}>
+                                                <Col xs={input.xsCol} key={index}>
                                                     <CustomField.Input
                                                         className='mt-3'
                                                         type='text'
@@ -188,7 +187,7 @@ const AddParking = (props) => {
                                         })}
                                         {AddParkingForm[1].map((input, index) => {
                                             return (
-                                                <Col xs={input.xsCol}>
+                                                <Col xs={input.xsCol} key={index}>
                                                     <CustomField.Select
                                                         className='mt-3'
                                                         id={input.idName}
@@ -212,7 +211,7 @@ const AddParking = (props) => {
                                     </Row>
                                 </FormikForm>
                             </Col>
-                            <Col xs={4}>
+                            <Col xs={{ span: 10, offset: 1 }} sm={4} className='mt-4 mb-5 p-sm-0 me-sm-1'>
                                 <MapContainer
                                     center={center} scrollWheelZoom={true} whenCreated={(map) => this.setState({ map })} zoom={ZOOM_LEVEL} setView={true}>
                                     <TileLayer
