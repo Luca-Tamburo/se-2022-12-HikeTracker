@@ -378,12 +378,11 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
 ## Users Credentials
 
-|           Email           |    Password    | Email is verified?|
-|:-------------------------:|:--------------:|:-----------------:|
-| aldobaglio@gmail.com      |   password     |        Yes        |
-| stefanopioli@acmilan.com  |   password     |        Yes        |
-| antonioconte@gmail.com    |   password     |        No         |
-| adrianahevia@gmail.com    |   Password#20  |        Yes        |
+|           Email           |    Password    | Role              | Email is verified?|
+|:-------------------------:|:--------------:|:-----------------:|:-----------------:|
+| aldobaglio@gmail.com      |   password     |   localGuide      |        Yes        |
+| stefanopioli@acmilan.com  |   password     |   hiker           |        Yes        |
+| antonioconte@gmail.com    |   password     |   localGuide      |        No         |
 
 ## Testing
 

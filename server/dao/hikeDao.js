@@ -56,6 +56,18 @@ exports.addHike = (title, description, length, expectedTime, ascent, difficulty,
 }
 
 
+const nomiMaiuscoli = (nome) => {
+
+    const v = nome.toLowerCase().split(" ");
+    let f = "";
+    for (let n of v) {
+        const nn = n.charAt(0).toUpperCase() + n.slice(1);
+        f = f + " " + nn;
+    }
+    return f.trim();
+}
+
+
 /**
  * Get hikes from the system (general information)
  */
@@ -79,8 +91,8 @@ exports.getHikes = () => {
                     expectedTime: r.expectedTime,
                     ascent: r.ascent,
                     difficulty: r.difficulty,
-                    authorName: r.authorName,
-                    authorSurname: r.authorSurname,
+                    authorName: nomiMaiuscoli(r.authorName),
+                    authorSurname: nomiMaiuscoli(r.authorSurname),
                     uploadDate: r.uploadDate,
                     photoFile: r.photoFile,
                     latitude: r.latitude,

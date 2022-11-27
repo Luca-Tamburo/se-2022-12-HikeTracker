@@ -24,6 +24,18 @@ console.log(`sto testando? ${iAmTesting() ? `si` : `no`}`);
  * Get the user info to put in the cookie, given the id
  * @param {number} id the id of the user
  */
+
+ const nomiMaiuscoli = (nome) => {
+
+    const v = nome.toLowerCase().split(" ");
+    let f = "";
+    for (let n of v) {
+        const nn = n.charAt(0).toUpperCase() + n.slice(1);
+        f = f + " " + nn;
+    }
+    return f.trim();
+}
+
 exports.getUserById = (id) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM user WHERE id = ?';
@@ -57,8 +69,8 @@ exports.getUserAllInfosById = (id) => {
                     id: row.id,
                     email: row.email,
                     username: row.username,
-                    name: row.name,
-                    surname: row.surname,
+                    name: row.name ? nomiMaiuscoli(row.name) : undefined,
+                    surname: row.surname ? nomiMaiuscoli(row.surname) : undefined,
                     role: row.role,
                     phoneNumber: row.phoneNumber,
                     gender:row.gender
@@ -86,8 +98,8 @@ exports.getUser = (email, password) => {
                     id: row.id,
                     email: row.email,
                     username: row.username,
-                    name: row.name,
-                    surname: row.surname,
+                    name: row.name ? nomiMaiuscoli(row.name) : undefined,
+                    surname: row.surname ? nomiMaiuscoli(row.surname) : undefined,
                     role: row.role,
                     phoneNumber: row.phoneNumber,
                     gender:row.gender
