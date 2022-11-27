@@ -21,24 +21,24 @@ import L from "leaflet";
 // Services
 import api from "../../services/api";
 
-// Components - Input
+// Components
 import * as CustomField from "../../components/utils/Input/index";
 
 // Constants
 import { AddParkingForm } from "../../constants";
 
 // Validations
-import AddParkingSchema from "../../validation/AddParkingSchema";
+import { AddParkingSchema, AddParkingSchemaMap } from "../../validation/AddParkingSchema";
 
 // Hooks
 import useNotification from "../../hooks/useNotification";
 import SetYourLocation from "../../components/ui-core/locate/setYourLocation";
 import AddMarker from '../../components/ui-core/locate/AddMarker';
 
-// Helpers
 import { __REGIONS, getCitiesForProvince, getProvinceForRegion, getProvinceName, getRegionName } from '../../lib/helpers/location'
 
 const RemoveMarker = (props) => {
+
     let map = useMap();
     if (props.marker) {
         map.removeLayer(props.marker)
@@ -62,6 +62,7 @@ const Province = (props) => {
 }
 
 const City = (props) => {
+
     return (
         getCitiesForProvince(parseInt(props.province)).map(c => (
             <option key={c.comune} value={c.nome}>{c.nome}</option>
@@ -76,7 +77,7 @@ const icon = L.icon({
     shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
 });
 
-const AddParking = () => {
+const AddParking = (props) => {
     const ZOOM_LEVEL = 8;
     const [loading, setLoading] = useState(false);
     const notify = useNotification(); // Notification handler
@@ -103,34 +104,38 @@ const AddParking = () => {
     }
 
     const handleSubmit = (values) => {
+        if (!marker) {
+            notify.error("Choose a point on the map!")
+        } else {
+            console.log(getRegionName(parseInt(values.region)))
+            let formData = new FormData();
+            formData.append('title', values.title);
+            if (!mapPosition) {
+                console.log('entra')
+                formData.append('longitude', values.longitude);
+                formData.append('latitude', values.latitude);
+            }
+            else {
+                console.log('entra 2')
+                formData.append('longitude', marker.getLatLng().lng);
+                formData.append('latitude', marker.getLatLng().lat);
+            }
+            formData.append('altitude', values.altitude);
+            formData.append('region', getRegionName(parseInt(values.region)));
+            formData.append('province', getProvinceName(parseInt(values.province)));
+            formData.append('city', values.city);
+            formData.append('description', values.description);
+            setLoading(true);
 
-        console.log(getRegionName(parseInt(values.region)))
-        let formData = new FormData();
-        formData.append('title', values.title);
-        if (!mapPosition) {
-            console.log('entra')
-            formData.append('longitude', values.longitude);
-            formData.append('latitude', values.latitude);
+            api.addParking(formData)
+                .then(() => {
+                    notify.success(`Parking correctly added`);
+                    // TODO: Forse è meglio reindizzare la local guide o nella sua pagina o nella pagina delle hike, oppure utilizzare -1 per tornare a quello precedente
+                    navigate("/", { replace: true });
+                })
+                .catch((err) => notify.error(err.error))
+                .finally(() => setLoading(false));
         }
-        else {
-            console.log('entra 2')
-            formData.append('longitude', marker.getLatLng().lng);
-            formData.append('latitude', marker.getLatLng().lat);
-        }
-        formData.append('altitude', values.altitude);
-        formData.append('region', getRegionName(parseInt(values.region)));
-        formData.append('province', getProvinceName(parseInt(values.province)));
-        formData.append('city', values.city);
-        formData.append('description', values.description);
-        setLoading(true);
-
-        api.addParking(formData)
-            .then(() => {
-                notify.success(`Parking correctly added`);
-                navigate("/", { replace: true });
-            })
-            .catch((err) => notify.error(err.error))
-            .finally(() => setLoading(false));
     };
 
     const saveMarkers = (newMarkerCoords, circle) => {
@@ -152,11 +157,15 @@ const AddParking = () => {
             </div>
             <Formik
                 initialValues={initialValues}
-                validationSchema={AddParkingSchema}
+                validationSchema={mapPosition ? AddParkingSchemaMap : AddParkingSchema}
                 onSubmit={(values) => handleSubmit(values)}
             >
                 {({ values, handleSubmit, touched, isValid, setFieldValue }) => {
                     const disableSubmit = (!touched.title && !touched.photoFile && !touched.latitude && !touched.longitude && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description) || !isValid;
+                    const disableSubmit2 = (!touched.title && !touched.photoFile && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description)
+
+                    console.log(disableSubmit, disableSubmit2)
+
                     return (
                         <Row>
                             <Col xs={6} className="mt-3 ms-5">
@@ -196,7 +205,7 @@ const AddParking = () => {
                                             );
                                         })}
                                         <CustomField.TextArea className="mt-3" id="description" name="description" placeholder="Insert the hut description" label="Description" />
-                                        <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}>
+                                        <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={mapPosition ? disableSubmit2 : disableSubmit}>
                                             {loading && (<Spinner animation="border" size="sm" as="span" role="status" aria-hidden="true" className="me-2" />)}
                                             Submit
                                         </Button>

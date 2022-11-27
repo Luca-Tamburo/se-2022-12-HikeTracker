@@ -21,7 +21,7 @@ import L from "leaflet";
 // Services
 import api from "../../services/api";
 
-// Components - Input
+// Components
 import * as CustomField from "../../components/utils/Input/index";
 
 // Constants
@@ -35,7 +35,6 @@ import useNotification from "../../hooks/useNotification";
 import SetYourLocation from "../../components/ui-core/locate/setYourLocation";
 import AddMarker from '../../components/ui-core/locate/AddMarker';
 
-// Helpers
 import { __REGIONS, getCitiesForProvince, getProvinceForRegion, getProvinceName, getRegionName } from '../../lib/helpers/location'
 
 const RemoveMarker = (props) => {
@@ -79,7 +78,7 @@ const icon = L.icon({
     shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
 });
 
-const AddHut = () => {
+const AddHut = (props) => {
     const ZOOM_LEVEL = 8;
     const [loading, setLoading] = useState(false);
     const notify = useNotification(); // Notification handler
@@ -119,10 +118,12 @@ const AddHut = () => {
             formData.append('bedsNumber', values.bed);
             formData.append('phoneNumber', values.phoneNumber);
             if (!mapPosition) {
+                console.log('entra')
                 formData.append('longitude', values.longitude);
                 formData.append('latitude', values.latitude);
             }
             else {
+                console.log('entra 2')
                 formData.append('longitude', marker.getLatLng().lng);
                 formData.append('latitude', marker.getLatLng().lat);
             };
@@ -136,6 +137,7 @@ const AddHut = () => {
             api.addHut(formData)
                 .then(() => {
                     notify.success(`Hut correctly added`);
+                    // TODO: Forse è meglio reindizzare la local guide o nella sua pagina o nella pagina delle hike, oppure utilizzare -1 per tornare a quello precedente
                     navigate("/", { replace: true });
                 })
                 .catch((err) => notify.error(err.error))
@@ -164,16 +166,12 @@ const AddHut = () => {
                 onSubmit={(values) => handleSubmit(values)}
             >
                 {({ values, handleSubmit, touched, isValid, setFieldValue }) => {
-                    // let disableSubmit = mapPosition ?
-                    //     (!touched.title && !touched.photoFile && !touched.room && !touched.bed && !touched.phoneNumber && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description) || !isValid
-                    //     : (!touched.title && !touched.photoFile && !touched.room && !touched.bed && !touched.phoneNumber && !touched.latitude && !touched.longitude && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description) || !isValid
-
-                    // console.log(disableSubmit)
                     const disableSubmit = (!touched.title && !touched.photoFile && !touched.room && !touched.bed && !touched.phoneNumber && !touched.latitude && !touched.longitude && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description) || !isValid;
                     const disableSubmit2 = (!touched.title && !touched.photoFile && !touched.room && !touched.bed && !touched.phoneNumber && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description);
                     return (
                         <Row>
                             <Col xs={10} sm={6} className="mt-3 ms-5 ms-sm-5 p-0">
+                                {/* TODO: Da portare in components e qui importare il singolo componente */}
                                 <FormikForm onChange={(e) => { handleOnChange(e) }}>
                                     <Row>
                                         {AddHutForm[0].map((input, index) => {
