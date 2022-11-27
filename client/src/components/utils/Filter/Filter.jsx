@@ -14,11 +14,15 @@
 import "./Filter.css";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useState } from "react";
-import { BiReset } from "react-icons/bi";
-import { BsSearch } from "react-icons/bs";
 import { MapContainer, Marker, Popup, TileLayer, Circle, } from "react-leaflet";
 import L from "leaflet";
 
+// Icons
+import { BiReset } from "react-icons/bi";
+import { BsSearch } from "react-icons/bs";
+import { GiPositionMarker } from "react-icons/gi";
+
+// Helpers
 import {
   __REGIONS,
   getCitiesForProvince,
@@ -413,21 +417,26 @@ const Filter = (props) => {
             </Form>
           </div>
         </Col>
-        <Col className='mt-3 mt-sm-3'>
+        <Col>
           <Button
             variant="secondary"
-            className='me-3'
+            className="mt-sm-3 me-sm-3"
             onClick={handleReset}
           >
             <BiReset /> Reset
           </Button>
           <Button
+            className="mt-sm-3"
             onClick={() => {
               handleSearch();
             }}
           >
             <BsSearch /> Search
           </Button>
+          {parseInt(range) !== 0 &&
+            <Button className='mt-sm-3 ms-sm-3' variant="info" onClick={() => { handlePosition() }}>
+              <GiPositionMarker />Your Position
+            </Button>}
         </Col>
       </Row>
       {
@@ -457,12 +466,6 @@ const Filter = (props) => {
                     <AddMarker saveMarkers={saveMarkers} marker={marker} circle={circle} range={range} />}
                 </MapContainer>
               </Col>
-
-            </Row>
-            <Row className=' mt-3'>
-              <Button className='d-sm' onClick={() => { handlePosition() }}>
-                Your Position
-              </Button>
             </Row>
           </>
           : <></>
