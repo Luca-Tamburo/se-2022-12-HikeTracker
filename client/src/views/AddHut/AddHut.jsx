@@ -19,9 +19,7 @@ import { MapContainer, Marker, Popup, TileLayer, useMapEvent, Circle, useMap } f
 import setYourLocation from '../../components/ui-core/locate/AddMarker';
 import AddMarker from '../../components/ui-core/locate/AddMarker';
 import L from "leaflet";
-
-//Contexts
-import { AuthContext } from '../../contexts/AuthContext';
+import { BiMap } from 'react-icons/bi'
 
 // Services
 import api from "../../services/api";
@@ -44,8 +42,9 @@ import { __REGIONS, getCitiesForProvince, getProvinceForRegion, getProvinceName,
 const RemoveMarker = (props) => {
 
     let map = useMap();
-    if(props.marker){
-    map.removeLayer(props.marker)}
+    if (props.marker) {
+        map.removeLayer(props.marker)
+    }
 }
 
 const Region = (props) => {
@@ -83,7 +82,6 @@ const icon = L.icon({
 
 const AddHut = (props) => {
     const ZOOM_LEVEL = 8;
-    const { userInfo, isloggedIn } = useContext(AuthContext);
     const [loading, setLoading] = useState(false);
     const notify = useNotification(); // Notification handler
     const navigate = useNavigate(); // Navigation handler
@@ -97,11 +95,6 @@ const AddHut = (props) => {
     const [latitude, setLatitude] = useState(false)
     const [region, setRegion] = useState(false)
     const [province, setProvince] = useState(false)
-
-    // useEffect(() => {
-    //     if (!isloggedIn || (!isloggedIn && userInfo.role !== "localGuide"))
-    //         navigate('/', { replace: true });
-    // }, [isloggedIn]); //eslint-disable-line react-hooks/exhaustive-deps
 
     const initialValues = {
         title: "",
@@ -176,13 +169,13 @@ const AddHut = (props) => {
                     const disableSubmit = (!touched.title && !touched.photoFile && !touched.room && !touched.bed && !touched.phoneNumber && !touched.latitude && !touched.longitude && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description) || !isValid;
                     return (
                         <Row>
-                            <Col xs={6} className="mt-3 ms-5">
+                            <Col xs={10} sm={6} className="mt-3 ms-5 ms-sm-5 p-0">
                                 {/* TODO: Da portare in components e qui importare il singolo componente */}
                                 <FormikForm onChange={(e) => { handleOnChange(e) }}>
                                     <Row>
                                         {AddHutForm[0].map((input, index) => {
                                             return (
-                                                <Col xs={input.xsCol}>
+                                                <Col xs={input.xsCol} sm={input.smCol} key={index}>
                                                     <CustomField.Input
                                                         className='mt-3'
                                                         type='text'
@@ -197,7 +190,7 @@ const AddHut = (props) => {
                                         })}
                                         {AddHutForm[1].map((input, index) => {
                                             return (
-                                                <Col xs={input.xsCol}>
+                                                <Col xs={input.xsCol} sm={input.smCol} key={index}>
                                                     <CustomField.Select
                                                         className='mt-3'
                                                         id={input.idName}
@@ -221,7 +214,7 @@ const AddHut = (props) => {
                                     </Row>
                                 </FormikForm>
                             </Col>
-                            <Col xs={4}>
+                            <Col xs={{ span: 10, offset: 1 }} sm={4} className='mt-4 mb-5 p-sm-0 me-sm-1'>
                                 <MapContainer
                                     center={center} scrollWheelZoom={true} whenCreated={(map) => this.setState({ map })} zoom={ZOOM_LEVEL} setView={true}>
                                     <TileLayer
@@ -247,11 +240,11 @@ const AddHut = (props) => {
                                     </div>
                                 </Row>
                             </Col>
-                        </Row>
+                        </Row >
                     );
                 }}
-            </Formik>
-        </div>
+            </Formik >
+        </div >
     );
 };
 

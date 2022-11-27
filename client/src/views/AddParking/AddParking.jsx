@@ -20,10 +20,6 @@ import setYourLocation from '../../components/ui-core/locate/AddMarker';
 import AddMarker from '../../components/ui-core/locate/AddMarker';
 import L from "leaflet";
 
-
-//Contexts
-import { AuthContext } from '../../contexts/AuthContext';
-
 // Services
 import api from "../../services/api";
 
@@ -43,10 +39,11 @@ import SetYourLocation from "../../components/ui-core/locate/setYourLocation";
 import { __REGIONS, getCitiesForProvince, getProvinceForRegion, getProvinceName, getRegionName } from '../../lib/helpers/location'
 
 const RemoveMarker = (props) => {
-    
+
     let map = useMap();
-    if(props.marker){
-        map.removeLayer(props.marker)}
+    if (props.marker) {
+        map.removeLayer(props.marker)
+    }
 }
 
 const Region = (props) => {
@@ -83,7 +80,6 @@ const icon = L.icon({
 
 const AddParking = (props) => {
     const ZOOM_LEVEL = 8;
-    const { userInfo, isloggedIn } = useContext(AuthContext);
     const [loading, setLoading] = useState(false);
     const notify = useNotification(); // Notification handler
     const navigate = useNavigate(); // Navigation handler
@@ -97,12 +93,6 @@ const AddParking = (props) => {
     const [latitude, setLatitude] = useState(false)
     const [region, setRegion] = useState(false)
     const [province, setProvince] = useState(false)
-
-
-    // useEffect(() => {
-    //     if (!isloggedIn || (!isloggedIn && userInfo.role !== "localGuide"))
-    //         navigate('/', { replace: true });
-    // }, [isloggedIn]); //eslint-disable-line react-hooks/exhaustive-deps
 
     const initialValues = {
         title: "",
@@ -176,12 +166,12 @@ const AddParking = (props) => {
                     const disableSubmit = (!touched.title && !touched.photoFile && !touched.latitude && !touched.longitude && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description) || !isValid;
                     return (
                         <Row>
-                            <Col xs={6} className="mt-3 ms-5">
-                                <FormikForm onChange={(e) => { handleOnChange(e)}}>
+                            <Col xs={10} sm={6} className="mt-3 ms-5 mt-3 ms-5 ms-sm-5 p-0">
+                                <FormikForm onChange={(e) => { handleOnChange(e) }}>
                                     <Row>
                                         {AddParkingForm[0].map((input, index) => {
                                             return (
-                                                <Col xs={input.xsCol}>
+                                                <Col xs={input.xsCol} sm={input.smCol} key={index}>
                                                     <CustomField.Input
                                                         className='mt-3'
                                                         type='text'
@@ -189,14 +179,14 @@ const AddParking = (props) => {
                                                         name={input.idName}
                                                         placeholder={input.placeholder}
                                                         label={input.label}
-                                                       
+
                                                     />
                                                 </Col>
                                             );
                                         })}
                                         {AddParkingForm[1].map((input, index) => {
                                             return (
-                                                <Col xs={input.xsCol}>
+                                                <Col xs={input.xsCol} sm={input.smCol} key={index}>
                                                     <CustomField.Select
                                                         className='mt-3'
                                                         id={input.idName}
@@ -220,7 +210,7 @@ const AddParking = (props) => {
                                     </Row>
                                 </FormikForm>
                             </Col>
-                            <Col xs={4}>
+                            <Col xs={{ span: 10, offset: 1 }} sm={4} className='mt-4 mb-5 p-sm-0 me-sm-1'>
                                 <MapContainer
                                     center={center} scrollWheelZoom={true} whenCreated={(map) => this.setState({ map })} zoom={ZOOM_LEVEL} setView={true}>
                                     <TileLayer
@@ -240,10 +230,10 @@ const AddParking = (props) => {
                                                 type="switch"
                                                 id="custom-switch"
                                                 label="Set Position on the Map"
-                                                onChange={(e)=>{setMapPosition(!mapPosition); setLocation(!location);}}
+                                                onChange={(e) => { setMapPosition(!mapPosition); setLocation(!location); }}
                                             />
-                                         </Form>   
-                                            <Button onClick={() => { setMapPosition(false); setLocation(true) }}>Center Your Postion</Button>
+                                        </Form>
+                                        <Button onClick={() => { setMapPosition(false); setLocation(true) }}>Center Your Postion</Button>
                                     </div>
                                 </Row>
                             </Col>

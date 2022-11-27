@@ -117,21 +117,21 @@ const HikeDetails = (props) => {
               className="mt-3 w-100"
               style={{ objectFit: "cover" }}
             />
-            <div className="d-flex justify-content-between mt-3 ">
+            <div className="d-flex flex-column flex-md-row justify-content-between mt-2 ">
               <h2 className="fw-bold my-3">{hike.title}</h2>
-              <div className="d-flex justify-content-between">
-                <h5 className="mx-sm-4 my-3">
+              <div className="d-flex justify-content-between mx-sm-4 my-md-3">
+                <h5>
                   {hike.authorName} {""} {hike.authorSurname}
                 </h5>
-                <h5 className="mx-sm-4 my-3">{hike.uploadDate}</h5>
+                <h5 className="ms-3">{hike.uploadDate}</h5>
               </div>
             </div>
             <div className="mb-4">
               <span className="fst-italic">{hike.description}</span>
             </div>
             <Row className="d-flex justify-content-between">
-              <Col xs={3} className="p-0">
-                <div className="shadow-lg p-3 mb-5 bg-white rounded">
+              <Col xs={5} xl={4} className="p-0">
+                <div className="shadow-lg px-0 py-3 mb-5 bg-white rounded">
                   <div className="d-flex flex-column ms-3">
                     <h3 className="fw-bold">HIKE INFO</h3>
                     <span>All data are to be considered indicative.</span>
@@ -198,7 +198,7 @@ const HikeDetails = (props) => {
                         <Button
                           variant="primary"
                           type="submit"
-                          className=" p-3 rounded-3 mt-4  fw-semibold border "
+                          className=" p-3 rounded-3  fw-semibold border "
                         >
                           Download GPX Track
                         </Button>

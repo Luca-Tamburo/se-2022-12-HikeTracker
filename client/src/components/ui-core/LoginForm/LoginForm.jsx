@@ -31,7 +31,7 @@ const LoginForm = (props) => {
         const disableSubmit = (!touched.email && !touched.password) || !isValid;
         return (
           <Form>
-            <CustomField.Input className="mt-3" id="login-email" name="email" type="email" placeholder="Insert your email" label="Email" />
+            <CustomField.Input id="login-email" name="email" type="email" placeholder="Insert your email" label="Email" />
             <CustomField.Input className="mt-3" id="login-password" name="password" type="password" placeholder="Insert your password" label="Password" />
             <Button variant="primary" type="submit" className="w-100 fw-semibold border mt-4 py-2" disabled={disableSubmit}>
               Login

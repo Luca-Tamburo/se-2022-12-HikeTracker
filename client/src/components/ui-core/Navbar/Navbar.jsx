@@ -31,61 +31,53 @@ const Navbar = (props) => {
   const { userInfo, isloggedIn } = useContext(AuthContext);
 
   return (
-    <MyNavbar
-      collapseOnSelect
-      bg="light"
-      variant="light"
-      className="shadow p-2 bg-white sticky-top"
-    >
+    <MyNavbar collapseOnSelect bg="light" variant="light" className="shadow p-2 bg-white sticky-top">
       <Container fluid>
-        <MyNavbar.Brand /*as={Link} to="/"*/>
+        <MyNavbar.Brand as={Link} to="/" data-testid='home-logo-button'>
           <img src={logo} alt="Logo Icon" width="230" />
         </MyNavbar.Brand>
-        <Link to={"/"} data-testid='home-button'>
+        <Link to={"/"} data-testid='home-icon-button'>
           <FaHome className="home-icon-navbar" />
         </Link>
-        {!isloggedIn ? (
-          <div className="d-flex d-sm-block flex-column justify-content-center align-items-center">
+        {!isloggedIn ?
+          (<div className="d-flex d-sm-block flex-column justify-content-center align-items-center">
             <Link to={"/signup"}>
-              <Button variant="secondary" className="btn-navbar">
+              <Button variant="secondary" className="btn-navbar mb-2 mb-sm-0">
                 SignUp
               </Button>
             </Link>
             <Link to={"/login"}>
               <Button className="btn-navbar mx-sm-2">Login</Button>
             </Link>
-          </div>
-        ) : userInfo.role === "localGuide" ? (
-          <Dropdown drop="start">
-            <Dropdown.Toggle variant="primary" id="user-dropdown">
-              Hi, {userInfo.name}
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item as={Link} to="/localGuide">
-                Profile
-              </Dropdown.Item>
-              <Dropdown.Item as={Link} to="/addHike">
-                Add hike
-              </Dropdown.Item>
-              <Dropdown.Item as={Link} to="/addHut">
-                Add hut
-              </Dropdown.Item>
-              <Dropdown.Item as={Link} to="/addParking">
-                Add parking lot
-              </Dropdown.Item>
-              <Dropdown.Item onClick={props.handleLogout}>Logout</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        ) : (
-          <div className="d-flex">
-            <h4 className="fw-bold mt-2 me-3 p-0">Hi, {userInfo.name}</h4>
-            <Button className="rounded-3" onClick={props.handleLogout}>
-              Logout
-            </Button>
-          </div>
-        )}
+          </div>) : (
+            <Dropdown drop="start">
+              <Dropdown.Toggle variant="primary" id="user-dropdown">
+                Hi, {userInfo.name || "Hiker"}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {
+                  userInfo.role === "localGuide" &&
+                  <>
+                    <Dropdown.Item as={Link} to="/localGuide">
+                      Profile
+                    </Dropdown.Item>
+                    <Dropdown.Item as={Link} to="/addHike">
+                      Add hike
+                    </Dropdown.Item>
+                    <Dropdown.Item as={Link} to="/addHut">
+                      Add hut
+                    </Dropdown.Item>
+                    <Dropdown.Item as={Link} to="/addParking">
+                      Add parking lot
+                    </Dropdown.Item>
+                  </>
+                }
+                <Dropdown.Item onClick={props.handleLogout}>Logout</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          )}
       </Container>
-    </MyNavbar>
+    </MyNavbar >
   );
 };
 

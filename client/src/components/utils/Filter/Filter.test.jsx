@@ -106,8 +106,8 @@ const dataTestId = [
     'difficulty-select',
     'ascent-select-min',
     'ascent-select-max',
-    'expectideTime-select-min',
-    'expectideTime-select-max',
+    'expectedTime-select-min',
+    'expectedTime-select-max',
     'length-select-min',
     'length-select-max',
 ]

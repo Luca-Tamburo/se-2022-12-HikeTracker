@@ -58,13 +58,13 @@ const Filter = (props) => {
   const [province, setProvince] = useState("Province");
   const [city, setCity] = useState("City");
   const [range, setRange] = useState(0);
-  const [ascentMin, setAscentMin] = useState(0);
-  const [ascentMax, setAscentMax] = useState(undefined);
+  const [ascentMin, setAscentMin] = useState("");
+  const [ascentMax, setAscentMax] = useState("");
   const [difficulty, setDifficulty] = useState(undefined);
-  const [expectedTimeMin, setExpectedTimeMin] = useState(0);
-  const [expectedTimeMax, setExpectedTimeMax] = useState(undefined);
-  const [lengthMin, setLengthMin] = useState(0);
-  const [lengthMax, setLengthMax] = useState(undefined);
+  const [expectedTimeMin, setExpectedTimeMin] = useState("");
+  const [expectedTimeMax, setExpectedTimeMax] = useState("");
+  const [lengthMin, setLengthMin] = useState("");
+  const [lengthMax, setLengthMax] = useState("");
 
   const [currentPosition, setCurrentPosition] = useState(false);
 
@@ -107,13 +107,13 @@ const Filter = (props) => {
           1000 *
           Math.acos(
             Math.sin((result[index].latitude * Math.PI) / 180) *
-              Math.sin((marker.getLatLng().lat * Math.PI) / 180) +
-              Math.cos((result[index].latitude * Math.PI) / 180) *
-                Math.cos((marker.getLatLng().lat * Math.PI) / 180) *
-                Math.cos(
-                  (result[index].longitude * Math.PI) / 180 -
-                    (marker.getLatLng().lng * Math.PI) / 180
-                )
+            Math.sin((marker.getLatLng().lat * Math.PI) / 180) +
+            Math.cos((result[index].latitude * Math.PI) / 180) *
+            Math.cos((marker.getLatLng().lat * Math.PI) / 180) *
+            Math.cos(
+              (result[index].longitude * Math.PI) / 180 -
+              (marker.getLatLng().lng * Math.PI) / 180
+            )
           );
         console.log(dst);
         if (dst <= range) {
@@ -127,7 +127,7 @@ const Filter = (props) => {
       console.log("entra 5");
       result = result.filter((hike) => hike.difficulty === difficulty);
     }
-    if (ascentMin !== 0) {
+    if (ascentMin) {
       console.log("entra 6");
       result = result.filter((hike) => hike.ascent >= ascentMin);
     }
@@ -135,7 +135,7 @@ const Filter = (props) => {
       console.log("entra 6");
       result = result.filter((hike) => hike.ascent <= ascentMax);
     }
-    if (expectedTimeMin !== 0) {
+    if (expectedTimeMin) {
       console.log("entra 7");
       result.forEach((element) => {
         console.log(element.expectedTime);
@@ -149,7 +149,7 @@ const Filter = (props) => {
       });
       result = result.filter((hike) => hike.expectedTime <= expectedTimeMax);
     }
-    if (lengthMin !== 0) {
+    if (lengthMin) {
       console.log("entra 8");
       result = result.filter((hike) => hike.length >= lengthMin);
     }
@@ -171,12 +171,12 @@ const Filter = (props) => {
     setProvince("Province");
     setCity("City");
     setDifficulty(0);
-    setAscentMin(0);
-    setAscentMax(undefined);
-    setExpectedTimeMin(0);
-    setExpectedTimeMax(undefined);
-    setLengthMin(0);
-    setLengthMax(undefined);
+    setAscentMin("");
+    setAscentMax("");
+    setExpectedTimeMin("");
+    setExpectedTimeMax("");
+    setLengthMin("");
+    setLengthMax("");
     console.log(EventTarget.toString());
 
     props.setHikesDisplay(props.hikes);
@@ -207,7 +207,6 @@ const Filter = (props) => {
       setProvince(event.target.value);
       setIsProvinceUnselected(false);
       setIsCityUnselected(false);
-
     }
   };
 
@@ -323,19 +322,31 @@ const Filter = (props) => {
                 min="0"
                 placeholder="Min"
                 onChange={(event) => {
+                  if (parseFloat(event.target.value) >= parseFloat(ascentMax))
+                    setAscentMax(event.target.value);
                   setAscentMin(event.target.value);
                 }}
+                value={ascentMin}
               />
             </Form>
             <Form>
               <Form.Control
                 data-testid="ascent-select-max"
                 type="number"
-                min="0"
+                min={ascentMin ? ascentMin : 0}
                 placeholder="Max"
                 onChange={(event) => {
-                  setAscentMax(event.target.value);
+                  ascentMin && event.target.value
+                    ? setAscentMax(
+                      parseFloat(event.target.value) >= parseFloat(ascentMin)
+                        ? event.target.value
+                        : ascentMax === ""
+                          ? parseFloat(ascentMin)
+                          : ""
+                    )
+                    : setAscentMax(event.target.value);
                 }}
+                value={ascentMax}
               />
             </Form>
           </div>
@@ -350,8 +361,14 @@ const Filter = (props) => {
                 min="0"
                 placeholder="Min"
                 onChange={(event) => {
+                  if (
+                    parseFloat(event.target.value) >=
+                    parseFloat(expectedTimeMax)
+                  )
+                    setExpectedTimeMax(event.target.value);
                   setExpectedTimeMin(event.target.value);
                 }}
+                value={expectedTimeMin}
               />
             </Form>
             <Form>
@@ -361,8 +378,18 @@ const Filter = (props) => {
                 min="0"
                 placeholder="Max"
                 onChange={(event) => {
-                  setExpectedTimeMax(event.target.value);
+                  expectedTimeMin && event.target.value
+                    ? setExpectedTimeMax(
+                      parseFloat(event.target.value) >=
+                        parseFloat(expectedTimeMin)
+                        ? event.target.value
+                        : expectedTimeMax === ""
+                          ? parseFloat(expectedTimeMin)
+                          : "")
+                    : setExpectedTimeMax(event.target.value);
                 }}
+
+                value={expectedTimeMax}
               />
             </Form>
           </div>
@@ -377,8 +404,11 @@ const Filter = (props) => {
                 min="0"
                 placeholder="Min"
                 onChange={(event) => {
+                  if (parseFloat(event.target.value) >= parseFloat(lengthMax))
+                    setLengthMax(event.target.value);
                   setLengthMin(event.target.value);
                 }}
+                value={lengthMin}
               />
             </Form>
             <Form>
@@ -388,8 +418,16 @@ const Filter = (props) => {
                 min="0"
                 placeholder="Max"
                 onChange={(event) => {
-                  setLengthMax(event.target.value);
+                  lengthMin && event.target.value
+                    ? setLengthMax(
+                      parseFloat(event.target.value) >= parseFloat(lengthMin)
+                        ? event.target.value
+                        : lengthMax === ""
+                          ? parseFloat(lengthMin)
+                          : "")
+                    : setLengthMax(event.target.value);
                 }}
+                value={lengthMax}
               />
             </Form>
           </div>
@@ -414,64 +452,132 @@ const Filter = (props) => {
       </Row>
       {range != 0 ? (
         <>
-          <Row className="mt-3">
-            <Col>
-              <MapContainer
-                style={{ height: "50vh" }}
-                center={center}
-                scrollWheelZoom={true}
-                whenCreated={(map) => this.setState({ map })}
-                zoom={ZOOM_LEVEL}
-                setView={true}
-              >
-                {marker ? (
-                  <Circle center={marker.getLatLng()} radius={range} />
-                ) : (
-                  <></>
-                )}
-                <TileLayer
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                  url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                {props.hikes.map((hike, index) => {
-                  return (
-                    <Marker
-                      key={index}
-                      position={[hike.latitude, hike.longitude]}
-                      icon={icon}
-                    >
-                      <Popup>{hike.title}</Popup>
-                    </Marker>
-                  );
-                })}
-                {currentPosition ? (
-                  <LocationMarker
-                    saveMarkers={saveMarkers}
-                    range={range}
-                    circle={circle}
-                    id={"location"}
-                  />
-                ) : (
-                  <AddMarker
-                    saveMarkers={saveMarkers}
-                    marker={marker}
-                    circle={circle}
-                    range={range}
-                  />
-                )}
-              </MapContainer>
+          {/* TODO: Eliminare tutti i componenti <Form> e lasciare solo i componenti <Form.Select>. Sprint #3 */}
+          {/* TODO: Dividere in 2 sottocomponenti ed importarli */}
+          {/* Geographical area and ascent filters*/}
+          <Row>
+            <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
+              <Form.Select data-testid="region-select" value={region} className='mt-3 mt-sm-3' onChange={(event) => handleRegion(event)} >
+                <option value={0}>Region</option>
+                {__REGIONS.map(r => (
+                  <option key={r.regione} value={r.regione}>{r.nome}</option>
+                ))}
+              </Form.Select>
+            </Col>
+            <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
+              <Form.Select data-testid="province-select" value={province} className='mt-3 mt-sm-3' disabled={isRegionUnselected} onChange={(event) => handleProvince(event)} >
+                <option value={0}>Province</option>
+                {getProvinceForRegion(parseInt(region)).map(p => (
+                  <option key={p.provincia} value={p.provincia}>{p.nome}</option>
+                ))}
+              </Form.Select>
+            </Col>
+            <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }}>
+              <Form.Select data-testid="city-select" className='mt-3 mt-sm-3' value={city} disabled={isProvinceUnselected} onChange={(event) => { setCity(event.target.value) }}>
+                <option value={0}>City</option>
+                {getCitiesForProvince(parseInt(province)).map(c => (
+                  <option key={c.comune} value={c.nome}>{c.nome}</option>
+                ))}
+              </Form.Select>
+            </Col>
+            <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }}>
+              <Form className='my-2 mt-sm-2 mt-lg-0' >
+                <span>Range of {range} {''} mt</span>
+                <Form.Range data-testid="range-select" value={range} min='0' max='100000' onChange={(e) => { setRange(e.target.value) }} />
+              </Form>
             </Col>
           </Row>
-          <Row className=" mt-3">
-            <Button
-              className="d-sm"
-              onClick={() => {
-                handlePosition();
-              }}
-            >
-              Your Position
-            </Button>
+          {/* Other filters*/}
+          <Row className='align-items-end mt-sm-2 mt-md-0'>
+            <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }}>
+              <Form.Select data-testid="difficulty-select" value={difficulty} onChange={(event) => { setDifficulty(event.target.value) }}>
+                <option value={0}>Difficulty</option>
+                {constFilter[2].map((item, index) => {
+                  return (
+                    <option key={index} value={item.title}>{item.title}</option>
+                  )
+                })}
+              </Form.Select>
+            </Col>
+            <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }}>
+              <p className='fw-bold my-2 my-sm-2 mt-md-0 mb-0'>Ascent (mt)</p>
+              <div className='d-flex'>
+                <Form className='pe-2'>
+                  <Form.Control data-testid="ascent-select-min" type='number' min='0' placeholder='Min' onChange={(event) => { setAscentMin(event.target.value) }} />
+                </Form>
+                <Form>
+                  <Form.Control data-testid="ascent-select-max" type='number' min='0' placeholder='Max' onChange={(event) => { setAscentMax(event.target.value) }} />
+                </Form>
+              </div>
+            </Col>
+            <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }}>
+              <p className='fw-bold my-2 my-sm-2 mb-0'>Expected time (hr)</p>
+              <div className='d-flex'>
+                <Form className='pe-2'>
+                  <Form.Control data-testid="expectedTime-select-min" type='number' min='0' placeholder='Min' onChange={(event) => { setExpectedTimeMin(event.target.value) }} />
+                </Form>
+                <Form>
+                  <Form.Control data-testid="expectedTime-select-max" type='number' min='0' placeholder='Max' onChange={(event) => { setExpectedTimeMax(event.target.value) }} />
+                </Form>
+              </div>
+            </Col>
+            <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }}>
+              <p className='fw-bold my-2 my-sm-2 mb-0'>Length (km)</p>
+              <div className='d-flex'>
+                <Form className='pe-2'>
+                  <Form.Control data-testid="length-select-min" type='number' min='0' placeholder='Min' onChange={(event) => { setLengthMin(event.target.value) }} />
+                </Form>
+                <Form>
+                  <Form.Control data-testid="length-select-max" type='number' min='0' placeholder='Max' onChange={(event) => { setLengthMax(event.target.value) }} />
+                </Form>
+              </div>
+            </Col>
+            <Col className='mt-3 mt-sm-3'>
+              <Button variant='secondary' className='me-3' onClick={handleReset}>
+                <BiReset /> Reset
+              </Button>
+              <Button onClick={() => { handleSearch() }}>
+                <BsSearch /> Search
+              </Button>
+            </Col>
           </Row>
+          {
+            range != 0 ?
+              <>
+                <Row className='mt-3'>
+                  <Col>
+                    <MapContainer
+                      style={{ height: "50vh" }}
+                      center={center} scrollWheelZoom={true} whenCreated={(map) => this.setState({ map })} zoom={ZOOM_LEVEL} setView={true}>
+                      {marker ?
+                        <Circle center={marker.getLatLng()} radius={range} /> : <></>}
+                      <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+                      />
+                      {props.hikes.map((hike, index) => {
+                        return (
+                          <Marker key={index} position={[hike.latitude, hike.longitude]} icon={icon}>
+                            <Popup>
+                              {hike.title}
+                            </Popup>
+                          </Marker>
+                        )
+                      })}
+                      {currentPosition ? <LocationMarker saveMarkers={saveMarkers} range={range} circle={circle} id={'location'} /> :
+                        <AddMarker saveMarkers={saveMarkers} marker={marker} circle={circle} range={range} />}
+                    </MapContainer>
+                  </Col>
+
+                </Row>
+                <Row className=' mt-3'>
+                  <Button className='d-sm' onClick={() => { handlePosition() }}>
+                    Your Position
+                  </Button>
+                </Row>
+              </>
+              : <></>
+          }
         </>
       ) : (
         <></>
