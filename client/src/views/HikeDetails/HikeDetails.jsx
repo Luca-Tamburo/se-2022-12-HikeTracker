@@ -58,11 +58,11 @@ const HikeDetails = (props) => {
   const [loading, setLoading] = useState(false);
 
   const startIcon = L.icon({
-    iconUrl: require("./icons8-start-64.png"),
+    iconUrl: require("../../assets/mapIcons/start.png"),
     iconSize: [30, 30],
   });
   const endIcon = L.icon({
-    iconUrl: require("./icons8-finish-flag-64.png"),
+    iconUrl: require("../../assets/mapIcons/finish.png"),
     iconSize: [30, 30],
   });
 
@@ -165,7 +165,7 @@ const HikeDetails = (props) => {
               </Col>
               {isloggedIn ? (
                 <Col xs={7} className="m-0">
-                  <MapContainer center={start} zoom={11} scrollWheelZoom={true}>
+                  <MapContainer center={start} zoom={13} scrollWheelZoom={true}>
                     <TileLayer
                       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                       url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
