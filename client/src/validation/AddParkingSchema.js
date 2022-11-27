@@ -23,4 +23,13 @@ const AddParkingSchema = Yup.object().shape({
     description: Yup.string().required('Parking description requested'),
 });
 
-export default AddParkingSchema;
+const AddParkingSchemaMap = Yup.object().shape({
+    title: Yup.string().required('Parking name requested'),
+    altitude: Yup.number().required('Parking altitude required'),
+    region: Yup.string().required('Parking region required'),
+    province: Yup.string().required('Parking province required'),
+    city: Yup.string().required('Parking city required'),
+    description: Yup.string().required('Parking description requested'),
+});
+
+export { AddParkingSchema, AddParkingSchemaMap };
