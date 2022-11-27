@@ -164,6 +164,10 @@ const AddParking = (props) => {
             >
                 {({ values, handleSubmit, touched, isValid, setFieldValue }) => {
                     const disableSubmit = (!touched.title && !touched.photoFile && !touched.latitude && !touched.longitude && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description) || !isValid;
+                    const disableSubmit2 = (!touched.title && !touched.photoFile && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description) 
+
+                    console.log(disableSubmit,disableSubmit2)
+
                     return (
                         <Row>
                             <Col xs={6} className="mt-3 ms-5">
@@ -203,7 +207,7 @@ const AddParking = (props) => {
                                             );
                                         })}
                                         <CustomField.TextArea className="mt-3" id="description" name="description" placeholder="Insert the hut description" label="Description" />
-                                        <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}>
+                                        <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={mapPosition ?disableSubmit2: disableSubmit}>
                                             {loading && (<Spinner animation="border" size="sm" as="span" role="status" aria-hidden="true" className="me-2" />)}
                                             Submit
                                         </Button>
