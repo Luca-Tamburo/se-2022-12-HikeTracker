@@ -12,7 +12,29 @@
 Here you can find a visual schema of source directory structure by means the tree chart below and a short description for each folder.
 
 ```structure
+
 |--- /client
+     |--- /cypress
+          |--- /downloads
+          |--- /e2e
+               |--- /addHike.e2e.cy.js
+               |--- /addHut.e2e.cy.js
+               |--- /addParking.e2e.cy.js
+               |--- /hikeDetails.e2e.cy.js
+               |--- /hikes.e2e.cy.js
+               |--- /home.e2e.cy.js
+               |--- /homeRouting.e2e.cy.js
+               |--- /login.e2e.cy.js
+               |--- /RigthFile.gpx
+          |--- /fixtures
+               |--- /example.json
+          |--- /integration
+          |--- /plugin
+               |--- /index.js
+          |--- /support
+               |--- /commands.js
+               |--- /e2e.js
+               |--- /index.js
      |--- /public
           |--- /favicon.ico
           |--- /index.html
@@ -22,22 +44,40 @@ Here you can find a visual schema of source directory structure by means the tre
           |--- /robots.txt
      |--- /src
           |--- /assets
+               |--- /localGuideService
+                    |--- /AddHikeService.png
+                    |--- /AddHutService.png
+                    |--- /AddParkingService.png
                |--- /logo
                     |--- /logo-black.png
                     |--- /logo-color.png
                     |--- /logo-no-background.png
                     |--- /logo-white.png
+               |--- /mapIcons
+                    |--- /finish.png
+                    |--- /mountain.png
+                    |--- /start.png
+               |--- /authenticationImg.jpg
+               |--- /femaleImg.jpg
                |--- /homeImg.jpg
-               |--- /login.svg
-               |--- /homeImge.jpg
+               |--- /loginImage.svg
+               |--- /maleImage.svg
+               |--- /registerImg.svg
           |--- /components
                |--- /ui-core
                     |--- /HikeCard
                          |--- /HikeCard.css
                          |--- /HikeCard.jsx
                          |--- /HikeCard.test.jsx
+                    |--- /LocalGuideServiceCard
+                         |--- /LocalGuideServiceCard.css
+                         |--- /LocalGuideServiceCard.jsx
+                         |--- /LocalGuideServiceCard.test.jsx
+                    |--- /Locate
+                         |--- /AddMarker.jsx
+                         |--- /LocationMarker.jsx
+                         |--- /SetYourLocation.test.jsx
                     |--- /LoginForm
-                         |--- /Input.jsx
                          |--- /LoginForm.jsx
                          |--- /LoginForm.test.jsx
                     |--- /Navbar
@@ -47,38 +87,75 @@ Here you can find a visual schema of source directory structure by means the tre
                     |--- /RegisterForm
                          |--- /RegisterForm.jsx
                          |--- /RegisterForm.test.jsx
+                         |--- /RegisterFormAdvanced.test.jsx
                     |--- /index.js
                |--- /utils
                     |--- /AppContainer
                          |--- /AppContainer.jsx
                          |--- /AppContainer.test.jsx
                     |--- /Filter
+                         |--- /Filter.css
                          |--- /Filter.jsx
                          |--- /Filter.test.jsx
+                    |--- /Input
+                         |--- /Check.jsx
+                         |--- /index.jsx
+                         |--- /Input.jsx
+                         |--- /Input.test.jsx
+                         |--- /Select.jsx
+                         |--- /Select.test.jsx
+                         |--- /TextArea.jsx
+                         |--- /TextArea.test.jsx
+                    |--- /ProtectedRoute
+                         |--- /LocalGuideProtectedRoute.jsx
+                         |--- /ProtectedRoute.jsx
                     |--- /index.js
                     |--- /Input.jsx
                |--- /index.js
           |--- /constants
+               |--- /AddHikeForm.js
+               |--- /AddHutForm.js
+               |--- /AddParkingForm.js
                |--- /Filter.js
                |--- /index.js
+               |--- /LocalGuideService.js
+               |--- /registerAdvancedForm.js
+               |--- /registerForm.js
           |--- /contexts
                |--- /AuthContext.jsx
+          |--- /data
+               |--- /cities.json
+               |--- /provinces.json
+               |--- /regions.json
           |--- /hooks
                |--- /useNotification.js
+          |--- /lib
+               |--- /helpers
+                    |--- /location.js
           |--- /services
                |--- /api.js
           |--- /validation
                |--- /AddHikeSchema.js
+               |--- /AddHutSchema.js
+               |--- /AddParkingSchema.js
                |--- /LoginSchema.js
                |--- /RegisterAdvancedSchema.js
                |--- /RegisterSchema.js
           |--- /views
                |--- /AddHike
                     |--- /AddHike.jsx
-                    |--- /AddHike.test.jsx     TBD
-               |--- /EmailConfView
+                    |--- /AddHike.test.jsx
+               |--- /AddHut
+                    |--- /AddHut.jsx
+                    |--- /AddHut.test.jsx
+               |--- /AddParking
+                    |--- /AddParking.jsx
+                    |--- /AddParking.test.jsx
+               |--- /Email
                     |--- /EmailConf.jsx
+                    |--- /EmailConf.test.jsx
                     |--- /EmailErr.jsx
+                    |--- /EmailErr.test.jsx
                |--- /ErrorView
                     |--- /ErrorView.jsx
                     |--- /ErrorView.test.jsx
@@ -87,11 +164,14 @@ Here you can find a visual schema of source directory structure by means the tre
                     |--- /Hike.test.jsx
                |--- /HikeDetails
                     |--- /HikeDetails.jsx
-                    |--- /HikeDetails.test.jsx  TDB
+                    |--- /HikeDetails.test.jsx 
                |--- /Home
                     |--- /Home.css
+                    |--- /Home.jsx  
                     |--- /Home.test.jsx  
-                    |--- /Home.test.jsx  
+               |--- /LocalGuidePage
+                    |--- /LocalGuidePage.jsx
+                    |--- /LocalGuidePage.test.jsx
                |--- /Login
                     |--- /Login.jsx
                     |--- /Login.test.jsx
@@ -108,6 +188,7 @@ Here you can find a visual schema of source directory structure by means the tre
           |--- /reportWebVitals.js
           |--- /setupTests.js
      |--- /.gitignore
+     |--- /.cypress.config.js
      |--- /package-lock.json
      |--- /package.json
      |--- /README.md
@@ -127,15 +208,23 @@ This component contains the login form that calls the correlated API on submit.
 
 This component contains the register form that calls the correlated API on submit.
 
-### `Navbar`
+### `Filter`
 
-This component is a navigation bar with links to home, login and signup pages
+This component manages the filters.
 
 ## Main react views
 
 ### `Add Hike`
 
 This page shows the form to add a hike.
+
+### `Add Hut`
+
+This page shows the form and the map to add an hut.
+
+### `Add Parking`
+
+This page shows the form and the map to add a parking lot.
 
 ### `Hike`
 
