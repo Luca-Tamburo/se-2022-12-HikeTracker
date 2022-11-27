@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "test:watch": "npm run test -- --watch",
-    "start": "nodemon index.js",
+    "start": "node index.js",
+    "dev":"nodemon index.js",
     "test_coverage": "jest --coverage",
     "test_integration": "npx mocha test/integrationTest  --runInBand --require mocha-steps --reporter mochawesome --timeout 30000 --exit"
   },

@@ -14,16 +14,87 @@ Project developed by ***Team-12*** for the course "Software Engineering II," att
 
 ## Table of Contents
 
-1. [React Client Application Routes](#react-client-application-routes)
-2. [API Server](#api-server)
-3. [Database Tables](#database-tables)
-4. [Testing](#testing)
+1. [Docker Documentation](#docker-documentation)
+   - [Development](#development)
+   - [Tests](#tests)
+   - [Deploy on Docker Hub](#Deploy-on-Docker-Hub)
+   - [Pull from Docker Hub](#Pull-from-Docker-Hub)
+2. [React Client Application Routes](#react-client-application-routes)
+3. [API Server](#api-server)
+4. [Database Tables](#database-tables)
+5. [Testing](#testing)
    - [Client](#client)
    - [Server](#server)
-5. [Technologies](#technologies)
+6. [Technologies](#technologies)
    - [Frontend](#frontend)
    - [Backend](#backend)
-6. [Team members](#team-members)
+7. [Team members](#team-members)
+
+## Docker Documentation
+
+### Development
+
+This command allows to run both client and server in development mode.
+
+```
+docker-compose up
+```
+
+### Tests
+
+You can run tests in interactive mode with commands:
+
+```
+docker-compose run --rm client-tests
+docker-compose run --rm server-tests
+```
+
+For running both tests and the app (suitable for a fast check, not for the real development):
+
+```
+docker-compose --profile test up
+```
+
+### Production
+
+```
+docker-compose -f docker-compose.prod.yml stop && docker-compose -f docker-compose.prod.yml up --build -d
+```
+
+the ```-f``` flag is for custom docker file path
+
+### Deploy on Docker Hub
+
+Be sure that the .env file is in /server directory
+
+```
+docker login
+docker-compose -f docker-compose.prod.yml build
+docker-compose -f docker-compose.prod.yml push
+```
+
+### Pull from Docker Hub
+
+This repo has two images, one for the user interface and one for the server logic. Both images can be pulled with:
+
+```
+docker pull antoniocolelli/se2022_group_12:client
+docker pull antoniocolelli/se2022_group_12:server
+```
+
+When images are built, you can run them with:
+
+```
+docker run -d -p 3001:3001 --name se12-server antoniocolelli/se2022_group_12:server
+docker run -d -p 3000:80 --name se12-client --link se12-server:server antoniocolelli/se2022_group_12:client
+```
+The app can be reached on http://localhost:3000
+
+Note:
+
+- the images se12-client depends on the se12-server one, so this must be run first
+- in case of name conflicts, remove the containers with ```docker rm <name>``` and run again the commands above
+
 
 ## React Client Application Routes
 

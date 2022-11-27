@@ -14,7 +14,8 @@
 import axios from "axios";
 
 // Server setup
-const SERVER_URL = 'http://localhost:3001/api/';
+const SERVER_PORT=process.env.NODE_ENV==="production"?80:3001;
+const SERVER_URL = `http://localhost:${SERVER_PORT}/api/`;
 
 const api = {
 
