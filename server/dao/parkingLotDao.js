@@ -8,20 +8,14 @@ const getMock = () => {
 const db = iAmTesting() ? getMock() : require('./openDb');
 
 /**
- * Insert a new hut
- * @param {number} roomsNumber how many rooms in there
- * @param {number} bedsNumber how many beds in total
- * @param {string} whenIsOpen ...
- * @param {string} phoneNumber ...
- * @param {string} photoFile the link of a photoFile of the hut
- * @param {string} website the website of the hut
+ * Insert a new parking lot
+ * @param {number} capacity how much veichles enter in the parking lot
  * @param {number} pointId the ID of the point that identifies where the hut is
  */
-
- exports.addHut = (roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photoFile, website,pointId) => {
+ exports.addParkingLot = (capacity,pointId) => {
     return new Promise((resolve, reject) => {
-        let sql = "INSERT INTO Hut(roomsNumber,bedsNumber,whenIsOpen,phoneNumber,photoFile,website,pointId) VALUES (?,?,?,?,?,?,?)";
-        db.run(sql, [roomsNumber,bedsNumber,whenIsOpen,phoneNumber,photoFile,website,pointId], function (err) {
+        let sql = "INSERT INTO ParkingLot(capacity,pointId) VALUES (?,?)";
+        db.run(sql, [capacity,pointId], function (err) {
             if (err) {
                 reject(err);
             }
@@ -32,9 +26,9 @@ const db = iAmTesting() ? getMock() : require('./openDb');
     });
 }
 
-exports.getHutById = (id) => {
+exports.getParkingLotById = (id) => {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM Hut WHERE id = ?';
+        const sql = 'SELECT * FROM ParkingLot WHERE id = ?';
         db.get(sql, [id], (err, r) => {
             if (err) {
                 reject(err);
@@ -45,11 +39,7 @@ exports.getHutById = (id) => {
                 resolve(
                     {
                         id : r.id,
-                        roomsNumber : r.roomsNumber,
-                        bedsNumber : r.bedsNumber,
-                        whenIsOpen : r.whenIsOpen,
-                        phoneNumber : r.phoneNumber,
-                        photoFile : r.photoFile,
+                        capacity : r.capacity,
                         pointId : r.pointId
                     }
                 );

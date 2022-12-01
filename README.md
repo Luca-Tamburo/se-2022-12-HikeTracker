@@ -281,9 +281,10 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
      "latitude": 44.57426,
      "longitude": 6.98264,
      "altitude": 3094,
+     "capacity": 30,
      "city": "Condove",
      "province": "Torino ",
-     "region": "Piemonte"
+     "region": "Piemonte",
   }
 
   ```
@@ -317,7 +318,9 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
      "roomsNumber": 2,
      "bedsNumber": 3,
      "phoneNumber": "+393323232232",
-     "photoFile": "http:// ... "
+     "photoFile": "http:// ... ",
+     "website": "http:// ... "
+
   }
 
   ```

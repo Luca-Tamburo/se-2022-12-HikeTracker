@@ -5,8 +5,8 @@ const { iAmTesting, setTesting } = require('../mockDB/iAmTesting');
 setTesting(1);
 const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 
-const { addHut, getHutById} = require('../../dao/hutDao');
-const { addPoint} = require('../../dao/pointDao');
+const { addHut, getHutById } = require('../../dao/hutDao');
+const { addPoint } = require('../../dao/pointDao');
 
 const cleanDb = async () => {
     await deleteDatabase()
@@ -18,7 +18,7 @@ describe("test huts", () => {
     beforeAll(async () => {
         await cleanDb();
     });
-    
+
     // Call tests
     testaddHut(4, 16, "null", "+393409728904", "https://some/photo/link", 1)
 });
@@ -26,7 +26,7 @@ describe("test huts", () => {
 function testaddHut(roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photoFile, pointId) {
     test("test addHut", async () => {
         let id = await addHut(roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photoFile, pointId);
-        let hut= await getHutById(id);
+        let hut = await getHutById(id);
         expect(hut).toEqual(
             {
                 "id": 1,

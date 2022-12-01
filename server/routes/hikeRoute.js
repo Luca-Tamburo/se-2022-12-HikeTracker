@@ -26,7 +26,7 @@ const sessionUtil = require("../utils/sessionUtil");
 const isLoggedInLocalGuide = sessionUtil.isLoggedInLocalGuide;
 const isLoggedIn = sessionUtil.isLoggedIn;
 const fs = require('fs');
-const {difficultyValidator, difficultyFormatter} = require("../utils/hikesUtils");
+const { difficultyValidator, difficultyFormatter } = require("../utils/hikesUtils");
 const dayjs = require("dayjs");
 
 
@@ -71,7 +71,7 @@ router.post('/hikes',
                 const track = await parseGpx(req.files.File.data);
 
                 //Find total distance using a parse-gpx function (in km with 3 decimal places)
-                totalLength = (track.totalDistance() / 1000).toFixed(3); 
+                totalLength = (track.totalDistance() / 1000).toFixed(3);
 
                 //trova punto più basso (che sicuramente è quello iniziale, però ho pensato che magari dal punto di partenza scendi un po' e poi risali, quindi nel dubbio lo trovo)
                 //    EDIT NON POSSO FARE QUEL RAGIONAMENTO. MOTIVO: PRENDI 1_MONTE_FERRA.GPX. RIGO 87 ALTEZZA 1754, DAL NULLA PERCHè PRECEDENTE E SUCCESSIVO SONO A 1800. 
@@ -120,7 +120,7 @@ router.post('/hikes',
 
 // GET /api/hikegpx/:hikeId
 router.get('/hikegpx/:hikeId', check('hikeId').isInt().withMessage('hikeId must be a number'),
-isLoggedIn, async (req, res) => {
+    isLoggedIn, async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty())
             return res.status(422).json({ error: `Wrong hikeId` });

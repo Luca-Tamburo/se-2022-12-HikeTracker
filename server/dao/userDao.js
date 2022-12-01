@@ -69,8 +69,8 @@ exports.getUserAllInfosById = (id) => {
                     id: row.id,
                     email: row.email,
                     username: row.username,
-                    name: row.name ? nomiMaiuscoli(row.name) : undefined,
-                    surname: row.surname ? nomiMaiuscoli(row.surname) : undefined,
+                    name: row.name ,
+                    surname: row.surname ,
                     role: row.role,
                     phoneNumber: row.phoneNumber,
                     gender:row.gender
@@ -98,8 +98,8 @@ exports.getUser = (email, password) => {
                     id: row.id,
                     email: row.email,
                     username: row.username,
-                    name: row.name ? nomiMaiuscoli(row.name) : undefined,
-                    surname: row.surname ? nomiMaiuscoli(row.surname) : undefined,
+                    name: row.name ,
+                    surname: row.surname ,
                     role: row.role,
                     phoneNumber: row.phoneNumber,
                     gender:row.gender
@@ -187,7 +187,7 @@ exports.addUser = async (email, username, role, name, surname, gender,phoneNumbe
     const hashedPassword = await getHashPass(password);
     return new Promise((resolve, reject) => {
         const sql = "INSERT INTO user(email, username, role, name, surname,gender, phoneNumber, hash, salt,confirmationCode,verifiedEmail) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-        db.run(sql, [email, username, role, name, surname,gender, phoneNumber, hashedPassword, salt, confirmationCode, 0],
+        db.run(sql, [email, username, role, name?nomiMaiuscoli(name):name, surname?nomiMaiuscoli(surname):surname,gender, phoneNumber, hashedPassword, salt, confirmationCode, 0],
             function (err) {
                 if (err) {
 

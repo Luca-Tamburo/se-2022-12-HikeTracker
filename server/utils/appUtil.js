@@ -12,7 +12,9 @@ const fileupload = require("express-fileupload");
 const sessionRoute = require("../routes/sessionRoute");
 const signUpRoute = require("../routes/signUpRoute");
 const hikeRoute = require("../routes/hikeRoute");
-const pointRoute = require("../routes/pointRoute");
+const parkingLotRoute = require("../routes/parkingLotRoute");
+const hutRoute = require("../routes/hutRoute");
+const path = require('path');
 
 
 const app = new express();
@@ -22,7 +24,9 @@ const port = 3001;
 app.use(fileupload());
 app.use(express.urlencoded({ extended: true }));
 
-
+//to make public the server images
+app.use('/images/hikes', express.static(path.join(__dirname, `./images/hikes`)));
+app.use('/images/huts', express.static(path.join(__dirname, `./images/huts`)));
 // set-up the middlewares
 app.use(morgan("dev"));
 app.use(express.json());
@@ -53,7 +57,7 @@ app.use(passport.session());
 
 
 /* --- APIs --- */
-app.use("/api", sessionRoute, signUpRoute, hikeRoute, pointRoute);
+app.use("/api", sessionRoute, signUpRoute, hikeRoute, parkingLotRoute,hutRoute);
 
 
 // activate the server
