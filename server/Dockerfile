@@ -1,29 +1,13 @@
-FROM node:16 as base
-
-LABEL version="0.0.1"
-
+FROM node:18
 WORKDIR /app
-COPY package*.json ./
-
-# testing target
-
-FROM base as test
-RUN npm ci --silent
+COPY package.json /app
+RUN npm install 
 COPY . .
-CMD "npm" "run" "test"
-
-# development target
-
-FROM base as development
-RUN npm install --silent
-COPY . .
+CMD [ "node", "index.js" ]
 EXPOSE 3001
-CMD "npm" "run" "dev"
 
-# prudction target
+##installazione##
+#docker build -t server .
 
-FROM base as production
-RUN npm ci --silent 
-COPY . .
-EXPOSE 3001
-CMD "npm" "run" "start"
+##per far partire solo il server##
+#docker run -p 3001:3001 server

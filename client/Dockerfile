@@ -1,23 +1,13 @@
-FROM node:16 as base
-
-LABEL version="0.0.1"
-
+FROM node:18
 WORKDIR /app
-COPY package*.json ./
-
-# testing target
-
-FROM base as test
-RUN npm ci --silent
-RUN mkdir node_modules/.cache && chmod -R 777 node_modules/.cache
+COPY package.json /app
+RUN npm install 
 COPY . .
-CMD "npm" "test"
-
-# development target
-
-FROM base as development
-RUN npm install --silent
-RUN mkdir node_modules/.cache && chmod -R 777 node_modules/.cache
-COPY . .
+CMD [ "npm", "start" ]
 EXPOSE 3000
-CMD "npm" "start"
+
+##installazione##
+#docker build -t client .
+
+##per far partire solo il client##
+#docker run -p 3000:3000 client

@@ -82,7 +82,7 @@ router.post("/signup", isNotLoggedIn,
             const jwt = sign(data, secret);
 
             //creo l'url
-            const url = `http://localhost:${process.env.CLIENT_PORT || 3000}/api/signup/` + jwt;
+            const url = "http://localhost:3001/api/signup/" + jwt;
 
 
             const name = req.body.name ? req.body.name.trim() : null;
@@ -110,17 +110,9 @@ router.get("/signup/:confirmationCode",
             const ok = await userDao.activateUser(req.params.confirmationCode);
 
             //se tutto ok, ritorno una pagina html di conferma, altrimenti una pagina html di errore
-            if (ok) {
-                if (process.env.NODE_ENV === "production")
-                    res.status(200).sendFile(path.join(__dirname, '..//utils/afterConfirmEmailPages/confirmProd.html'))
-                else
-                    res.status(200).sendFile(path.join(__dirname, '..//utils/afterConfirmEmailPages/confirm.html'))
-            } else {
-                if (process.env.NODE_ENV === "production")
-                    res.status(200).sendFile(path.join(__dirname, '..//utils/afterConfirmEmailPages/errorProd.html'))
-                else
-                    res.status(404).sendFile(path.join(__dirname, '..//utils/afterConfirmEmailPages/error.html'))
-            }
+            ok ?
+                res.status(200).sendFile(path.join(__dirname, '..//utils/afterConfirmEmailPages/confirm.html')) :
+                res.status(404).sendFile(path.join(__dirname, '..//utils/afterConfirmEmailPages/error.html'))
         } catch (error) { res.status(503).json({ error: `Service unavailable` }); }
     });
 
