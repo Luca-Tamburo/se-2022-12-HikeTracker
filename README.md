@@ -28,7 +28,7 @@ Project developed by ***Team-12*** for the course "Software Engineering II," att
 
 ## Docker Documentation
 
-Docker documentation is available <a href="https://hub.docker.com/repository/docker/antoniocolelli/se2022_group_12" target="_blank">here</a> (Repository README)
+Docker documentation is available <a href="https://hub.docker.com/repository/docker/antoniocolelli/se-2022-12-hiketracker" target="_blank">here</a> (Repository README)
 
 
 ## React Client Application Routes
