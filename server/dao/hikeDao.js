@@ -47,7 +47,19 @@ exports.addHike = (title, description, length, expectedTime, ascent, difficulty,
                         if (err) {
                             reject(err);
                         } else {
-                            resolve(this.lastID);
+                            if (!photoFile) {
+                                const imgUrl = `http://localhost:3001/images/hikes/${this.lastID}_${title.replace(/ /g, '_')}.png`
+                                sql = "UPDATE Hike SET photoFile=? WHERE id=?";
+                                db.run(sql, [imgUrl, this.lastID], (err) => {
+                                    if (err) {
+                                        reject(err);
+                                    } else {
+                                        resolve(this.lastID);
+                                    }
+                                });
+                            } else {
+                                resolve(this.lastID);
+                            }
                         }
                     });
                 }

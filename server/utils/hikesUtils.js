@@ -9,7 +9,7 @@ const typeValidator = (inputType) => {
 const difficultyValidator = (inputDiff) => {
     const diff = inputDiff.toLowerCase();
     //tourist,hiker,professional hiker
-    return (diff === "tourist" || diff === "hiker" || diff === "professional hiker" );
+    return (diff === "tourist" || diff === "hiker" || diff === "professional hiker");
 };
 
 const typeFormatter = (type) => {
@@ -43,4 +43,10 @@ const difficultyFormatter = (difficulty) => {
     }
     return difficultyFormatted;
 }
-module.exports = { typeValidator,difficultyValidator,typeFormatter,difficultyFormatter };
+
+const photoUrlValidator = async (photoUrl) => {
+    const isImageURL = require('image-url-validator').default;
+    return await isImageURL(photoUrl);
+}
+
+module.exports = { typeValidator, difficultyValidator, typeFormatter, difficultyFormatter, photoUrlValidator };

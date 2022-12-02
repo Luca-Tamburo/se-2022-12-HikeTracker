@@ -20,14 +20,14 @@ const { Point } = require('../models/pointModel');
 const path = require('path');
 const { check, validationResult } = require("express-validator"); // validation middleware
 const { checksValidation } = require("../utils/validationUtil");
-
 const parseGpx = require('parse-gpx');
 const sessionUtil = require("../utils/sessionUtil");
 const isLoggedInLocalGuide = sessionUtil.isLoggedInLocalGuide;
 const isLoggedIn = sessionUtil.isLoggedIn;
 const fs = require('fs');
-const { difficultyValidator, difficultyFormatter } = require("../utils/hikesUtils");
+const { difficultyValidator, difficultyFormatter, photoUrlValidator } = require("../utils/hikesUtils");
 const dayjs = require("dayjs");
+const { getCityProvinceRegion } = require("../utils/geoUtils");
 
 
 /**
@@ -52,15 +52,56 @@ router.post('/hikes',
     check("description").exists().withMessage("This field is mandatory").bail().isString(),
     check("expectedTime").exists().withMessage("This field is mandatory").bail().isFloat({ gt: 0 }),
     check("difficulty").exists().withMessage("This field is mandatory").bail().isString().custom((value, { req }) => (difficultyValidator(value))).withMessage("Invalid difficulty"),
-    check("photoFile").exists().withMessage("This field is mandatory").bail().isString(),
+    check("photoFile").exists().optional({ checkFalsy: true }).isString(),
     checksValidation, async (req, res) => {
 
         try {
+
+            //controllo che sia stato inviato un file nello spazio per il gpx
             if (!req.files || req.files.File === undefined) {
                 return res.status(422).json({ error: `No GPX sent` });
             }
 
-            // Variables needed outside the try
+            //controllo che sia stato inviato un file nello spazio per la foto oppure che sia stato scritto qualcosa nel campo photofile
+            if ((!req.body.photoFile || req.body.photoFile === undefined) && (!req.files || req.files.Image === undefined)) {
+                return res.status(422).json({ error: `No image sent` });
+            }
+
+            ////////////////////////////////////////// CONTROLLI APPROFONDITI SULLA FOTO DA INVIARE //////////////////////
+
+            //controllo se lo url è utilizzabile
+            let urlValid = -1;
+            if (req.body.photoFile && req.body.photoFile !== undefined) { //qui entro se ho qualcosa nell'url
+                //controllo che url sia valido
+                urlValid = await photoUrlValidator(req.body.photoFile);
+            }
+
+            //controllo se immagine è utilizzabile
+            let uploadedImage = -1;
+            if (req.files && req.files.Image !== undefined) { //qui entro se ho qualcosa nell'immagine
+                const type = (req.files.Image.mimetype.split("/"))[0];
+                if (type === 'image')
+                    uploadedImage = true;
+                else
+                    uploadedImage = false;
+            }
+
+            //faccio un po' di combinazioni di errori
+            if (urlValid === -1 && uploadedImage === false)
+                return res.status(422).json({ error: `Wrong file sent. Please upload an image file.` });
+            else if (urlValid === false && uploadedImage === -1)
+                return res.status(422).json({ error: `Wrong url sent. Please send a correct url corresponding to an image file.` });
+            else if (urlValid === false && uploadedImage === false)
+                return res.status(422).json({ error: `Both url and file you sent are wrong. Please better check your inputs.` });
+
+            ////////////////////////////////////////// FINE CONTROLLI APPROFONDITI SULLA FOTO DA INVIARE //////////////////////
+
+
+
+
+            ////////////////////////////////////////// ELABORAZIONE DEL GPX //////////////////////
+
+            // GPX informations Variables needed outside the try
             let totalLength;
             let finalTrackPoint;
             let initialTrackPoint;
@@ -69,7 +110,6 @@ router.post('/hikes',
             //Use gpx file
             try {
                 const track = await parseGpx(req.files.File.data);
-
                 //Find total distance using a parse-gpx function (in km with 3 decimal places)
                 totalLength = (track.totalDistance() / 1000).toFixed(3);
 
@@ -97,10 +137,17 @@ router.post('/hikes',
                 return res.status(422).json({ error: `Wrong file sent. Please upload a gpx file.` });
             }
 
+            ////////////////////////////////////////// FINE ELABORAZIONE DEL GPX //////////////////////
+
+
             //Create startPoint and endPoint, hike and link hike-points in hikePoint
-            let pointOneId = await pointDao.addPoint("Just GPS coordinates", "Just GPS coordinates", "GPS coordinates", initialTrackPoint.latitude, initialTrackPoint.longitude, initialTrackPoint.elevation, undefined, undefined, undefined);
-            let pointTwoId = await pointDao.addPoint("Just GPS coordinates", "Just GPS coordinates", "GPS coordinates", finalTrackPoint.latitude, finalTrackPoint.longitude, finalTrackPoint.elevation, undefined, undefined, undefined);
-            const hikeId = await hikeDao.addHike(req.body.title, req.body.description, totalLength, req.body.expectedTime, ascent, difficultyFormatter(req.body.difficulty), pointOneId, pointTwoId, req.user.id, dayjs().format("YYYY-MM-DD"), req.body.photoFile);
+            let cpr = await getCityProvinceRegion(initialTrackPoint.latitude, initialTrackPoint.longitude);
+            let pointOneId = await pointDao.addPoint(cpr.name, cpr.name, cpr.type, initialTrackPoint.latitude, initialTrackPoint.longitude, initialTrackPoint.elevation, cpr.city, cpr.province, cpr.region);
+
+            cpr = await getCityProvinceRegion(finalTrackPoint.latitude, finalTrackPoint.longitude);
+            let pointTwoId = await pointDao.addPoint(cpr.name, cpr.name,cpr.type, finalTrackPoint.latitude, finalTrackPoint.longitude, finalTrackPoint.elevation, cpr.city, cpr.province, cpr.region);
+
+            const hikeId = await hikeDao.addHike(req.body.title, req.body.description, totalLength, req.body.expectedTime, ascent, difficultyFormatter(req.body.difficulty), pointOneId, pointTwoId, req.user.id, dayjs().format("YYYY-MM-DD"), uploadedImage === true ? null : req.body.photoFile);
             await pointDao.addPointHike(hikeId, pointOneId);
             await pointDao.addPointHike(hikeId, pointTwoId);
 
@@ -109,6 +156,12 @@ router.post('/hikes',
                 if (err) throw err;
             });
 
+            //Eventually create a png file and save it as IDHIKE_TITOLOHIKE.png
+            if (uploadedImage === true) {
+                fs.writeFileSync(`./utils/images/hikes/${hikeId}_${req.body.title.replace(/ /g, '_')}.png`, req.files.Image.data, function (err) {
+                    if (err) throw err;
+                });
+            }
             return res.status(201).json({ message: "Hike inserted in the system" });
 
         } catch (error) {

@@ -18,15 +18,30 @@ const db = iAmTesting() ? getMock() : require('./openDb');
  * @param {number} pointId the ID of the point that identifies where the hut is
  */
 
- exports.addHut = (roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photoFile, website,pointId) => {
+exports.addHut = (title,roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photoFile, website, pointId) => {
     return new Promise((resolve, reject) => {
         let sql = "INSERT INTO Hut(roomsNumber,bedsNumber,whenIsOpen,phoneNumber,photoFile,website,pointId) VALUES (?,?,?,?,?,?,?)";
-        db.run(sql, [roomsNumber,bedsNumber,whenIsOpen,phoneNumber,photoFile,website,pointId], function (err) {
+        db.run(sql, [roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photoFile, website, pointId], function (err) {
             if (err) {
                 reject(err);
             }
-            else
-                resolve(this.lastID);
+            else {
+
+                if (!photoFile) {
+                    const imgUrl = `http://localhost:3001/images/huts/${this.lastID}_${title.replace(/ /g, '_')}.png`
+                    sql = "UPDATE Hut SET photoFile=? WHERE id=?";
+                    db.run(sql, [imgUrl, this.lastID], (err) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(this.lastID);
+                        }
+                    });
+                } else {
+                    resolve(this.lastID);
+                }
+            }
+
         }
         );
     });
@@ -44,13 +59,13 @@ exports.getHutById = (id) => {
             else {
                 resolve(
                     {
-                        id : r.id,
-                        roomsNumber : r.roomsNumber,
-                        bedsNumber : r.bedsNumber,
-                        whenIsOpen : r.whenIsOpen,
-                        phoneNumber : r.phoneNumber,
-                        photoFile : r.photoFile,
-                        pointId : r.pointId
+                        id: r.id,
+                        roomsNumber: r.roomsNumber,
+                        bedsNumber: r.bedsNumber,
+                        whenIsOpen: r.whenIsOpen,
+                        phoneNumber: r.phoneNumber,
+                        photoFile: r.photoFile,
+                        pointId: r.pointId
                     }
                 );
             }

@@ -251,7 +251,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
   ```
 
-  - Request file: The GPX file
+  - Request files: .File : The GPX file, .Image : The hike image
   - Response: `201 CREATED` (success), `420` if the input is not correct, `503 Service Unavailable` (generic error).
   - Response body: Confirmation message.
 
@@ -281,10 +281,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
      "latitude": 44.57426,
      "longitude": 6.98264,
      "altitude": 3094,
-     "capacity": 30,
-     "city": "Condove",
-     "province": "Torino ",
-     "region": "Piemonte",
+     "capacity": 30
   }
 
   ```
@@ -312,18 +309,15 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
      "latitude": 44.57426,
      "longitude": 6.98264,
      "altitude": 3094,
-     "city": "Condove",
-     "province": "Torino ",
-     "region": "Piemonte"
      "roomsNumber": 2,
      "bedsNumber": 3,
      "phoneNumber": "+393323232232",
      "photoFile": "http:// ... ",
      "website": "http:// ... "
-
   }
 
   ```
+  - Request files: .Image : The hut image
 
   - Response: `201 CREATED` (success), `422` if the input is not correct, `503 Service Unavailable` (generic error).
   - Response body: Confirmation message.
