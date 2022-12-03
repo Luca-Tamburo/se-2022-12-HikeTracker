@@ -12,7 +12,8 @@
 
 //Imports
 import { useState, useEffect } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
+import { ArrowUp } from 'react-bootstrap-icons';
 
 //Components
 import HikeCard from '../../components/ui-core/HikeCard/HikeCard';
@@ -31,6 +32,36 @@ const Hike = () => {
     const notify = useNotification();
     const [filter, setFilter] = useState(['Region', 'Province', 'City', 0, 0, 0, 0, 0]);
 
+    let mybutton;
+
+    let container = document.getElementById("idContainer")
+    if (container) {
+        container.onscroll = function () {
+            console.log('entra')
+            mybutton = document.getElementById("btn-back-to-top");
+            scrollFunction(mybutton);
+        };
+    }
+
+    function scrollFunction(mybutton) {
+        console.log(container.scrollTop)
+        if (
+            container.scrollTop > 20
+        ) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
+    }
+
+    function backToTop() {
+
+        console.log('entra nel bottone')
+        container.scrollTop = 0;
+
+    }
+
+
     useEffect(() => {
         api.getHikes()
             .then(hikes => {
@@ -48,6 +79,9 @@ const Hike = () => {
 
     return (
         <Row className='flex-fill'>
+            <Button onClick={backToTop} id='btn-back-to-top' className='position-fixed bottom-0 end-0 zindex-99'>
+                <ArrowUp />
+                </Button>
             <Col xs={{ span: 10, offset: 1 }} className='mt-3'>
                 <h1 className='fw-bold text-center mt-2'>Search your next hike</h1>
                 <Filter setFilter={setFilter} filter={filter} hikes={hikes} setHikesDisplay={setHikesDisplay} />

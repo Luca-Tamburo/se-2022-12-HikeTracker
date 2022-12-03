@@ -18,7 +18,7 @@ import Navbar from '../../../components/ui-core/Navbar/Navbar'
 
 const AppContainer = ({ ...props }) => {
     return (
-        <Container fluid className='app-container'>
+        <Container fluid className='app-container' id='idContainer'>
             <Navbar handleLogout={props.handleLogout} />
             <Row className='flex-fill p-0'>
                 {props.children}
