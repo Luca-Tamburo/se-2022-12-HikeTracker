@@ -49,7 +49,7 @@ const Navbar = (props) => {
           </div>) : (
             <Dropdown drop="start">
               <Dropdown.Toggle variant="primary" id="user-dropdown">
-                Hi, {userInfo.name || "Hiker"}
+                Hi, {userInfo.name || userInfo.username}
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 {

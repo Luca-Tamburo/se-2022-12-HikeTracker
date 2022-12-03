@@ -13,9 +13,11 @@
 import Input from './Input'
 import Select from './Select'
 import TextArea from './TextArea'
+import Check from './Check'
 
 export {
     Input,
     Select,
-    TextArea
+    TextArea,
+    Check,
 }

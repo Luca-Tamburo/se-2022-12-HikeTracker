@@ -11,8 +11,10 @@
 */
 
 // Imports
-import classnames from 'classnames'
 import { useField, Field } from "formik";
+
+// ClassNames
+import classnames from 'classnames'
 
 const Check = ({ id, name, label, ...props }) => {
     const [field, meta] = useField(name);
@@ -25,7 +27,7 @@ const Check = ({ id, name, label, ...props }) => {
 
     return (
         <label className={classes} role="button">
-            <Field type="checkbox" hidden name={field.name} label={label} {...props} />
+            <Field id={id} type="checkbox" hidden name={field.name} label={label} {...props} />
             {label}
         </label>
     )

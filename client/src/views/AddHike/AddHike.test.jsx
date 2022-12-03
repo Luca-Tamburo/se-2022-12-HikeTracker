@@ -21,7 +21,8 @@ const hikeLabel = [
     'Expected Time',
     `Hike's difficulty`,
     'Description',
-    'File upload'
+    'GPX file',
+    'Hike image file file'
 ]
 
 describe('AddHike page', () => {
