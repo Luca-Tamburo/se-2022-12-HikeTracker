@@ -68,7 +68,6 @@ const makeRequestForPhoto = async (photoUrl) => {
 
 const photoUrlValidator = async (photoUrl) => {
     const ret = await makeRequestForPhoto(photoUrl);
-    console.log(ret);
     return ret;
 }
 
