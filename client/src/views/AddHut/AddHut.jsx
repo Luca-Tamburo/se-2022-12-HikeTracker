@@ -16,6 +16,7 @@ import { Button, Spinner, Row, Col, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form as FormikForm } from "formik";
 import { MapContainer, TileLayer } from 'react-leaflet'
+import getCityProvinceRegion from "../../services/geoApi";
 
 // Services
 import api from "../../services/api";
@@ -32,7 +33,7 @@ import AddHutSchema from "../../validation/AddHutSchema";
 // Hooks
 import useNotification from "../../hooks/useNotification";
 import SetYourLocation from "../../components/ui-core/locate/setYourLocation";
-import AddMarker from '../../components/ui-core/locate/AddMarker';
+import AddMarkerInfo from "../../components/ui-core/locate/AddMarkerAndInfo";
 
 const AddHut = () => {
     const ZOOM_LEVEL = 8;
@@ -157,7 +158,7 @@ const AddHut = () => {
                                         url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
                                     />
                                     {location ? <SetYourLocation setCenter={setCenter} setLocation={setLocation} /> : <></>}
-                                    <AddMarker saveMarkers={saveMarkers} marker={marker} />
+                                    <AddMarkerInfo saveMarkers={saveMarkers} marker={marker} hut={true}/>
                                 </MapContainer>
                                 <Row>
                                     <div className="d-flex justify-content-evenly mt-2">

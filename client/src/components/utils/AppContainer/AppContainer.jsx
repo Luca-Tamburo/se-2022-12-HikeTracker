@@ -26,14 +26,12 @@ const AppContainer = ({ ...props }) => {
 
     if (container) {
         container.onscroll = function () {
-            console.log('entra')
             mybutton = document.getElementById("btn-back-to-top");
             scrollFunction(mybutton);
         };
     }
 
     function scrollFunction(mybutton) {
-        console.log(container.scrollTop)
         if (
             container.scrollTop > 20
         ) {

@@ -32,7 +32,7 @@ import { AddParkingSchema } from "../../validation/AddParkingSchema";
 // Hooks
 import useNotification from "../../hooks/useNotification";
 import SetYourLocation from "../../components/ui-core/locate/setYourLocation";
-import AddMarker from '../../components/ui-core/locate/AddMarker';
+import AddMarkerInfo from "../../components/ui-core/locate/AddMarkerAndInfo";
 
 const AddParking = (props) => {
     const ZOOM_LEVEL = 8;
@@ -122,7 +122,7 @@ const AddParking = (props) => {
                                         url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
                                     />
                                     {location ? <SetYourLocation setCenter={setCenter} setLocation={setLocation} /> : <></>}
-                                    <AddMarker saveMarkers={saveMarkers} marker={marker} />
+                                    <AddMarkerInfo saveMarkers={saveMarkers} marker={marker} hut={false} />
                                 </MapContainer>
                                 <Row>
                                     <div className="d-flex justify-content-evenly mt-2">
