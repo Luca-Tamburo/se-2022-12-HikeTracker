@@ -17,8 +17,6 @@
     "cypress-dark": "^1.8.3",
     "dayjs": "^1.11.6",
     "formik": "^2.2.9",
-    "gps-file-converter": "^1.0.4",
-    "gpx-parser-builder": "^1.0.2",
     "gpxparser": "^3.0.8",
     "history": "^5.3.0",
     "leaflet": "^1.9.2",
@@ -39,8 +37,7 @@
     "web-vitals": "^2.1.4",
     "xmldom": "^0.6.0",
     "yup": "^0.32.11",
-    "yup-password": "^0.2.2",
-    "zlib": "^1.0.5"
+    "yup-password": "^0.2.2"
   },
   "scripts": {
     "start": "react-scripts start",

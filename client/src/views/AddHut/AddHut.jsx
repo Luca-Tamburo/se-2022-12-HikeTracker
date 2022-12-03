@@ -15,8 +15,7 @@ import { useState } from "react";
 import { Button, Spinner, Row, Col, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form as FormikForm } from "formik";
-import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
-import L from "leaflet";
+import { MapContainer, TileLayer } from 'react-leaflet'
 
 // Services
 import api from "../../services/api";
@@ -28,69 +27,23 @@ import * as CustomField from "../../components/utils/Input/index";
 import { AddHutForm } from "../../constants";
 
 // Validations
-import { AddHutSchema, AddHutSchemaMap } from "../../validation/AddHutSchema";
+import AddHutSchema from "../../validation/AddHutSchema";
 
 // Hooks
 import useNotification from "../../hooks/useNotification";
 import SetYourLocation from "../../components/ui-core/locate/setYourLocation";
 import AddMarker from '../../components/ui-core/locate/AddMarker';
 
-import { __REGIONS, getCitiesForProvince, getProvinceForRegion, getProvinceName, getRegionName } from '../../lib/helpers/location'
-
-const RemoveMarker = (props) => {
-
-    let map = useMap();
-    if (props.marker) {
-        map.removeLayer(props.marker)
-    }
-}
-
-const Region = (props) => {
-    return (
-        __REGIONS.map(r => (
-            <option key={r.regione} value={r.regione}>{r.nome}</option>
-        ))
-    );
-}
-
-const Province = (props) => {
-    return (
-        getProvinceForRegion(parseInt(props.region)).map(p => (
-            <option key={p.provincia} value={p.provincia}>{p.nome}</option>
-        ))
-    );
-}
-
-const City = (props) => {
-
-    return (
-        getCitiesForProvince(parseInt(props.province)).map(c => (
-            <option key={c.comune} value={c.nome}>{c.nome}</option>
-        ))
-    );
-}
-
-const icon = L.icon({
-    iconSize: [25, 41],
-    iconAnchor: [10, 41],
-    popupAnchor: [2, -40],
-    iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
-    shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
-});
-
-const AddHut = (props) => {
+const AddHut = () => {
     const ZOOM_LEVEL = 8;
     const [loading, setLoading] = useState(false);
     const notify = useNotification(); // Notification handler
     const navigate = useNavigate(); // Navigation handler
     const [center, setCenter] = useState({ lat: 45.072384, lng: 7.6414976 });
     const [marker, setMarker] = useState(null);
-    const [mapPosition, setMapPosition] = useState(false);
     const [location, setLocation] = useState(false)
-    const [longitude, setLongitude] = useState(false)
-    const [latitude, setLatitude] = useState(false)
-    const [region, setRegion] = useState(false)
-    const [province, setProvince] = useState(false)
+    const [selectedImage, setSelectedImage] = useState();
+    const [urlIsSelected, setUrlIsSelected] = useState(true); // By default, I assume that the user enters the image via the url (true).
 
     const initialValues = {
         title: "",
@@ -98,13 +51,10 @@ const AddHut = (props) => {
         room: "",
         bed: "",
         phoneNumber: "",
-        latitude: "",
-        longitude: "",
         altitude: "",
-        region: "",
-        province: "",
-        city: "",
         description: "",
+        website: "",
+        image: null
     }
 
     const handleSubmit = (values) => {
@@ -112,24 +62,15 @@ const AddHut = (props) => {
             notify.error("Choose a point on the map!")
         } else {
             let formData = new FormData();
+            formData.append('Image', selectedImage);
             formData.append('title', values.title);
             formData.append('photoFile', values.photoFile);
             formData.append('roomsNumber', values.room);
             formData.append('bedsNumber', values.bed);
             formData.append('phoneNumber', values.phoneNumber);
-            if (!mapPosition) {
-                formData.append('longitude', values.longitude);
-                formData.append('latitude', values.latitude);
-            }
-            else {
-                formData.append('longitude', marker.getLatLng().lng);
-                formData.append('latitude', marker.getLatLng().lat);
-            };
             formData.append('altitude', values.altitude);
-            formData.append('region', getRegionName(parseInt(values.region)));
-            formData.append('province', getProvinceName(parseInt(values.province)));
-            formData.append('city', values.city);
             formData.append('description', values.description);
+            formData.append('website', values.website);
             setLoading(true);
 
             api.addHut(formData)
@@ -145,13 +86,6 @@ const AddHut = (props) => {
         setMarker(newMarkerCoords)
     };
 
-    const handleOnChange = (e) => {
-        console.log(e.target.id)
-        if (e.target.id === "latitude") { setLatitude(e.target.value) }
-        if (e.target.id === "longitude") { setLongitude(e.target.value) }
-        if (e.target.id === "region") { setRegion(e.target.value) }
-        if (e.target.id === "province") { setProvince(e.target.value) }
-    }
     return (
         <div>
             <div className="d-flex justify-content-center mt-4">
@@ -159,19 +93,18 @@ const AddHut = (props) => {
             </div>
             <Formik
                 initialValues={initialValues}
-                validationSchema={mapPosition ? AddHutSchemaMap : AddHutSchema}
+                validationSchema={AddHutSchema}
                 onSubmit={(values) => handleSubmit(values)}
             >
                 {({ values, handleSubmit, touched, isValid, setFieldValue }) => {
-                    const disableSubmit = (!touched.title && !touched.photoFile && !touched.room && !touched.bed && !touched.phoneNumber && !touched.latitude && !touched.longitude && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description) || !isValid;
-                    const disableSubmit2 = (!touched.title && !touched.photoFile && !touched.room && !touched.bed && !touched.phoneNumber && !touched.altitude && !touched.region && !touched.province && !touched.city && !touched.description);
+                    const disableSubmit = (!touched.title && !touched.photoFile && !touched.room && !touched.bed && !touched.phoneNumber && !touched.altitude && !touched.description) || !isValid;
                     return (
                         <Row>
                             <Col xs={10} sm={6} className="mt-3 ms-5 ms-sm-5 p-0">
                                 {/* TODO: Da portare in components e qui importare il singolo componente */}
-                                <FormikForm onChange={(e) => { handleOnChange(e) }}>
+                                <FormikForm>
                                     <Row>
-                                        {AddHutForm[0].map((input, index) => {
+                                        {AddHutForm.map((input, index) => {
                                             return (
                                                 <Col xs={input.xsCol} sm={input.smCol} key={index}>
                                                     <CustomField.Input
@@ -182,31 +115,34 @@ const AddHut = (props) => {
                                                         name={input.idName}
                                                         placeholder={input.placeholder}
                                                         label={input.label}
-                                                        disabled={mapPosition && (input.idName === 'latitude' || input.idName === 'longitude') ? true : false}
                                                     />
                                                 </Col>
                                             );
                                         })}
-                                        {AddHutForm[1].map((input, index) => {
-                                            return (
-                                                <Col xs={input.xsCol} sm={input.smCol} key={index}>
-                                                    <CustomField.Select
-                                                        className='mt-3'
-                                                        id={input.idName}
-                                                        name={input.idName}
-                                                        defaultLabel={input.defaultLabel}
-                                                        label={input.label}
-                                                        defaultValue="none"
-                                                    >
-                                                        {input.idName === 'region' ? <Region setRegion={setRegion} /> : <></>}
-                                                        {input.idName === 'province' && region ? <Province region={region} /> : <></>}
-                                                        {input.idName === 'city' && province ? <City province={province} /> : <></>}
-                                                    </CustomField.Select>
-                                                </Col>
-                                            );
-                                        })}
+                                        <Col xs={6}>
+                                            <Form>
+                                                <Form.Check
+                                                    type="switch"
+                                                    id="custom-switch"
+                                                    label="How do you want to upload your image?"
+                                                    onClick={() => setUrlIsSelected(!urlIsSelected)}
+                                                />
+                                            </Form>
+                                            {/* TODO: Fixare la disable e inserirla anche */}
+                                            <CustomField.Input type='text' id='photoFile' name='photoFile' placeholder='Insert the hike url image' label='Image' disabled={!urlIsSelected} />
+                                        </Col>
+                                        <Col xs={6}>
+                                            <Form.Group id="formImageFile" className="mt-3">
+                                                <Form.Label className="fw-semibold fst-italic">Hike image file</Form.Label>
+                                                <Form.Control id="image" name="image" type="file" disabled={urlIsSelected} accept="image/*" onChange={(event) => {
+                                                    event.preventDefault();
+                                                    setSelectedImage(event.target.files[0]);
+                                                    setFieldValue("image", event.currentTarget.files[0]);
+                                                }} />
+                                            </Form.Group>
+                                        </Col>
                                         <CustomField.TextArea className="mt-3" id="description" name="description" placeholder="Insert the hut description" label="Description" />
-                                        <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={mapPosition ? disableSubmit2 : disableSubmit}>
+                                        <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}>
                                             {loading && (<Spinner animation="border" size="sm" as="span" role="status" aria-hidden="true" className="me-2" />)}
                                             Submit
                                         </Button>
@@ -221,29 +157,19 @@ const AddHut = (props) => {
                                         url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
                                     />
                                     {location ? <SetYourLocation setCenter={setCenter} setLocation={setLocation} /> : <></>}
-                                    {mapPosition ? <AddMarker saveMarkers={saveMarkers} marker={marker} /> :
-                                        <RemoveMarker marker={marker} />}
-                                    {!mapPosition && latitude && longitude ? <Marker position={[latitude, longitude]} icon={icon}></Marker> : <></>}
+                                    <AddMarker saveMarkers={saveMarkers} marker={marker} />
                                 </MapContainer>
                                 <Row>
                                     <div className="d-flex justify-content-evenly mt-2">
-                                        <Form>
-                                            <Form.Check
-                                                type="switch"
-                                                id="custom-switch"
-                                                label="Set Position on the Map"
-                                                onChange={(e) => { setMapPosition(!mapPosition); setLocation(!location); }}
-                                            />
-                                        </Form>
-                                        <Button onClick={() => { setMapPosition(false); setLocation(true) }}>Center Your Postion</Button>
+                                        <Button onClick={() => { setLocation(true) }}>Center Your Postion</Button>
                                     </div>
                                 </Row>
                             </Col>
-                        </Row >
+                        </Row>
                     );
                 }}
-            </Formik >
-        </div >
+            </Formik>
+        </div>
     );
 };
 

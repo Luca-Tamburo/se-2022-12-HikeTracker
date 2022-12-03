@@ -23,6 +23,18 @@ jest.mock('react-bootstrap', () => {
         );
     }
 
+    const Form = (props) => {
+        return (
+            <form>{props.children}</form>
+        )
+    }
+
+    Form.Check = (props) => {
+        return (
+            <form>{props.children}</form>
+        )
+    }
+
     const Col = (props) => {
         return (
             <div>{props.children}</div>
@@ -40,7 +52,7 @@ jest.mock('react-bootstrap', () => {
             <button {...props}>{children}</button>
         )
     }
-    return ({ Row, Col, Spinner, Button });
+    return ({ Row, Col, Spinner, Button, Form });
 })
 
 // Mock custom components
@@ -48,12 +60,6 @@ const mockInput = jest.fn();
 jest.mock('../../components/utils/Input/Input', () => () => {
     mockInput();
     return <mock-Input data-testid='Input' />
-})
-
-const mockSelect = jest.fn();
-jest.mock('../../components/utils/Input/Select', () => () => {
-    mockSelect();
-    return <mock-Select data-testid='Select' />
 })
 
 const mockTextArea = jest.fn();
@@ -81,7 +87,13 @@ jest.mock('react-leaflet', () => {
             <div>{props.children}</div>
         )
     }
-    return ({ MapContainer, Marker, TileLayer });
+
+    const useMap = (props) => {
+        return (
+            <div></div>
+        )
+    }
+    return ({ MapContainer, Marker, TileLayer, useMap });
 
 })
 
@@ -96,8 +108,7 @@ describe('Addut page', () => {
 
     it('has form fiels', () => {
         render(<AddParking handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
-        expect(screen.getAllByTestId('Input')).toHaveLength(4);
-        expect(screen.getAllByTestId('Select')).toHaveLength(3);
+        expect(screen.getAllByTestId('Input')).toHaveLength(3);
         expect(screen.getByTestId('TextArea')).toBeInTheDocument();
     });
 
