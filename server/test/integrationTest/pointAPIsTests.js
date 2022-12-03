@@ -85,12 +85,10 @@ describe("Post.Parking.Hut.APItesting", function () {
             .field({
                 "title":"parking",
                 "description":"big parking area near the start of the hike!",
-                "atitude": 44.57426,
+                "atitude": 44.57426,//wrong
                 "longitude": 6.98264,
                 "altitude": 3094,
-                "city": "Condove",
-                "province": "Torino ",
-                "region": "Piemonte"
+                "capacity": 5
             })
             .then(function (res) {
                 res.should.have.status(422);
@@ -107,10 +105,8 @@ describe("Post.Parking.Hut.APItesting", function () {
                 "description":"big parking area near the start of the hike!",
                 "latitude": 44.57426,
                 "longitude": 6.98264,
-                "altitude": "hello",
-                "city": "Condove",
-                "province": "Torino ",
-                "region": "Piemonte"
+                "altitude": "hello",//wrong
+                "capacity": 5
             })
             .then( function (res) {
                 res.should.have.status(422);
@@ -127,9 +123,7 @@ describe("Post.Parking.Hut.APItesting", function () {
                 "latitude": 44.57426,
                 "longitude": 6.98264,
                 "altitude": 3094,
-                "city": "Condove",
-                "province": "Torino ",
-                "region": "Piemonte"
+                "capacity": 5
             })
             .then( function (res) {
                 res.should.have.status(422);
@@ -146,9 +140,7 @@ describe("Post.Parking.Hut.APItesting", function () {
                 "latitude": 44.57426,
                 "longitude": 6.98264,
                 "altitude": 3094,
-                "city": "Condove",
-                "province": "Torino ",
-                "region": "Piemonte"
+                "capacity": 5
             })
             .then(function (res) {
                 res.should.have.status(201);
@@ -164,10 +156,8 @@ describe("Post.Parking.Hut.APItesting", function () {
                 "description":"big parking area near the start of the hike!",
                 "latitude": 44.57426,
                 "longitude": 6.98264,
-                "altitude": -3094,
-                "city": "Condove",
-                "province": "Torino ",
-                "region": "Piemonte"
+                "altitude": -3094,//wrong
+                "capacity": 5
             })
             .then(function (res) {
                 res.should.have.status(422);
@@ -184,7 +174,7 @@ describe("Post.Parking.Hut.APItesting", function () {
             .post('hut')
             .set('content-type', 'multipart/form-data')
             .field({
-                "tile":"nice hut",
+                "tile":"nice hut",//wrong...
                 "photoile" : "https://some/nice/photo",
                 "roomsumber" : 4,
                 "bedsumber" : 16,
@@ -192,9 +182,7 @@ describe("Post.Parking.Hut.APItesting", function () {
                 "latiude": 44.57426,
                 "longiude": 6.98264,
                 "alitude": 3094,
-                "regon": "Piemonte",
-                "prvince": "Torino ",
-                "ciy": "Condove",
+                "website": "http...",
                 "desciption":"there are beds and sheets"
             })
             .then(function (res) {
@@ -210,15 +198,13 @@ describe("Post.Parking.Hut.APItesting", function () {
             .field({
                 "title":"nice hut",
                 "photoFile" : "https://some/nice/photo",
-                "roomsNumber" : "this shouldn't be a string",
+                "roomsNumber" : "this shouldn't be a string",//wrong
                 "bedsNumber" : 16,
                 "phoneNumber" : "+393412345678",
                 "latitude": 44.57426,
                 "longitude": 6.98264,
                 "altitude": 3094,
-                "region": "Piemonte",
-                "province": "Torino ",
-                "city": "Condove",
+                "website": "http...",
                 "description":"there are beds and sheets"
             })
             .then(function (res) {
@@ -235,14 +221,12 @@ describe("Post.Parking.Hut.APItesting", function () {
                 "title":"nice hut",
                 "photoFile" : "https://some/nice/photo",
                 "roomsNumber" : 4,
-                "bedsNumber" : "this shouldn't be a string",
+                "bedsNumber" : "this shouldn't be a string",//wrong
                 "phoneNumber" : "+393412345678",
                 "latitude": 44.57426,
                 "longitude": 6.98264,
                 "altitude": 3094,
-                "region": "Piemonte",
-                "province": "Torino ",
-                "city": "Condove",
+                "website": "http...",
                 "description":"there are beds and sheets"
             })
             .then(function (res) {
@@ -261,12 +245,10 @@ describe("Post.Parking.Hut.APItesting", function () {
                 "roomsNumber" : 4,
                 "bedsNumber" : 16,
                 "phoneNumber" : "+393412345678",
-                "latitude": "this shouldn't be a string",
+                "latitude": "this shouldn't be a string",//wrong
                 "longitude": 6.98264,
                 "altitude": 3094,
-                "region": "Piemonte",
-                "province": "Torino ",
-                "city": "Condove",
+                "website": "http...",
                 "description":"there are beds and sheets"
             })
             .then(function (res) {
@@ -286,11 +268,9 @@ describe("Post.Parking.Hut.APItesting", function () {
                 "bedsNumber" : 16,
                 "phoneNumber" : "+393412345678",
                 "latitude": 44.57426,
-                "longitude": "this shouldn't be a string",
+                "longitude": "this shouldn't be a string",//wrong
                 "altitude": 3094,
-                "region": "Piemonte",
-                "province": "Torino ",
-                "city": "Condove",
+                "website": "http...",
                 "description":"there are beds and sheets"
             })
             .then(function (res) {
@@ -311,10 +291,8 @@ describe("Post.Parking.Hut.APItesting", function () {
                 "phoneNumber" : "+393412345678",
                 "latitude": 44.57426,
                 "longitude": 6.98264,
-                "altitude": "this shouldn't be a string",
-                "region": "Piemonte",
-                "province": "Torino ",
-                "city": "Condove",
+                "altitude": "this shouldn't be a string",//wrong
+                "website": "http...",
                 "description":"there are beds and sheets"
             })
             .then(function (res) {
@@ -335,9 +313,7 @@ describe("Post.Parking.Hut.APItesting", function () {
                 "latitude": 44.57426,
                 "longitude": 6.98264,
                 "altitude": 3094,
-                "region": "Piemonte",
-                "province": "Torino ",
-                "city": "Condove",
+                "website": "http...",
                 "description":"there are beds and sheets"
             })
             .then(function (res) {
@@ -359,13 +335,32 @@ describe("Post.Parking.Hut.APItesting", function () {
                 "latitude": 47.57426,
                 "longitude": 7.98264,
                 "altitude": 3000,
-                "region": "Piemonte",
-                "province": "Torino ",
-                "city": "Condove",
+                "website": "http...",
                 "description":"there are beds and sheets"
             })
             .then(function (res) {
                 res.should.have.status(201);
+            });
+    });
+
+    step("Test12: negative altitude", async function() {
+        
+        await localGuide
+            .post('hut')
+            .set('content-type', 'multipart/form-data')
+            .field({
+                "photoFile" : "https://some/nice/photo",
+                "roomsNumber" : 4,
+                "bedsNumber" : 16,
+                "phoneNumber" : "+393412345678",
+                "latitude": 44.57426,
+                "longitude": 6.98264,
+                "altitude": -3094,//wrong
+                "website": "http...",
+                "description":"there are beds and sheets"
+            })
+            .then(function (res) {
+                res.should.have.status(422);
             });
     });
 });
