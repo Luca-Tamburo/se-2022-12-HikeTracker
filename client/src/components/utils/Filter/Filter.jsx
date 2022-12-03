@@ -163,6 +163,7 @@ const Filter = (props) => {
     setExpectedTimeMax("");
     setLengthMin("");
     setLengthMax("");
+    setMarker(false)
     console.log(EventTarget.toString());
 
     props.setHikesDisplay(props.hikes);
@@ -462,7 +463,7 @@ const Filter = (props) => {
                       </Marker>
                     )
                   })}
-                  {currentPosition ? <LocationMarker saveMarkers={saveMarkers} range={range} circle={circle} id={'location'} /> :
+                  {currentPosition ? <LocationMarker saveMarkers={saveMarkers} marker={marker} id={'location'} setLocation={setCurrentPosition}/> :
                     <AddMarker saveMarkers={saveMarkers} marker={marker} circle={circle} range={range} />}
                 </MapContainer>
               </Col>

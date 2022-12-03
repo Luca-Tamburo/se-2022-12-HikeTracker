@@ -12,7 +12,7 @@
 
 // Imports
 import { useEffect, useState } from "react";
-import { Marker, Popup, useMap } from "react-leaflet";
+import { Marker, Popup, useMap, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 
 const icon = L.icon({
@@ -29,19 +29,26 @@ const LocationMarker = (props) => {
     const [bbox, setBbox] = useState([]);
 
     const map = useMap();
+    const mapEvent = useMapEvents({
+        click: (e) => {
+          const { lat, lng } = e.latlng;
+          props.setLocation(false)
+          props.saveMarkers(false,false)
+          let marker = L.marker([lat, lng], { icon });
+          const circle = L.circle(marker.getLatLng(), 10);
+          marker.addTo(map)
+          props.saveMarkers(marker, circle);
+      }});
+
 
     useEffect(() => {
+        if (props.marker) {
+            map.removeLayer(props.marker)
+          }
         map.locate().on("locationfound", function (e) {
-            console.log('entra qui')
             setPosition(e.latlng);
             map.flyTo(e.latlng, map.getZoom());
-            console.log(props.circle)
-            if (props.circle) {
-                console.log('entra')
-                map.removeLayer(props.circle)
-            }
-            console.log(props.range)
-            let c = L.circle(e.latlng, parseInt(props.range, 10));
+            let c= null
             props.saveMarkers(L.marker(e.latlng, icon), c)
             //c.addTo(map);
             setBbox(e.bounds.toBBoxString().split(","));
