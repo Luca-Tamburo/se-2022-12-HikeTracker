@@ -65,6 +65,7 @@ exports.getHutById = (id) => {
                         whenIsOpen: r.whenIsOpen,
                         phoneNumber: r.phoneNumber,
                         photoFile: r.photoFile,
+                        website: r.website,
                         pointId: r.pointId
                     }
                 );
