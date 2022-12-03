@@ -20,12 +20,12 @@ describe("test huts", () => {
     });
 
     // Call tests
-    testaddHut(4, 16, "null", "+393409728904", "https://some/photo/link", 1)
+    testaddHut(4, 16, "null", "+393409728904", "https://some/photo/link", "https:...", 1)
 });
 
-function testaddHut(roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photoFile, pointId) {
+function testaddHut(roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photoFile, website, pointId) {
     test("test addHut", async () => {
-        let id = await addHut(roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photoFile, pointId);
+        let id = await addHut("some name", roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photoFile, website, pointId);
         let hut = await getHutById(id);
         expect(hut).toEqual(
             {
@@ -35,6 +35,7 @@ function testaddHut(roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photoFile,
                 "whenIsOpen": "null",
                 "phoneNumber": "+393409728904",
                 "photoFile": "https://some/photo/link",
+                "website": "https:...",
                 "pointId": 1
             }
         );
