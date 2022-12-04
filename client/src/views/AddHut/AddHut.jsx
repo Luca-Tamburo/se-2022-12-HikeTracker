@@ -130,7 +130,7 @@ const AddHut = () => {
                                                 />
                                             </Form>
                                             {/* TODO: Fixare la disable e inserirla anche */}
-                                            <CustomField.Input type='text' id='photoFile' name='photoFile' placeholder='Insert the hike url image' label='Image' disabled={!urlIsSelected} />
+                                            <CustomField.Input type='text' id='photoFile' name='photoFile' placeholder='Insert the hut image url' label='Image' disabled={!urlIsSelected} />
                                         </Col>
                                         <Col xs={6}>
                                             <Form.Group id="formImageFile" className="mt-3">

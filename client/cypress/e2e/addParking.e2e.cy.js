@@ -17,36 +17,37 @@ import '@testing-library/cypress/add-commands'
 
 describe('addParking', () => {
 
+    beforeEach(() => {
+        cy.intercept('GET', '/api/sessions/current', {
+            statusCode: 201,
+            body: {"id":1,
+            "email":"aldobaglio@gmail.com",
+            "username":"aldobaglio",
+            "name":"aldo",
+            "surname":"baglio",
+            "role":"localGuide",
+            "phoneNumber":"+393315658745",
+            "gender":"M"},
+          })
+        })
     it('goes to addParking', () => {
         cy.visit('/addParking');
     })
 
     
     it('contains title', () => {
-        cy.get('h1').contains(/Add your Parking/i);
+        cy.wait(100);
+        cy.get('h1[class="fw-bold"]').contains(/Add your Parking/i);
     })
 
     it('contains name label', () => {
         cy.get('form').contains(/name/i);
     })
-    it('contains latitude label', () => {
-        cy.get('form').contains(/latitude/i);
-    })
-    it('contains longitude label', () => {
-        cy.get('form').contains(/longitude/i);
-    })
+
     it('contains altitude label', () => {
         cy.get('form').contains(/altitude/i);
     })
-    it('contains region label', () => {
-        cy.get('form').contains(/region/i);
-    })
-    it('contains province label', () => {
-        cy.get('form').contains(/province/i);
-    })
-    it('contains city label', () => {
-        cy.get('form').contains(/city/i);
-    })
+
     
     it('contains description label', () => {
         cy.get('form').contains(/description/i);
@@ -58,19 +59,9 @@ describe('addParking', () => {
         });
     })
 
-    it('contains latitude field', () => {
-        cy.get('form').within(() => {
-            cy.get('input[placeholder="Insert the parking latitude in mt"]')
-        });
-    });
-    it('contains longitude field', () => {
-        cy.get('form').within(() => {
-            cy.get('input[placeholder="Insert the parking longitude in mt"]')
-        });
-    });
     it('contains altitude field', () => {
         cy.get('form').within(() => {
-            cy.get('input[placeholder="Insert the parking altitude in mt"]')
+            cy.get('input[placeholder="Insert the parking altitude"]')
         });
     });
     it('contains description field', () => {

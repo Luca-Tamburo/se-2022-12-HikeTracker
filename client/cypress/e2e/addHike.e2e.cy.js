@@ -16,15 +16,30 @@ import '@testing-library/cypress/add-commands'
 
 
 describe('addHike', () => {
+    
 
     const testHike={
             title: "sss",
             description: "kkk",
             expectedTime: 33.33,
             difficulty: "Hiker",
-            photoFile: "http://somelink/link",
+            photoFile: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2peLDeguGDS1G6mWaRbPb89N3Rzs60Rh1Rw&usqp=CAU",
             hikeFile: "./cypress/e2e/RightFile.gpx"
         }
+
+        beforeEach(() => {
+            cy.intercept('GET', '/api/sessions/current', {
+                statusCode: 201,
+                body: {"id":1,
+                "email":"aldobaglio@gmail.com",
+                "username":"aldobaglio",
+                "name":"aldo",
+                "surname":"baglio",
+                "role":"localGuide",
+                "phoneNumber":"+393315658745",
+                "gender":"M"},
+              })
+            })
 
     it('goes to addHike', () => {
         cy.visit('/addHike');
@@ -32,7 +47,8 @@ describe('addHike', () => {
     })
 
     it('contains title', () => {
-        cy.get('h1').contains(/Add your hike/i);
+        cy.wait(100);
+        cy.get('h1[class="fw-bold"]').contains(/Add your hike/i);
     })
     it('contains name label', () => {
         cy.get('form').contains(/name/i);
@@ -49,8 +65,11 @@ describe('addHike', () => {
     it('contains description label', () => {
         cy.get('form').contains(/description/i);
     })
-    it('contains file upload label', () => {
-        cy.get('form').contains(/file upload/i);
+    it('contains GPX file upload label', () => {
+        cy.get('form').contains(/GPX file/i);
+    })
+    it('contains image file upload label', () => {
+        cy.get('form').contains(/HIke image file/i);
     })
 
     it('contains name field', () => {
@@ -96,7 +115,7 @@ describe('addHike', () => {
             cy.get('input[placeholder="Insert the hike expected time"]').clear().type(testHike.expectedTime);
             cy.get('select[name="difficulty"]').select("Hiker");
             cy.get('textarea[placeholder="Insert the hike description"]').clear().type(testHike.description);
-            cy.get('input[ type="file"]').selectFile(testHike.hikeFile);
+            cy.get('input[ type="file"][accept=".gpx"]').selectFile(testHike.hikeFile);
 
 
 

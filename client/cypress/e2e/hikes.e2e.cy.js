@@ -14,6 +14,7 @@
 
 import '@testing-library/cypress/add-commands'
 
+
 describe('hikes', () => {
 
     it('goes to hikes page', () => {
