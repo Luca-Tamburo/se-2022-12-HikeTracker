@@ -31,7 +31,7 @@ import { AddParkingSchema } from "../../validation/AddParkingSchema";
 
 // Hooks
 import useNotification from "../../hooks/useNotification";
-import SetYourLocation from "../../components/ui-core/locate/setYourLocation";
+import SetYourLocation from "../../components/ui-core/locate/SetYourLocation";
 import AddMarkerInfo from "../../components/ui-core/locate/AddMarkerAndInfo";
 
 const AddParking = (props) => {

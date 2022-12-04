@@ -35,7 +35,7 @@ import {
 import { Filter as constFilter } from "../../../constants/index";
 
 //Hooks
-import LocationMarker from "../../ui-core/locate/locationMarker";
+import LocationMarker from "../../ui-core/locate/LocationMarker";
 import AddMarker from "../../ui-core/locate/AddMarker";
 
 const icon = L.icon({
