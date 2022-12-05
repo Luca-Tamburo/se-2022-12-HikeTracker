@@ -40,7 +40,7 @@ const AddParking = (props) => {
     const notify = useNotification(); // Notification handler
     const navigate = useNavigate(); // Navigation handler
     const [center, setCenter] = useState({ lat: 45.072384, lng: 7.6414976 });
-    const [marker, setMarker] = useState(null);
+    const [marker, setMarker] = useState(false);
     const [location, setLocation] = useState(false)
 
     const initialValues = {
@@ -56,8 +56,8 @@ const AddParking = (props) => {
         } else {
             let formData = new FormData();
             formData.append('title', values.title);
-            // formData.append('latitude', 22.33);
-            // formData.append('longitude', 44.33);
+            formData.append('latitude', marker.getLatLng().lat);
+            formData.append('longitude', marker.getLatLng().lng);
             formData.append('altitude', values.altitude);
             formData.append('description', values.description);
             formData.append('capacity', values.capacity);
@@ -88,7 +88,7 @@ const AddParking = (props) => {
                 onSubmit={(values) => handleSubmit(values)}
             >
                 {({ touched, isValid }) => {
-                    const disableSubmit = (!touched.title && !touched.photoFile && !touched.altitude && !touched.description && !touched.capacity) || !isValid;
+                    const disableSubmit = (!touched.title && !touched.photoFile && !touched.altitude && !touched.description && !touched.capacity) || !isValid || !marker;
                     return (
                         <Row>
                             <Col xs={10} lg={6} className="mt-3 ms-5 ms-sm-5 p-0">

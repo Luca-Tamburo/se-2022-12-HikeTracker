@@ -40,7 +40,7 @@ const AddHut = () => {
     const notify = useNotification(); // Notification handler
     const navigate = useNavigate(); // Navigation handler
     const [center, setCenter] = useState({ lat: 45.072384, lng: 7.6414976 });
-    const [marker, setMarker] = useState(null);
+    const [marker, setMarker] = useState(false);
     const [location, setLocation] = useState(false)
     const [urlIsSelected, setUrlIsSelected] = useState(true); // By default, I assume that the user enters the image via the url (true).
 
@@ -71,8 +71,8 @@ const AddHut = () => {
             formData.append('roomsNumber', values.room);
             formData.append('bedsNumber', values.bed);
             formData.append('phoneNumber', values.phoneNumber);
-            // formData.append('latitude', 22.33);
-            // formData.append('longitude', 44.33);
+            formData.append('latitude', marker.getLatLng().lat);
+            formData.append('longitude', marker.getLatLng().lng);
             formData.append('altitude', values.altitude);
             formData.append('description', values.description);
             if (values.website !== "")
@@ -99,7 +99,7 @@ const AddHut = () => {
             </div>
             <Formik initialValues={initialValues} validationSchema={AddHutSchema} onSubmit={(values) => handleSubmit(values)}>
                 {({ values, touched, isValid, setFieldValue, setFieldTouched }) => {
-                    const disableSubmit = (!touched.title && !touched.room && !touched.bed && !touched.phoneNumber && !touched.altitude && !touched.description && (!touched.photoFile || !touched.image)) || !isValid;
+                    const disableSubmit = (!touched.title && !touched.room && !touched.bed && !touched.phoneNumber && !touched.altitude && !touched.description && (!touched.photoFile || !touched.image)) || !isValid || !marker;
                     return (
                         <Row>
                             <Col xs={10} lg={6} className="mt-3 ms-5 ms-sm-5 p-0">
