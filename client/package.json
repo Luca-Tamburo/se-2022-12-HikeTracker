@@ -44,7 +44,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "coverage": "npm test -- --coverage",
+    "coverage": "npm test -- --watchAll --coverage",
     "cypress:open": "cypress open"
   },
   "eslintConfig": {
