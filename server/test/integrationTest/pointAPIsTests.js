@@ -338,6 +338,7 @@ describe("Post.Parking.Hut.APItesting", function () {
                 "website": "http...",
                 "description":"there are beds and sheets"
             })
+            .attach('File', 'test/TestImage.png')
             .then(function (res) {
                 res.should.have.status(201);
             });

@@ -235,6 +235,7 @@ describe("Post.Hikes.APItesting", function () {
             "difficulty": "Hiker",
             "photoFile": "http://somelink/link"})
             .attach('File', 'test/RightFile.gpx')
+            //.attach('Image', 'test/TestImage.jpg')
             .then(function (res) {
                 res.should.have.status(201);
             });

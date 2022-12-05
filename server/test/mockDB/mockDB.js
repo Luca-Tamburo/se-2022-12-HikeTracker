@@ -81,6 +81,15 @@ function createTables() {
                 throw err;
             }
         })
+
+        const parkingLot = 'CREATE TABLE IF NOT EXISTS "ParkingLot" ( "id"	INTEGER NOT NULL, "capacity"   INTEGER, \
+        "pointId" INTEGER, FOREIGN KEY("pointId") REFERENCES "Point"("id")  PRIMARY KEY("id" AUTOINCREMENT));'
+
+        db.run(parkingLot, (err) => {
+            if (err) {
+                throw err;
+            }
+        })
     })
 }
 
@@ -92,6 +101,7 @@ async function deleteAllTables() {
         "User",
         "UserPreference",
         "Hut",
+        "ParkingLot",
         "sqlite_sequence"];
     return new Promise((resolve, reject) => {
 
