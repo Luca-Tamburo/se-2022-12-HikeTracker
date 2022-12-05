@@ -22,7 +22,7 @@ jobs:
           
       - run: npm ci
         working-directory: client
-      - run: npm run build --if-present    
+      - run: CI=false npm run build --if-present    
         working-directory: client
       - run: npm run coverage
         working-directory: client
@@ -33,8 +33,6 @@ jobs:
           node-version: 16.x
 
       - run: npm ci
-        working-directory: server
-      - run: npm run build --if-present    
         working-directory: server
       - run: npm run test_coverage
         working-directory: server
