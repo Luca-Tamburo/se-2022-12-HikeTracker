@@ -96,7 +96,7 @@ const AddHike = () => {
                     </CustomField.Select>
                   </Col>
                   <Col xs={12} sm={6}>
-                    <CustomField.Input type='text' id='photoFile' name='photoFile' placeholder='Insert the hike url image' label='Image' className='mt-3' disabled={values.image} onChange={(e) => {
+                    <CustomField.Input type='text' id='photoFile' name='photoFile' placeholder='Insert the hike image url' label='Image' className='mt-3' disabled={values.image} onChange={(e) => {
                       setFieldValue("photoFile", e.currentTarget.value);
                       if (!e.currentTarget.value) {
                         setUrlIsSelected(false)

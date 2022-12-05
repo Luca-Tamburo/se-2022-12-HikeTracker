@@ -79,7 +79,7 @@ describe('addHike', () => {
     })
     it('contains image field', () => {
         cy.get('form').within(() => {
-            cy.get('input[placeholder="Insert the hike url image"]')
+            cy.get('input[placeholder="Insert the hike image url"]')
         });
     })
     it('contains expected time field', () => {
@@ -111,7 +111,7 @@ describe('addHike', () => {
     it('submit correct information', () => {
         cy.get('form').within(() => {
             cy.get('input[placeholder="Insert the hike name"]').clear().type(testHike.title);
-            cy.get('input[placeholder="Insert the hike url image"]').clear().type(testHike.photoFile);
+            cy.get('input[placeholder="Insert the hike image url"]').clear().type(testHike.photoFile);
             cy.get('input[placeholder="Insert the hike expected time"]').clear().type(testHike.expectedTime);
             cy.get('select[name="difficulty"]').select("Hiker");
             cy.get('textarea[placeholder="Insert the hike description"]').clear().type(testHike.description);
