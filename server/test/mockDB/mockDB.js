@@ -157,9 +157,9 @@ async function createDatabase() {
 };
 
 async function deleteDatabase() {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
-            deleteAllTables().then(() => {
+            await deleteAllTables().then(() => {
                 resolve('ok');
             })
         } catch (error) {
