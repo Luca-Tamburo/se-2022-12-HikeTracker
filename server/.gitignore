@@ -3,3 +3,5 @@
 Desktop.ini
 Thumbs.db
 mochawesome-report
+# testing
+/coverage
