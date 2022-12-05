@@ -321,29 +321,6 @@ describe("Post.Parking.Hut.APItesting", function () {
             });
     });
 
-    step("Test12: Add Hut success", async function() {
-        
-        await localGuide
-            .post('hut')
-            .set('content-type', 'multipart/form-data')
-            .field({
-                "title":"nice hut",
-                "photoFile" : "https://some/nice/photo",
-                "roomsNumber" : 4,
-                "bedsNumber" : 16,
-                "phoneNumber" : "+393412345678",
-                "latitude": 47.57426,
-                "longitude": 7.98264,
-                "altitude": 3000,
-                "website": "http...",
-                "description":"there are beds and sheets"
-            })
-            .attach('File', 'test/TestImage.png')
-            .then(function (res) {
-                res.should.have.status(201);
-            });
-    });
-
     step("Test12: negative altitude", async function() {
         
         await localGuide
@@ -364,4 +341,52 @@ describe("Post.Parking.Hut.APItesting", function () {
                 res.should.have.status(422);
             });
     });
+
+    step("Test13: Add Hut success. Send image file, not url", async function() {
+        
+        await localGuide
+            .post('hut')
+            .set('content-type', 'multipart/form-data')
+            .field({
+                "title":"nice hut",
+                "photoFile" : "",
+                "roomsNumber" : 4,
+                "bedsNumber" : 16,
+                "phoneNumber" : "+393412345678",
+                "latitude": 47.57426,
+                "longitude": 7.98264,
+                "altitude": 3000,
+                "website": "http...",
+                "description":"there are beds and sheets"
+            })
+            .attach('Image', 'test/TestImage.png')
+            .then(function (res) {
+                res.should.have.status(201);
+            });
+    });
+
+    step("Test14: Add Hut success. Send url, not image", async function() {
+        
+        await localGuide
+            .post('hut')
+            .set('content-type', 'multipart/form-data')
+            .field({
+                "title":"nice hut",
+                "photoFile" : "https://some/nice/photo",
+                "roomsNumber" : 4,
+                "bedsNumber" : 16,
+                "phoneNumber" : "+393412345678",
+                "latitude": 47.57426,
+                "longitude": 7.98264,
+                "altitude": 3000,
+                "website": "http...",
+                "description":"there are beds and sheets"
+            })
+            .then(function (res) {
+                res.should.have.status(201);
+            });
+    });
+
+
+    
 });

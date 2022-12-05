@@ -225,7 +225,7 @@ describe("Post.Hikes.APItesting", function () {
             });
     });
 
-    step('Test10: Add Hike con successo', async function () {
+    step('Test10: Add Hike con successo (send image file, not url)', async function () {
         await localGuide
             .post('hikes')
             .set('content-type', 'multipart/form-data')
@@ -233,15 +233,15 @@ describe("Post.Hikes.APItesting", function () {
             "description": "kkk",
             "expectedTime": 33.33,
             "difficulty": "Hiker",
-            "photoFile": "http://somelink/link"})
+            "photoFile": ""})
             .attach('File', 'test/RightFile.gpx')
-            //.attach('Image', 'test/TestImage.jpg')
+            .attach('Image', 'test/TestImage.png')
             .then(function (res) {
                 res.should.have.status(201);
             });
     });
 
-    step('Test10.5: Add Hike con successo (populate the db for next tests)', async function () {
+    step('Test10.5: Add Hike con successo (send url, not image file)', async function () {
         await localGuide
             .post('hikes')
             .set('content-type', 'multipart/form-data')
