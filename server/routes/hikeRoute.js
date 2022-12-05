@@ -28,6 +28,7 @@ const fs = require('fs');
 const { difficultyValidator, difficultyFormatter, photoUrlValidator } = require("../utils/hikesUtils");
 const dayjs = require("dayjs");
 const { getCityProvinceRegion } = require("../utils/geoUtils");
+const validUrlUtf8 = require('valid-url-utf8');
 
 
 /**
@@ -52,7 +53,7 @@ router.post('/hikes',
     check("description").exists().withMessage("This field is mandatory").bail().isString(),
     check("expectedTime").exists().withMessage("This field is mandatory").bail().isFloat({ gt: 0 }),
     check("difficulty").exists().withMessage("This field is mandatory").bail().isString().custom((value, { req }) => (difficultyValidator(value))).withMessage("Invalid difficulty"),
-    check("photoFile").exists().optional({ checkFalsy: true }).isString(),
+    check("photoFile").exists().optional({ checkFalsy: true }).isString().bail().custom((value, { req }) => (validUrlUtf8(value))).withMessage("Invalid photoFile url"),
     checksValidation, async (req, res) => {
 
         try {
@@ -71,9 +72,18 @@ router.post('/hikes',
 
             //controllo se lo url è utilizzabile
             let urlValid = undefined; //prima era -1
+            let photoUrl;
             if (req.body.photoFile && req.body.photoFile !== undefined) { //qui entro se ho qualcosa nell'url
                 //controllo che url sia valido
-                urlValid = await photoUrlValidator(req.body.photoFile);
+                photoUrl = req.body.photoFile;
+                if (
+                    !(photoUrl.toLowerCase().startsWith('http://'))
+                    &&
+                    !(photoUrl.toLowerCase().startsWith('https://'))
+                )
+                    photoUrl = "http://" + photoUrl;
+
+                urlValid = await photoUrlValidator(photoUrl);
             }
 
             //controllo se immagine è utilizzabile
@@ -145,9 +155,9 @@ router.post('/hikes',
             let pointOneId = await pointDao.addPoint(cpr.name, cpr.name, cpr.type, initialTrackPoint.latitude, initialTrackPoint.longitude, initialTrackPoint.elevation, cpr.city, cpr.province, cpr.region);
 
             cpr = await getCityProvinceRegion(finalTrackPoint.latitude, finalTrackPoint.longitude);
-            let pointTwoId = await pointDao.addPoint(cpr.name, cpr.name,cpr.type, finalTrackPoint.latitude, finalTrackPoint.longitude, finalTrackPoint.elevation, cpr.city, cpr.province, cpr.region);
+            let pointTwoId = await pointDao.addPoint(cpr.name, cpr.name, cpr.type, finalTrackPoint.latitude, finalTrackPoint.longitude, finalTrackPoint.elevation, cpr.city, cpr.province, cpr.region);
 
-            const hikeId = await hikeDao.addHike(req.body.title, req.body.description, totalLength, req.body.expectedTime, ascent, difficultyFormatter(req.body.difficulty), pointOneId, pointTwoId, req.user.id, dayjs().format("YYYY-MM-DD"), uploadedImage === true ? null : req.body.photoFile);
+            const hikeId = await hikeDao.addHike(req.body.title, req.body.description, totalLength, req.body.expectedTime, ascent, difficultyFormatter(req.body.difficulty), pointOneId, pointTwoId, req.user.id, dayjs().format("YYYY-MM-DD"), uploadedImage === true ? null : photoUrl);
             await pointDao.addPointHike(hikeId, pointOneId);
             await pointDao.addPointHike(hikeId, pointTwoId);
 

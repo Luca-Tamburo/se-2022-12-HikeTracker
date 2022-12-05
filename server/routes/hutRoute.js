@@ -20,6 +20,7 @@ const { check, checksValidation } = require("../utils/validationUtil");
 const { photoUrlValidator } = require("../utils/hutUtils");
 const { getCityProvinceRegion } = require("../utils/geoUtils");
 const fs = require('fs');
+const validUrlUtf8 = require('valid-url-utf8');
 
 const sessionUtil = require("../utils/sessionUtil");
 const isLoggedInLocalGuide = sessionUtil.isLoggedInLocalGuide;
@@ -31,7 +32,7 @@ const isLoggedInLocalGuide = sessionUtil.isLoggedInLocalGuide;
 router.post('/hut',
     isLoggedInLocalGuide,
     check("title").exists().withMessage("This field is mandatory").bail().isString(),
-    check("photoFile").exists().optional({ checkFalsy: true }).isString(),
+    check("photoFile").exists().optional({ checkFalsy: true }).isString().bail().custom((value, { req }) => (validUrlUtf8(value))).withMessage("Invalid photoFile url"),
     check("roomsNumber").exists().withMessage("This field is mandatory").bail().isInt({ min: 0 }),
     check("bedsNumber").exists().withMessage("This field is mandatory").bail().isInt({ min: 0 }),
     check("phoneNumber").exists().withMessage("This field is mandatory").bail()
@@ -42,7 +43,7 @@ router.post('/hut',
     check("longitude").exists().withMessage("This field is mandatory").bail().isNumeric(),
     check("altitude").exists().withMessage("This field is mandatory").bail().isFloat({ gt: 0 }),
     check("description").exists().withMessage("This field is mandatory").bail().isString(),
-    check("website").exists().optional({ checkFalsy: true }).isString(),
+    check("website").exists().optional({ checkFalsy: true }).isString().bail().custom((value, { req }) => (validUrlUtf8(value))).withMessage("Invalid website url"),
 
     checksValidation, async (req, res) => {
         try {
@@ -55,11 +56,21 @@ router.post('/hut',
             ////////////////////////////////////////// CONTROLLI APPROFONDITI SULLA FOTO DA INVIARE //////////////////////
 
             //controllo se lo url è utilizzabile
-            let urlValid = undefined; //prima -1
+            let urlValid = undefined; //prima era -1
+            let photoUrl;
             if (req.body.photoFile && req.body.photoFile !== undefined) { //qui entro se ho qualcosa nell'url
                 //controllo che url sia valido
-                urlValid = await photoUrlValidator(req.body.photoFile);
+                photoUrl = req.body.photoFile;
+                if (
+                    !(photoUrl.toLowerCase().startsWith('http://'))
+                    &&
+                    !(photoUrl.toLowerCase().startsWith('https://'))
+                )
+                    photoUrl = "http://" + photoUrl;
+
+                urlValid = await photoUrlValidator(photoUrl);
             }
+
 
             //controllo se immagine è utilizzabile
             let uploadedImage = undefined; //prima -1
@@ -84,9 +95,9 @@ router.post('/hut',
             //create hut point in db
 
 
-            const cpr =await getCityProvinceRegion(req.body.latitude, req.body.longitude);
+            const cpr = await getCityProvinceRegion(req.body.latitude, req.body.longitude);
             const pointId = await pointDao.addPoint(req.body.title, req.body.description, "hut", req.body.latitude, req.body.longitude, req.body.altitude, cpr.city, cpr.province, cpr.region);
-            const hutId = await hutDao.addHut(req.body.title, req.body.roomsNumber, req.body.bedsNumber, undefined, req.body.phoneNumber, uploadedImage === true ? null : req.body.photoFile, req.body.website, pointId);
+            const hutId = await hutDao.addHut(req.body.title, req.body.roomsNumber, req.body.bedsNumber, undefined, req.body.phoneNumber, uploadedImage === true ? null : photoUrl, req.body.website, pointId);
 
             //Eventually create a png file and save it as IDHIKE_TITOLOHIKE.png
             if (uploadedImage === true) {
