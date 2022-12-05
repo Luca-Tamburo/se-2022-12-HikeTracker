@@ -70,14 +70,14 @@ router.post('/hikes',
             ////////////////////////////////////////// CONTROLLI APPROFONDITI SULLA FOTO DA INVIARE //////////////////////
 
             //controllo se lo url è utilizzabile
-            let urlValid = -1;
+            let urlValid = undefined; //prima era -1
             if (req.body.photoFile && req.body.photoFile !== undefined) { //qui entro se ho qualcosa nell'url
                 //controllo che url sia valido
                 urlValid = await photoUrlValidator(req.body.photoFile);
             }
 
             //controllo se immagine è utilizzabile
-            let uploadedImage = -1;
+            let uploadedImage = undefined; //prima -1
             if (req.files && req.files.Image !== undefined) { //qui entro se ho qualcosa nell'immagine
                 const type = (req.files.Image.mimetype.split("/"))[0];
                 if (type === 'image')
@@ -87,9 +87,9 @@ router.post('/hikes',
             }
 
             //faccio un po' di combinazioni di errori
-            if (urlValid === -1 && uploadedImage === false)
+            if (urlValid === undefined && uploadedImage === false) //prima -1
                 return res.status(422).json({ error: `Wrong file sent. Please upload an image file.` });
-            else if (urlValid === false && uploadedImage === -1)
+            else if (urlValid === false && uploadedImage === undefined) //prima -1
                 return res.status(422).json({ error: `Wrong url sent. Please send a correct url corresponding to an image file.` });
             else if (urlValid === false && uploadedImage === false)
                 return res.status(422).json({ error: `Both url and file you sent are wrong. Please better check your inputs.` });
