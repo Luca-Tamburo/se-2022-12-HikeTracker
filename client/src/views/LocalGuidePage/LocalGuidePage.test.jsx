@@ -25,13 +25,13 @@ jest.mock('react-bootstrap', () => {
 
     const Col = (props) => {
         return (
-            <div>{props.children}</div>
+            <div data-testid='Col'>{props.children}</div>
         )
     }
 
     const Row = (props) => {
         return (
-            <div>{props.children}</div>
+            <div data-testid='Row'>{props.children}</div>
         )
     }
 

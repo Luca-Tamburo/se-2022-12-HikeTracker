@@ -19,19 +19,19 @@ import AddHut from './AddHut';
 jest.mock('react-bootstrap', () => {
     const Row = (props) => {
         return (
-            <nav>{props.children}</nav>
+            <nav data-testid='Row'>{props.children}</nav>
         );
     }
 
     const Col = (props) => {
         return (
-            <div>{props.children}</div>
+            <div data-testid='Col'>{props.children}</div>
         )
     }
 
     const Spinner = (props) => {
         return (
-            <div>{props.children}</div>
+            <div data-testid='Spinner'>{props.children}</div>
         )
     }
 
@@ -73,13 +73,13 @@ jest.mock('react-leaflet', () => {
 
     const Marker = (props) => {
         return (
-            <div>{props.children}</div>
+            <div data-testid='Marker'>{props.children}</div>
         )
     }
 
     const TileLayer = (props) => {
         return (
-            <div>{props.children}</div>
+            <div data-testid='TileLayer'>{props.children}</div>
         )
     }
     return ({ MapContainer, Marker, TileLayer });

@@ -11,8 +11,7 @@
  */
 
 // Imports
-import { useContext } from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Row, Col, ListGroup, Button, NavItem, Spinner } from "react-bootstrap";
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
@@ -42,7 +41,7 @@ const HikeDetails = (props) => {
   const [coordinates, setCoordinates] = useState(null);
   const [hike, setHike] = useState(undefined);
   const [start, setStart] = useState(null);
-  const { userInfo, isloggedIn } = useContext(AuthContext);
+  const { isloggedIn } = useContext(AuthContext);
   const { hikeId } = useParams();
   const notify = useNotification();
   const [loading, setLoading] = useState(false);
@@ -57,14 +56,13 @@ const HikeDetails = (props) => {
   });
 
   useEffect(() => {
-    console.log("ciao");
     setLoading(true);
     api
       .getHikeDetails(hikeId)
       .then((hikes) => {
         setHike(hikes);
-        const startPoint=hikes.pointList.find(p=>p.id===hikes.startPointId);
-        const endPoint=hikes.pointList.find(p=>p.id===hikes.startPointId);
+        const startPoint = hikes.pointList.find(p => p.id === hikes.startPointId);
+        const endPoint = hikes.pointList.find(p => p.id === hikes.startPointId);
         let s = [startPoint.latitude, startPoint.longitude];
         let e = [endPoint.latitude, endPoint.longitude];
 
@@ -89,7 +87,6 @@ const HikeDetails = (props) => {
         if (err.response.status === 404) {
           setHike({ id: -1 }); //metto a -1 perchè all'inizio la hike è undefined, quindi se mettessi undefined come controllo per il 404, all'inizio (mentre carica lo hike) mostra un 404 per un momento
         } else {
-          console.log(err);
           notify.error(err.error);
         }
       })
@@ -140,9 +137,9 @@ const HikeDetails = (props) => {
                       <h5 className="fw-bold mt-3">EXPECTED TIME</h5>{" "}
                       {hike.expectedTime} {""} hr
                       <h5 className="fw-bold mt-3">START POINT</h5>{" "}
-                      {hike.pointList.find(p=>p.id===hike.startPointId).name}
+                      {hike.pointList.find(p => p.id === hike.startPointId).name}
                       <h5 className="fw-bold mt-3">END POINT</h5>{" "}
-                      {hike.pointList.find(p=>p.id===hike.endPointId).name}
+                      {hike.pointList.find(p => p.id === hike.endPointId).name}
                       <h5 className="fw-bold mt-3">REFERENCE POINTS</h5>
                       {hike.pointList.map((point, index) => {
                         return (

@@ -37,13 +37,13 @@ jest.mock('react-bootstrap', () => {
 
     const Col = (props) => {
         return (
-            <div>{props.children}</div>
+            <div data-testid='Col'>{props.children}</div>
         )
     }
 
     const Spinner = (props) => {
         return (
-            <div>{props.children}</div>
+            <div data-testid='Spinner'>{props.children}</div>
         )
     }
 
@@ -78,23 +78,23 @@ jest.mock('../../components/ui-core/locate/AddMarkerAndInfo', () => () => {
 jest.mock('react-leaflet', () => {
     const MapContainer = (props) => {
         return (
-            <div>{props.children}</div>
+            <div data-testid='MapContainer'>{props.children}</div>
         )
     }
 
     const Marker = (props) => {
         return (
-            <div>{props.children}</div>
+            <div data-testid='Marker'>{props.children}</div>
         )
     }
 
     const TileLayer = (props) => {
         return (
-            <div>{props.children}</div>
+            <div data-testid='TileLayer'>{props.children}</div>
         )
     }
 
-    const useMap = (props) => {
+    const useMap = () => {
         return (
             <div></div>
         )

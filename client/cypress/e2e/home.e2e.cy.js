@@ -10,7 +10,6 @@
 * --------------------------------------------------------------------
 */
 
-// TODO: Capire come si può rallentare l'esecuzione dei test
 describe('Home', () => {
   it('goes to home', () => {
     cy.visit('/');

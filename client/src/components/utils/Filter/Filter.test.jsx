@@ -68,31 +68,31 @@ jest.mock('react-bootstrap', () => {
 jest.mock('react-leaflet', () => {
     const MapContainer = (props) => {
         return (
-            <div>{props.children}</div>
+            <div data-testid='MapContainer'>{props.children}</div>
         )
     }
 
     const Marker = (props) => {
         return (
-            <div>{props.children}</div>
+            <div data-testid='Marker'>{props.children}</div>
         )
     }
 
     const Popup = (props) => {
         return (
-            <div>{props.children}</div>
+            <div data-testid='Popup'>{props.children}</div>
         )
     }
 
     const TileLayer = (props) => {
         return (
-            <div>{props.children}</div>
+            <div data-testid='TileLayer'>{props.children}</div>
         )
     }
 
     const Circle = (props) => {
         return (
-            <div>{props.children}</div>
+            <div data-testid='Circle'>{props.children}</div>
         )
     }
     return ({ MapContainer, Marker, Popup, TileLayer, Circle });

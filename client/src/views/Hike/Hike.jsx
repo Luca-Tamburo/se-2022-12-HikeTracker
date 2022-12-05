@@ -12,8 +12,7 @@
 
 //Imports
 import { useState, useEffect } from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
-import { ArrowUp } from 'react-bootstrap-icons';
+import { Row, Col } from 'react-bootstrap';
 
 //Components
 import HikeCard from '../../components/ui-core/HikeCard/HikeCard';

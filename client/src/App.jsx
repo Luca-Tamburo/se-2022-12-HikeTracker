@@ -13,8 +13,7 @@
 // Imports
 import './App.css';
 import { useEffect, useState } from "react";
-import { Routes, Route, useLocation } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
 
 // Components - utils
@@ -48,7 +47,6 @@ const App = () => {
         setIsloggedIn(true);
         setUserInfo(user);
       }).catch((err) => {
-        //notify.error(err.error)
         setIsloggedIn(false);
       })
       .finally(() => setLoading(false))
@@ -92,9 +90,9 @@ const App = () => {
             <Route path='/signup/:role' element={<View.RegisterRole />} />
             <Route path='/hikes' element={<View.Hike />} />
             <Route path='/hikes/:hikeId' element={<View.HikeDetails isloggedIn={isloggedIn} userInfo={userInfo} />} />
-              <Route path='/email/confirmed' element={<View.EmailConf />} />
-              <Route path='/email/error' element={<View.EmailErr />} />
-              <Route element={<Utils.ProtectedRoute />}>
+            <Route path='/email/confirmed' element={<View.EmailConf />} />
+            <Route path='/email/error' element={<View.EmailErr />} />
+            <Route element={<Utils.ProtectedRoute />}>
               <Route element={<Utils.LocalGuideProtectedRoute />} >
                 <Route path='/localGuide' element={<View.LocalGuidePage />} />
                 <Route path='/addHike' element={<View.AddHike userInfo={userInfo} />} />

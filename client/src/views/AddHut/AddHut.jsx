@@ -103,7 +103,6 @@ const AddHut = () => {
                     return (
                         <Row>
                             <Col xs={10} lg={6} className="mt-3 ms-5 ms-sm-5 p-0">
-                                {/* TODO: Da portare in components e qui importare il singolo componente */}
                                 <Form>
                                     <Row>
                                         {AddHutForm.map((input, index) => {

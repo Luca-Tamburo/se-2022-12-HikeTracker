@@ -73,22 +73,16 @@ const Filter = (props) => {
   const [center, setCenter] = useState({ lat: 45.072384, lng: 7.6414976 });
   const handleSearch = () => {
     let result = props.hikes;
-    console.log("valore regione: " + region);
     if (!(region === "Region" || region === "0")) {
-      console.log("valore regione diverso da region: " + region);
-
-      console.log("entra 1");
       result = result.filter(
         (hike) => hike.region === getRegionName(parseInt(region))
       );
       if (!(province === "Province" || province === "0")) {
-        console.log("entra 2");
         result = result.filter(
           (hike) => hike.province === getProvinceName(parseInt(province))
         );
 
         if (!(city === "City" || city === "0")) {
-          console.log("entra 3");
           result = result.filter((hike) => hike.city === city);
         }
       }
@@ -96,7 +90,6 @@ const Filter = (props) => {
     if (range !== 0) {
       let v = [];
       for (let index = 0; index < result.length; index++) {
-        console.log(marker);
         let dst =
           6372.795477598 *
           1000 *
@@ -110,7 +103,6 @@ const Filter = (props) => {
               (marker.getLatLng().lng * Math.PI) / 180
             )
           );
-        console.log(dst);
         if (dst <= range) {
           v.push(result[index]);
         }
@@ -128,13 +120,11 @@ const Filter = (props) => {
     }
     if (expectedTimeMin) {
       result.forEach((element) => {
-        console.log(element.expectedTime);
       });
       result = result.filter((hike) => hike.expectedTime >= expectedTimeMin);
     }
     if (expectedTimeMax) {
       result.forEach((element) => {
-        console.log(element.expectedTime);
       });
       result = result.filter((hike) => hike.expectedTime <= expectedTimeMax);
     }
@@ -164,14 +154,12 @@ const Filter = (props) => {
     setLengthMin("");
     setLengthMax("");
     setMarker(false)
-    console.log(EventTarget.toString());
 
     props.setHikesDisplay(props.hikes);
   };
 
   const handleRegion = (event) => {
     if (event.target.value === "0") {
-      console.log("rntrro");
       setIsRegionUnselected(true);
       setIsProvinceUnselected(true);
       setIsCityUnselected(true);
@@ -208,9 +196,6 @@ const Filter = (props) => {
 
   return (
     <>
-      {/* TODO: Eliminare tutti i componenti <Form> e lasciare solo i componenti <Form.Select>. Sprint #3 */}
-      {/* TODO: Dividere in 2 sottocomponenti ed importarli */}
-      {/* Geographical area and ascent filters*/}
       <Row>
         <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
           <Form.Select
@@ -463,7 +448,7 @@ const Filter = (props) => {
                       </Marker>
                     )
                   })}
-                  {currentPosition ? <LocationMarker saveMarkers={saveMarkers} marker={marker} id={'location'} setLocation={setCurrentPosition}/> :
+                  {currentPosition ? <LocationMarker saveMarkers={saveMarkers} marker={marker} id={'location'} setLocation={setCurrentPosition} /> :
                     <AddMarker saveMarkers={saveMarkers} marker={marker} circle={circle} range={range} />}
                 </MapContainer>
               </Col>

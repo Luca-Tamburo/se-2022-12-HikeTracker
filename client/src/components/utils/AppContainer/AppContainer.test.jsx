@@ -20,7 +20,7 @@ import AppContainer from './AppContainer';
 jest.mock('react-bootstrap', () => {
     const Row = (props) => {
         return (
-            <div>{props.children}</div>
+            <div data-testid='Row'>{props.children}</div>
         )
     };
 

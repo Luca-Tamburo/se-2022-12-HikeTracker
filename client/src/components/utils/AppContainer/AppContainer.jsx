@@ -52,7 +52,6 @@ const AppContainer = ({ ...props }) => {
                 {props.children}
             </Row>
             <Button onClick={backToTop} id='btn-back-to-top' data-testid='go-to-top-page-button'>
-                {/* TODO: Cambiare con una icona più grande o ridurre il raggio del bottone */}
                 <ArrowUp size={20} />
             </Button>
         </Container >

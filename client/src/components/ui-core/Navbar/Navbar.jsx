@@ -12,9 +12,8 @@
 
 //Imports
 import "./Navbar.css";
-import React from "react";
 import { useContext } from "react";
-import { Container, Navbar as MyNavbar, Button, Dropdown, } from "react-bootstrap";
+import { Container, Navbar as MyNavbar, Button, Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
 
