@@ -73,7 +73,7 @@ router.post('/hut',
 
             //faccio un po' di combinazioni di errori
             if (urlValid === undefined && uploadedImage === false) //pprima -1
-                return res.status(422).json({ error: `No file sent. Please upload an image file.` });
+                return res.status(422).json({ error: `Wrong file sent. Please upload an image file.` });
             else if (urlValid === false && uploadedImage === undefined) //prima -1
                 return res.status(422).json({ error: `Wrong photo url sent. Please send a correct url corresponding to an image file.` });
             else if (urlValid === false && uploadedImage === false)
