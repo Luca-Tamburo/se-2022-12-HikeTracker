@@ -63,8 +63,10 @@ const HikeDetails = (props) => {
       .getHikeDetails(hikeId)
       .then((hikes) => {
         setHike(hikes);
-        let s = [hikes.pointList[0].latitude, hikes.pointList[0].longitude];
-        let e = [hikes.pointList[1].latitude, hikes.pointList[1].longitude];
+        const startPoint=hikes.pointList.find(p=>p.id===hikes.startPointId);
+        const endPoint=hikes.pointList.find(p=>p.id===hikes.startPointId);
+        let s = [startPoint.latitude, startPoint.longitude];
+        let e = [endPoint.latitude, endPoint.longitude];
 
         setStart(s);
         setEnd(e);
@@ -138,9 +140,9 @@ const HikeDetails = (props) => {
                       <h5 className="fw-bold mt-3">EXPECTED TIME</h5>{" "}
                       {hike.expectedTime} {""} hr
                       <h5 className="fw-bold mt-3">START POINT</h5>{" "}
-                      {hike.pointList[0].name}
+                      {hike.pointList.find(p=>p.id===hike.startPointId).name}
                       <h5 className="fw-bold mt-3">END POINT</h5>{" "}
-                      {hike.pointList[1].name}
+                      {hike.pointList.find(p=>p.id===hike.endPointId).name}
                       <h5 className="fw-bold mt-3">REFERENCE POINTS</h5>
                       {hike.pointList.map((point, index) => {
                         return (
