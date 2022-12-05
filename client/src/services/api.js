@@ -35,7 +35,7 @@ const api = {
                 .then(res => {
                     resolve(res.data)
                 })
-                .catch(err => { reject(err.response.data) });
+                .catch(err => reject(err.response.data));
         })
     },
 
@@ -51,7 +51,7 @@ const api = {
         return new Promise((resolve, reject) => {
             axios.get(SERVER_URL + 'sessions/current', { withCredentials: true })
                 .then((res) => resolve(res.data))
-                .catch((err) => { reject(err.response.data) });
+                .catch((err) => reject(err.response.data));
         })
     },
 
