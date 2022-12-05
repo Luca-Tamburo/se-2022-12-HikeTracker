@@ -11,7 +11,7 @@
 */
 
 //Imports
-import { Row, Container, Button} from "react-bootstrap";
+import { Row, Container, Button } from "react-bootstrap";
 import { ArrowUp } from 'react-bootstrap-icons';
 
 //Components
@@ -42,10 +42,7 @@ const AppContainer = ({ ...props }) => {
     }
 
     function backToTop() {
-
-        console.log('entra nel bottone')
         container.scrollTop = 0;
-
     }
 
     return (
@@ -54,8 +51,9 @@ const AppContainer = ({ ...props }) => {
             <Row className='flex-fill p-0'>
                 {props.children}
             </Row>
-            <Button onClick={backToTop} id='btn-back-to-top'>
-                <ArrowUp />
+            <Button onClick={backToTop} id='btn-back-to-top' data-testid='go-to-top-page-button'>
+                {/* TODO: Cambiare con una icona più grande o ridurre il raggio del bottone */}
+                <ArrowUp size={20} />
             </Button>
         </Container >
     );

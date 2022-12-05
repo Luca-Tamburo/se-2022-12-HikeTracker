@@ -12,9 +12,9 @@
 
 // Formik fields name
 const AddParkingForm = [
-    { xsCol: '12', idName: 'title', placeholder: 'Insert the parking name', label: 'Name' },
-    { xsCol: '6', idName: 'altitude', placeholder: 'Insert the parking altitude', label: 'Altitude' },
-    { xsCol: '6', idName: 'capacity', placeholder: 'Insert the maximum number of cars', label: 'Capacity' },
+    { xsCol: '12', smCol: '12', idName: 'title', placeholder: 'Insert the parking name', label: 'Name' },
+    { xsCol: '12', smCol: '6', idName: 'altitude', placeholder: 'Insert the parking altitude', label: 'Altitude' },
+    { xsCol: '12', smCol: '6', idName: 'capacity', placeholder: 'Insert the maximum number of cars', label: 'Capacity' },
 ]
 
 export default AddParkingForm;

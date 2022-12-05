@@ -27,7 +27,7 @@ jest.mock('react-bootstrap', () => {
 
     Card.Img = (props) => {
         return (
-            <img {...props} alt={props.alt} />
+            <img src={props.src} alt={props.alt} />
         )
     }
 
@@ -63,7 +63,7 @@ const info = {
     title: "Add Hike",
     description: "Ty for the contribute",
     addName: "addHike",
-    icon: "icon.svgq"
+    icon: "icon.svg"
 }
 
 const expected = {

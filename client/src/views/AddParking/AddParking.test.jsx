@@ -68,6 +68,12 @@ jest.mock('../../components/utils/Input/TextArea', () => () => {
     return <mock-TextArea data-testid='TextArea' />
 })
 
+const mockAddMarkerAndInfo = jest.fn();
+jest.mock('../../components/ui-core/locate/AddMarkerAndInfo', () => () => {
+    mockAddMarkerAndInfo();
+    return <mock-AddMarkerAndInfo data-testid='AddMarkerAndInfo' />
+})
+
 // Mock react-leaflet
 jest.mock('react-leaflet', () => {
     const MapContainer = (props) => {

@@ -44,6 +44,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "coverage": "npm test -- --coverage",
     "cypress:open": "cypress open"
   },
   "eslintConfig": {
@@ -72,6 +73,14 @@
   "jest": {
     "moduleNameMapper": {
       "axios": "axios/dist/node/axios.cjs"
+    },
+    "coverageThreshold": {
+      "global": {
+        "statements": 100,
+        "branches": 50,
+        "functions": 100,
+        "lines": 100
+      }
     }
   }
 }

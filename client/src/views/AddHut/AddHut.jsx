@@ -12,11 +12,10 @@
 
 //Imports
 import { useState } from "react";
-import { Button, Spinner, Row, Col, Form } from "react-bootstrap";
+import { Button, Spinner, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { Formik, Form as FormikForm } from "formik";
+import { Formik, Form } from "formik";
 import { MapContainer, TileLayer } from 'react-leaflet'
-import getCityProvinceRegion from "../../services/geoApi";
 
 // Services
 import api from "../../services/api";
@@ -43,7 +42,6 @@ const AddHut = () => {
     const [center, setCenter] = useState({ lat: 45.072384, lng: 7.6414976 });
     const [marker, setMarker] = useState(null);
     const [location, setLocation] = useState(false)
-    const [selectedImage, setSelectedImage] = useState();
     const [urlIsSelected, setUrlIsSelected] = useState(true); // By default, I assume that the user enters the image via the url (true).
 
     const initialValues = {
@@ -55,23 +53,30 @@ const AddHut = () => {
         altitude: "",
         description: "",
         website: "",
-        image: null
+        image: undefined
     }
 
     const handleSubmit = (values) => {
-        if (!marker) {
+        if (values.image && values.photoFile)
+            notify.error('Please, enter only the url of the photo or the local file, not both.')
+        else if (!values.image && !values.photoFile)
+            notify.error('Please include at least a photo url or a local file')
+        else if (!marker) {
             notify.error("Choose a point on the map!")
         } else {
             let formData = new FormData();
-            formData.append('Image', selectedImage);
+            formData.append('Image', values.image);
             formData.append('title', values.title);
             formData.append('photoFile', values.photoFile);
             formData.append('roomsNumber', values.room);
             formData.append('bedsNumber', values.bed);
             formData.append('phoneNumber', values.phoneNumber);
+            // formData.append('latitude', 22.33);
+            // formData.append('longitude', 44.33);
             formData.append('altitude', values.altitude);
             formData.append('description', values.description);
-            formData.append('website', values.website);
+            if (values.website !== "")
+                formData.append('website', values.website);
             setLoading(true);
 
             api.addHut(formData)
@@ -83,7 +88,7 @@ const AddHut = () => {
                 .finally(() => setLoading(false));
         }
     };
-    const saveMarkers = (newMarkerCoords, circle) => {
+    const saveMarkers = (newMarkerCoords) => {
         setMarker(newMarkerCoords)
     };
 
@@ -92,22 +97,18 @@ const AddHut = () => {
             <div className="d-flex justify-content-center mt-4">
                 <h1 className="fw-bold">Add your hut</h1>
             </div>
-            <Formik
-                initialValues={initialValues}
-                validationSchema={AddHutSchema}
-                onSubmit={(values) => handleSubmit(values)}
-            >
-                {({ values, handleSubmit, touched, isValid, setFieldValue }) => {
-                    const disableSubmit = (!touched.title && !touched.photoFile && !touched.room && !touched.bed && !touched.phoneNumber && !touched.altitude && !touched.description) || !isValid;
+            <Formik initialValues={initialValues} validationSchema={AddHutSchema} onSubmit={(values) => handleSubmit(values)}>
+                {({ values, touched, isValid, setFieldValue, setFieldTouched }) => {
+                    const disableSubmit = (!touched.title && !touched.room && !touched.bed && !touched.phoneNumber && !touched.altitude && !touched.description && (!touched.photoFile || !touched.image)) || !isValid;
                     return (
                         <Row>
-                            <Col xs={10} sm={6} className="mt-3 ms-5 ms-sm-5 p-0">
+                            <Col xs={10} lg={6} className="mt-3 ms-5 ms-sm-5 p-0">
                                 {/* TODO: Da portare in components e qui importare il singolo componente */}
-                                <FormikForm>
+                                <Form>
                                     <Row>
                                         {AddHutForm.map((input, index) => {
                                             return (
-                                                <Col xs={input.xsCol} sm={input.smCol} key={index}>
+                                                <Col xs={input.xsCol} sm={input.smCol} md={input.mdCol} key={index}>
                                                     <CustomField.Input
                                                         className='mt-3'
                                                         type='text'
@@ -120,27 +121,29 @@ const AddHut = () => {
                                                 </Col>
                                             );
                                         })}
-                                        <Col xs={6}>
-                                            <Form>
-                                                <Form.Check
-                                                    type="switch"
-                                                    id="custom-switch"
-                                                    label="How do you want to upload your image?"
-                                                    onClick={() => setUrlIsSelected(!urlIsSelected)}
-                                                />
-                                            </Form>
-                                            {/* TODO: Fixare la disable e inserirla anche */}
-                                            <CustomField.Input type='text' id='photoFile' name='photoFile' placeholder='Insert the hut image url' label='Image' disabled={!urlIsSelected} />
+                                        <Col xs={12} sm={6} md={8}>
+                                            <CustomField.Input type='text' id='photoFile' name='photoFile' placeholder='Insert the hut image url' label='Image' className='mt-3' disabled={values.image} onChange={(e) => {
+                                                setFieldValue("photoFile", e.currentTarget.value);
+                                                if (!e.currentTarget.value) {
+                                                    setUrlIsSelected(false)
+                                                }
+                                                else setUrlIsSelected(true)
+                                            }} />
                                         </Col>
-                                        <Col xs={6}>
-                                            <Form.Group id="formImageFile" className="mt-3">
-                                                <Form.Label className="fw-semibold fst-italic">Hike image file</Form.Label>
-                                                <Form.Control id="image" name="image" type="file" disabled={urlIsSelected} accept="image/*" onChange={(event) => {
-                                                    event.preventDefault();
-                                                    setSelectedImage(event.target.files[0]);
-                                                    setFieldValue("image", event.currentTarget.files[0]);
-                                                }} />
-                                            </Form.Group>
+                                        <Col xs={12} sm={6} md={4}>
+                                            <label htmlFor="formImageFile" className="fw-semibold fst-italic mt-3">Upload your image</label>
+                                            <input type="file" id="formImageFile" name="image" accept="image/*" className='mt-3' disabled={urlIsSelected && touched.photoFile && values.photoFile.length !== 0} onChange={(e) => {
+                                                e.preventDefault();
+                                                setFieldValue("image", e.currentTarget.files[0]);
+                                                if (e.currentTarget.files[0]) {
+                                                    setUrlIsSelected(false)
+                                                    setFieldValue('photoFile', '')
+                                                }
+                                                else {
+                                                    setUrlIsSelected(true)
+                                                    setFieldTouched('photoFile', false)
+                                                }
+                                            }} />
                                         </Col>
                                         <CustomField.TextArea className="mt-3" id="description" name="description" placeholder="Insert the hut description" label="Description" />
                                         <Button variant="primary" type="submit" className='p-3 rounded-3 mt-4 w-100 fw-semibold' disabled={disableSubmit}>
@@ -148,9 +151,9 @@ const AddHut = () => {
                                             Submit
                                         </Button>
                                     </Row>
-                                </FormikForm>
+                                </Form>
                             </Col>
-                            <Col xs={{ span: 10, offset: 1 }} sm={4} className='mt-4 mb-5 p-sm-0 me-sm-1'>
+                            <Col xs={{ span: 10, offset: 1 }} lg={4} className='mt-4 mb-5 p-sm-0 me-sm-1'>
                                 <MapContainer
                                     center={center} scrollWheelZoom={true} whenCreated={(map) => this.setState({ map })} zoom={ZOOM_LEVEL} setView={true}>
                                     <TileLayer
@@ -158,7 +161,7 @@ const AddHut = () => {
                                         url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
                                     />
                                     {location ? <SetYourLocation setCenter={setCenter} setLocation={setLocation} /> : <></>}
-                                    <AddMarkerInfo saveMarkers={saveMarkers} marker={marker} hut={true}/>
+                                    <AddMarkerInfo saveMarkers={saveMarkers} marker={marker} hut={true} />
                                 </MapContainer>
                                 <Row>
                                     <div className="d-flex justify-content-evenly mt-2">

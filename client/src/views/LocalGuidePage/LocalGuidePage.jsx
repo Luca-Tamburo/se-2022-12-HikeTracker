@@ -28,7 +28,7 @@ import maleAvatar from '../../assets/maleAvatar.png'
 import femaleAvatar from '../../assets/femaleAvatar.png'
 
 const LocalGuidePage = () => {
-    const { userInfo, isloggedIn } = useContext(AuthContext);
+    const { userInfo } = useContext(AuthContext);
 
     return (
         <>

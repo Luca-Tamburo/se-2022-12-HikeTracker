@@ -30,7 +30,13 @@ jest.mock('react-bootstrap', () => {
         )
     };
 
-    return ({ Row, Container });
+    const Button = ({ children, ...props }) => {
+        return (
+            <button {...props}>{children}</button>
+        )
+    }
+
+    return ({ Row, Container, Button });
 })
 
 // Mock custom components
@@ -44,5 +50,10 @@ describe('AppContainer', () => {
     it('Check if Navbar is render', () => {
         render(<AppContainer />, { wrapper: MemoryRouter });
         expect(screen.getByTestId('Navbar')).toBeInTheDocument();
+    })
+
+    it('Check if go to top page button is render', () => {
+        render(<AppContainer />, { wrapper: MemoryRouter });
+        expect(screen.getByTestId('go-to-top-page-button')).toBeInTheDocument();
     })
 })

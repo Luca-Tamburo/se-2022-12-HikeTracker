@@ -29,18 +29,6 @@ jest.mock('react-bootstrap', () => {
         )
     }
 
-    const Form = (props) => {
-        return (
-            <form>{props.children}</form>
-        )
-    }
-
-    Form.Check = (props) => {
-        return (
-            <form>{props.children}</form>
-        )
-    }
-
     const Spinner = (props) => {
         return (
             <div>{props.children}</div>
@@ -53,7 +41,7 @@ jest.mock('react-bootstrap', () => {
         )
     }
 
-    return ({ Row, Col, Spinner, Button, Form });
+    return ({ Row, Col, Spinner, Button });
 })
 
 // Mock custom components
@@ -67,6 +55,12 @@ const mockTextArea = jest.fn();
 jest.mock('../../components/utils/Input/TextArea', () => () => {
     mockTextArea();
     return <mock-TextArea data-testid='TextArea' />
+})
+
+const mockAddMarkerAndInfo = jest.fn();
+jest.mock('../../components/ui-core/locate/AddMarkerAndInfo', () => () => {
+    mockAddMarkerAndInfo();
+    return <mock-AddMarkerAndInfo data-testid='AddMarkerAndInfo' />
 })
 
 // Mock react-leaflet

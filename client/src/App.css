@@ -35,6 +35,7 @@ body,
   padding: 0px !important;
   /* overflow: hidden; */
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 .leaflet-container {

@@ -14,7 +14,7 @@
 import { useState } from "react";
 import { Button, Spinner, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { Formik, Form as FormikForm } from "formik";
+import { Formik, Form } from "formik";
 import { MapContainer, TileLayer } from 'react-leaflet'
 
 // Services
@@ -56,6 +56,8 @@ const AddParking = (props) => {
         } else {
             let formData = new FormData();
             formData.append('title', values.title);
+            // formData.append('latitude', 22.33);
+            // formData.append('longitude', 44.33);
             formData.append('altitude', values.altitude);
             formData.append('description', values.description);
             formData.append('capacity', values.capacity);
@@ -71,7 +73,7 @@ const AddParking = (props) => {
         }
     };
 
-    const saveMarkers = (newMarkerCoords, circle) => {
+    const saveMarkers = (newMarkerCoords) => {
         setMarker(newMarkerCoords)
     };
 
@@ -85,16 +87,16 @@ const AddParking = (props) => {
                 validationSchema={AddParkingSchema}
                 onSubmit={(values) => handleSubmit(values)}
             >
-                {({ values, handleSubmit, touched, isValid, setFieldValue }) => {
+                {({ touched, isValid }) => {
                     const disableSubmit = (!touched.title && !touched.photoFile && !touched.altitude && !touched.description && !touched.capacity) || !isValid;
                     return (
                         <Row>
-                            <Col xs={10} sm={6} className="mt-3 ms-5 ms-sm-5 p-0">
-                                <FormikForm >
+                            <Col xs={10} lg={6} className="mt-3 ms-5 ms-sm-5 p-0">
+                                <Form >
                                     <Row>
                                         {AddParkingForm.map((input, index) => {
                                             return (
-                                                <Col xs={input.xsCol} key={index}>
+                                                <Col xs={input.xsCol} sm={input.smCol} md={input.mdCol} key={index}>
                                                     <CustomField.Input
                                                         className='mt-3'
                                                         type='text'
@@ -112,11 +114,10 @@ const AddParking = (props) => {
                                             Submit
                                         </Button>
                                     </Row>
-                                </FormikForm>
+                                </Form>
                             </Col>
-                            <Col xs={{ span: 10, offset: 1 }} sm={4} className='mb-5 p-sm-0 me-sm-1'>
-                                <MapContainer
-                                    center={center} scrollWheelZoom={true} whenCreated={(map) => this.setState({ map })} zoom={ZOOM_LEVEL} setView={true}>
+                            <Col xs={{ span: 10, offset: 1 }} lg={4} className='mt-4 mb-5 p-sm-0 me-sm-1'>
+                                <MapContainer center={center} scrollWheelZoom={true} whenCreated={(map) => this.setState({ map })} zoom={ZOOM_LEVEL} setView={true}>
                                     <TileLayer
                                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                         url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'

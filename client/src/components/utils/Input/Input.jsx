@@ -17,7 +17,7 @@ import { Field, ErrorMessage, useField } from "formik";
 // ClassNames
 import classNames from "classnames";
 
-const Input = ({ id, name, type, placeholder, disabled, className, label }) => {
+const Input = ({ id, name, type, placeholder, disabled, className, label, ...props }) => {
     const [field, meta] = useField(name);
 
     const classes = classNames({
@@ -30,7 +30,7 @@ const Input = ({ id, name, type, placeholder, disabled, className, label }) => {
     return (
         <Form.Group className={className}>
             <Form.Label htmlFor={id} className="fw-semibold text-primary-dark" >{label}</Form.Label>
-            <Field id={id} name={field.name} type={type} placeholder={placeholder} className={classes} disabled={disabled} />
+            <Field id={id} name={field.name} type={type} placeholder={placeholder} className={classes} disabled={disabled} {...props} />
             {(meta.touched && meta.error) &&
                 <Form.Text data-testid='error-message' className='text-danger'>
                     <ErrorMessage name={field.name} />
