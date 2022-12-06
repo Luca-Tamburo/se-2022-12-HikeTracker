@@ -98,7 +98,7 @@ exports.getHuts = () => {
  */
  exports.getAllHuts = () => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT Hut.id AS id, Point.name AS name, Point.description AS description, Point.altitude AS altitude, Point.latitude AS latitude, Point.longitude AS longitude"
+        const sql = "SELECT Hut.id AS id, Point.name AS name, Point.description AS description, Point.altitude AS altitude, Point.latitude AS latitude, Point.longitude AS longitude, Point.city AS city, Point.province AS province, Point.region AS region"
         + "Hut.roomsNumber AS roomsNumber, Hut.bedsNumber AS bedsNumber, Hut.photoFile AS photoFile"
         + "FROM Hut JOIN Point ON Hut.pointId = Point.id WHERE Point.type = ?";
         db.all(sql, ["hut"], (err, rows) => {
@@ -115,7 +115,10 @@ exports.getHuts = () => {
                     photoFile: r.photoFile,
                     altitude: r.altitude,
                     latitude: r.latitude, 
-                    longitude: r.longitude
+                    longitude: r.longitude,
+                    city: r.city,
+                    province: r.province, 
+                    region: r.region
                 }
             ));
             resolve(huts);
@@ -128,7 +131,7 @@ exports.getHuts = () => {
  */
 exports.getDetailsByHutId = (id) => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT Hut.id AS id, Point.name AS name, Point.description AS description, Point.altitude AS altitude, Point.latitude AS latitude, Point.longitude AS longitude"
+        const sql = "SELECT Hut.id AS id, Point.name AS name, Point.description AS description, Point.altitude AS altitude, Point.latitude AS latitude, Point.longitude AS longitude, Point.city AS city, Point.province AS province, Point.region AS region"
             + "Hut.roomsNumber AS roomsNumber, Hut.bedsNumber AS bedsNumber, Hut.photoFile AS photoFile, Hut.website AS website, Hut.whenIsOpen AS whenIsOpen, Hut.phoneNumber AS phoneNumber"
             + "FROM Hut JOIN Point ON Hut.pointId = Point.id WHERE Hut.id = ?";
         db.get(sql, [id], (err, r) => {
@@ -150,7 +153,10 @@ exports.getDetailsByHutId = (id) => {
                     longitude: r.longitude,
                     website: r.website,
                     whenIsOpen: r.whenIsOpen,
-                    phoneNumber: r.phoneNumber
+                    phoneNumber: r.phoneNumber,
+                    city: r.city,
+                    province: r.province, 
+                    region: r.region
                 }
                 resolve(hut);
             }
