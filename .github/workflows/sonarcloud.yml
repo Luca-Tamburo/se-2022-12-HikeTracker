@@ -15,29 +15,27 @@ jobs:
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analusis
 
-      - name: Build Coverage Frontend
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-          cache: 'npm'
+      # - name: Build Coverage Frontend
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 16.x
           
-      - run: npm ci
-        working-directory: client
-      - run: CI=false npm run build --if-present    
-        working-directory: client
-      - run: npm run test:cov
-        working-directory: client
+      # - run: npm ci
+      #   working-directory: client
+      # - run: CI=false npm run build --if-present    
+      #   working-directory: client
+      # - run: npm run test:cov
+      #   working-directory: client
         
-      - name: Build Coverage Backend
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-          cache: 'npm'
+      # - name: Build Coverage Backend
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 16.x
 
-      - run: npm ci
-        working-directory: server
-      - run: npm run test_coverage
-        working-directory: server
+      # - run: npm ci
+      #   working-directory: server
+      # - run: npm run test_coverage
+      #   working-directory: server
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master

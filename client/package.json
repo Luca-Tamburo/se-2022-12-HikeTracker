@@ -43,7 +43,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:cov": "react-scripts test --silent --coverage --testResultsProcessor=jest-sonar-reporter",
+    "test:cov": "react-scripts test --watchAll --silent --coverage --testResultsProcessor=jest-sonar-reporter",
     "eject": "react-scripts eject",
     "coverage": "npm test -- --watchAll=\"false\" --coverage",
     "cypress:open": "cypress open"
