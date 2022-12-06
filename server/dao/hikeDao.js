@@ -41,14 +41,14 @@ exports.addHike = (title, description, length, expectedTime, ascent, difficulty,
                 if (err) {
                     reject(err);
                 } else {
-                    const gpxFile = `${this.lastID}_${title.replace(/ /g, '_')}.gpx`
+                    const gpxFile = `${this.lastID}.gpx`
                     sql = "UPDATE Hike SET gpxFile=? WHERE id=?";
                     db.run(sql, [gpxFile, this.lastID], (err) => {
                         if (err) {
                             reject(err);
                         } else {
                             if (!photoFile) {
-                                const imgUrl = `http://localhost:3001/images/hikes/${this.lastID}_${title.replace(/ /g, '_')}.png`
+                                const imgUrl = `http://localhost:3001/images/hikes/${this.lastID}.png`
                                 sql = "UPDATE Hike SET photoFile=? WHERE id=?";
                                 db.run(sql, [imgUrl, this.lastID], (err) => {
                                     if (err) {

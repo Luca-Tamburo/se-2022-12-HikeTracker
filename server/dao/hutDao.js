@@ -28,7 +28,7 @@ exports.addHut = (title,roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photoF
             else {
 
                 if (!photoFile) {
-                    const imgUrl = `http://localhost:3001/images/huts/${this.lastID}_${title.replace(/ /g, '_')}.png`
+                    const imgUrl = `http://localhost:3001/images/huts/${this.lastID}.png`
                     sql = "UPDATE Hut SET photoFile=? WHERE id=?";
                     db.run(sql, [imgUrl, this.lastID], (err) => {
                         if (err) {
