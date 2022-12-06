@@ -29,7 +29,7 @@ const cleanDb = async () => {
 
 
 describe("Post.Hikes.APItesting", function () {
-    before(()=>{cleanDb();});
+    before(() => { cleanDb(); });
 
     const localGuide = request.agent(server);
 
@@ -81,8 +81,8 @@ describe("Post.Hikes.APItesting", function () {
     });
 
 
-    step("Test1: wrong fields", async function() {
-        
+    step("Test1: wrong fields", async function () {
+
         await localGuide
             .post('hikes')
             .set('content-type', 'multipart/form-data')
@@ -94,13 +94,13 @@ describe("Post.Hikes.APItesting", function () {
                 "photoFie": "http://somelink/link"
             })
             .attach('File', './test/RightFile.gpx')
-            .then( function (res) {
+            .then(function (res) {
                 res.should.have.status(422);
             });
     });
 
-    step("Test2: wrong time format", async function() {
-        
+    step("Test2: wrong time format", async function () {
+
         await localGuide
             .post('hikes')
             .set('content-type', 'multipart/form-data')
@@ -112,13 +112,13 @@ describe("Post.Hikes.APItesting", function () {
                 "photoFile": "http://somelink/link"
             })
             .attach('File', './test/RightFile.gpx')
-            .then( function (res) {
+            .then(function (res) {
                 res.should.have.status(422);
             });
     });
 
-    step("Test3: missing title", async function() {
-        
+    step("Test3: missing title", async function () {
+
         await localGuide
             .post('hikes')
             .set('content-type', 'multipart/form-data')
@@ -129,13 +129,13 @@ describe("Post.Hikes.APItesting", function () {
                 "photoFile": "http://somelink/link"
             })
             .attach('File', './test/RightFile.gpx')
-            .then( function (res) {
+            .then(function (res) {
                 res.should.have.status(422);
             });
     });
 
-    step("Test4: missing description", async function() {
-        
+    step("Test4: missing description", async function () {
+
         await localGuide
             .post('hikes')
             .set('content-type', 'multipart/form-data')
@@ -146,13 +146,13 @@ describe("Post.Hikes.APItesting", function () {
                 "photoFile": "http://somelink/link"
             })
             .attach('File', './test/RightFile.gpx')
-            .then( function (res) {
+            .then(function (res) {
                 res.should.have.status(422);
             });
     });
 
-    step("Test5: missing expectedTime", async function() {
-        
+    step("Test5: missing expectedTime", async function () {
+
         await localGuide
             .post('hikes')
             .set('content-type', 'multipart/form-data')
@@ -163,7 +163,7 @@ describe("Post.Hikes.APItesting", function () {
                 "photoFile": "http://somelink/link"
             })
             .attach('File', './test/RightFile.gpx')
-            .then( function (res) {
+            .then(function (res) {
                 res.should.have.status(422);
             });
     });
@@ -172,10 +172,12 @@ describe("Post.Hikes.APItesting", function () {
         await localGuide
             .post('hikes')
             .set('content-type', 'multipart/form-data')
-            .field({"title": "sss",
-            "description": "kkk",
-            "expectedTime": 33.33,
-            "photoFile": "http://somelink/link"})
+            .field({
+                "title": "sss",
+                "description": "kkk",
+                "expectedTime": 33.33,
+                "photoFile": "http://somelink/link"
+            })
             .attach('File', 'test/RightFile.gpx')
             .then(function (res) {
                 res.should.have.status(422);
@@ -186,10 +188,12 @@ describe("Post.Hikes.APItesting", function () {
         await localGuide
             .post('hikes')
             .set('content-type', 'multipart/form-data')
-            .field({"title": "sss",
-            "description": "kkk",
-            "expectedTime": 33.33,
-            "difficulty": "Hiker"})
+            .field({
+                "title": "sss",
+                "description": "kkk",
+                "expectedTime": 33.33,
+                "difficulty": "Hiker"
+            })
             .attach('File', 'test/RightFile.gpx')
             .then(function (res) {
                 res.should.have.status(422);
@@ -200,11 +204,13 @@ describe("Post.Hikes.APItesting", function () {
         await localGuide
             .post('hikes')
             .set('content-type', 'multipart/form-data')
-            .field({"title": "sss",
-            "description": "kkk",
-            "expectedTime": 33.33,
-            "difficulty": "Hiker",
-            "photoFile": "http://somelink/link"})
+            .field({
+                "title": "sss",
+                "description": "kkk",
+                "expectedTime": 33.33,
+                "difficulty": "Hiker",
+                "photoFile": "http://somelink/link"
+            })
             .then(function (res) {
                 res.should.have.status(422);
             });
@@ -214,26 +220,66 @@ describe("Post.Hikes.APItesting", function () {
         await localGuide
             .post('hikes')
             .set('content-type', 'multipart/form-data')
-            .field({"title": "sss",
-            "description": "kkk",
-            "expectedTime": 33.33,
-            "difficulty": "Hiker",
-            "photoFile": "http://somelink/link"})
+            .field({
+                "title": "sss",
+                "description": "kkk",
+                "expectedTime": 33.33,
+                "difficulty": "Hiker",
+                "photoFile": "http://somelink/link"
+            })
             .attach('File', 'test/WrongFile.gpx')
             .then(function (res) {
                 res.should.have.status(422);
             });
     });
 
-    step('Test10: Add Hike con successo (send image file, not url)', async function () {
+    step('Test10.1: Add Hike (send wrong image file)', async function () {
         await localGuide
             .post('hikes')
             .set('content-type', 'multipart/form-data')
-            .field({"title": "sss",
-            "description": "kkk",
-            "expectedTime": 33.33,
-            "difficulty": "Hiker",
-            "photoFile": ""})
+            .field({
+                "title": "sss",
+                "description": "kkk",
+                "expectedTime": 33.33,
+                "difficulty": "Hiker",
+                "photoFile": ""
+            })
+            .attach('File', 'test/RightFile.gpx')
+            .attach('Image', 'test/RightFile.gpx')
+            .then(function (res) {
+                res.should.have.status(422);
+            });
+    });
+
+    step('Test10.2: Add Hike (send NO image)', async function () {
+        await localGuide
+            .post('hikes')
+            .set('content-type', 'multipart/form-data')
+            .field({
+                "title": "sss",
+                "description": "kkk",
+                "expectedTime": 33.33,
+                "difficulty": "Hiker",
+                "photoFile": ""
+            })
+            .attach('File', 'test/RightFile.gpx')
+            .then(function (res) {
+                res.should.have.status(422);
+            });
+    });
+
+
+    step('Test10.3: Add Hike con successo (send image file, not url)', async function () {
+        await localGuide
+            .post('hikes')
+            .set('content-type', 'multipart/form-data')
+            .field({
+                "title": "sss",
+                "description": "kkk",
+                "expectedTime": 33.33,
+                "difficulty": "Hiker",
+                "photoFile": ""
+            })
             .attach('File', 'test/RightFile.gpx')
             .attach('Image', 'test/TestImage.png')
             .then(function (res) {
@@ -241,15 +287,17 @@ describe("Post.Hikes.APItesting", function () {
             });
     });
 
-    step('Test10.5: Add Hike con successo (send url, not image file)', async function () {
+    step('Test10.4: Add Hike con successo (send url, not image file)', async function () {
         await localGuide
             .post('hikes')
             .set('content-type', 'multipart/form-data')
-            .field({"title": "kkk",
-            "description": "sss",
-            "expectedTime": 66.66,
-            "difficulty": "Hiker",
-            "photoFile": "http://somelink/link"})
+            .field({
+                "title": "kkk",
+                "description": "sss",
+                "expectedTime": 66.66,
+                "difficulty": "Hiker",
+                "photoFile": "https://giovani.bg.it/wp-content/uploads/2019/05/il-ggg-online-nuovo-video-con-l-8217-intervista-mark-rylance-steven-spielberg-v4-278237-1280x720-1.jpg"
+            })
             .attach('File', 'test/RightFile.gpx')
             .then(function (res) {
                 res.should.have.status(201);
@@ -280,7 +328,7 @@ describe("Post.Hikes.APItesting", function () {
             "name": "Edoardo",
             "surname": "Miccono",
             "phoneNumber": "3312345678",
-            "gender":"M",
+            "gender": "M",
         };
         hiker
             .post('signup')
@@ -323,10 +371,10 @@ describe("Post.Hikes.APItesting", function () {
         const hikeId = "This shouldnt be a string";
 
         await hiker
-                .get(`hikegpx/${hikeId}`)
-                .then(function (res) {
-                    res.should.have.status(422);
-                });
+            .get(`hikegpx/${hikeId}`)
+            .then(function (res) {
+                res.should.have.status(422);
+            });
 
     });
 
@@ -335,10 +383,10 @@ describe("Post.Hikes.APItesting", function () {
         const hikeId = 3;
 
         await hiker
-                .get(`hikegpx/${hikeId}`)
-                .then(function (res) {
-                    res.should.have.status(404);
-                });
+            .get(`hikegpx/${hikeId}`)
+            .then(function (res) {
+                res.should.have.status(404);
+            });
     });
 
     //I cannot test the "gpx not found" lines because i can't add an hike without the gpx attached
@@ -348,10 +396,10 @@ describe("Post.Hikes.APItesting", function () {
         const hikeId = 1;
 
         await hiker
-                .get(`hikegpx/${hikeId}`)
-                .then(function (res) {
-                    res.should.have.status(200);
-                });
+            .get(`hikegpx/${hikeId}`)
+            .then(function (res) {
+                res.should.have.status(200);
+            });
     });
 
     step("Test15: hike 2 found", async function () {
@@ -359,10 +407,10 @@ describe("Post.Hikes.APItesting", function () {
         const hikeId = 2;
 
         await hiker
-                .get(`hikegpx/${hikeId}`)
-                .then(function (res) {
-                    res.should.have.status(200);
-                });
+            .get(`hikegpx/${hikeId}`)
+            .then(function (res) {
+                res.should.have.status(200);
+            });
     });
 
 
@@ -408,14 +456,17 @@ describe("Post.Hikes.APItesting", function () {
 
 
 
-    step('Elimina tutti i gpx creati', async function () {
+    step('Elimina tutti i file creati', async function () {
         const hikes = await hikeDao.getHikes();
         for (let hike of hikes) {
-            fs.unlink(`./utils/gpxFiles/${hike.id}.gpx`, function (err, results) {
-                if (err) console.log(`./utils/gpxFiles/${hike.id}.gpx not found`);
-                else console.log(`./utils/gpxFiles/${hike.id}.gpx deleted`);
+            fs.unlink(`./utils/gpxFiles/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.gpx`, function (err, results) {
+                if (err) console.log(`./utils/gpxFiles/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.gpx not found`);
+                else console.log(`./utils/gpxFiles/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.gpx deleted`);
             });
-
+            fs.unlink(`./utils/images/hikes/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.png`, function (err, results) {
+                if (err) console.log(`./utils/images/hikes/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.png not found`);
+                else console.log(`./utils/images/hikes/${hike.id}.png deleted`);
+            });
         }
     });
 });

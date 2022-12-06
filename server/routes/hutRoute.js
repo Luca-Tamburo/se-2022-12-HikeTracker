@@ -101,7 +101,7 @@ router.post('/hut',
 
             //Eventually create a png file and save it as IDHIKE_TITOLOHIKE.png
             if (uploadedImage === true) {
-                fs.writeFileSync(`./utils/images/huts/${hutId}.png`, req.files.Image.data, function (err) {
+                fs.writeFileSync(`./utils/images/huts/${hutId}_${req.body.title.replace(/[ \n\t\r]/g, '_')}.png`, req.files.Image.data, function (err) {
                     if (err) throw err;
                 });
             }

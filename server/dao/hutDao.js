@@ -18,7 +18,7 @@ const db = iAmTesting() ? getMock() : require('./openDb');
  * @param {number} pointId the ID of the point that identifies where the hut is
  */
 
-exports.addHut = (title,roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photoFile, website, pointId) => {
+exports.addHut = (title, roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photoFile, website, pointId) => {
     return new Promise((resolve, reject) => {
         let sql = "INSERT INTO Hut(roomsNumber,bedsNumber,whenIsOpen,phoneNumber,photoFile,website,pointId) VALUES (?,?,?,?,?,?,?)";
         db.run(sql, [roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photoFile, website, pointId], function (err) {
@@ -28,7 +28,8 @@ exports.addHut = (title,roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photoF
             else {
 
                 if (!photoFile) {
-                    const imgUrl = `http://localhost:3001/images/huts/${this.lastID}.png`
+                    console.log("ciao"+this.lastID)
+                    const imgUrl = `http://localhost:3001/images/huts/${this.lastID}_${title.replace(/[ \n\t\r]/g, '_')}.png`
                     sql = "UPDATE Hut SET photoFile=? WHERE id=?";
                     db.run(sql, [imgUrl, this.lastID], (err) => {
                         if (err) {
@@ -70,6 +71,24 @@ exports.getHutById = (id) => {
                     }
                 );
             }
+        });
+    });
+}
+
+exports.getHuts = () => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT Hut.id as id,Point.name as name FROM Hut,Point WHERE Hut.pointId=Point.id AND type =?';
+        db.all(sql, ["hut"], (err, rows) => {
+            if (err) {
+                reject(err);
+            }
+            const huts = rows.map((r) => (
+                {
+                    id: r.id,
+                    name: r.name
+                }
+            ));
+            resolve(huts);
         });
     });
 }
