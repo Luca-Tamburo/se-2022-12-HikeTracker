@@ -62,7 +62,7 @@ const HikeDetails = (props) => {
       .then((hikes) => {
         setHike(hikes);
         const startPoint = hikes.pointList.find(p => p.id === hikes.startPointId);
-        const endPoint = hikes.pointList.find(p => p.id === hikes.startPointId);
+        const endPoint = hikes.pointList.find(p => p.id === hikes.endPointId);
         let s = [startPoint.latitude, startPoint.longitude];
         let e = [endPoint.latitude, endPoint.longitude];
 
