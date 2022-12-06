@@ -53,7 +53,6 @@ router.get('/hikeStartEnd/:hikeId',
             currentStartPoint: {
                 id: startPoint.id,
                 name: startPoint.name,
-                description: startPoint.description,
                 type: startPoint.type,
                 latitude: startPoint.latitude,
                 longitude: startPoint.longitude

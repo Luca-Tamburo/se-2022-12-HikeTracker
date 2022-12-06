@@ -341,7 +341,6 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
     "currentStartPoint": {
         "id": 1,
         "name": "A",
-        "description": "The ...",
         "type": "hut",
         "latitude": 44.57425086759031,
         "longitude": 6.982689192518592
