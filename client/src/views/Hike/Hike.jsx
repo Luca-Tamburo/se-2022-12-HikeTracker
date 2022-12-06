@@ -16,7 +16,7 @@ import { Row, Col } from 'react-bootstrap';
 
 //Components
 import HikeCard from '../../components/ui-core/HikeCard/HikeCard';
-import Filter from '../../components/utils/Filter/Filter';
+import HikeFilter from '../../components/utils/Filter/Hike/HikeFilter'
 
 // Services
 import api from '../../services/api';
@@ -48,7 +48,7 @@ const Hike = () => {
         <Row className='flex-fill'>
             <Col xs={{ span: 10, offset: 1 }} className='mt-3'>
                 <h1 className='fw-bold text-center mt-2'>Search your next hike</h1>
-                <Filter setFilter={setFilter} filter={filter} hikes={hikes} setHikesDisplay={setHikesDisplay} />
+                <HikeFilter setFilter={setFilter} filter={filter} hikes={hikes} setHikesDisplay={setHikesDisplay} />
                 <Row>
                     {hikesDisplay.length === 0 ? <h2 className='d-flex justify-content-center fw-bold mb-3'>No Matched Hikes</h2> : hikesDisplay.map((hike, index) => {
                         return (

@@ -94,6 +94,22 @@ const api = {
                 .catch((err) => reject(err.response.data));
         })
     },
+
+    getHuts: () => {
+        return new Promise((resolve, reject) => {
+            axios.get(SERVER_URL + 'huts')
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err.response.data));
+        })
+    },
+
+    getHutDetails: (hikeId) => {
+        return new Promise((resolve, reject) => {
+            axios.get(SERVER_URL + `hutdetails/${hikeId}`, { withCredentials: true })
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err));
+        })
+    },
 }
 
 export default api;
