@@ -330,6 +330,69 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
   ```
 
+  - GET `/hikeRefPoints/:hikeId`
+  - Description: Retrieve the start/end point, current ref points and possible ref points (huts) of an hike
+  - Request body: _nothing_
+  - Response: `200 OK` (success), `404 NOT FOUND` if the id is not found among the ones inserted by the localguide who made the request, `422` if the :hikeId format is wrong, `503 Service Unavailable` (generic error).
+  - Response body: detailed information of start/end point, current/possible ref points (huts)
+
+  ```json
+  {
+    "startPoint": {
+        "id": 1,
+        "name": "Rifugio Melezè - Bellino - Val Varaita",
+        "type": "hut",
+        "latitude": 44.57425086759031,
+        "longitude": 6.982689192518592
+    },
+    "endPoint": {
+        "id": 2,
+        "name": "Monte Ferra",
+        "type": "location",
+        "latitude": 44.60207778029144,
+        "longitude": 6.984752649441361
+    },
+    "currentReferencePoints": [
+        {
+            "id": 16,
+            "name": "Monte Freidour",
+            "type": "location",
+            "latitude": 44.973129,
+            "longitude": 7.303155
+        }
+    ],
+    "possibleReferencePoints": [
+        {
+            "id": 15,
+            "name": "Casa Canada",
+            "type": "hut",
+            "latitude": 44.60208624601364,
+            "longitude": 6.984726246446371
+        },
+        {
+            "id": 50,
+            "name": "Rifugio Toesca",
+            "type": "hut",
+            "latitude": 44.58578956313431,
+            "longitude": 6.97570270858705
+        }
+    ]
+  }
+
+- PUT `/hikeRefPoints/:hikeId`
+  - Description: Add ref points to an hike (huts)
+  - Request body: An object representing the new ref points
+
+  ```json
+  {
+      "refPoints":[1,2,15,1,2,16,50]
+  }
+
+  ```
+
+  - Response: `204` (success), `422` if the input is not correct (huts too far for example), `404` if something is not found, `503 Service Unavailable` (generic error).
+  - Response body: _nothing_
+
 ## Database Tables
 
 #### *Hike* includes all hikes specifications
