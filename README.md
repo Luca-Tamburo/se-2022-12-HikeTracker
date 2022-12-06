@@ -330,6 +330,99 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
   ```
 
+- GET `/hikeStartEnd/:hikeId`
+  - Description: Retrieve the current start/end point and some other possible start/end points (hut/parking lot) for an hike
+  - Request body: _nothing_
+  - Response: `200 OK` (success), `404 NOT FOUND` if the id is not found among the ones inserted by the localguide who made the request, `422` if the :hikeId format is wrong, `503 Service Unavailable` (generic error).
+  - Response body: detailed information of current and possible start/end points of the hike.
+
+  ```json
+  {
+    "currentStartPoint": {
+        "id": 1,
+        "name": "A",
+        "description": "The ...",
+        "type": "hut",
+        "latitude": 44.57425086759031,
+        "longitude": 6.982689192518592
+    },
+    "currentEndPoint": {
+        "id": 2,
+        "name": "Monte",
+        "type": "location",
+        "latitude": 44.60207778029144,
+        "longitude": 6.984752649441361
+    },
+    "possibleStartingPoints": [
+        {
+            "id": 5,
+            "name": "Rifugio ...",
+            "type": "hut",
+            "latitude": 44.5742508675904,
+            "longitude": 6.98268919251855,
+            "distance": 0.333
+        },
+        {
+            "id": 15,
+            "name": "Casa ...",
+            "type": "hut",
+            "latitude": 44.6020777802915,
+            "longitude": 6.98475264944132,
+            "distance": 3.102
+        },
+        {
+            "id": 39,
+            "name": "Parcheggio ...",
+            "type": "parking lot",
+            "latitude": 44.5742508675904,
+            "longitude": 6.98268919251855,
+            "distance": 2.111
+        }
+    ],
+    "possibleEndPoints": [
+        {
+            "id": 5,
+            "name": "Rifugio...",
+            "type": "hut",
+            "latitude": 44.5742508675905,
+            "longitude": 6.98268919251856,
+            "distance": 3.102
+        },
+        {
+            "id": 15,
+            "name": "Casa ...",
+            "type": "hut",
+            "latitude": 44.6020777802912,
+            "longitude": 6.98475264944133,
+            "distance": 3.567
+        },
+        {
+            "id": 39,
+            "name": "Parcheggio ...",
+            "type": "parking lot",
+            "latitude": 44.5742508675907,
+            "longitude": 6.98268919251858,
+            "distance": 3.102
+        }
+    ]
+  }
+
+- PUT `/hikeStartEnd/:hikeId`
+  - Description: Modify an Hike start/end point with a hut/parking lot.
+  - Request body: An object representing the new infos
+
+  ```json
+  {
+     "startPointId":1,
+     "startPointId":2
+  }
+
+  ```
+
+  - Response: `204` (success), `422` if the input is not correct, `404` if something is not found, `503 Service Unavailable` (generic error).
+  - Response body: _nothing_
+
+
 ## Database Tables
 
 #### *Hike* includes all hikes specifications

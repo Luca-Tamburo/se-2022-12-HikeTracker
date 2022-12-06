@@ -201,3 +201,46 @@ exports.getPointsByHikeId = (id) => {
         });
     });
 }
+
+/**
+ * Get the author of an hike
+ * @param {number} id the id of the hike
+ */
+ exports.getHikeAuthor = (id) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT authorId FROM Hike WHERE id = ?';
+        db.get(sql, [id], (err, r) => {
+            if (err) {
+                reject(err);
+            } else if (r === undefined)
+                resolve(undefined);
+            else {
+                resolve(r.authorId);
+            }
+        });
+    });
+}
+
+/**
+ * Get the start/end point infos of an hike
+ * @param {number} id the id of the hike
+ */
+exports.getStartEndPointDistanceData = (id) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT startPointId,endPointId,length FROM Hike WHERE id = ?';
+        db.get(sql, [id], (err, r) => {
+            if (err) {
+                reject(err);
+            } else if (r === undefined)
+                resolve(undefined);
+            else {
+                const details = {
+                    startPointId: r.startPointId,
+                    endPointId: r.endPointId,
+                    length: r.length
+                };
+                resolve(details);
+            }
+        });
+    });
+}
