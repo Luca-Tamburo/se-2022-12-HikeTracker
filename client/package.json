@@ -19,7 +19,6 @@
     "formik": "^2.2.9",
     "gpxparser": "^3.0.8",
     "history": "^5.3.0",
-    "jest-sonar-reporter": "^2.0.0",
     "leaflet": "^1.9.2",
     "path": "^0.12.7",
     "postcss-flexbugs-fixes": "^5.0.2",
@@ -44,7 +43,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:cov": "react-scripts test --watchAll --silent --coverage --testResultsProcessor=jest-sonar-reporter",
+    "test:cov": "react-scripts test --silent --coverage --testResultsProcessor=jest-sonar-reporter",
     "eject": "react-scripts eject",
     "coverage": "npm test -- --watchAll=\"false\" --coverage",
     "cypress:open": "cypress open"
@@ -70,7 +69,8 @@
   "devDependencies": {
     "@testing-library/cypress": "^8.0.7",
     "@types/leaflet": "^1.9.0",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "jest-sonar-reporter": "^2.0.0"
   },
   "jest": {
     "moduleNameMapper": {
