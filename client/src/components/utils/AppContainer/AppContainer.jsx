@@ -11,12 +11,12 @@
 */
 
 //Imports
+import './AppContainer.css'
 import { Row, Container, Button } from "react-bootstrap";
-import { ArrowUp } from 'react-bootstrap-icons';
+import { FaArrowUp } from 'react-icons/fa';
 
 //Components
 import Navbar from '../../../components/ui-core/Navbar/Navbar'
-import './AppContainer.css'
 
 const AppContainer = ({ ...props }) => {
 
@@ -33,7 +33,7 @@ const AppContainer = ({ ...props }) => {
 
     function scrollFunction(mybutton) {
         if (
-            container.scrollTop > 20
+            container.scrollTop > 2000
         ) {
             mybutton.style.display = "block";
         } else {
@@ -52,7 +52,7 @@ const AppContainer = ({ ...props }) => {
                 {props.children}
             </Row>
             <Button onClick={backToTop} id='btn-back-to-top' data-testid='go-to-top-page-button'>
-                <ArrowUp size={20} />
+                <FaArrowUp size={25} />
             </Button>
         </Container >
     );
