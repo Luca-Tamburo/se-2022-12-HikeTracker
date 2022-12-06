@@ -92,3 +92,68 @@ exports.getHuts = () => {
         });
     });
 }
+
+/**
+ * Get huts from the system (general information)
+ */
+ exports.getAllHuts = () => {
+    return new Promise((resolve, reject) => {
+        const sql = "SELECT Hut.id AS id, Point.name AS name, Point.description AS description, Point.altitude AS altitude, Point.latitude AS latitude, Point.longitude AS longitude"
+        + "Hut.roomsNumber AS roomsNumber, Hut.bedsNumber AS bedsNumber, Hut.photoFile AS photoFile"
+        + "FROM Hut JOIN Point ON Hut.pointId = Point.id WHERE Point.type = ?";
+        db.all(sql, ["hut"], (err, rows) => {
+            if (err) {
+                reject(err);
+            }
+            const huts = rows.map((r) => (
+                {
+                    id: r.id,
+                    name: r.name,
+                    description: r.description,
+                    roomsNumber: r.roomsNumber,
+                    bedsNumber: r.bedsNumber,
+                    photoFile: r.photoFile,
+                    altitude: r.altitude,
+                    latitude: r.latitude, 
+                    longitude: r.longitude
+                }
+            ));
+            resolve(huts);
+        });
+    });
+}
+
+/**
+ * Get hut detailed information by hut id
+ */
+exports.getDetailsByHutId = (id) => {
+    return new Promise((resolve, reject) => {
+        const sql = "SELECT Hut.id AS id, Point.name AS name, Point.description AS description, Point.altitude AS altitude, Point.latitude AS latitude, Point.longitude AS longitude"
+            + "Hut.roomsNumber AS roomsNumber, Hut.bedsNumber AS bedsNumber, Hut.photoFile AS photoFile, Hut.website AS website, Hut.whenIsOpen AS whenIsOpen, Hut.phoneNumber AS phoneNumber"
+            + "FROM Hut JOIN Point ON Hut.pointId = Point.id WHERE Hut.id = ?";
+        db.get(sql, [id], (err, r) => {
+            if (err) {
+                reject(err);
+            } else if (r === undefined)
+                resolve(undefined);
+            else {
+                const hut =
+                {
+                    id: r.id,
+                    name: r.name,
+                    description: r.description,
+                    roomsNumber: r.roomsNumber,
+                    bedsNumber: r.bedsNumber,
+                    photoFile: r.photoFile,
+                    altitude: r.altitude,
+                    latitude: r.latitude,
+                    longitude: r.longitude,
+                    website: r.website,
+                    whenIsOpen: r.whenIsOpen,
+                    phoneNumber: r.phoneNumber
+                }
+                resolve(hut);
+            }
+        });
+    });
+}

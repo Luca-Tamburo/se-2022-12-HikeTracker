@@ -112,4 +112,39 @@ router.post('/hut',
         }
     });
 
+
+/**
+ * Get huts from the system
+ */
+
+router.get('/huts', [], async (req, res) => {
+    try {
+        let huts = await hutDao.getAllHuts();
+        return res.status(200).json(huts); //Return list of Huts
+    } catch (error) { res.status(503).json({ error: `Service unavailable` }); }
+
+});
+
+
+/**
+ * Get hut detailed information by hut id
+ */
+
+router.get('/hutdetails/:hutId', check('hutId').isInt().withMessage('hutId must be a number'),
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(404).json({ error: `Wrong hutId` })
+        };
+        try {
+            //Hut detailed information is collected
+            let hutDetails = await hutDao.getDetailsByHutId(req.params.hutId);
+            if (hutDetails === undefined) {
+                return res.status(404).json({ error: `Hut not found` })
+            };
+            return res.status(200).json(hutDetails); //Return object with all the information
+        } catch (error) { res.status(503).json({ error: `Service unavailable` }); }
+
+    });
+
 module.exports = router;
