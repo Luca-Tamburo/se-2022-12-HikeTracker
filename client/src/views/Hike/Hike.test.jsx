@@ -11,8 +11,9 @@
 */
 
 // Imports
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import api from '../../services/api';
 
 import Hike from './Hike';
 
@@ -33,6 +34,9 @@ jest.mock('react-bootstrap', () => {
     return ({ Row, Col });
 })
 
+jest.mock('axios')
+jest.mock('../../services/api')
+
 // Mock custom components
 const mockFilter = jest.fn();
 jest.mock('../../components/utils/Filter/Filter', () => () => {
@@ -42,12 +46,14 @@ jest.mock('../../components/utils/Filter/Filter', () => () => {
 
 describe('Hikes View', () => {
 
-    it('have the main test', () => {
+    it('have the main test', async () => {
+        api.getHikes.mockResolvedValue([])
         render(<Hike />, { wrapper: MemoryRouter });
         expect(screen.getByText(/Search your next hike/i)).toBeInTheDocument();
     });
 
-    it('correctly renders the Filter component', () => {
+    it('correctly renders the Filter component', async () => {
+        api.getHikes.mockResolvedValue([])
         render(<Hike />, { wrapper: MemoryRouter });
         expect(screen.getByTestId('Filter')).toBeInTheDocument();
     });

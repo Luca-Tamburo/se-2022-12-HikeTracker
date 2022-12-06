@@ -38,10 +38,8 @@ const Hike = () => {
                 setHikesDisplay(hikes);
             })
             .catch(err => {
-                if (err.status === 404)
-                    setHikes([]);
-                else
-                    notify.error(err.error)
+                setHikes([]);
+                notify.error(err.error)
             })
             .finally(() => setLoading(false));
     }, []); //eslint-disable-line react-hooks/exhaustive-deps
