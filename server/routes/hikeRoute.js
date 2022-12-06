@@ -162,13 +162,13 @@ router.post('/hikes',
             await pointDao.addPointHike(hikeId, pointTwoId);
 
             //Create gpx file and save it as IDHIKE_TITOLOHIKE.gpx
-            fs.writeFileSync(`./utils/gpxFiles/${hikeId}_${req.body.title.replace(/ /g, '_')}.gpx`, `${req.files.File.data}`, function (err) {
+            fs.writeFileSync(`./utils/gpxFiles/${hikeId}.gpx`, `${req.files.File.data}`, function (err) {
                 if (err) throw err;
             });
 
             //Eventually create a png file and save it as IDHIKE_TITOLOHIKE.png
             if (uploadedImage === true) {
-                fs.writeFileSync(`./utils/images/hikes/${hikeId}_${req.body.title.replace(/ /g, '_')}.png`, req.files.Image.data, function (err) {
+                fs.writeFileSync(`./utils/images/hikes/${hikeId}.png`, req.files.Image.data, function (err) {
                     if (err) throw err;
                 });
             }

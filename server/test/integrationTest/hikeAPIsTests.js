@@ -411,9 +411,9 @@ describe("Post.Hikes.APItesting", function () {
     step('Elimina tutti i gpx creati', async function () {
         const hikes = await hikeDao.getHikes();
         for (let hike of hikes) {
-            fs.unlink(`./utils/gpxFiles/${hike.id}_${hike.title.replace(/ /g, '_')}.gpx`, function (err, results) {
-                if (err) console.log(`./utils/gpxFiles/${hike.id}_${hike.title.replace(/ /g, '_')}.gpx not found`);
-                else console.log(`./utils/gpxFiles/${hike.id}_${hike.title.replace(/ /g, '_')}.gpx deleted`);
+            fs.unlink(`./utils/gpxFiles/${hike.id}.gpx`, function (err, results) {
+                if (err) console.log(`./utils/gpxFiles/${hike.id}.gpx not found`);
+                else console.log(`./utils/gpxFiles/${hike.id}.gpx deleted`);
             });
 
         }
