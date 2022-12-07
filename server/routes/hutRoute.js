@@ -16,7 +16,8 @@ const express = require('express');
 const pointDao = require('../dao/pointDao');
 const hutDao = require('../dao/hutDao');
 const router = express.Router();
-const { check, checksValidation } = require("../utils/validationUtil");
+const { check, validationResult } = require("express-validator");
+const { checksValidation} = require("../utils/validationUtil");
 const { photoUrlValidator } = require("../utils/hutUtils");
 const { getCityProvinceRegion } = require("../utils/geoUtils");
 const fs = require('fs');
@@ -130,8 +131,8 @@ router.get('/huts', [], async (req, res) => {
  * Get hut detailed information by hut id
  */
 
-router.get('/hutdetails/:hutId', check('hutId').isInt().withMessage('hutId must be a number'),
-    async (req, res) => {
+router.get('/hutdetails/:hutId', check('hutId').isInt({ gt: 0 }).withMessage('hutId must be a number'),
+    checksValidation, async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(404).json({ error: `Wrong hutId` })
