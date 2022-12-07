@@ -330,10 +330,10 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
   ```
 
-  - GET `/hikeRefPoints/:hikeId`
-  - Description: Retrieve the start/end point, current ref points and possible ref points (huts) of an hike
+  - GET `/hikeLinkHuts/:hikeId`
+  - Description: Retrieve the start/end point, current linked huts possible ones of an hike
   - Request body: _nothing_
-  - Response: `200 OK` (success), `404 NOT FOUND` if the id is not found among the ones inserted by the localguide who made the request, `422` if the :hikeId format is wrong, `503 Service Unavailable` (generic error).
+  - Response: `200 OK` (success), `422` if the :hikeId format is wrong,or if the localguide did not insert that hike `503 Service Unavailable` (generic error).
   - Response body: detailed information of start/end point, current/possible ref points (huts)
 
   ```json
@@ -352,16 +352,16 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
         "latitude": 44.60207778029144,
         "longitude": 6.984752649441361
     },
-    "currentReferencePoints": [
+    "currentLinkedHuts": [
         {
             "id": 16,
-            "name": "Monte Freidour",
-            "type": "location",
+            "name": "Hut Freidour",
+            "type": "hut",
             "latitude": 44.973129,
             "longitude": 7.303155
         }
     ],
-    "possibleReferencePoints": [
+    "possibleLinkedHuts": [
         {
             "id": 15,
             "name": "Casa Canada",
@@ -379,18 +379,18 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
     ]
   }
 
-- PUT `/hikeRefPoints/:hikeId`
-  - Description: Add ref points to an hike (huts)
-  - Request body: An object representing the new ref points
+- PUT `/hikeLinkHuts/:hikeId`
+  - Description: Link huts to an hike
+  - Request body: An object representing the huts to link
 
   ```json
   {
-      "refPoints":[1,2,15,1,2,16,50]
+      "hutsToLink":[1,2,15,1,2,16,50]
   }
 
   ```
 
-  - Response: `204` (success), `422` if the input is not correct (huts too far for example), `404` if something is not found, `503 Service Unavailable` (generic error).
+  - Response: `204` (success), `422` if the localguide did not upload that hike or if the input is not correct, `404` if something is not found, `503 Service Unavailable` (generic error).
   - Response body: _nothing_
 
 ## Database Tables

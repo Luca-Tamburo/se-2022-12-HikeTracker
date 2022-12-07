@@ -27,7 +27,7 @@ const fs = require('fs');
 
 const { isThisMyHike, isItNearEnough } = require("../utils/editHikesUtils");
 
-router.get('/hikeRefPoints/:hikeId',
+router.get('/hikeLinkHuts/:hikeId',
     check('hikeId').isInt({ gt: 0 }).withMessage('hikeId is wrong'),
     isLoggedInLocalGuide,
     checksValidation,
@@ -41,7 +41,7 @@ router.get('/hikeRefPoints/:hikeId',
         const userId = req.user.id;
         const isOk = await isThisMyHike(hikeId, userId);
         if (!isOk)
-            return res.status(404).json({ error: `Are you sure you uploaded this hike?` });
+            return res.status(422).json({ error: `Are you sure you uploaded this hike?` });
 
         //a questo punto so per certo che la hike e fatta da quello user
 
@@ -74,16 +74,12 @@ router.get('/hikeRefPoints/:hikeId',
 
         //ora devo prendere tutti gli hut/parking lot e vedere quali sono vicini allo starting point
         const allHuts = await pointDao.getPointByType('hut');
-        const currentRefPoints = (await hikePointDao.getRefPointsByHikeId(hikeId));
+        const currentLinkedHuts = (await hikePointDao.getRefPointsByHikeId(hikeId)).filter(h => { return h.type === "hut" });
         returnData = {
-            ...returnData, currentReferencePoints: currentRefPoints.filter(p => {
-                //startPoint, endPoint non li mando come reference perchè ho già l'informazione che ci sono da returnData.startpoint,returnData.endPoint
-                //lo metto qui il filter e non direttamente su currentRefPoints perchè currentRefPoints mi serve "integro" per smistare i possibili ref. points (altrimenti prenderebbe per possibili ref anche start/end point)
-                return p.id !== startPoint.id && p.id !== endPoint.id;
-            })
+            ...returnData, currentLinkedHuts: currentLinkedHuts
         }
-        let filteredRefPoints = allHuts.filter(h => {
-            return (currentRefPoints.find(p => p.id === h.id)) !== undefined ? false : true;
+        let filteredHuts = allHuts.filter(h => {
+            return (currentLinkedHuts.find(p => p.id === h.id)) !== undefined ? false : true;
         })
 
         //prendo il nome del gpx di riferimento
@@ -106,25 +102,25 @@ router.get('/hikeRefPoints/:hikeId',
 
         //come mi comporto? Ogni 5 coppie di coordinate del gpx posso scorrere TUTTA la lista dei possible refpoints e, quando trovo un hut appetibile,
         //se non è già presente nella lista lo aggiungo
-        let possibleRefPoints = [];
+        let possibleLinkedHuts = [];
         for (let i = 0; i < trackPoints.length; i += 5) {
-            for (let hut of filteredRefPoints) {
+            for (let hut of filteredHuts) {
 
                 //confronto distanza di ogni possibile hut con distanza del punto
                 if (isItNearEnough(trackPoints[i], hut, length)) {
 
-                    //se sono abbastanza vicino, se non sto già in possibleRefPoints, aggiungimi
-                    if (!possibleRefPoints.find(rf => {
+                    //se sono abbastanza vicino, se non sto già in possibleLinkedHuts, aggiungimi
+                    if (!possibleLinkedHuts.find(rf => {
                         return rf.id === hut.id
                     })
                     )
 
-                        possibleRefPoints.push(hut);
+                        possibleLinkedHuts.push(hut);
                 }
             }
         }
 
-        returnData = { ...returnData, possibleReferencePoints: possibleRefPoints }
+        returnData = { ...returnData, possibleLinkedHuts: possibleLinkedHuts }
 
 
         return res.status(200).json(returnData); //Return object with all the information
@@ -132,15 +128,16 @@ router.get('/hikeRefPoints/:hikeId',
     }
 )
 
-router.put('/hikeRefPoints/:hikeId',
+router.put('/hikeLinkHuts/:hikeId',
     check('hikeId').isInt({ gt: 0 }).withMessage('hikeId is wrong'),
-    check("refPoints.*").exists().withMessage("This field is mandatory").bail().isInt({ gt: 0 }).withMessage("This field must be a valid id"),
+    check("hutsToLink").exists().withMessage("This field is mandatory").bail().isArray({ min: 1 }).withMessage("This field is an array and can't be empty"),
+    check("hutsToLink.*").exists().withMessage("This field is mandatory").bail().isInt({ gt: 0 }).withMessage("This field must be a valid id"),
     isLoggedInLocalGuide,
     checksValidation,
     async (req, res) => {
         /* VOGLIO RICEVERE UNA ROBA COSì
                 {
-                    "refPoints":[1,2,3,4,5,6,7]
+                    "hutsToLink":[1,2,3,4,5,6,7]
                  }
           */
         const hikeId = req.params.hikeId;
@@ -171,20 +168,22 @@ router.put('/hikeRefPoints/:hikeId',
         const infos = await hikeDao.getStartEndPointDistanceData(hikeId);
         const length = infos.length;
 
-        console.log(infos)
-        const currentRefPoints = (await hikePointDao.getRefPointsByHikeId(hikeId));
+        const currentLinkedHuts = (await hikePointDao.getRefPointsByHikeId(hikeId)).filter(h => { return h.type === "hut" });
 
-        const refPointsUnique = (req.body.refPoints).filter((x, i) => (req.body.refPoints).indexOf(x) === i);
-        console.log(refPointsUnique)
+        const hutsToLinkUnique = (req.body.hutsToLink).filter((x, i) => (req.body.hutsToLink).indexOf(x) === i);
         //qui mi conviene scorrere il gpx tante volte quanti sono i possibili ref points
-        for (let hutId of refPointsUnique) {
+        for (let hutId of hutsToLinkUnique) {
 
             //se metti refPoint che già ci sono? semplicemente ignora
-            if (!currentRefPoints.find(rf => rf.id === hutId)) {
+            if (!currentLinkedHuts.find(rf => rf.id === hutId)) {
                 //controlla che il point esista nel db
                 const hutInfos = await pointDao.getPointById(hutId);
                 if (!hutInfos)
                     return res.status(404).json({ error: `HutId ${hutId} not found` });
+                //controlla che il point sia un hut
+                if (hutInfos.type !== "hut")
+                    return res.status(422).json({ error: `HutId ${hutId} is not an hut` });
+
 
                 //controlla che ci sia almeno un punto nel gpx che sia vicino al point
                 let found = false;
@@ -197,14 +196,14 @@ router.put('/hikeRefPoints/:hikeId',
                 }
                 //se alla fine del ciclo non sono vicino a nulla, ritorna 422
                 if (!found)
-                    return res.status(422).json({ error: `HutId ${hutId} is not near to the hike` });
+                    return res.status(422).json({ error: `HutId ${hutId} is not near to the hike)` });
             }
         }
 
         //Se arrivo qui, tutto è stato validato, quindi posso aggiungere
-        for (let hutId of refPointsUnique) {
+        for (let hutId of hutsToLinkUnique) {
             //se metti refPoint che già ci sono? semplicemente ignora
-            if (!currentRefPoints.find(rf => rf.id === hutId)) {
+            if (!currentLinkedHuts.find(rf => rf.id === hutId)) {
                 await pointDao.addPointHike(hikeId, hutId);
             }
         }
