@@ -20,7 +20,6 @@ const { step } = require('mocha-steps');
 const request = require('supertest');
 let agent = chai.request.agent(app);
 const expect = chai.expect;
-
 const hikeDao = require('../../dao/hikeDao');
 
 const cleanDb = async () => {
@@ -29,11 +28,8 @@ const cleanDb = async () => {
 }
 
 describe("Edit.Hikes.APItesting", function () {
-    before(() => { cleanDb(); });
-
+    before(async () => { await cleanDb(); });
     const localGuide = request.agent(server);
-
-
     step("Step1: registration of local guide", async (done) => {
         let user = {
             "email": "hiketracker@gmail.com",
@@ -110,13 +106,13 @@ describe("Edit.Hikes.APItesting", function () {
             
     });
 
-    step("Test2: GET - /hikeStartEnd/:hikeId - no id in the db", async function () {
+    step("Test2: GET - /hikeStartEnd/:hikeId - no id in the db (local guide doesn't have to know that is not present, he only has to know that he did not do it)", async function () {
         let hikeId = 2;
 
         await localGuide
         .get(`hikeStartEnd/${hikeId}`)
         .then(function (res) {
-            res.should.have.status(422);
+            res.should.have.status(403);
         });
     });
 
@@ -250,7 +246,7 @@ describe("Edit.Hikes.APItesting", function () {
         await localGuide2
         .get(`hikeStartEnd/${hikeId}`)
         .then(function (res) {
-            res.should.have.status(422);
+            res.should.have.status(403);
         });
     });
 
