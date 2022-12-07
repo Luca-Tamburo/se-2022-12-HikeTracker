@@ -38,7 +38,7 @@ router.get('/hikeStartEnd/:hikeId',
         const userId = req.user.id;
         const isOk = await isThisMyHike(hikeId, userId);
         if (!isOk)
-            return res.status(422).json({ error: `Are you sure you uploaded this hike?` });
+            return res.status(403).json({ error: `Are you sure you uploaded this hike?` });
 
         //a questo punto so per certo che la hike e fatta da quello user
         let returnData = {};
@@ -152,7 +152,7 @@ router.put('/hikeStartEnd/:hikeId',
         const userId = req.user.id;
         const isOk = await isThisMyHike(hikeId, userId);
         if (!isOk)
-            return res.status(422).json({ error: `Are you sure you uploaded this hike?` });
+            return res.status(403).json({ error: `Are you sure you uploaded this hike?` });
         if ( //serve per evitare di lavorare inutilmente con il gpx
             (!req.body.startPointId || req.body.startPointId === undefined)
             &&
