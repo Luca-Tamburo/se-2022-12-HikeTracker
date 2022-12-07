@@ -126,6 +126,8 @@ describe("Edit.Hikes.APItesting", function () {
         });
     });
 
+    
+
     //We register a hiker tho check that the user is actually a local guide
 
     const hiker = request.agent(server);
@@ -249,6 +251,138 @@ describe("Edit.Hikes.APItesting", function () {
             res.should.have.status(403);
         });
     });
+
+
+
+    ////////////////////
+
+    step("Test7: PUT - /hikeStartEnd/:hikeId - wrong hikeId", async function () {
+
+        const hikeId = 2;
+
+        await localGuide
+            .put(`hikeStartEnd/${hikeId}`)
+            .field({
+                "startPointId":1,
+                "endPointId":2
+            })
+            .then(function (res) {
+                res.should.have.status(403);
+            });
+    });
+
+    step("Test8: PUT - /hikeStartEnd/:hikeId - wrong input format", async function () {
+
+        const hikeId = 1;
+
+        await localGuide
+            .put(`hikeStartEnd/${hikeId}`)
+            .field({
+                "startPointId":"this shouldnt be a string",
+                "endPointId":2
+            })
+            .then(function (res) {
+                res.should.have.status(422);
+            });
+    });
+
+    step("Test9: PUT - /hikeStartEnd/:hikeId - wrong input", async function () {
+
+        const hikeId = 1;
+
+        await localGuide
+            .put(`hikeStartEnd/${hikeId}`)
+            .field({
+                "startPointId":1,
+                "endointId":2
+            })
+            .then(function (res) {
+                res.should.have.status(422);
+            });
+    });
+
+    step("Test10: PUT - /hikeStartEnd/:hikeId - wrong user", async function () {
+
+        const hikeId = 1;
+
+        await localGuide2
+            .put(`hikeStartEnd/${hikeId}`)
+            .field({
+                "startPointId":1,
+                "startPointId":2
+            })
+            .then(function (res) {
+                res.should.have.status(403);
+            });
+    });
+
+    step("Test11: PUT - /hikeStartEnd/:hikeId - no input", async function () {
+
+        const hikeId = 1;
+
+        await localGuide
+            .put(`hikeStartEnd/${hikeId}`)
+            .then(function (res) {
+                res.should.have.status(422);
+            });
+    });
+
+    step("Test12: PUT - /hikeStartEnd/:hikeId - start point is already start point", async function () {
+
+        const hikeId = 1;
+
+        await localGuide
+            .put(`hikeStartEnd/${hikeId}`)
+            .field({
+                "startPointId":1,
+                "endPointId":2
+            })
+            .then(function (res) {
+                res.should.have.status(422);
+            });
+    });
+
+    step("Test13: PUT - /hikeStartEnd/:hikeId - start point does not exist", async function () {
+
+        const hikeId = 1;
+
+        await localGuide
+            .put(`hikeStartEnd/${hikeId}`)
+            .field({
+                "startPointId":4,
+                "endPointId":2
+            })
+            .then(function (res) {
+                res.should.have.status(404);
+            });
+    });
+
+    //This last test still doesnt work
+
+    step("Test00000: PUT - /hikeStartEnd/:hikeId - success THIS TEST DOES NOT WORK AT THE MOMENT", async function () {
+
+        const hikeId = 1;
+
+        //in this case I inverted start and end point id
+
+        await localGuide
+            .put(`hikeStartEnd/${hikeId}`)
+            .field({
+                "startPointId":2,
+                "endPointId":1
+            })
+            .then(function (res) {
+                res.should.have.status(204);
+            });
+    });
+
+
+
+
+
+    
+
+    ////////////////
 
     step('Elimina tutti i file creati', async function () {
         const hikes = await hikeDao.getHikes();
