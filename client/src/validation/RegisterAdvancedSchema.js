@@ -27,7 +27,7 @@ const RegisterAdvancedSchema = Yup.object().shape({
     passwordConfirmation: Yup.string().oneOf(
         [Yup.ref("password"), null],
         "Passwords must match"
-    ),
+    ).required("Confirmation password needed"),
     phoneNumber: Yup.number().required("Phone number needed"),
     gender: Yup.mixed().oneOf(['M', 'F', 'U']),
 });

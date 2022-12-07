@@ -87,3 +87,4 @@ describe('Register view', () => {
             expect(history.location.pathname).toBe(item.path)
         })
 })
+
