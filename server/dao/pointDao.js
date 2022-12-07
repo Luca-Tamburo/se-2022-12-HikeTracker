@@ -1,4 +1,14 @@
-
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         server
+* Module:          dao
+* File:            pointDao.js
+*
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
 'use strict';
 const { iAmTesting } = require('../test/mockDB/iAmTesting');
 const getMock = () => {
@@ -48,7 +58,7 @@ exports.addPointHike = (hikeId, pointId) => {
 /**
  * Get point by id
  */
- exports.getPointById = (id) => {
+exports.getPointById = (id) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM Point WHERE id = ?';
         db.get(sql, [id], (err, r) => {
@@ -71,6 +81,35 @@ exports.addPointHike = (hikeId, pointId) => {
                         province: r.province
                     }
                 );
+            }
+        });
+    });
+}
+
+/**
+ * Get point by type
+ */
+exports.getPointByType = (type) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM Point WHERE type = ?';
+        db.all(sql, [type], (err, r) => {
+            if (err) {
+                reject(err);
+            }
+            else if (r === undefined)
+                resolve(undefined);
+            else {
+                const data = r.map(p => {
+                    const d = {
+                        id: p.id,
+                        name: p.name,
+                        type: p.type,
+                        latitude: p.latitude,
+                        longitude: p.longitude,
+                    }
+                    return d;
+                })
+                resolve(data);
             }
         });
     });

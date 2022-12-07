@@ -330,6 +330,69 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
   ```
 
+  - GET `/hikeLinkHuts/:hikeId`
+  - Description: Retrieve the start/end point, current linked huts possible ones of an hike
+  - Request body: _nothing_
+  - Response: `200 OK` (success), `422` if the :hikeId format is wrong,or if the localguide did not insert that hike `503 Service Unavailable` (generic error).
+  - Response body: detailed information of start/end point, current/possible ref points (huts)
+
+  ```json
+  {
+    "startPoint": {
+        "id": 1,
+        "name": "Rifugio Melezè - Bellino - Val Varaita",
+        "type": "hut",
+        "latitude": 44.57425086759031,
+        "longitude": 6.982689192518592
+    },
+    "endPoint": {
+        "id": 2,
+        "name": "Monte Ferra",
+        "type": "location",
+        "latitude": 44.60207778029144,
+        "longitude": 6.984752649441361
+    },
+    "currentLinkedHuts": [
+        {
+            "id": 16,
+            "name": "Hut Freidour",
+            "type": "hut",
+            "latitude": 44.973129,
+            "longitude": 7.303155
+        }
+    ],
+    "possibleLinkedHuts": [
+        {
+            "id": 15,
+            "name": "Casa Canada",
+            "type": "hut",
+            "latitude": 44.60208624601364,
+            "longitude": 6.984726246446371
+        },
+        {
+            "id": 50,
+            "name": "Rifugio Toesca",
+            "type": "hut",
+            "latitude": 44.58578956313431,
+            "longitude": 6.97570270858705
+        }
+    ]
+  }
+
+- PUT `/hikeLinkHuts/:hikeId`
+  - Description: Link huts to an hike
+  - Request body: An object representing the huts to link
+
+  ```json
+  {
+      "hutsToLink":[1,2,15,1,2,16,50]
+  }
+
+  ```
+
+  - Response: `204` (success), `422` if the localguide did not upload that hike or if the input is not correct, `404` if something is not found, `503 Service Unavailable` (generic error).
+  - Response body: _nothing_
+
 ## Database Tables
 
 #### *Hike* includes all hikes specifications

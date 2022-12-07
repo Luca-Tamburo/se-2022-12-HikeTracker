@@ -177,10 +177,20 @@ exports.getDetailsByHikeId = (id) => {
 /**
  * Get points by hike id
  */
-exports.getPointsByHikeId = (id) => {
+ exports.getPointsByHikeId = (id) => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT Point.id AS id, Point.name AS name, Point.description AS description, Point.type AS type, Point.latitude AS latitude, Point.longitude AS longitude, Point.altitude AS altitude, Point.city AS city, Point.province AS province FROM Point JOIN HikePoint ON Point.id = HikePoint.pointId WHERE HikePoint.hikeId = ?";
-        db.all(sql, [id], (err, rows) => {
+        const sql = "SELECT Point.id AS id, Point.name AS name, Point.description AS description, Point.type AS type, Point.latitude AS latitude, Point.longitude AS longitude, Point.altitude AS altitude, Point.city AS city, Point.province AS province FROM Point "+
+        "WHERE id IN( "+
+        "SELECT Point.id "+
+        "FROM Point "+
+        "INNER JOIN Hike ON ((Point.id = Hike.startPointId OR Point.id=Hike.endPointId) AND Hike.id=?) "+
+        ") OR "+
+        "id IN ( "+
+        "SELECT Point.id "+
+        "FROM Point "+
+        "INNER JOIN HikePoint ON (Point.id=HikePoint.pointId AND HikePoint.hikeId=?) "+
+        ")";
+        db.all(sql, [id,id], (err, rows) => {
             if (err) {
                 reject(err);
             }
@@ -198,6 +208,49 @@ exports.getPointsByHikeId = (id) => {
                 }
             ));
             resolve(points);
+        });
+    });
+}
+
+/**
+ * Get the author of an hike
+ * @param {number} id the id of the hike
+ */
+ exports.getHikeAuthor = (id) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT authorId FROM Hike WHERE id = ?';
+        db.get(sql, [id], (err, r) => {
+            if (err) {
+                reject(err);
+            } else if (r === undefined)
+                resolve(undefined);
+            else {
+                resolve(r.authorId);
+            }
+        });
+    });
+}
+
+/**
+ * Get the start/end point infos of an hike
+ * @param {number} id the id of the hike
+ */
+exports.getStartEndPointDistanceData = (id) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT startPointId,endPointId,length FROM Hike WHERE id = ?';
+        db.get(sql, [id], (err, r) => {
+            if (err) {
+                reject(err);
+            } else if (r === undefined)
+                resolve(undefined);
+            else {
+                const details = {
+                    startPointId: r.startPointId,
+                    endPointId: r.endPointId,
+                    length: r.length
+                };
+                resolve(details);
+            }
         });
     });
 }
