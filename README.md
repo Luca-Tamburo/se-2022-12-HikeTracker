@@ -384,7 +384,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 - GET `/hikeStartEnd/:hikeId`
   - Description: Retrieve the current start/end point and some other possible start/end points (hut/parking lot) for an hike
   - Request body: _nothing_
-  - Response: `200 OK` (success), `404 NOT FOUND` if the id is not found among the ones inserted by the localguide who made the request, `422` if the :hikeId format is wrong, `503 Service Unavailable` (generic error).
+  - Response: `200 OK` (success), `422` if the :hikeId format is wrong,or if the localguide did not insert that hike `503 Service Unavailable` (generic error).
   - Response body: detailed information of current and possible start/end points of the hike.
 
   ```json
@@ -469,7 +469,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
   ```
 
-  - Response: `204` (success), `422` if the input is not correct, `404` if something is not found, `503 Service Unavailable` (generic error).
+  - Response: `204` (success), `422` if the localguide did not upload that hike or if the input is not correct, `404` if something is not found, `503 Service Unavailable` (generic error).
   - Response body: _nothing_
 
 
