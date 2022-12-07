@@ -101,8 +101,7 @@ async function deleteAllTables() {
         "User",
         "UserPreference",
         "Hut",
-        "ParkingLot",
-        "sqlite_sequence"];
+        "ParkingLot"];
     return new Promise((resolve, reject) => {
 
         db.serialize(() => {
