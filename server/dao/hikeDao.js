@@ -179,8 +179,18 @@ exports.getDetailsByHikeId = (id) => {
  */
 exports.getPointsByHikeId = (id) => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT Point.id AS id, Point.name AS name, Point.description AS description, Point.type AS type, Point.latitude AS latitude, Point.longitude AS longitude, Point.altitude AS altitude, Point.city AS city, Point.province AS province FROM Point JOIN HikePoint ON Point.id = HikePoint.pointId WHERE HikePoint.hikeId = ?";
-        db.all(sql, [id], (err, rows) => {
+        const sql = "SELECT Point.id AS id, Point.name AS name, Point.description AS description, Point.type AS type, Point.latitude AS latitude, Point.longitude AS longitude, Point.altitude AS altitude, Point.city AS city, Point.province AS province FROM Point " +
+            "WHERE id IN( " +
+            "SELECT Point.id " +
+            "FROM Point " +
+            "INNER JOIN Hike ON ((Point.id = Hike.startPointId OR Point.id=Hike.endPointId) AND Hike.id=?) " +
+            ") OR " +
+            "id IN ( " +
+            "SELECT Point.id " +
+            "FROM Point " +
+            "INNER JOIN HikePoint ON (Point.id=HikePoint.pointId AND HikePoint.hikeId=?) " +
+            ")";
+        db.all(sql, [id, id], (err, rows) => {
             if (err) {
                 reject(err);
             }
@@ -206,7 +216,7 @@ exports.getPointsByHikeId = (id) => {
  * Get the author of an hike
  * @param {number} id the id of the hike
  */
- exports.getHikeAuthor = (id) => {
+exports.getHikeAuthor = (id) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT authorId FROM Hike WHERE id = ?';
         db.get(sql, [id], (err, r) => {

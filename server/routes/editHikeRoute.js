@@ -144,7 +144,7 @@ router.get('/hikeStartEnd/:hikeId',
 router.put('/hikeStartEnd/:hikeId',
     check('hikeId').isInt({ gt: 0 }).withMessage('hikeId is wrong'),
     check("startPointId").exists().optional({ checkFalsy: true }).isInt({ gt: 0 }).withMessage('startPointId is wrong'),
-    check("endPointId").exists().optional({ checkFalsy: true }).isInt({ gt: 0 }).withMessage('endPointId is wrong').bail().custom((value, { req }) => value !== req.body.startPointId).withMessage('Why startPoinId and endPointId are the same?'),
+    check("endPointId").exists().optional({ checkFalsy: true }).isInt({ gt: 0 }).withMessage('endPointId is wrong'),
     isLoggedInLocalGuide,
     checksValidation,
     async (req, res) => {
@@ -193,7 +193,7 @@ router.put('/hikeStartEnd/:hikeId',
         if (req.body.startPointId && req.body.startPointId !== undefined) {
 
             //come prima cosa controllo che sto punto non sia già start point
-            if ((req.body.startPointId == currentStartPoint.id) ) //potrei anche permetterlo, ma sono chiamate inutili al dao
+            if ((req.body.startPointId == currentStartPoint.id)) //potrei anche permetterlo, ma sono chiamate inutili al dao
                 return res.status(422).json({ error: `not valid startPointId(is already start point of this hike` });
 
             //controllo che startPoint esista
@@ -235,36 +235,12 @@ router.put('/hikeStartEnd/:hikeId',
 
         //operazioni finali per startPoint (se presente nel body)
         if (req.body.startPointId && req.body.startPointId !== undefined) {
-            //controllo che attuale startPoint sia un hut. Se è un hut, non cancello il suo collegamento alla hike in hikePoint,
-            //perchè mi interessa mantenerlo come reference point, altrimenti cancello
-            if (currentStartPoint.type !== "hut") {
-                //elimina da tabella hikePoint
-                await hikePointDao.deleteHikePointCorrispondance(hikeId, currentStartPoint.id);
-            }
-            //controllo se start point che voglio inserire sia già ref.point di quella hike, in tal caso non devo modificare la tabella hikesPoint
-            const isAlreadyIn = await hikePointDao.getHikePointCorrispondance(hikeId, desiredStartPoint.id);
-            if (!isAlreadyIn) {
-                await pointDao.addPointHike(hikeId, desiredStartPoint.id);
-            }
-
             //aggiorno tabella hike
             await editHikeDao.updateStartPoint(desiredStartPoint.id, hikeId);
         }
 
         //operazioni finali per endPoint (se presente nel body)
         if (req.body.endPointId && req.body.endPointId !== undefined) {
-            //controllo che attuale endPoint sia un hut. Se è un hut, non cancello il suo collegamento alla hike in hikePoint,
-            //perchè mi interessa mantenerlo come reference point, altrimenti cancello
-            if (currentEndPoint.type !== "hut") {
-                //elimina da tabella hikePoint
-                await hikePointDao.deleteHikePointCorrispondance(hikeId, currentEndPoint.id);
-            }
-            //controllo se end point che voglio inserire sia già ref.point di quella hike, in tal caso non devo modificare la tabella hikesPoint
-            const isAlreadyIn = await hikePointDao.getHikePointCorrispondance(hikeId, desiredEndPoint.id);
-            if (!isAlreadyIn) {
-                await pointDao.addPointHike(hikeId, desiredEndPoint.id);
-            }
-
             //aggiorno tabella hike
             await editHikeDao.updateEndPoint(desiredEndPoint.id, hikeId);
         }
