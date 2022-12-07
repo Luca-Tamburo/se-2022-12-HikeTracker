@@ -74,7 +74,7 @@ describe("Post.Huts.APItesting", function () {
         await localGuide
             .get('hutdetails/10000')
             .then(function (res) {
-                res.should.have.status(422);
+                res.should.have.status(404);
             });
     });
 
