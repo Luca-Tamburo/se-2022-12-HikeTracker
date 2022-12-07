@@ -101,8 +101,7 @@ async function deleteAllTables() {
         "User",
         "UserPreference",
         "Hut",
-        "ParkingLot",
-        "sqlite_sequence"];
+        "ParkingLot"];
     return new Promise((resolve, reject) => {
 
         db.serialize(() => {
@@ -121,9 +120,9 @@ async function deleteAllTables() {
 function insertusers() {
 
     db.serialize(() => {
-        const insertUsers = "insert into User (email,username,role,name,surname,gender,phoneNumber,hash,salt,verifiedEmail,confirmationCode)"+
-        "VALUES('aldobaglio@gmail.com','aldobaglio','localGuide','aldo','baglio','M','+393315658745','63f764abe1c4f20a200f680f27a292d51fce965bdf40a6d972f85f8309e05178',"+
-        "'W4GgESsg4v30NOa8','1','')"
+        const insertUsers = "insert into User (email,username,role,name,surname,gender,phoneNumber,hash,salt,verifiedEmail,confirmationCode)" +
+            "VALUES('aldobaglio@gmail.com','aldobaglio','localGuide','aldo','baglio','M','+393315658745','63f764abe1c4f20a200f680f27a292d51fce965bdf40a6d972f85f8309e05178'," +
+            "'W4GgESsg4v30NOa8','1','')"
 
         db.run(insertUsers, (err) => {
             if (err) {
@@ -131,9 +130,9 @@ function insertusers() {
             }
         })
 
-        const insertUser1 = "insert into User (email,username,role,name,surname,gender,phoneNumber,hash,salt,verifiedEmail,confirmationCode)"+
-        "VALUES('antonioconte@gmail.com','antonioconte','localGuide','antonio','conte','M','+393564896545','4a639e591c827bb50c35a3449db284f3719f9daff031cffb5bb99283f0d8f7e1',"+
-        "'72c88350f92f1787','0','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFudG9uaW9jb2xlbGxpMTk5OEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFudG9jb2xlIn0.Vq9N8p9_6t-2yXJSKWzf4gm44TQ0k0zZJiA87Sh8Oog')"
+        const insertUser1 = "insert into User (email,username,role,name,surname,gender,phoneNumber,hash,salt,verifiedEmail,confirmationCode)" +
+            "VALUES('antonioconte@gmail.com','antonioconte','localGuide','antonio','conte','M','+393564896545','4a639e591c827bb50c35a3449db284f3719f9daff031cffb5bb99283f0d8f7e1'," +
+            "'72c88350f92f1787','0','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFudG9uaW9jb2xlbGxpMTk5OEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFudG9jb2xlIn0.Vq9N8p9_6t-2yXJSKWzf4gm44TQ0k0zZJiA87Sh8Oog')"
 
         db.run(insertUser1, (err) => {
             if (err) {
@@ -151,12 +150,8 @@ async function createDatabase() {
         try {
 
             createTables();
+            insertusers();
 
-           setTimeout(() => {
-
-                 insertusers();
-
-             }, 1000);
 
             resolve('ok')
         } catch (error) {
@@ -178,4 +173,4 @@ async function deleteDatabase() {
     })
 }
 
-module.exports = { mockDB: db , createDatabase, deleteDatabase }
+module.exports = { mockDB: db, createDatabase, deleteDatabase }
