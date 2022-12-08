@@ -309,7 +309,7 @@ describe("Edit.Hikes.APItesting", function () {
             .put(`hikeStartEnd/${hikeId}`)
             .field({
                 "startPointId":1,
-                "startPointId":2
+                "endPointId":2
             })
             .then(function (res) {
                 res.should.have.status(403);
@@ -342,6 +342,8 @@ describe("Edit.Hikes.APItesting", function () {
             });
     });
 
+
+
     step("Test13: PUT - /hikeStartEnd/:hikeId - start point does not exist", async function () {
 
         const hikeId = 1;
@@ -357,31 +359,149 @@ describe("Edit.Hikes.APItesting", function () {
             });
     });
 
-    /*
-    //This last test still doesnt work
-
-    step("Test00000: PUT - /hikeStartEnd/:hikeId - success THIS TEST DOES NOT WORK AT THE MOMENT", async function () {
+    step("Test14: PUT - /hikeStartEnd/:hikeId - start point isnt hut or parking lot", async function () {
 
         const hikeId = 1;
-
-        //in this case I inverted start and end point id
 
         await localGuide
             .put(`hikeStartEnd/${hikeId}`)
             .field({
-                "startPointId":2,
-                "endPointId":1
+                "startPointId":2
+            })
+            .then(function (res) {
+                res.should.have.status(422);
+            });
+    });
+
+    step("Test15: PUT - /hikeStartEnd/:hikeId - end point is already end point", async function () {
+
+        const hikeId = 1;
+
+        await localGuide
+            .put(`hikeStartEnd/${hikeId}`)
+            .field({
+                "endPointId":2
+            })
+            .then(function (res) {
+                res.should.have.status(422);
+            });
+    });
+
+
+
+    step("Test16: PUT - /hikeStartEnd/:hikeId - end point does not exist", async function () {
+
+        const hikeId = 1;
+
+        await localGuide
+            .put(`hikeStartEnd/${hikeId}`)
+            .field({
+                "endPointId":4
+            })
+            .then(function (res) {
+                res.should.have.status(404);
+            });
+    });
+
+    step("Test17: PUT - /hikeStartEnd/:hikeId - end point isnt hut or parking lot", async function () {
+
+        const hikeId = 1;
+
+        await localGuide
+            .put(`hikeStartEnd/${hikeId}`)
+            .field({
+                "endPointId":2
+            })
+            .then(function (res) {
+                res.should.have.status(422);
+            });
+    });
+
+
+
+    step("Add a new BAD Hut", async function () {
+        await localGuide
+            .post('hut')
+            .field({
+                "title": "bad hut",
+                "photoFile": "https://giovani.bg.it/wp-content/uploads/2019/05/il-ggg-online-nuovo-video-con-l-8217-intervista-mark-rylance-steven-spielberg-v4-278237-1280x720-1.jpg",
+                "roomsNumber": 4,
+                "bedsNumber": 16,
+                "phoneNumber": "+393412345555",
+                "latitude": 47.57426,
+                "longitude": 9.98264,
+                "altitude": 1000,
+                "website": "http://google.it",
+                "description": "there are beds and sheets"
+            })
+            .then(function (res) {
+                res.should.have.status(201);
+            });
+    });
+
+    step("Test18: PUT - /hikeStartEnd/:hikeId - the point is too distant from the track", async function () {
+
+        const hikeId = 1;
+
+        await localGuide
+            .put(`hikeStartEnd/${hikeId}`)
+            .field({
+                "endPointId":3
+            })
+            .then(function (res) {
+                res.should.have.status(422);
+            });
+    });
+
+
+    step("Add a new GOOD Hut", async function () {
+        await localGuide
+            .post('hut')
+            .field({
+                "title": "nice hut",
+                "photoFile": "https://giovani.bg.it/wp-content/uploads/2019/05/il-ggg-online-nuovo-video-con-l-8217-intervista-mark-rylance-steven-spielberg-v4-278237-1280x720-1.jpg",
+                "roomsNumber": 4,
+                "bedsNumber": 16,
+                "phoneNumber": "+393412345666",
+                "latitude": 44.57426,
+                "longitude": 6.98264,
+                "altitude": 3000,
+                "website": "http://google.it",
+                "description": "there are beds and sheets"
+            })
+            .then(function (res) {
+                res.should.have.status(201);
+            });
+    });
+
+
+    step("Test19: PUT - /hikeStartEnd/:hikeId - body < 0 ", async function () {
+
+        const hikeId = 1;
+
+        await localGuide
+            .put(`hikeStartEnd/${hikeId}`)
+            .field({
+                "endPointId": -1
+            })
+            .then(function (res) {
+                res.should.have.status(422);
+            });
+    });
+
+    step("Test20: PUT - /hikeStartEnd/:hikeId - success", async function () {
+
+        const hikeId = 1;
+
+        await localGuide
+            .put(`hikeStartEnd/${hikeId}`)
+            .field({
+                "endPointId":4
             })
             .then(function (res) {
                 res.should.have.status(204);
             });
     });
-    */
-
-
-
-
-
     
 
     ////////////////
@@ -401,9 +521,4 @@ describe("Edit.Hikes.APItesting", function () {
     });
 
 
-
-
-
 });
-
-
