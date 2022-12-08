@@ -46,7 +46,7 @@ const Hut = () => {
     // const [huts, setHuts] = useState([]);
     // const [hutsDisplay, setHutsDisplay] = useState([]);
     // const notify = useNotification();
-    // const [filter, setFilter] = useState(['Region', 'Province', 'City', 0, 0, 0, 0, 0]);
+    // const [filter, setFilter] = useState(['Region', 'Province', 'City', 0, 'Name', 0, 0, 0]);
 
     // useEffect(() => {
     //     api.getHuts()
