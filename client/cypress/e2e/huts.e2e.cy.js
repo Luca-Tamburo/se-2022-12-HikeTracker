@@ -42,7 +42,7 @@ describe('huts', () => {
         cy.get('select option').contains(/City/i);
     })
     it('contains range filter', () => {
-        cy.get('span').contains(/Range of mt/i);
+        cy.get('span').contains(/Range of 0 mt/i);
         cy.get('input[class="form-range"][min="0"][max="100000"]');
     })
     it('contains hut name filter', () => {
