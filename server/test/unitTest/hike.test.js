@@ -6,7 +6,7 @@ setTesting(1);
 const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 
 const { getHikes, addHike, getDetailsByHikeId, getGpxByHikeId , getPointsByHikeId, getHikeAuthor, getStartEndPointDistanceData, getHikesOfAuthor} = require("../../dao/hikeDao");
-const { addPoint, addPointHike } = require('../../dao/pointDao');
+const { addPoint } = require('../../dao/pointDao');
 const { addUser } = require('../../dao/userDao');
 
 
@@ -22,11 +22,6 @@ const addHikes = async () => {
     //title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, photoFile
     const h1 = await addHike("Trail to MONTE FERRA", "Leaving the car in the large parking lot ...", 13, 5, 1336.71, "Professional Hiker", p1, p2, u, "2022-01-10", "https://images.unsplash.com/1");
     const h2 = await addHike("Trail to ROCCA PATANUA", "Patanua means naked in Piedmontese, ...", 9, 5.5, 923.62, "Professional Hiker", p1, p2, u, "2022-04-12", "https://images.unsplash.com/2");
-
-    await addPointHike(h1, p1)
-    await addPointHike(h1, p2)
-    await addPointHike(h2, p1)
-    await addPointHike(h2, p2)
 }
 
 describe("test hikes", () => {
