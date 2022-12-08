@@ -144,7 +144,7 @@ const HutDetails = () => {
                       {hut.bedsNumber}
                       <h5 className="fw-bold mt-3">OPENING</h5>{" "}
                       {hut.whenIsOpen}
-                      <h5 className="fw-bold mt-3">PHONEN NUMBER</h5>{" "}
+                      <h5 className="fw-bold mt-3">PHONE NUMBER</h5>{" "}
                       {hut.phoneNumber}
                       {/* <h5 className="fw-bold mt-3">START POINT</h5>{" "}
                       {hut.pointList.find(p => p.id === hut.startPointId).name}
