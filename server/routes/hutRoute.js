@@ -133,10 +133,6 @@ router.get('/huts', [], async (req, res) => {
 
 router.get('/hutdetails/:hutId', check('hutId').isInt({ gt: 0 }).withMessage('hutId must be a number'),
     checksValidation, async (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(404).json({ error: `Wrong hutId` })
-        };
         try {
             //Hut detailed information is collected
             let hutDetails = await hutDao.getDetailsByHutId(req.params.hutId);
