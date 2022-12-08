@@ -55,14 +55,22 @@ router.get('/hikeStartEnd/:hikeId',
                 name: startPoint.name,
                 type: startPoint.type,
                 latitude: startPoint.latitude,
-                longitude: startPoint.longitude
+                longitude: startPoint.longitude,
+                description:startPoint.description,
+                city: startPoint.city,
+                province: startPoint.province,
+                region: startPoint.region
             },
             currentEndPoint: {
                 id: endPoint.id,
                 name: endPoint.name,
                 type: endPoint.type,
                 latitude: endPoint.latitude,
-                longitude: endPoint.longitude
+                longitude: endPoint.longitude,
+                description:endPoint.description,
+                city: endPoint.city,
+                province: endPoint.province,
+                region: endPoint.region
             },
         }
 

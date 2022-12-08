@@ -78,7 +78,8 @@ exports.addPointHike = (hikeId, pointId) => {
                         longitude: r.longitude,
                         altitude: r.altitude,
                         city: r.city,
-                        province: r.province
+                        province: r.province,
+                        region:r.region
                     }
                 );
             }
@@ -103,9 +104,14 @@ exports.addPointHike = (hikeId, pointId) => {
                     const d = {
                         id: p.id,
                         name: p.name,
+                        description: p.description,
                         type: p.type,
                         latitude: p.latitude,
                         longitude: p.longitude,
+                        altitude: p.altitude,
+                        city: p.city,
+                        province: p.province,
+                        region:p.region
                     }
                     return d;
                 })
