@@ -63,7 +63,7 @@ const Hut = () => {
     return (
         <Row className='flex-fill'>
             <Col xs={{ span: 10, offset: 1 }} className='mt-3'>
-                <h1 className='fw-bold text-center mt-2'>Search your next hut</h1>
+                <h1 className='fw-bold text-center mt-2'>Search hut</h1>
                 {/* TEST ASPETTANDO LE API. DOPO SI PUÒ CANCELLARE */}
                 <HutFilter />
                 <Row>
