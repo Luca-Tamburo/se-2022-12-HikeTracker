@@ -26,7 +26,7 @@ const addHikes = async () => {
     await addPointHike(h1, p2)
 }
 
-describe("test hikes", () => {
+describe("test hikePoint", () => {
 
     beforeAll(async () => {
         await cleanDb();

@@ -23,7 +23,7 @@ const addHikes = async () => {
     const h1 = await addHike("Trail to MONTE FERRA", "Leaving the car in the large parking lot ...", 13, 5, 1336.71, "Professional Hiker", p1, p2, u, "2022-01-10", "https://images.unsplash.com/1");
 }
 
-describe("test hikes", () => {
+describe("test editHike", () => {
 
     beforeAll(async () => {
         await cleanDb();

@@ -162,7 +162,7 @@ function testgetPointsByHikeId(id) {
                 "longitude": 6.98475264944136,
                 "altitude": 3094.14,
                 "city": null,
-                "province": null,
+                "province": null
             }
         ]
         );
