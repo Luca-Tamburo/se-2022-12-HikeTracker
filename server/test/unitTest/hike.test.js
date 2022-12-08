@@ -5,7 +5,7 @@ const { iAmTesting, setTesting } = require('../mockDB/iAmTesting');
 setTesting(1);
 const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 
-const { getHikes, addHike, getDetailsByHikeId, getGpxByHikeId , getPointsByHikeId} = require("../../dao/hikeDao");
+const { getHikes, addHike, getDetailsByHikeId, getGpxByHikeId , getPointsByHikeId, getHikeAuthor, getStartEndPointDistanceData, getHikesOfAuthor} = require("../../dao/hikeDao");
 const { addPoint, addPointHike } = require('../../dao/pointDao');
 const { addUser } = require('../../dao/userDao');
 
@@ -38,9 +38,12 @@ describe("test hikes", () => {
     
     // Call tests
     testgetHikes()
-    testgetDetailsByHikeId(1, 3) //id, wrongId
-    testgetGpxByHikeId(1, 3) //id, wrongId
-    testgetPointsByHikeId(1) //id
+    testgetDetailsByHikeId(1, 3) // hike id, wrongId
+    testgetGpxByHikeId(1, 3) // hike id, wrongId
+    testgetPointsByHikeId(1) // hike id
+    testgetHikeAuthor(1, 3) // hike id, wrongId 
+    testgetStartEndPointDistanceData(1, 3) // hike id, wrongId
+    testgetHikesOfAuthor(3) // author id
 });
 
 function testgetHikes() {
@@ -95,9 +98,9 @@ function testgetHikes() {
 function testgetDetailsByHikeId(id, wongId) {
     test("test hikeDetails1", async () => {
 
-        let hikeDetails = await getDetailsByHikeId(id);
+        let hikeDetails1 = await getDetailsByHikeId(id);
 
-        expect(hikeDetails).toEqual(
+        expect(hikeDetails1).toEqual(
             {
                 "id": 1,
                 "gpx": "1_Trail_to_MONTE_FERRA.gpx",
@@ -119,24 +122,24 @@ function testgetDetailsByHikeId(id, wongId) {
     });
 
     test("test hikeDetails wrong id", async () => {
-        let hikeDetails = await getDetailsByHikeId(wongId);
-        expect(hikeDetails).toEqual(undefined);
+        let hikeDetails2 = await getDetailsByHikeId(wongId);
+        expect(hikeDetails2).toEqual(undefined);
     });
 }
 
 function testgetGpxByHikeId(id, wongId) {
     test("test getGpxByHikeId", async () => {
 
-        let gpx = await getGpxByHikeId(id);
+        let gpx1 = await getGpxByHikeId(id);
 
-        expect(gpx).toEqual(
+        expect(gpx1).toEqual(
             "1_Trail_to_MONTE_FERRA.gpx"
         );
     });
 
     test("test getGpxByHikeId wrong id", async () => {
-        let gpx = await getGpxByHikeId(wongId);
-        expect(gpx).toEqual(undefined);
+        let gpx2 = await getGpxByHikeId(wongId);
+        expect(gpx2).toEqual(undefined);
     });
 }
 
@@ -165,6 +168,85 @@ function testgetPointsByHikeId(id) {
                 "altitude": 3094.14,
                 "city": null,
                 "province": null,
+            }
+        ]
+        );
+    });
+}
+
+function testgetHikeAuthor(id, wongId) {
+    test("test getHikeAuthor", async () => {
+        let authorId1 = await getHikeAuthor(id);
+        expect(authorId1).toEqual(3);
+    });
+
+    test("test getHikeAuthor wrong id", async () => {
+        let authorId2 = await getHikeAuthor(wongId);
+        expect(authorId2).toEqual(undefined);
+    });    
+}
+
+function testgetStartEndPointDistanceData(id, wongId) {
+    test("test getStartEndPointDistanceData", async () => {
+        let StartEndPointDistanceData1 = await getStartEndPointDistanceData(id);
+        expect(StartEndPointDistanceData1).toEqual(
+            {
+                "startPointId": 1,
+                "endPointId": 2,
+                "length": 13
+            }
+        );
+    });
+
+    test("test getStartEndPointDistanceData wrong id", async () => {
+        let StartEndPointDistanceData2 = await getStartEndPointDistanceData(wongId);
+        expect(StartEndPointDistanceData2).toEqual(undefined);
+    });    
+}
+
+function testgetHikesOfAuthor(authorId) {
+    test("test getHikesOfAuthor", async () => {
+        let hikesAuthor = await getHikesOfAuthor(authorId);
+        expect(hikesAuthor).toEqual([
+            {
+                "id": 1,
+                "title": "Trail to MONTE FERRA",
+                "description": "Leaving the car in the large parking lot ...",
+                "length": 13,
+                "expectedTime": 5,
+                "ascent": 1336.71,
+                "difficulty": "Professional Hiker",
+                "authorName": "Antonio",
+                "authorSurname": "Conte",
+                "authorId": 3,
+                "uploadDate": "2022-01-10",
+                "photoFile": "https://images.unsplash.com/1",
+                "latitude": 44.5742508675903,
+                "longitude": 6.98268919251859,
+                "altitude": 1757.43,
+                "city": "Bellino",
+                "province": "Cuneo",
+                "region": "Piemonte"
+            },
+            {
+                "id": 2,
+                "title": "Trail to ROCCA PATANUA",
+                "description": "Patanua means naked in Piedmontese, ...",
+                "length": 9,
+                "expectedTime": 5.5,
+                "ascent": 923.62,
+                "difficulty": "Professional Hiker",
+                "authorName": "Antonio",
+                "authorSurname": "Conte",
+                "authorId": 3,
+                "uploadDate": "2022-04-12",
+                "photoFile": "https://images.unsplash.com/2",
+                "latitude": 44.5742508675903,
+                "longitude": 6.98268919251859,
+                "altitude": 1757.43,
+                "city": "Bellino",
+                "province": "Cuneo",
+                "region": "Piemonte"
             }
         ]
         );
