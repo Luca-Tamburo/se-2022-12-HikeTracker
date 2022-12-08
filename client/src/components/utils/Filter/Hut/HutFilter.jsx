@@ -148,7 +148,10 @@ const HutFilter = (props) => {
         setBedNumberMin("");
         setAltitudeMin("")
         setAltitudeMax("")
+        setHutName("")
         setMarker(false)
+
+
 
         //props.setHikesDisplay(props.hikes);
     };
@@ -264,7 +267,7 @@ const HutFilter = (props) => {
                     <div className="d-flex">
                         <Form className="pe-2">
                             <Form.Control
-                                data-testid="beds-select-min"
+                                data-testid="Name-select"
                                 type="text"
                                 placeholder="Name..."
                                 onChange={(event) => {setHutName(event.target.value)}}
