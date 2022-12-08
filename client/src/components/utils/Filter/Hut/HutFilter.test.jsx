@@ -2,8 +2,8 @@
 * -------------------------------------------------------------------- 
 *
 * Package:         client
-* Module:          src/components/utils/Filter/Hike
-* File:            HikeFilter.test.jsx
+* Module:          src/components/utils/Filter/Hut
+* File:            HutFilter.test.jsx
 *
 * Copyright (c) 2022 - se2022-Team12
 * All rights reserved.
@@ -15,7 +15,7 @@ import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
 
 // Components
-import Filter from './HikeFilter';
+import Filter from './HutFilter';
 
 //Mock react-bootstrap
 jest.mock('react-bootstrap', () => {
@@ -104,20 +104,20 @@ const dataTestId = [
     'province-select',
     'city-select',
     'range-select',
-    'difficulty-select',
-    'ascent-select-min',
-    'ascent-select-max',
-    'expectedTime-select-min',
-    'expectedTime-select-max',
-    'length-select-min',
-    'length-select-max',
+    'name-input',
+    'rooms-select-min',
+    'rooms-select-max',
+    'beds-select-min',
+    'beds-select-max',
+    'altitude-select-min',
+    'altitude-select-max',
 ]
 
 describe('Filter components', () => {
 
     it('is rendered', () => {
         render(<Filter />);
-        expect(screen.getAllByRole('combobox')).toHaveLength(4)
+        expect(screen.getAllByRole('combobox')).toHaveLength(3)
         expect(screen.getByTestId('range-select')).toBeInTheDocument()
         expect(screen.getAllByRole('spinbutton')).toHaveLength(6)
         expect(screen.getAllByRole('button')).toHaveLength(2)

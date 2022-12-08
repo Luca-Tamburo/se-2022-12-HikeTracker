@@ -278,7 +278,7 @@ const HutFilter = () => {
                     <div className="d-flex">
                         <Form className="pe-2">
                             <Form.Control
-                                data-testid="beds-select-min"
+                                data-testid="name-input"
                                 type="text"
                                 placeholder="Name..."
                             // onChange={(event) => {

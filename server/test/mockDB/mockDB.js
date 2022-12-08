@@ -140,6 +140,16 @@ function insertusers() {
                 throw err;
             }
         })
+
+        const insertUser2 = "insert into User (email,username,role,name,surname,gender,phoneNumber,hash,salt,verifiedEmail,confirmationCode)"+
+        "VALUES('pippobaudo@gmail.com','pippobaudo','hiker','pippo','baudo','M','+393564896545','4a639e591c827bb50c35a3449db284f3719f9daff031cffb5bb99283f0d8f7e1',"+
+        "'72c88350f92f1787','1','')"
+
+        db.run(insertUser2, (err) => {
+            if (err) {
+                throw err;
+            }
+        })
     })
 }
 
@@ -152,11 +162,11 @@ async function createDatabase() {
 
             createTables();
 
-           setTimeout(() => {
+
 
                  insertusers();
 
-             }, 1000);
+
 
             resolve('ok')
         } catch (error) {
