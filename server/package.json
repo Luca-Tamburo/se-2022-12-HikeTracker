@@ -8,8 +8,9 @@
     "test:watch": "npm run test -- --watch",
     "start": "nodemon index.js",
     "test_coverage": "jest --coverage",
-    "test:cov": "jest --watchAll --coverage --testResultsProcessor=jest-sonar-reporter --runInBand",
-    "test_integration": "npx mocha test/integrationTest  --runInBand --require mocha-steps --reporter mochawesome --timeout 30000 --exit"
+    "test:cov": "jest --watchAll --coverage --testResultsProcessor=jest-sonar-reporter --runInBand",    
+    "test_integration": "npx mocha test/integrationTest  --runInBand --require mocha-steps --reporter mochawesome --timeout 30000 --exit",
+    "test_integration_coverage": "nyc mocha test/integrationTest  --runInBand --require mocha-steps --reporter mochawesome --timeout 30000 --exit"
   },
   "author": "",
   "license": "ISC",
@@ -31,6 +32,7 @@
     "node-fetch": "^2.6.7",
     "nodemailer": "^6.8.0",
     "nodemon": "^2.0.20",
+    "nyc": "^15.1.0",
     "parse-gpx": "^2.1.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
