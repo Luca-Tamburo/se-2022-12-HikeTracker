@@ -87,7 +87,7 @@ exports.getHikes = () => {
     return new Promise((resolve, reject) => {
         const sql = "SELECT Hike.id AS id, Hike.title AS title, Hike.description AS description,Hike.length AS length, Hike.expectedTime as expectedTime, Hike.ascent as ascent, Hike.difficulty as difficulty,"
             + " Hike.uploadDate AS uploadDate, Hike.photoFile AS photoFile,"
-            + "User.name AS authorName, User.surname AS authorSurname,Point.latitude as latitude, Point.longitude as longitude,Point.altitude as altitude, Point.city as city,Point.province as province,Point.region as region "
+            + "User.name AS authorName, User.surname AS authorSurname,User.id AS authorId,Point.latitude as latitude, Point.longitude as longitude,Point.altitude as altitude, Point.city as city,Point.province as province,Point.region as region "
             + " FROM Hike,User,Point "
             + "WHERE Hike.startPointId = Point.id AND Hike.authorId = User.id";
         db.all(sql, [], (err, rows) => {
@@ -105,6 +105,7 @@ exports.getHikes = () => {
                     difficulty: r.difficulty,
                     authorName: nomiMaiuscoli(r.authorName),
                     authorSurname: nomiMaiuscoli(r.authorSurname),
+                    authorId: r.authorId,
                     uploadDate: r.uploadDate,
                     photoFile: r.photoFile,
                     latitude: r.latitude,
@@ -127,7 +128,7 @@ exports.getHikes = () => {
     return new Promise((resolve, reject) => {
         const sql = "SELECT Hike.id AS id, Hike.title AS title, Hike.description AS description,Hike.length AS length, Hike.expectedTime as expectedTime, Hike.ascent as ascent, Hike.difficulty as difficulty,"
             + " Hike.uploadDate AS uploadDate, Hike.photoFile AS photoFile,"
-            + "User.name AS authorName, User.surname AS authorSurname,Point.latitude as latitude, Point.longitude as longitude,Point.altitude as altitude, Point.city as city,Point.province as province,Point.region as region "
+            + "User.name AS authorName, User.surname AS authorSurname,User.id AS authorId,Point.latitude as latitude, Point.longitude as longitude,Point.altitude as altitude, Point.city as city,Point.province as province,Point.region as region "
             + " FROM Hike,User,Point "
             + "WHERE Hike.startPointId = Point.id AND Hike.authorId = User.id AND Hike.authorId=?";
         db.all(sql, [authorId], (err, rows) => {
@@ -145,6 +146,7 @@ exports.getHikes = () => {
                     difficulty: r.difficulty,
                     authorName: nomiMaiuscoli(r.authorName),
                     authorSurname: nomiMaiuscoli(r.authorSurname),
+                    authorId: r.authorId,
                     uploadDate: r.uploadDate,
                     photoFile: r.photoFile,
                     latitude: r.latitude,
@@ -184,7 +186,7 @@ exports.getGpxByHikeId = (id) => {
  */
 exports.getDetailsByHikeId = (id) => {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT Hike.gpxFile as gpx,Hike.id AS id, Hike.title AS title, Hike.description AS description, Hike.uploadDate AS uploadDate, Hike.photoFile AS photoFile, Hike.length AS length, Hike.expectedTime AS expectedTime, Hike.ascent AS ascent, Hike.difficulty AS difficulty, Hike.startPointId AS startPointId, Hike.endPointId AS endPointId, User.name AS authorName, User.surname AS authorSurname FROM Hike JOIN User ON Hike.authorId = User.id WHERE Hike.id = ?';
+        const sql = 'SELECT Hike.gpxFile as gpx,Hike.id AS id, Hike.title AS title, Hike.description AS description, Hike.uploadDate AS uploadDate, Hike.photoFile AS photoFile, Hike.length AS length, Hike.expectedTime AS expectedTime, Hike.ascent AS ascent, Hike.difficulty AS difficulty, Hike.startPointId AS startPointId, Hike.endPointId AS endPointId, User.name AS authorName, User.surname AS authorSurname,User.id AS authorId FROM Hike JOIN User ON Hike.authorId = User.id WHERE Hike.id = ?';
         db.get(sql, [id], (err, r) => {
             if (err) {
                 reject(err);
@@ -199,6 +201,7 @@ exports.getDetailsByHikeId = (id) => {
                     description: r.description,
                     authorName: r.authorName,
                     authorSurname: r.authorSurname,
+                    authorId: r.authorId,
                     uploadDate: r.uploadDate,
                     photoFile: r.photoFile,
                     length: r.length,
