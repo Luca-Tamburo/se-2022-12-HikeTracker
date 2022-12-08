@@ -12,6 +12,7 @@
 
 // Imports
 // Styles
+import MyHikesService from '../assets/localGuideService/MyHikesService.png';
 import AddHikeService from '../assets/localGuideService/AddHikeService.png';
 import AddHutService from '../assets/localGuideService/AddHutService.png';
 import AddParkingService from '../assets/localGuideService/AddParkingService.png';
@@ -19,9 +20,17 @@ import AddParkingService from '../assets/localGuideService/AddParkingService.png
 // Icons
 import { GiMountainRoad } from 'react-icons/gi'
 import { BsHouseFill } from 'react-icons/bs'
-import { FaParking } from 'react-icons/fa'
+import { FaParking, FaListUl } from 'react-icons/fa'
 
 const LocalGuideService = [
+    {
+        addName: 'My hikes',
+        url: 'localGuide/hikes',
+        title: 'My Hikes',
+        description: 'Click here to see all the hike you have added in the system',
+        photoFile: MyHikesService,
+        icon: FaListUl
+    },
     {
         addName: 'Add hike',
         url: 'addHike',
