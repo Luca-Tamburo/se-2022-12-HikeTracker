@@ -32,7 +32,7 @@ import useNotification from "../../hooks/useNotification";
 //   // node doesn't have xml parsing or a dom. use xmldom
 //   DOMParser = require("xmldom").DOMParser;
 
-// const L = require("leaflet");
+const L = require("leaflet");
 
 // const limeOptions = { color: "red" };
 
@@ -58,15 +58,16 @@ const HutDetails = () => {
   const { hutId } = useParams();
   // const notify = useNotification();
   const [loading, setLoading] = useState(false);
+  const [center, setCenter] = useState({ lat: 45.072384, lng: 7.6414976 });
 
   // const startIcon = L.icon({
   //   iconUrl: require("../../assets/mapIcons/start.png"),
   //   iconSize: [30, 30],
   // });
-  // const endIcon = L.icon({
-  //   iconUrl: require("../../assets/mapIcons/finish.png"),
-  //   iconSize: [30, 30],
-  // });
+  const hutIcon = L.icon({
+    iconUrl: require("../../assets/mapIcons/hut.png"),
+    iconSize: [30, 30],
+  });
 
   // useEffect(() => {
   //   setLoading(true);
@@ -187,6 +188,23 @@ const HutDetails = () => {
               ) : (
                 <Col xs={7} className="m-0"></Col>
               )} */}
+              {isloggedIn ? (
+                <Col xs={7} className="m-0">
+                  <MapContainer center={center} zoom={13} scrollWheelZoom={true}>
+                    <TileLayer
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                      url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
+                    />
+                    <Marker icon={hutIcon} position={center}>
+                      <Popup>
+                        Hut Position <br />
+                      </Popup>
+                    </Marker>
+                  </MapContainer>
+                </Col>
+              ) : (
+                <Col xs={7} className="m-0"></Col>
+              )}
             </Row>
           </Col>
         ) : (
