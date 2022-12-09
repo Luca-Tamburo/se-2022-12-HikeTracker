@@ -34,7 +34,7 @@ function testaddPoint(name, description, type, latitude, longitude, altitude, ci
         let point = await getPointById(id);
         expect(point).toEqual(
             {
-                "id": 1,
+                "id": 2,
                 "name": "Rifugio Melezè - Bellino - Val Varaita",
                 "description": "The building was a ...",
                 "type": "parking lot",
@@ -42,7 +42,8 @@ function testaddPoint(name, description, type, latitude, longitude, altitude, ci
                 "longitude": 6.98268919251859,
                 "altitude": 1757.43,
                 "city": "Bellino",
-                "province": "Cuneo"
+                "province": "Cuneo",
+                "region": "Piemonte"
             }
         );
     });
@@ -55,9 +56,14 @@ function testgetPointByType(type) {
             [{
                 "id": 1,
                 "name": "Monte Ferra",
+                "description": "Peak of Monte Ferra",
                 "type": "gpsCoordinates",
                 "latitude": 44.6020777802914,
-                "longitude": 6.98475264944136
+                "longitude": 6.98475264944136,
+                "altitude": 3094.14,
+                "city": null,
+                "province": null,
+                "region": null
             }]
         );
     });
