@@ -22,6 +22,7 @@ import HikeDetails from './HikeDetails/HikeDetails';
 import Home from './Home/Home';
 import Login from './Login/Login';
 import LinkStartEndPoint from './LocalGuidePage/LinkPoint/LinkStartEndPoint';
+import LinkHutToHike from './LocalGuidePage/LinkHut/LinkHutToHike';
 import LocalGuidePage from './LocalGuidePage/LocalGuidePage';
 import LocalGuideHikes from './LocalGuidePage/Hikes/LocalGuideHikes';
 import Register from './Register/Register';
@@ -38,6 +39,7 @@ export {
     HikeDetails,
     Home,
     LinkStartEndPoint,
+    LinkHutToHike,
     Login,
     LocalGuideHikes,
     LocalGuidePage,

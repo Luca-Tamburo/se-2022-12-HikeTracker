@@ -18,7 +18,7 @@ import { Link } from 'react-router-dom';
 const LocalGuideServiceCard = ({ info }) => {
     return (
         <Card className='border-0 shadow p-3 my-4'>
-            <Card.Img fluid alt='card-image' variant='top' className='image-fluid' src={info.photoFile} />
+            <Card.Img alt='card-image' variant='top' className='image-fluid' src={info.photoFile} />
             <Card.Body>
                 <Card.Title className='fw-bold'>{info.title}</Card.Title>
                 <hr />

@@ -44,11 +44,11 @@ const HikeCard = ({ hike, loading }) => {
                                 <div className="d-flex flex-row flex-sm-column flex-md-row flex-lg-column flex-xxl-row justify-content-between justify-content-md-between mt-3">
                                     {(userInfo.role === 'localGuide' && userInfo.id === hike.authorId) &&
                                         <>
-                                            {/* <Link to={'/'}>
+                                            <Link to={`/linkHutToHike/${hike.id}`}>
                                                 <Button size='sm' className='me-2 mb-sm-2 mb-md-0 mb-lg-2 mb-xl-2 mb-xxl-0'>
                                                     Link huts
                                                 </Button>
-                                            </Link> */}
+                                            </Link>
                                             <Link to={`/hikeStartEndPoint/${hike.id}`}>
                                                 <Button size='sm'>
                                                     Add start/end point

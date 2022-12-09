@@ -173,6 +173,12 @@ const HikeDetails = (props) => {
                   <div className="d-flex flex-column flex-xl-row justify-content-between mt-3">
                     {(userInfo.role === 'localGuide' && userInfo.id === hike.authorId) &&
                       <div className="d-flex flex-column flex-md-row justify-content-md-between my-2 ">
+                        <Link to={`/linkHutToHike/${hike.id}`}>
+                          <Button variant="success" className='mt-2 mt-md-0'>
+                            <MdAddBusiness className='me-2' size={25} />
+                            Link hut
+                          </Button>
+                        </Link>
                         <Link to={`/hikeStartEndPoint/${hike.id}`}>
                           <Button variant="success" className='mt-2 mt-md-0 ms-xl-2'>
                             <MdAddCircle className='me-2' size={25} />
