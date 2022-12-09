@@ -28,11 +28,8 @@ const cleanDb = async () => {
 
 describe("Post.Huts.APItesting", function () {
 
-    before(async () => {
-        await cleanDb();
+    before(async () => { await cleanDb(); });
 
-    }
-    )
     const localGuide = request.agent(server);
 
     it("Test1: send all huts infos", async function () {
