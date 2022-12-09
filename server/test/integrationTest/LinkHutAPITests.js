@@ -282,7 +282,7 @@ describe("Link.Huts.APItesting", function () {
 
         await localGuide
             .put(`hikeLinkHuts/${hikeId}`)
-            .field({
+            .send({
                 "hutsToLink":[1,2,15,1,2,16,50]
             })
             .then(function (res) {
@@ -296,7 +296,7 @@ describe("Link.Huts.APItesting", function () {
 
         await localGuide
             .put(`hikeLinkHuts/${hikeId}`)
-            .field({
+            .send({
                 "hutsToLink":[1,2,15,1,2,16,50]
             })
             .then(function (res) {
@@ -321,7 +321,7 @@ describe("Link.Huts.APItesting", function () {
 
         await localGuide
             .put(`hikeLinkHuts/${hikeId}`)
-            .field({
+            .send({
                 "hutsToLink":[1,2,15,1,2,16,50]
             })
             .then(function (res) {
@@ -335,7 +335,7 @@ describe("Link.Huts.APItesting", function () {
 
         await localGuide
             .put(`hikeLinkHuts/${hikeId}`)
-            .field({
+            .send({
                 "hutsoLink":[1,2,15,1,2,16,50]
             })
             .then(function (res) {
@@ -409,7 +409,7 @@ describe("Link.Huts.APItesting", function () {
 
         await localGuide
             .put(`hikeLinkHuts/${hikeId}`)
-            .field({
+            .send({
                 "hutsToLink":[15,16,50]
             })
             .then(function (res) {
@@ -423,7 +423,7 @@ describe("Link.Huts.APItesting", function () {
 
         await hiker
             .put(`hikeLinkHuts/${hikeId}`)
-            .field({
+            .send({
                 "hutsToLink":[15,16,50]
             })
             .then(function (res) {
@@ -439,11 +439,11 @@ describe("Link.Huts.APItesting", function () {
 
         await localGuide2
             .put(`hikeLinkHuts/${hikeId}`)
-            .field({
+            .send({
                 "hutsToLink":[1]
             })
             .then(function (res) {
-                res.should.have.status(422);
+                res.should.have.status(403);
             });
     });
 
@@ -453,29 +453,29 @@ describe("Link.Huts.APItesting", function () {
 
         await localGuide
             .put(`hikeLinkHuts/${hikeId}`)
-            .field({
-                "hutsToLink":[1]
+            .send({
+                "hutsToLink":[3]
             })
             .then(function (res) {
                 res.should.have.status(422);
             });
     });
 
-    /*
+    
     step("Test16: PUT - /hikeLinkHuts/:hikeId - success ", async function () {
 
         const hikeId = 1;
 
         await localGuide
             .put(`hikeLinkHuts/${hikeId}`)
-            .field({
-                "hutsToLink":[2]
+            .send({
+                "hutsToLink":[4,5]
             })
             .then(function (res) {
                 res.should.have.status(204);
             });
     });
-    */
+    
 
 
 
