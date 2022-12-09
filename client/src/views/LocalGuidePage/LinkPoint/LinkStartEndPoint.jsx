@@ -12,7 +12,7 @@
 
 // Imports
 import { useState, useEffect } from 'react'
-import { Row, Col, Spinner,Button} from 'react-bootstrap'
+import { Row, Col, Spinner, Button } from 'react-bootstrap'
 import { useParams } from "react-router-dom";
 
 // Components - uiCore
@@ -25,6 +25,10 @@ import api from '../../../services/api';
 // Hooks
 import useNotification from '../../../hooks/useNotification';
 
+// Icons
+import { BiReset } from "react-icons/bi";
+import { IoIosSend } from 'react-icons/io'
+
 
 const LinkStartEndPoint = () => {
     const [loading, setLoading] = useState(true);
@@ -35,9 +39,6 @@ const LinkStartEndPoint = () => {
     const [start, setStart] = useState();
     const [end, setEnd] = useState();
     const { hikeId } = useParams();
-    // USA QUESTE PER MODIFICARE I VALORI DEL CURRENT POINT + CAMBIA ANCHE LE PROPS CHE PASSI AGLI INFOPOINT
-    // const [currentStartPoint, setCurrentStartPoint] = useState(points.currentStartPoint);
-    // const [currentEndPoint, setCurrentEndPoint] = useState(points.currentEndPoint);
 
     useEffect(() => {
         api.getLinkStartEndPoint(hikeId)
@@ -55,32 +56,31 @@ const LinkStartEndPoint = () => {
             .finally(() => setLoading(false));
     }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
-    const handelReset= ()=>{
+    const handleReset = () => {
         setCurrentEnd(end)
         setCurrentStart(start)
     }
 
-    const handleSave = ()=>{
+    const handleSave = () => {
         let data;
-        if(currentStart.id !== start.id && currentEnd.id !== end.id){
+        if (currentStart.id !== start.id && currentEnd.id !== end.id) {
             data = {
                 startPointId: currentStart.id,
-                endPointId:currentEnd.id
+                endPointId: currentEnd.id
             }
         }
-        else if( currentStart.id === start.id)
-        {
+        else if (currentStart.id === start.id) {
             data = {
-                endPointId:currentEnd.id
+                endPointId: currentEnd.id
             }
 
         }
-        else{
+        else {
             data = {
-                endPointId:currentEnd.id
+                endPointId: currentEnd.id
             }
         }
-        api.putLinkStartEndPoint(hikeId,data)
+        api.putLinkStartEndPoint(hikeId, data)
     }
 
     if (!loading) {
@@ -89,8 +89,8 @@ const LinkStartEndPoint = () => {
                 <div className="d-flex justify-content-center mt-4">
                     <h1 className="fw-bold">Change your start/end point</h1>
                 </div>
-                <Row className='ms-1'>
-                    <Col xs={10} sm={8} md={6} lg={4} className='mb-3 mb-sm-0'>
+                <Row>
+                    <Col xs={10} sm={5} lg={5} xl={4} className='mb-3 mb-sm-0 me-sm-4'>
                         <div>
                             <h4 className='m-3 fst-italic'>Start Point</h4>
                             <InfoPoint points={currentStart} eventKeyNumber={'0'} />
@@ -100,17 +100,20 @@ const LinkStartEndPoint = () => {
                             <InfoPoint points={currentEnd} eventKeyNumber={'1'} />
                         </div>
                     </Col>
-                    <Col xs={{ span: 10, offset: 1 }} lg={{ span: 4, offset: 3 }}>
-                        <MapStartEndLink points={points} setEnd={setCurrentEnd} setStart={setCurrentStart} currentEnd={currentEnd} currentStart={currentStart} />
-                        <Row>
-                    <div className="d-flex justify-content-evenly mt-2">
-                        <Button onClick={() => {handelReset()}}>Reset</Button>
-                        <Button onClick={() => {handleSave()}}>Save</Button>
-                    </div>
-                </Row>
+                    <Col xs={11} sm={{ span: 6 }} lg={{ span: 6 }} xl={{ span: 6, offset: 1 }} className='mt-3 mt-sm-5'>
+                        <div className='ms-3 ms-sm-0'>
+                            <MapStartEndLink points={points} setEnd={setCurrentEnd} setStart={setCurrentStart} currentEnd={currentEnd} currentStart={currentStart} />
+                            <div className=" my-2">
+                                <Button variant='secondary' onClick={() => { handleReset() }} className='me-4'>
+                                    <BiReset className='me-1' /> Reset
+                                </Button>
+                                <Button onClick={() => { handleSave() }}>
+                                    <IoIosSend className='me-2' />Submit
+                                </Button>
+                            </div>
+                        </div>
                     </Col>
                 </Row>
-                
             </div>
         );
     } else {
