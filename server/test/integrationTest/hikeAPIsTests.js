@@ -29,7 +29,7 @@ const cleanDb = async () => {
 
 
 describe("Post.Hikes.APItesting", function () {
-    before(() => { cleanDb(); });
+    before(async () => { await cleanDb(); });
 
     const localGuide = request.agent(server);
 

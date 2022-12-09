@@ -28,7 +28,7 @@ const cleanDb = async () => {
 };
 
 describe("Link.Huts.APItesting", function () {
-    before(() => { cleanDb(); });
+    before(async () => { await cleanDb(); });
 
 
     //User number 1 (authorized)
