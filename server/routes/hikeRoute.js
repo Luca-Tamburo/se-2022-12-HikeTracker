@@ -44,6 +44,21 @@ router.get('/hikes', [], async (req, res) => {
 });
 
 /**
+ * Get hikes from the system
+ */
+
+router.get('/localGuideHikes',
+    isLoggedInLocalGuide,
+    checksValidation,
+    async (req, res) => {
+        try {
+            let hikes = await hikeDao.getHikesOfAuthor(req.user.id);
+            return res.status(200).json(hikes); //Return list of Hikes
+        } catch (error) { res.status(503).json({ error: `Service unavailable` }); }
+
+    });
+
+/**
  * Put hikes into the system
  */
 
