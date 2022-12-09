@@ -343,38 +343,62 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
         "name": "Rifugio Melezè - Bellino - Val Varaita",
         "type": "hut",
         "latitude": 44.57425086759031,
-        "longitude": 6.982689192518592
+        "longitude": 6.982689192518592,
+        "description": "The ...",
+        "city": "Bellino",
+        "province": "Cuneo",
+        "region": "Piemonte"
     },
     "endPoint": {
         "id": 2,
         "name": "Monte Ferra",
         "type": "location",
         "latitude": 44.60207778029144,
-        "longitude": 6.984752649441361
+        "longitude": 6.984752649441361,
+        "description": "The ...",
+        "city": "Bellino",
+        "province": "Cuneo",
+        "region": "Piemonte"
+
     },
     "currentLinkedHuts": [
         {
             "id": 16,
             "name": "Hut Freidour",
             "type": "hut",
+            "description": "The...",
             "latitude": 44.973129,
-            "longitude": 7.303155
+            "longitude": 7.303155,
+            "altitude": 1757.43,
+            "city": "Bellino",
+            "province": "Cuneo",
+            "region": "Piemonte"
         }
     ],
     "possibleLinkedHuts": [
         {
-            "id": 15,
-            "name": "Casa Canada",
+            "id": 3,
+            "name": "Hut Freidoure",
             "type": "hut",
-            "latitude": 44.60208624601364,
-            "longitude": 6.984726246446371
+            "description": "The...",
+            "latitude": 44.4973129,
+            "longitude": 7.4303155,
+            "altitude": 1757.143,
+            "city": "Bellino",
+            "province": "Cuneo",
+            "region": "Piemonte"
         },
         {
-            "id": 50,
-            "name": "Rifugio Toesca",
+            "id": 4,
+            "name": "Hut Greidour",
             "type": "hut",
-            "latitude": 44.58578956313431,
-            "longitude": 6.97570270858705
+            "description": "The...",
+            "latitude": 44.5973129,
+            "longitude": 7.6303155,
+            "altitude": 1757.343,
+            "city": "Bellino",
+            "province": "Cuneo",
+            "region": "Piemonte"
         }
     ]
   }

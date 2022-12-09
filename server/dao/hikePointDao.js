@@ -22,7 +22,7 @@ const db = iAmTesting() ? getMock() : require('./openDb');
 
 exports.getRefPointsByHikeId = (hikeId) => {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT Point.id as id, Point.name as name, Point.type as type, Point.latitude as latitude,Point.longitude as longitude FROM HikePoint,Point WHERE Point.id=HikePoint.pointId and HikePoint.hikeId = ?';
+        const sql = 'SELECT * FROM HikePoint,Point WHERE Point.id=HikePoint.pointId and HikePoint.hikeId = ?';
         db.all(sql, [hikeId], (err, rows) => {
             if (err) {
                 reject(err);
@@ -30,13 +30,18 @@ exports.getRefPointsByHikeId = (hikeId) => {
             else if (rows === undefined)
                 resolve(undefined);
             else {
-                const hikes = rows.map((r) => (
+                const hikes = rows.map((p) => (
                     {
-                        id: r.id,
-                        name: r.name,
-                        type: r.type,
-                        latitude: r.latitude,
-                        longitude: r.longitude
+                        id: p.id,
+                        name: p.name,
+                        type: p.type,
+                        description: p.description,
+                        latitude: p.latitude,
+                        longitude: p.longitude,
+                        altitude: p.altitude,
+                        city: p.city,
+                        province: p.province,
+                        region: p.region
                     }
                 ));
                 resolve(hikes);

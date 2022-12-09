@@ -78,7 +78,8 @@ exports.getPointById = (id) => {
                         longitude: r.longitude,
                         altitude: r.altitude,
                         city: r.city,
-                        province: r.province
+                        province: r.province,
+                        region: r.region
                     }
                 );
             }
@@ -104,8 +105,13 @@ exports.getPointByType = (type) => {
                         id: p.id,
                         name: p.name,
                         type: p.type,
+                        description: p.description,
                         latitude: p.latitude,
                         longitude: p.longitude,
+                        altitude: p.altitude,
+                        city: p.city,
+                        province: p.province,
+                        region: p.region
                     }
                     return d;
                 })
