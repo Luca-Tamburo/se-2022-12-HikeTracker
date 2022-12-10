@@ -88,10 +88,6 @@
     "moduleNameMapper": {
       "axios": "axios/dist/node/axios.cjs"
     },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$",
-      "^.+\\.module\\.(css|sass|scss)$"
-    ],
     "coverageThreshold": {
       "global": {
         "statements": 30,
