@@ -1,176 +1,327 @@
-/*
-* -------------------------------------------------------------------- 
-*
-* Package:         server
-* Module:          mockDB
-* File:            mockDB.js
-* Function:        Creates a copy of the db to execute tests on
-*
-* Copyright (c) 2022 - se2022-Team12
-* All rights reserved.
-* --------------------------------------------------------------------
-*/
+'use strict';
 
-//imports
 const sqlite = require('sqlite3');
-//const path = require('path');
-// const { isPrimitive } = require('util');
-// const { ok } = require('assert');
-// const { table } = require('console');
-
-const db = new sqlite.Database('./test/mockDB/mockHikeTracker.db', (err) => {
+const dbname = "./test/mockDB/mockHikeTracker.sqlite3";
+const db = new sqlite.Database(dbname, (err) => {
     if (err) throw err;
-})
+});
+db.get("PRAGMA busy_timeout = 10000");
 
-function createTables() {
-
-    db.serialize(() => {
-        const hike = 'CREATE TABLE IF NOT EXISTS "Hike" ( "id"	INTEGER NOT NULL, "title"   TEXT, "description" TEXT, "length"  NUMBER, \
-                     "expectedTime" NUMBER, "ascent"    NUMBER, "difficulty"   INTEGER, "startPointId"   INTEGER, "endPointId"   INTEGER, \
-                     "authorId" INTEGER,  "uploadDate"  TEXT , "gpxFile" TEXT, "photoFile" TEXT, FOREIGN KEY("startPointId") REFERENCES "Point"("id"), \
-                     FOREIGN KEY("endPointId") REFERENCES "Point"("id"),  FOREIGN KEY("authorId") REFERENCES "User"("id"), PRIMARY KEY("id" AUTOINCREMENT));'
-
-        db.run(hike, (err) => {
-            if (err) {
-                throw err;
-            }
-        })
-
-        const hikePoint = 'CREATE TABLE IF NOT EXISTS "HikePoint" ( "hikeId"	INTEGER NOT NULL, "pointId"   INTEGER NOT NULL, \
-                        PRIMARY KEY("hikeId", "pointId"));'
-
-        db.run(hikePoint, (err) => {
-            if (err) {
-                throw err;
-            }
-        })
-
-        const point = 'CREATE TABLE IF NOT EXISTS "Point" ( "id"	INTEGER NOT NULL, "name"   TEXT, "description" TEXT, "type" TEXT, \
-                    "longitude" NUMBER, "latitude"   NUMBER, "altitude" NUMBER, "city" TEXT, "province" TEXT, "region" TEXT, PRIMARY KEY("id" AUTOINCREMENT));'
-
-        db.run(point, (err) => {
-            if (err) {
-                throw err;
-            }
-        })
-
-        const user = 'CREATE TABLE IF NOT EXISTS "User" ( "id"	INTEGER NOT NULL, "email"   TEXT, "username" TEXT, "role" TEXT, \
-        "name" TEXT, "surname"   TEXT, "gender"   TEXT, "phoneNumber" TEXT, "hash" TEXT, "salt" TEXT, "verifiedEmail" INTEGER, "confirmationCode" TEXT, PRIMARY KEY("id" AUTOINCREMENT));'
-
-        db.run(user, (err) => {
-            if (err) {
-                throw err;
-            }
-        })
-
-        const userPreference = 'CREATE TABLE IF NOT EXISTS "UserPreference" ( "id"	INTEGER NOT NULL, "duration"   INTEGER, \
-         "altitude" INTEGER, "ascent" INTEGER, "length" INTEGER, "difficulty"   INTEGER, "userId" INTEGER, \
-        FOREIGN KEY("userId") REFERENCES "User"("id"), PRIMARY KEY("id" AUTOINCREMENT));'
-
-        db.run(userPreference, (err) => {
-            if (err) {
-                throw err;
-            }
-        })
-
-        const hut = 'CREATE TABLE IF NOT EXISTS "Hut" ( "id"	INTEGER NOT NULL, "roomsNumber"   INTEGER, "bedsNumber" INTEGER, "whenIsOpen" TEXT, \
-        "phoneNumber" TEXT, "photoFile"   TEXT, "website"   TEXT, "pointId" INTEGER, FOREIGN KEY("pointId") REFERENCES "Point"("id")  PRIMARY KEY("id" AUTOINCREMENT));'
-
-        db.run(hut, (err) => {
-            if (err) {
-                throw err;
-            }
-        })
-
-        const parkingLot = 'CREATE TABLE IF NOT EXISTS "ParkingLot" ( "id"	INTEGER NOT NULL, "capacity"   INTEGER, \
-        "pointId" INTEGER, FOREIGN KEY("pointId") REFERENCES "Point"("id")  PRIMARY KEY("id" AUTOINCREMENT));'
-
-        db.run(parkingLot, (err) => {
-            if (err) {
-                throw err;
-            }
-        })
-    })
+const createDatabase = async () => {
+    await newUser();
+    await newUserPreferences();
+    await newPoint();
+    await newParkingLot();
+    await newHut();
+    await newHikePoint();
+    await newHike();
+    await addUser("aldobaglio@gmail.com", "aldobaglio", "localGuide", "aldo", "baglio", "M", "+393315658745", "password", 1);
+    await addUser("antonioconte@gmail.com", "antonioconte", "localGuide", "antonio", "conte", "M", "+393564896545", "password", 0);
 }
 
-async function deleteAllTables() {
-    const sql = "DROP TABLE "
-    const tables = ["Hike",
-        "HikePoint",
-        "Point",
-        "User",
-        "UserPreference",
-        "Hut",
-        "ParkingLot",
-        "sqlite_sequence"];
+const deleteDatabase = async () => {
+    await newUser();
+    await newUserPreferences();
+    await newPoint();
+    await newParkingLot();
+    await newHut();
+    await newHikePoint();
+    await newHike();
+    await deleteTables();
+
+}
+
+const deleteTables = () => {
+
+    return Promise.resolve(Promise.all([
+        new Promise(async (resolve, reject) => {
+            const sql = "DELETE FROM UserPreferences";
+            db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                } else
+                    resolve('done');
+            });
+        }),
+        new Promise(async (resolve, reject) => {
+            const sql = "DELETE FROM HikePoint";
+            db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                } else
+                    resolve('done');
+            });
+        }),
+        new Promise(async (resolve, reject) => {
+            const sql = "DELETE FROM Hut";
+            db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                } else
+                    resolve('done');
+            });
+        }),
+        new Promise(async (resolve, reject) => {
+            const sql = "DELETE FROM ParkingLot";
+            db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                } else
+                    resolve('done');
+            });
+        }),
+        new Promise(async (resolve, reject) => {
+            const sql = "DELETE FROM Hike";
+            db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                } else
+                    resolve('done');
+            });
+        }),
+        new Promise(async (resolve, reject) => {
+            const sql = "DELETE FROM Point";
+            db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                } else
+                    resolve('done');
+            });
+        }),
+        new Promise(async (resolve, reject) => {
+            const sql = "DELETE FROM User";
+            db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                } else
+                    resolve('done');
+            });
+        }),
+        new Promise(async (resolve, reject) => {
+            const sql = "DELETE FROM sqlite_sequence";
+            db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                } else
+                    resolve('done');
+            });
+        }),
+    ]));
+
+}
+
+function newUser() {
     return new Promise((resolve, reject) => {
-
-        db.serialize(() => {
-            tables.forEach((tbl) => {
-                db.run(sql + tbl, (err) => {
-                    if (err) {
-                        reject(err);
-                    }
-                })
-            })
-            resolve('ok');
-        })
-    })
+        const sql = "CREATE TABLE IF NOT EXISTS User ( " +
+            "id	INTEGER, " +
+            "email	TEXT, " +
+            "username	TEXT, " +
+            "role	TEXT, " +
+            "name	TEXT, " +
+            "surname	TEXT, " +
+            "gender	TEXT, " +
+            "phoneNumber	TEXT, " +
+            "hash	TEXT, " +
+            "salt	TEXT, " +
+            "verifiedEmail	INTEGER, " +
+            "confirmationCode	TEXT, " +
+            "PRIMARY KEY(id AUTOINCREMENT) )";
+        db.run(sql, (err) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve('done');
+        });
+    });
 }
 
-function insertusers() {
+const addUser = async (email, username, role, name, surname, gender, phoneNumber, password, verified) => {
 
-    db.serialize(() => {
-        const insertUsers = "insert into User (email,username,role,name,surname,gender,phoneNumber,hash,salt,verifiedEmail,confirmationCode)" +
-            "VALUES('aldobaglio@gmail.com','aldobaglio','localGuide','aldo','baglio','M','+393315658745','63f764abe1c4f20a200f680f27a292d51fce965bdf40a6d972f85f8309e05178'," +
-            "'W4GgESsg4v30NOa8','1','')"
+    //creo sale
+    const crypto = require('crypto');
 
-        db.run(insertUsers, (err) => {
-            if (err) {
-                throw err;
-            }
-        })
+    const nomiMaiuscoli = (nome) => {
 
-        const insertUser1 = "insert into User (email,username,role,name,surname,gender,phoneNumber,hash,salt,verifiedEmail,confirmationCode)" +
-            "VALUES('antonioconte@gmail.com','antonioconte','localGuide','antonio','conte','M','+393564896545','4a639e591c827bb50c35a3449db284f3719f9daff031cffb5bb99283f0d8f7e1'," +
-            "'72c88350f92f1787','0','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFudG9uaW9jb2xlbGxpMTk5OEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFudG9jb2xlIn0.Vq9N8p9_6t-2yXJSKWzf4gm44TQ0k0zZJiA87Sh8Oog')"
+        const v = nome.toLowerCase().split(" ");
+        let f = "";
+        for (let n of v) {
+            const nn = n.charAt(0).toUpperCase() + n.slice(1);
+            f = f + " " + nn;
+        }
+        return f.trim();
+    }
 
-        db.run(insertUser1, (err) => {
-            if (err) {
-                throw err;
-            }
-        })
-    })
-}
+    const salt = crypto.randomBytes(8).toString('hex');
+    //creo hash
+    const getHashPass = async (pass) => {
+        return new Promise((resolve, reject) => {
+            crypto.scrypt(pass, salt, 32, (err, hashedPassword) => {
+                resolve(hashedPassword.toString('hex'));
+            });
 
-
-
-async function createDatabase() {
-
+        });
+    }
+    const hashedPassword = await getHashPass(password);
     return new Promise((resolve, reject) => {
-        try {
+        const sql = "INSERT INTO user(email, username, role, name, surname,gender, phoneNumber, hash, salt,verifiedEmail) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        db.run(sql, [email, username, role, name ? nomiMaiuscoli(name) : name, surname ? nomiMaiuscoli(surname) : surname, gender, phoneNumber, hashedPassword, salt, verified],
+            function (err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(this.lastID);
+                }
+            });
+    });
+}
 
-            createTables();
-            insertusers();
+function newUserPreferences() {
+    return new Promise((resolve, reject) => {
+        const sql =
+            "CREATE TABLE IF NOT EXISTS UserPreferences ( " +
+            "id	INTEGER, " +
+            "duration	NUMERIC, " +
+            "altitude	NUMERIC, " +
+            "ascent	NUMERIC, " +
+            "length	NUMERIC, " +
+            "difficulty	INTEGER, " +
+            "userId	INTEGER NOT NULL, " +
+            "FOREIGN KEY(userId) REFERENCES User(id), " +
+            "PRIMARY KEY(id AUTOINCREMENT) " +
+            ")";
 
-            resolve('ok')
-        } catch (error) {
-            reject(error);
-        }
+        db.run(sql, (err) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve('done');
+        });
+    });
+}
 
-    })
-};
+function newPoint() {
+    return new Promise((resolve, reject) => {
+        const sql =
+            "CREATE TABLE IF NOT EXISTS Point ( " +
+            "id	INTEGER, " +
+            "name	TEXT, " +
+            "description	TEXT, " +
+            "type	TEXT, " +
+            "latitude	NUMERIC, " +
+            "longitude	NUMERIC, " +
+            "altitude	NUMERIC, " +
+            "city	TEXT, " +
+            "province	TEXT, " +
+            "region	TEXT, " +
+            "PRIMARY KEY(id AUTOINCREMENT) " +
+            ")";
+        db.run(sql, (err) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve('done');
+        });
+    });
+}
 
-async function deleteDatabase() {
-    return new Promise(async (resolve, reject) => {
-        try {
-            await deleteAllTables().then(() => {
-                resolve('ok');
-            })
-        } catch (error) {
-            reject(error);
-        }
-    })
+function newParkingLot() {
+    return new Promise((resolve, reject) => {
+        const sql =
+            "CREATE TABLE IF NOT EXISTS ParkingLot ( " +
+            "id	INTEGER, " +
+            "capacity	INTEGER, " +
+            "pointId	INTEGER NOT NULL, " +
+            "FOREIGN KEY(pointId) REFERENCES Point(id), " +
+            "PRIMARY KEY(id) )";
+        db.run(sql, (err) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve('done');
+        });
+    });
+}
+
+function newHut() {
+    return new Promise((resolve, reject) => {
+        const sql =
+            "CREATE TABLE IF NOT EXISTS Hut ( " +
+            "id	INTEGER, " +
+            "roomsNumber	INTEGER, " +
+            "bedsNumber	INTEGER, " +
+            "whenIsOpen	TEXT, " +
+            "phoneNumber	TEXT, " +
+            "photoFile	TEXT, " +
+            "website	TEXT, " +
+            "pointId	INTEGER NOT NULL, " +
+            "FOREIGN KEY(pointId) REFERENCES Point(id), " +
+            "PRIMARY KEY(id AUTOINCREMENT) ) "
+
+            ;
+        db.run(sql, (err) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve('done');
+        });
+    });
+}
+
+function newHikePoint() {
+    return new Promise((resolve, reject) => {
+        const sql =
+            "CREATE TABLE IF NOT EXISTS HikePoint ( " +
+            "hikeId	INTEGER, " +
+            "pointId	INTEGER, " +
+            "FOREIGN KEY(hikeId) REFERENCES Hike(id), " +
+            "FOREIGN KEY(pointId) REFERENCES Point(id), " +
+            "PRIMARY KEY(hikeId,pointId) " +
+            ")";
+        db.run(sql, (err) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve('done');
+        });
+    });
+}
+
+function newHike() {
+    return new Promise((resolve, reject) => {
+        const sql =
+            "CREATE TABLE IF NOT EXISTS Hike ( " +
+            "id	INTEGER, " +
+            "title	TEXT, " +
+            "description	TEXT, " +
+            "length	NUMERIC, " +
+            "expectedTime	NUMERIC, " +
+            "ascent	NUMERIC, " +
+            "difficulty TEXT, " +
+            "startPointId	INTEGER NOT NULL, " +
+            "endPointId	INTEGER NOT NULL, " +
+            "authorId	INTEGER NOT NULL, " +
+            "uploadDate	TEXT, " +
+            "gpxFile	TEXT, " +
+            "photoFile	TEXT, " +
+            "PRIMARY KEY(id AUTOINCREMENT), " +
+            "FOREIGN KEY(startPointId) REFERENCES Point(id), " +
+            "FOREIGN KEY(authorId) REFERENCES User(id), " +
+            "FOREIGN KEY(endPointId) REFERENCES Point(id) " +
+            ")";
+        db.run(sql, (err) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve('done');
+        });
+    });
 }
 
 module.exports = { mockDB: db, createDatabase, deleteDatabase }
