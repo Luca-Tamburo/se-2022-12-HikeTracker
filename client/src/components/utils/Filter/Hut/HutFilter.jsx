@@ -72,7 +72,7 @@ const HutFilter = (props) => {
     const [isCityUnselected, setIsCityUnselected] = useState(true);
     const [center, setCenter] = useState({ lat: 45.072384, lng: 7.6414976 });
     const handleSearch = () => {
-      let result = props.hut;
+      let result = props.huts;
       if (!(region === "Region" || region === "0")) {
         result = result.filter(
           (hut) => hut.region === getRegionName(parseInt(region))
@@ -110,7 +110,9 @@ const HutFilter = (props) => {
         result = v;
       }
       if(hutName){
-        result = result.filter((hut) => hut.title === hutName);
+          result = result.filter((hut) => {
+            return hut.name.toLowerCase()
+            .includes(hutName)});
       }
       if (RoomsNumberMin) {
         result = result.filter((hut) => hut.roomsNumber >= RoomsNumberMin);
@@ -131,7 +133,7 @@ const HutFilter = (props) => {
         result = result.filter((hike) => hike.altitude <= altitudeMax);
       }
 
-    //   props.setHikesDisplay(result);
+       props.setHutsDisplay(result);
     };
 
     const handleReset = (e) => {
@@ -153,7 +155,7 @@ const HutFilter = (props) => {
 
 
 
-        //props.setHikesDisplay(props.hikes);
+        props.setHutsDisplay(props.huts);
     };
 
     const handleRegion = (event) => {
@@ -270,7 +272,7 @@ const HutFilter = (props) => {
                                 data-testid="Name-select"
                                 type="text"
                                 placeholder="Name..."
-                                onChange={(event) => {setHutName(event.target.value)}}
+                                onChange={(event) => { setHutName(event.target.value)}}
                                 value={hutName}
                             />
                         </Form>
@@ -398,8 +400,7 @@ const HutFilter = (props) => {
                     <Button variant="secondary" className="mt-3 me-3" onClick={handleReset} >
                         <BiReset /> Reset
                     </Button>
-                    {/* <Button className="mt-sm-3" onClick={() => { handleSearch(); }} > */}
-                    <Button className="mt-3">
+                    <Button className="mt-3" onClick={() => { handleSearch(); }}>
                         <BsSearch /> Search
                     </Button>
                     {parseInt(range) !== 0 &&
@@ -422,15 +423,15 @@ const HutFilter = (props) => {
                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                      url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
                    />
-                   {/* {props.hikes.map((hike, index) => {
+                   {props.huts.map((hut, index) => {
                      return (
-                       <Marker key={index} position={[hike.latitude, hike.longitude]} icon={icon}>
+                       <Marker key={index} position={[hut.latitude, hut.longitude]} icon={icon}>
                          <Popup>
-                           {hike.title}
+                           {hut.name}
                          </Popup>
                        </Marker>
                      )
-                   })} */}
+                   })}
                    {currentPosition ? <LocationMarker saveMarkers={saveMarkers} marker={marker} id={'location'} setLocation={setCurrentPosition} /> : 
                      <AddMarker saveMarkers={saveMarkers} marker={marker} circle={circle} range={range} />}
                  </MapContainer>

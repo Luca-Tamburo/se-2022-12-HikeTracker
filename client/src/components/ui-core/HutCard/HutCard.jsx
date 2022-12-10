@@ -16,6 +16,7 @@ import { Card, Col, Placeholder } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const HutCard = ({ hut, loading }) => {
+    console.log(hut)
     if (!loading) {
         return (
             <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 4 }} className='my-4'>
@@ -23,7 +24,7 @@ const HutCard = ({ hut, loading }) => {
                     <Card className='border-0 shadow'>
                         <Card.Img alt='card-image' variant='top' src={hut.photoFile} style={{ height: '200px', objectFit: 'cover', objectPosition: 'center center' }} />
                         <Card.Body>
-                            <Card.Title className='fw-bold'>{hut.title}</Card.Title>
+                            <Card.Title className='fw-bold'>{hut.name}</Card.Title>
                             <hr />
                             <Card.Text className='crop-text-10'>{hut.description}</Card.Text>
                         </Card.Body>
