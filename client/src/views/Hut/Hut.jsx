@@ -2,21 +2,22 @@
 * -------------------------------------------------------------------- 
 *
 * Package:         client
-* Module:          src/views/Hike
-* File:            Hike.jsx
+* Module:          src/views/Hut
+* File:            Hut.jsx
 *
 * Copyright (c) 2022 - se2022-Team12
 * All rights reserved.
 * --------------------------------------------------------------------
 */
 
+
 //Imports
 import { useState, useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 //Components
-import HikeCard from '../../components/ui-core/HikeCard/HikeCard';
-import HikeFilter from '../../components/utils/Filter/Hike/HikeFilter'
+import HutCard from '../../components/ui-core/HutCard/HutCard';
+import HutFilter from '../../components/utils/Filter/Hut/HutFilter';
 
 // Services
 import api from '../../services/api';
@@ -24,35 +25,36 @@ import api from '../../services/api';
 // Hooks
 import useNotification from '../../hooks/useNotification';
 
-const Hike = () => {
+
+const Hut = () => {
     const [loading, setLoading] = useState(true);
-    const [hikes, setHikes] = useState([]);
-    const [hikesDisplay, setHikesDisplay] = useState([]);
+    const [huts, setHuts] = useState([]);
+    const [hutsDisplay, setHutsDisplay] = useState([]);
     const notify = useNotification();
-    const [filter, setFilter] = useState(['Region', 'Province', 'City', 0, 0, 0, 0, 0]);
+    const [filter, setFilter] = useState(['Region', 'Province', 'City', 0, 'Name', 0, 0, 0]);
 
     useEffect(() => {
-        api.getHikes()
-            .then(hikes => {
-                setHikes(hikes);
-                setHikesDisplay(hikes);
+        api.getHuts()
+            .then(huts => {
+                setHuts(huts);
+                console.log(huts)
+                setHutsDisplay(huts);
             })
             .catch(err => {
-                setHikes([]);
+                setHuts([]);
                 notify.error(err.error)
             })
             .finally(() => setLoading(false));
     }, []); //eslint-disable-line react-hooks/exhaustive-deps
-
     return (
         <Row className='flex-fill'>
             <Col xs={{ span: 10, offset: 1 }} className='mt-3'>
-                <h1 className='fw-bold text-center mt-2'>Search your next hike</h1>
-                <HikeFilter setFilter={setFilter} filter={filter} hikes={hikes} setHikesDisplay={setHikesDisplay} />
+                <h1 className='fw-bold text-center mt-2'>Search hut</h1>
+                <HutFilter setFilter={setFilter} filter={filter} huts={huts} setHutsDisplay={setHutsDisplay} />
                 <Row>
-                    {hikesDisplay.length === 0 ? <h2 className='d-flex justify-content-center fw-bold mb-3'>No Matched Hikes</h2> : hikesDisplay.map((hike, index) => {
+                    {hutsDisplay.length === 0 ? <h2 className='d-flex justify-content-center fw-bold mb-3'>No Matched Huts</h2> : hutsDisplay.map((hut, index) => {
                         return (
-                            <HikeCard key={index} hike={hike} loading={loading} />
+                            <HutCard key={index} hut={hut} loading={loading} />
                         )
                     })}
                 </Row>
@@ -61,4 +63,4 @@ const Hike = () => {
     );
 }
 
-export default Hike;
+export default Hut;
