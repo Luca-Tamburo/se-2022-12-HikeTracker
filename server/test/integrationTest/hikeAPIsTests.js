@@ -461,6 +461,23 @@ describe("Post.Hikes.APItesting", function () {
             });
     });
 
+    step('Test18: localGuide get hikes wrong user', async function () {
+        await hiker
+            .get('localGuideHikes')
+            .then(function (res) {
+                res.should.have.status(401);
+            });
+    });
+
+
+    step('Test19: localGuide get hikes success', async function () {
+        await localGuide
+            .get('localGuideHikes')
+            .then(function (res) {
+                res.should.have.status(200);
+            });
+    });
+
 
 
 
