@@ -155,6 +155,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
           "difficulty": "Professional Hiker",
           "authorName": "aldo",
           "authorSurname": "baglio",
+          "authorId": 1,
           "uploadDate": "2022-01-10",
           "photoFile": "https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
           "latitude": 44.5744896554157,
@@ -174,6 +175,59 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
           "difficulty": "Professional Hiker",
           "authorName": "stefano",
           "authorSurname": "pioli",
+          "authorId": 2,
+          "uploadDate": "2022-04-12",
+          "photoFile": "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80",
+          "latitude": 45.15013536737316,
+          "longitude": 7.236844649658008,
+          "altitude": 1430,
+          "city": "Condove",
+          "province": "Torino ",
+          "region": "Piemonte"
+     },
+    ....
+  ]
+  ```
+
+- GET `/api/localGuideHikes`
+  - Description: Retrieve list of available hikes (loaded from the loggedin localguide) generic information
+  - Request body: *None*
+  - Response: `200 OK` (success) or `401 Unauthorized` if the request is not done by a localguide, `503 Service Unavailable` (generic error).
+  - Response body: Hike information in case of success. Error message in case of failure.
+
+  ```json
+  [
+     {
+          "id": 1,
+          "title": "Trail to MONTE FERRA",
+          "description": "Leaving ...",
+          "length": 13,
+          "expectedTime": 5,
+          "ascent": 1280,
+          "difficulty": "Professional Hiker",
+          "authorName": "aldo",
+          "authorSurname": "baglio",
+          "authorId": 1,
+          "uploadDate": "2022-01-10",
+          "photoFile": "https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+          "latitude": 44.5744896554157,
+          "longitude": 6.98160500000067,
+          "altitude": 1812,
+          "city": "Bellino",
+          "province": "Cuneo ",
+          "region": "Piemonte"
+      },     
+      {
+          "id": 2,
+          "title": "Trail to ROCCA PATANUA",
+          "description": "Patanua ..",
+          "length": 9,
+          "expectedTime": 5.5,
+          "ascent": 980,
+          "difficulty": "Professional Hiker",
+          "authorName": "stefano",
+          "authorSurname": "pioli",
+          "authorId": 2,
           "uploadDate": "2022-04-12",
           "photoFile": "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80",
           "latitude": 45.15013536737316,
@@ -200,6 +254,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
      "description": "Leaving the car ...",
      "authorName": "aldo",
      "authorSurname": "baglio",
+     "authorId": 1,
      "uploadDate": "2022-01-10",
      "photoFile": "www. ..."
      "length": 13,
@@ -329,6 +384,93 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   }
 
   ```
+
+  - GET `/hikeLinkHuts/:hikeId`
+  - Description: Retrieve the start/end point, current linked huts possible ones of an hike
+  - Request body: _nothing_
+  - Response: `200 OK` (success), `422` if the :hikeId format is wrong,or if the localguide did not insert that hike `503 Service Unavailable` (generic error).
+  - Response body: detailed information of start/end point, current/possible ref points (huts)
+
+  ```json
+  {
+    "startPoint": {
+        "id": 1,
+        "name": "Rifugio Melezè - Bellino - Val Varaita",
+        "type": "hut",
+        "latitude": 44.57425086759031,
+        "longitude": 6.982689192518592,
+        "description": "The ...",
+        "city": "Bellino",
+        "province": "Cuneo",
+        "region": "Piemonte"
+    },
+    "endPoint": {
+        "id": 2,
+        "name": "Monte Ferra",
+        "type": "location",
+        "latitude": 44.60207778029144,
+        "longitude": 6.984752649441361,
+        "description": "The ...",
+        "city": "Bellino",
+        "province": "Cuneo",
+        "region": "Piemonte"
+
+    },
+    "currentLinkedHuts": [
+        {
+            "id": 16,
+            "name": "Hut Freidour",
+            "type": "hut",
+            "description": "The...",
+            "latitude": 44.973129,
+            "longitude": 7.303155,
+            "altitude": 1757.43,
+            "city": "Bellino",
+            "province": "Cuneo",
+            "region": "Piemonte"
+        }
+    ],
+    "possibleLinkedHuts": [
+        {
+            "id": 3,
+            "name": "Hut Freidoure",
+            "type": "hut",
+            "description": "The...",
+            "latitude": 44.4973129,
+            "longitude": 7.4303155,
+            "altitude": 1757.143,
+            "city": "Bellino",
+            "province": "Cuneo",
+            "region": "Piemonte"
+        },
+        {
+            "id": 4,
+            "name": "Hut Greidour",
+            "type": "hut",
+            "description": "The...",
+            "latitude": 44.5973129,
+            "longitude": 7.6303155,
+            "altitude": 1757.343,
+            "city": "Bellino",
+            "province": "Cuneo",
+            "region": "Piemonte"
+        }
+    ]
+  }
+
+- PUT `/hikeLinkHuts/:hikeId`
+  - Description: Link huts to an hike
+  - Request body: An object representing the huts to link
+
+  ```json
+  {
+      "hutsToLink":[1,2,15,1,2,16,50]
+  }
+
+  ```
+
+  - Response: `204` (success), `422` if the localguide did not upload that hike or if the input is not correct, `404` if something is not found, `503 Service Unavailable` (generic error).
+  - Response body: _nothing_
 
 ## Database Tables
 

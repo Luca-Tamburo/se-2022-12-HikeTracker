@@ -29,7 +29,7 @@ const cleanDb = async () => {
 
 
 describe("Post.Parking.Hut.APItesting", function () {
-    before(() => { cleanDb(); });
+    before(async () => { await cleanDb(); });
 
     const localGuide = request.agent(server);
 
