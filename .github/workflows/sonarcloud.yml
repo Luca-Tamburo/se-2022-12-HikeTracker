@@ -7,36 +7,104 @@ on:
     branches: [ "main" ]
 
 jobs:
+  frontend-tests:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: client
+    
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: CI Frontend ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - run: npm ci
+    - run: npm run coverage
+
+    - name: Upload frontend unit test coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: frontend-unit-coverage-report
+        path: ./client/coverage/lcov.info 
+    
+  backend-tests:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: server
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+    
+    steps:
+    - uses: actions/checkout@v3
+    - name: CI Backend ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - run: npm ci
+    - run: npm test
+    - run: npm run integration
+
+    - name: Upload backend unit test coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: backend-unit-coverage-report
+        path: ./server/coverage/lcov.info
+
+    - name: Upload backend integration test coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: backend-integration-coverage-report
+        path: ./server/coverage/integration/lcov.info
+
+    - name: Cypress E2E Tests
+      uses: cypress-io/github-action@v4
+      with:
+        name: Start Client and Server for E2E Tests
+        start: npm run start:test --prefix ../server, npm run cypress:client
+        working-directory: client
+        browser: firefox
+        install: false
+        build: npm i -D cypress
+
+    - name: Generate E2E coverage report
+      working-directory: client
+      run: npm run cypress:coverage
+
+    - name: Upload frontend E2E test coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: e2e-coverage-report
+        path: ./client/coverage/e2e/lcov.info   
+  
   sonarcloud:
     name: SonarCloud Analysis
     runs-on: ubuntu-latest
+    needs: [backend-tests, frontend-tests]
     steps:
-      - uses: actions/checkout@v2 
+
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analusis
 
-      # - name: Build Coverage Frontend
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 16.x
-          
-      # - run: npm ci
-      #   working-directory: client
-      # - run: CI=false npm run build --if-present    
-      #   working-directory: client
-      # - run: npm run test:cov
-      #   working-directory: client
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
         
-      # - name: Build Coverage Backend
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 16.x
-
-      # - run: npm ci
-      #   working-directory: server
-      # - run: npm run test_coverage
-      #   working-directory: server
-
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
