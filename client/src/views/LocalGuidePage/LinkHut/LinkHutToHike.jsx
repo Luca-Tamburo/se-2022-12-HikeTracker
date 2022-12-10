@@ -102,16 +102,18 @@ const LinkHutToHike = () => {
         console.log(data)
         api.putLinkHutToHike(hikeId,data).then(() => {
             notify.success(`Update completed successfully`);
-            navigate("/", { replace: true });
+            navigate(`/hikes/${hikeId}`, { replace: true });
           })
           .catch((err) => notify.error(err.error))
           .finally(() => setLoading(false)); 
     }
-    console.log(currentLinkedHuts)
-
+    
     const handleCurrentHut = (huts) =>{
+        console.log(huts)
         setCurrentLinkedHuts(huts)
     }
+    
+    
 
 
     if (!loading) {

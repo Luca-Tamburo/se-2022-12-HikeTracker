@@ -50,34 +50,30 @@ const MapLinkHut = (props) => {
         iconUrl: require("../../../assets/mapIcons/hut.png"),
         iconSize: [30, 30],
     });
-    const parkingIcon = L.icon({
-        iconUrl: require("../../../assets/mapIcons/parking.png"),
+    const hutUnlinkedIcon = L.icon({
+        iconUrl: require("../../../assets/mapIcons/hutUnlinked.png"),
         iconSize: [30, 30],
     });
 
         let linkedPoint =[];
-        props.points.currentLinkedHuts.forEach(e => {
+        props.currentLinkedHuts.forEach(e => {
             if(e.id !== props.points.startPoint.id && e.id !== props.points.endPoint.id )
             {
                 linkedPoint.push(e)
             }});
 
-
-
-
     const handleLink = (point) => {
-        let v = props.currentLinkedHuts;
-        console.log(v)
-        v.push(point);
-        props.setCurrentLinkedHuts(v)
+        // let v = props.currentLinkedHuts;
+        // v.push(point);
+        props.setCurrentLinkedHuts(old => [...old, point])
     }
 
-    const handleUnlink = (point) => {
+    /* const handleUnlink = (point) => {
         let v = props.currentLinkedHuts;
         v = v.filter((p) => p.id !== point.id)
         console.log(v)
         props.setCurrentLinkedHuts(v)
-    }
+    } */
  
 
     return (
@@ -100,7 +96,7 @@ const MapLinkHut = (props) => {
                 <Polyline pathOptions={limeOptions} positions={props.coordinates} />
                 {props.points.possibleLinkedHuts.map((point, index) => {
                         return (
-                            <Marker key={index} position={[point.latitude, point.longitude]} icon={hutIcon}>
+                            <Marker key={index} position={[point.latitude, point.longitude]} icon={hutUnlinkedIcon}>
                                 <Popup>
                                 <div className="d-flex flex-column">
                                 <p className="fw-bold">{point.name}</p>
@@ -117,7 +113,7 @@ const MapLinkHut = (props) => {
                                 <Popup>
                                 <div className="d-flex flex-column">
                                 <p className="fw-bold">{point.name}</p>
-                                    <Button size="sm" onClick={() => { handleUnlink(point)}}> Unlink Hut</Button>
+                                    {/* <Button size="sm" onClick={() => { handleUnlink(point)}}> Unlink Hut</Button> */}
                                 </div>
                                 </Popup>
                             </Marker>

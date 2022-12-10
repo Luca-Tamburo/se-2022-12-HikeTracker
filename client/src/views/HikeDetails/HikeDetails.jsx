@@ -38,6 +38,10 @@ var tj = require("togeojson"),
   DOMParser = require("xmldom").DOMParser;
 
 const L = require("leaflet");
+const hutIcon = L.icon({
+  iconUrl: require("../../assets/mapIcons/hut.png"),
+  iconSize: [30, 30],
+});
 
 const limeOptions = { color: "red" };
 
@@ -46,6 +50,7 @@ const HikeDetails = (props) => {
   const [coordinates, setCoordinates] = useState(null);
   const [hike, setHike] = useState(undefined);
   const [start, setStart] = useState(null);
+  const [pointList, setPointList] = useState(null);
   const { userInfo, isloggedIn } = useContext(AuthContext);
   const { hikeId } = useParams();
   const notify = useNotification();
@@ -70,7 +75,15 @@ const HikeDetails = (props) => {
         const endPoint = hikes.pointList.find(p => p.id === hikes.endPointId);
         let s = [startPoint.latitude, startPoint.longitude];
         let e = [endPoint.latitude, endPoint.longitude];
-
+        console.log(hikes)
+        let pList = [];
+        hikes.pointList.map((hike) => {
+          if(hike.id !== startPoint.id && hike.id !== endPoint.id)
+          {
+            pList.push(hike)
+          }
+        })
+        setPointList(pList)
         setStart(s);
         setEnd(e);
         if (hikes.gpx) {
@@ -167,6 +180,16 @@ const HikeDetails = (props) => {
                         <span className="fw-bold">Starting Point </span><br />
                       </Popup>
                     </Marker>
+                    {pointList.map((point,index)=>{
+                      return(
+                      <Marker key={index} icon={hutIcon} position={[point.latitude,point.longitude]}>
+                      <Popup>
+                        <span className="fw-bold">{point.name}</span><br />
+                      </Popup>
+                    </Marker>)
+
+
+                    })}
                     <Polyline pathOptions={limeOptions} positions={coordinates} />
                   </MapContainer>
                   {/* TODO: Cambiare i link */}
