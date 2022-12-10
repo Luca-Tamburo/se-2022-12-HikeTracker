@@ -16,7 +16,8 @@ const express = require('express');
 const pointDao = require('../dao/pointDao');
 const hutDao = require('../dao/hutDao');
 const router = express.Router();
-const { check, checksValidation } = require("../utils/validationUtil");
+const { check, validationResult } = require("express-validator");
+const { checksValidation} = require("../utils/validationUtil");
 const { photoUrlValidator } = require("../utils/hutUtils");
 const { getCityProvinceRegion } = require("../utils/geoUtils");
 const fs = require('fs');
@@ -110,6 +111,37 @@ router.post('/hut',
         } catch (error) {
             res.status(503).json({ error: `Service unavailable` });
         }
+    });
+
+
+/**
+ * Get huts from the system
+ */
+
+router.get('/huts', [], async (req, res) => {
+    try {
+        let huts = await hutDao.getAllHuts();
+        return res.status(200).json(huts); //Return list of Huts
+    } catch (error) { res.status(503).json({ error: `Service unavailable` }); }
+
+});
+
+
+/**
+ * Get hut detailed information by hut id
+ */
+
+router.get('/hutdetails/:hutId', check('hutId').isInt({ gt: 0 }).withMessage('hutId must be a number'),
+    checksValidation, async (req, res) => {
+        try {
+            //Hut detailed information is collected
+            let hutDetails = await hutDao.getDetailsByHutId(req.params.hutId);
+            if (hutDetails === undefined) {
+                return res.status(404).json({ error: `Hut not found` })
+            };
+            return res.status(200).json(hutDetails); //Return object with all the information
+        } catch (error) { res.status(503).json({ error: `Service unavailable` }); }
+
     });
 
 module.exports = router;

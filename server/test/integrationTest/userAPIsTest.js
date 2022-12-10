@@ -27,7 +27,7 @@ const cleanDb = async () => {
 
 
 describe("Registration.Form.Procedure.APItesting", function () {
-    before(()=>{cleanDb();});
+    before(async () => { await cleanDb(); });
     step("Test1: wrong fields", (done) => {
         let user = {
             "emasil": "user@hikemail.com",

@@ -5,3 +5,4 @@ Thumbs.db
 mochawesome-report
 # testing
 /coverage
+.nyc_output
