@@ -27,7 +27,7 @@ const cleanDb = async () => {
 
 
 describe("Registration.Form.Procedure.APItesting", function () {
-    before(()=>{cleanDb();});
+    before(async () => { await cleanDb(); });
     step("Test1: wrong fields", (done) => {
         let user = {
             "emasil": "user@hikemail.com",
@@ -562,19 +562,58 @@ describe("Login.APItesting", () => {
                     done();
                 });
         });
-
+    const sessionUser = request.agent(server);
     it("Test8: correct login",
         (done) => {
             const user = {
                 "email": "hiketracker1@gmail.com",
                 "password": "Password20!"
             }
-            chai
-                .request(server)
+            sessionUser
                 .post('sessions')
                 .send(user)
                 .end((err, res) => {
                     res.should.have.status(200);
+                    done();
+                });
+        });
+    it("Test9: current session",
+        (done) => {
+
+            sessionUser
+                .get('sessions/current')
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+    it("Test10: delete the session",
+        (done) => {
+
+            sessionUser
+                .delete('sessions/current')
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+    it("Test11: delete the session (again, no sense, you are not authenticated)",
+        (done) => {
+
+            sessionUser
+                .delete('sessions/current')
+                .end((err, res) => {
+                    res.should.have.status(401);
+                    done();
+                });
+        });
+    it("Test12: get the session (again, no sense, you are not authenticated)",
+        (done) => {
+
+            sessionUser
+                .get('sessions/current')
+                .end((err, res) => {
+                    res.should.have.status(401);
                     done();
                 });
         });

@@ -1,4 +1,14 @@
-
+/*
+* -------------------------------------------------------------------- 
+*
+* Package:         server
+* Module:          dao
+* File:            pointDao.js
+*
+* Copyright (c) 2022 - se2022-Team12
+* All rights reserved.
+* --------------------------------------------------------------------
+*/
 'use strict';
 const { iAmTesting } = require('../test/mockDB/iAmTesting');
 const getMock = () => {
@@ -68,9 +78,44 @@ exports.addPointHike = (hikeId, pointId) => {
                         longitude: r.longitude,
                         altitude: r.altitude,
                         city: r.city,
-                        province: r.province
+                        province: r.province,
+                        region:r.region
                     }
                 );
+            }
+        });
+    });
+}
+
+/**
+ * Get point by type
+ */
+ exports.getPointByType = (type) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM Point WHERE type = ?';
+        db.all(sql, [type], (err, r) => {
+            if (err) {
+                reject(err);
+            }
+            else if (r === undefined)
+                resolve(undefined);
+            else {
+                const data = r.map(p => {
+                    const d = {
+                        id: p.id,
+                        name: p.name,
+                        description: p.description,
+                        type: p.type,
+                        latitude: p.latitude,
+                        longitude: p.longitude,
+                        altitude: p.altitude,
+                        city: p.city,
+                        province: p.province,
+                        region:p.region
+                    }
+                    return d;
+                })
+                resolve(data);
             }
         });
     });

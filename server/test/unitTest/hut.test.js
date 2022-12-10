@@ -13,7 +13,7 @@ const cleanDb = async () => {
     await createDatabase();
 }
 
-describe("test huts", () => {
+describe("test hut", () => {
 
     beforeAll(async () => {
         await cleanDb();
