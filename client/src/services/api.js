@@ -94,6 +94,13 @@ const api = {
                 .catch((err) => reject(err));
         })
     },
+    putLinkHutToHike: (hikeId, formData) => {
+        return new Promise((resolve, reject) => {
+            axios.put(SERVER_URL + `hikeLinkHuts/${hikeId}`, formData, { withCredentials: true })
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err));
+        })
+    },
 
     getLinkHutToHike: (hikeId) => {
         return new Promise((resolve, reject) => {
