@@ -13,6 +13,7 @@
 // Imports
 import { useState, useEffect } from 'react'
 import { Row, Col, Spinner,Button} from 'react-bootstrap'
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 // Components - uiCore
@@ -27,6 +28,8 @@ import useNotification from '../../../hooks/useNotification';
 
 
 const LinkStartEndPoint = () => {
+
+    const navigate = useNavigate(); // Navigation handler
     const [loading, setLoading] = useState(true);
     const [points, setPoints] = useState([]);
     const notify = useNotification();
@@ -35,9 +38,6 @@ const LinkStartEndPoint = () => {
     const [start, setStart] = useState();
     const [end, setEnd] = useState();
     const { hikeId } = useParams();
-    // USA QUESTE PER MODIFICARE I VALORI DEL CURRENT POINT + CAMBIA ANCHE LE PROPS CHE PASSI AGLI INFOPOINT
-    // const [currentStartPoint, setCurrentStartPoint] = useState(points.currentStartPoint);
-    // const [currentEndPoint, setCurrentEndPoint] = useState(points.currentEndPoint);
 
     useEffect(() => {
         api.getLinkStartEndPoint(hikeId)
@@ -80,7 +80,12 @@ const LinkStartEndPoint = () => {
                 endPointId:currentEnd.id
             }
         }
-        api.putLinkStartEndPoint(hikeId,data)
+        api.putLinkStartEndPoint(hikeId,data).then(() => {
+            notify.success(`Update completed successfully`);
+            navigate("/", { replace: true });
+          })
+          .catch((err) => notify.error(err.error))
+          .finally(() => setLoading(false));
     }
 
     if (!loading) {
