@@ -46,17 +46,22 @@ const Navbar = (props) => {
               <Button className="btn-navbar mx-sm-2">Login</Button>
             </Link>
           </div>) : (
+
             <Dropdown drop="start">
               <Dropdown.Toggle variant="primary" id="user-dropdown">
                 Hi, {userInfo.name || userInfo.username}
               </Dropdown.Toggle>
-              <Dropdown.Menu>
+              <Dropdown.Menu className="slideIn animate">
                 {
                   userInfo.role === "localGuide" &&
                   <>
                     <Dropdown.Item as={Link} to="/localGuide">
                       Profile
                     </Dropdown.Item>
+                    <Dropdown.Item as={Link} to="/localGuide/hikes">
+                      My hikes
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
                     <Dropdown.Item as={Link} to="/addHike">
                       Add hike
                     </Dropdown.Item>
@@ -68,7 +73,10 @@ const Navbar = (props) => {
                     </Dropdown.Item>
                   </>
                 }
-                <Dropdown.Item onClick={props.handleLogout}>Logout</Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item onClick={props.handleLogout}>
+                  Logout
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           )}
