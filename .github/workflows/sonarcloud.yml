@@ -58,7 +58,7 @@ jobs:
     
     - run: npm ci
     - run: npm run test:unit
-    - run: npm run test:integration
+    - run: npm run test:integration:new
 
     - name: Upload backend unit test coverage report
       uses: actions/upload-artifact@v3

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test:integration": "nyc --reporter=lcov --report-dir=coverage/integration mocha test/integrationTest --timeout 30000 --require mocha-steps --exit",
+    "test:integration:new": "nyc --reporter=lcov --report-dir=coverage/integration mocha test/integrationTest --runInBand --require mocha-steps --reporter mochawesome --timeout 30000 --exit",
     "test": "jest --runInBand",
     "test:watch": "npm run test -- --watch",
     "start": "nodemon index.js",
@@ -12,7 +13,7 @@
     "test:cov": "jest --watchAll --coverage --testResultsProcessor=jest-sonar-reporter --runInBand",
     "test:unit": "jest --runInBand --coverage",
     "test_integration": "npx mocha test/integrationTest  --runInBand --require mocha-steps --reporter mochawesome --timeout 30000 --exit",
-    "test_integration_coverage": "nyc mocha test/integrationTest  --runInBand --require mocha-steps --reporter mochawesome --timeout 30000 --exit"
+    "test_integration_coverage": "nyc mocha test/integrationTest --runInBand --require mocha-steps --reporter mochawesome --timeout 30000 --exit"
   },
   "author": "",
   "license": "ISC",
