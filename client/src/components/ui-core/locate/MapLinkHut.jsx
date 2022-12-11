@@ -93,7 +93,7 @@ const MapLinkHut = (props) => {
                         <span className="fw-bold">{props.points.endPoint.name}</span><br />
                     </Popup>
                 </Marker>
-                <Polyline pathOptions={limeOptions} positions={props.coordinates} />
+                {props.coordinates?<Polyline pathOptions={limeOptions} positions={props.coordinates} />:<></>}
                 {props.points.possibleLinkedHuts.map((point, index) => {
                         return (
                             <Marker key={index} position={[point.latitude, point.longitude]} icon={hutUnlinkedIcon}>

@@ -32,7 +32,7 @@ const L = require("leaflet");
 
 
 const HutDetails = () => {
-  
+
   const { isloggedIn } = useContext(AuthContext);
   const { hutId } = useParams();
   const [hut, setHut] = useState([]);
@@ -46,21 +46,21 @@ const HutDetails = () => {
     iconSize: [30, 30],
   });
 
-    
 
-    useEffect(() => {
-        api.getHutDetails(hutId)
-            .then(hut => {
-                setHut(hut);
-                console.log(hut)
-            })
-            .catch(err => {
-                setHut([]);
-                notify.error(err.error)
-            })
-            .finally(() => setLoading(false));
-    }, []); //eslint-disable-line react-hooks/exhaustive-deps
-    
+
+  useEffect(() => {
+    api.getHutDetails(hutId)
+      .then(hut => {
+        setHut(hut);
+        console.log(hut)
+      })
+      .catch(err => {
+        setHut([]);
+        notify.error(err.error)
+      })
+      .finally(() => setLoading(false));
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
+
 
   if (!loading) {
     return (
@@ -92,13 +92,13 @@ const HutDetails = () => {
                   <ListGroup horizontal>
                     <ListGroup.Item className="border-0">
                       <h5 className="fw-bold mt-3">WEBSITE</h5>
-                      {hut.website?<a href={hut.website} target="_blank" rel="noreferrer">{hut.website}</a> : "No website added"}
+                      {hut.website ? <a href={hut.website} target="_blank" rel="noreferrer">{hut.website}</a> : "No website added"}
                       <h5 className="fw-bold mt-3">ROOMS NUMBER</h5>
                       {hut.roomsNumber} {""}
                       <h5 className="fw-bold mt-3">BEDS NUMBER</h5>{" "}
                       {hut.bedsNumber}
                       <h5 className="fw-bold mt-3">OPENING</h5>{" "}
-                      {hut.whenIsOpen}
+                      {hut.whenIsOpen ? hut.whenIsOpen : "No open info added"}
                       <h5 className="fw-bold mt-3">PHONE NUMBER</h5>{" "}
                       {hut.phoneNumber}
                     </ListGroup.Item>
@@ -107,12 +107,12 @@ const HutDetails = () => {
               </Col>
               {isloggedIn ? (
                 <Col xs={7} className="m-0">
-                  <MapContainer center={[hut.latitude,hut.longitude]} zoom={13} scrollWheelZoom={true}>
+                  <MapContainer center={[hut.latitude, hut.longitude]} zoom={13} scrollWheelZoom={true}>
                     <TileLayer
                       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                       url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
                     />
-                    <Marker icon={hutIcon} position={[hut.latitude,hut.longitude]}>
+                    <Marker icon={hutIcon} position={[hut.latitude, hut.longitude]}>
                       <Popup>
                         {hut.name} <br />
                       </Popup>
