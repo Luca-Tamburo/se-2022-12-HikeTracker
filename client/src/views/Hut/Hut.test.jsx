@@ -49,7 +49,7 @@ jest.mock('../../components/utils/Filter/Hut/HutFilter', () => () => {
 })
 
 const mockCard = jest.fn();
-jest.mock('../../components/ui-core/HutCard/Hutcard', () => () => {
+jest.mock('../../components/ui-core/HutCard/HutCard', () => () => {
     mockCard();
     return <mock-Card data-testid='Card' />
 })
