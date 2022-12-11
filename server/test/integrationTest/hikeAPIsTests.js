@@ -20,16 +20,19 @@ const { step } = require('mocha-steps');
 const request = require('supertest');
 let agent = chai.request.agent(app);
 const expect = chai.expect;
-
 const hikeDao = require('../../dao/hikeDao');
+
 const cleanDb = async () => {
     await deleteDatabase();
     await createDatabase();
+
 }
 
 
 describe("Post.Hikes.APItesting", function () {
-    before(async () => { await cleanDb(); });
+    before(async () => {
+        await cleanDb();
+    });
 
     const localGuide = request.agent(server);
 
