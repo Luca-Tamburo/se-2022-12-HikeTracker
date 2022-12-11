@@ -10,13 +10,12 @@
 * --------------------------------------------------------------------
 */
 
-.home-hike-list {
-    color: black;
-    text-decoration: none;
-    text-align: center;
+.btn-home {
+    transition: 0.5s;
+    cursor: pointer;
 }
 
-.home-hike-list:hover {
-    text-decoration: underline;
+.btn-home:hover {
     transform: scale(1.05);
+    font-weight: bold;
 }

@@ -20,6 +20,8 @@ import ErrorView from './ErrorView/ErrorView';
 import Hike from './Hike/Hike';
 import HikeDetails from './HikeDetails/HikeDetails';
 import Home from './Home/Home';
+import Hut from './Hut/Hut';
+import HutDetails from './HutDetails/HutDetails';
 import Login from './Login/Login';
 import LocalGuidePage from './LocalGuidePage/LocalGuidePage';
 import Register from './Register/Register';
@@ -35,6 +37,8 @@ export {
     Hike,
     HikeDetails,
     Home,
+    Hut,
+    HutDetails,
     Login,
     LocalGuidePage,
     Register,

@@ -12,11 +12,19 @@
 
 //Imports
 import './Home.css';
+import { useContext } from "react";
 import { Link } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
+import { FaMountain } from 'react-icons/fa'
+import { GiHut } from 'react-icons/gi'
+
+//Contexts
+import { AuthContext } from '../../contexts/AuthContext'
 
 import homeImg from '../../assets/homeImg.jpg'
 
 const Home = () => {
+    const { isloggedIn, userInfo } = useContext(AuthContext);
     return (
         <>
             <img
@@ -27,9 +35,21 @@ const Home = () => {
             />
             <div className='mb-5 d-flex flex-column justify-content-center align-items-center' style={{ zIndex: 99 }}>
                 <h1 className='text-center fw-bold fst-italic mb-4'>Welcome to HikeTracker </h1>
-                <Link to={'/hikes'} className='text-decoration-none'>
-                    <p className='home-hike-list mb-5'>Click here to see the list of hikes </p>
-                </Link>
+                <div className='mb-5'>
+                    <Link to={"/hikes"}>
+                        <Button className="btn-home" variant='light' size='lg'>
+                            <FaMountain className='me-2 mb-1' size={25} />
+                            Hikes list
+                        </Button>
+                    </Link>
+                    {isloggedIn && userInfo.role === 'hiker' ?
+                        <Link to={"/huts"}>
+                            <Button className="btn-home ms-5" variant='light' size='lg'>
+                                <GiHut className='me-2 mb-1' size={25} />
+                                Huts list
+                            </Button>
+                        </Link> : <></>}
+                </div>
             </div>
         </>
     );

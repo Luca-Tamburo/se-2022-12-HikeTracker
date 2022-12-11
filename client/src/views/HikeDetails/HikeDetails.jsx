@@ -36,7 +36,7 @@ const L = require("leaflet");
 
 const limeOptions = { color: "red" };
 
-const HikeDetails = (props) => {
+const HikeDetails = () => {
   const [end, setEnd] = useState(null);
   const [coordinates, setCoordinates] = useState(null);
   const [hike, setHike] = useState(undefined);

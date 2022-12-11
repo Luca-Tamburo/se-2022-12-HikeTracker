@@ -11,17 +11,21 @@
 */
 
 import AppContainer from './AppContainer/AppContainer';
-import Filter from './Filter/Filter'
-import ProtectedRoute from './ProtectedRoute/ProtectedRoute'
+import HutFilter from './Filter/Hut/HutFilter'
+import HikeFilter from './Filter/Hike/HikeFilter'
+import HikerProtectedRoute from './ProtectedRoute/HikerProtectedRoute'
 import LocalGuideProtectedRoute from './ProtectedRoute/LocalGuideProtectedRoute'
+import ProtectedRoute from './ProtectedRoute/ProtectedRoute'
 import Input from './Input/Input'
 import Select from './Input/Select'
 
 export {
     AppContainer,
-    Filter,
-    ProtectedRoute,
+    HutFilter,
+    HikeFilter,
+    HikerProtectedRoute,
     LocalGuideProtectedRoute,
+    ProtectedRoute,
     Input,
     Select,
 }

@@ -89,10 +89,14 @@ const App = () => {
             <Route path='/signup' element={<View.Register />} />
             <Route path='/signup/:role' element={<View.RegisterRole />} />
             <Route path='/hikes' element={<View.Hike />} />
-            <Route path='/hikes/:hikeId' element={<View.HikeDetails isloggedIn={isloggedIn} userInfo={userInfo} />} />
+            <Route path='/hikes/:hikeId' element={<View.HikeDetails />} />
             <Route path='/email/confirmed' element={<View.EmailConf />} />
             <Route path='/email/error' element={<View.EmailErr />} />
             <Route element={<Utils.ProtectedRoute />}>
+              <Route element={<Utils.HikerProtectedRoute />} >
+                <Route path='/huts' element={<View.Hut />} />
+                <Route path='/huts/:hutId' element={<View.HutDetails />} />
+              </Route>
               <Route element={<Utils.LocalGuideProtectedRoute />} >
                 <Route path='/localGuide' element={<View.LocalGuidePage />} />
                 <Route path='/addHike' element={<View.AddHike userInfo={userInfo} />} />
