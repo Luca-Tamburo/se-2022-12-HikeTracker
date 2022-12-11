@@ -72,68 +72,69 @@ const HutFilter = (props) => {
     const [isCityUnselected, setIsCityUnselected] = useState(true);
     const [center, setCenter] = useState({ lat: 45.072384, lng: 7.6414976 });
     const handleSearch = () => {
-      let result = props.huts;
-      if (!(region === "Region" || region === "0")) {
-        result = result.filter(
-          (hut) => hut.region === getRegionName(parseInt(region))
-        );
-        if (!(province === "Province" || province === "0")) {
-          result = result.filter(
-            (hut) => hut.province === getProvinceName(parseInt(province))
-          );
-
-          if (!(city === "City" || city === "0")) {
-            result = result.filter((hut) => hut.city === city);
-          }
-        }
-      }
-      if (range !== 0) {
-        let v = [];
-        for (let index = 0; index < result.length; index++) {
-          let dst =
-            6372.795477598 *
-            1000 *
-            Math.acos(
-              Math.sin((result[index].latitude * Math.PI) / 180) *
-              Math.sin((marker.getLatLng().lat * Math.PI) / 180) +
-              Math.cos((result[index].latitude * Math.PI) / 180) *
-              Math.cos((marker.getLatLng().lat * Math.PI) / 180) *
-              Math.cos(
-                (result[index].longitude * Math.PI) / 180 -
-                (marker.getLatLng().lng * Math.PI) / 180
-              )
+        let result = props.huts;
+        if (!(region === "Region" || region === "0")) {
+            result = result.filter(
+                (hut) => hut.region === getRegionName(parseInt(region))
             );
-          if (dst <= range) {
-            v.push(result[index]);
-          }
-        }
-        result = v;
-      }
-      if(hutName){
-          result = result.filter((hut) => {
-            return hut.name.toLowerCase()
-            .includes(hutName)});
-      }
-      if (RoomsNumberMin) {
-        result = result.filter((hut) => hut.roomsNumber >= RoomsNumberMin);
-      }
-      if (RoomsNumberMax) {
-        result = result.filter((hut) => hut.roomsNumber <= RoomsNumberMax);
-      }
-      if (bedsNumberMin) {
-        result = result.filter((hut) => hut.bedsNumber >= bedsNumberMin);
-      }
-      if (bedsNumberMin) {
-        result = result.filter((hut) => hut.bedsNumber <= bedsNumberMax);
-      }
-      if (altitudeMin) {
-        result = result.filter((hut) => hut.altitude >= altitudeMin);
-      }
-      if (altitudeMax) {
-        result = result.filter((hike) => hike.altitude <= altitudeMax);
-      }
+            if (!(province === "Province" || province === "0")) {
+                result = result.filter(
+                    (hut) => hut.province === getProvinceName(parseInt(province))
+                );
 
-       props.setHutsDisplay(result);
+                if (!(city === "City" || city === "0")) {
+                    result = result.filter((hut) => hut.city === city);
+                }
+            }
+        }
+        if (range !== 0) {
+            let v = [];
+            for (let index = 0; index < result.length; index++) {
+                let dst =
+                    6372.795477598 *
+                    1000 *
+                    Math.acos(
+                        Math.sin((result[index].latitude * Math.PI) / 180) *
+                        Math.sin((marker.getLatLng().lat * Math.PI) / 180) +
+                        Math.cos((result[index].latitude * Math.PI) / 180) *
+                        Math.cos((marker.getLatLng().lat * Math.PI) / 180) *
+                        Math.cos(
+                            (result[index].longitude * Math.PI) / 180 -
+                            (marker.getLatLng().lng * Math.PI) / 180
+                        )
+                    );
+                if (dst <= range) {
+                    v.push(result[index]);
+                }
+            }
+            result = v;
+        }
+        if (hutName) {
+            result = result.filter((hut) => {
+                return hut.name.toLowerCase()
+                    .includes(hutName.toLowerCase())
+            });
+        }
+        if (RoomsNumberMin) {
+            result = result.filter((hut) => hut.roomsNumber >= RoomsNumberMin);
+        }
+        if (RoomsNumberMax) {
+            result = result.filter((hut) => hut.roomsNumber <= RoomsNumberMax);
+        }
+        if (bedsNumberMin) {
+            result = result.filter((hut) => hut.bedsNumber >= bedsNumberMin);
+        }
+        if (bedsNumberMin) {
+            result = result.filter((hut) => hut.bedsNumber <= bedsNumberMax);
+        }
+        if (altitudeMin) {
+            result = result.filter((hut) => hut.altitude >= altitudeMin);
+        }
+        if (altitudeMax) {
+            result = result.filter((hike) => hike.altitude <= altitudeMax);
+        }
+
+        props.setHutsDisplay(result);
     };
 
     const handleReset = (e) => {
@@ -272,7 +273,7 @@ const HutFilter = (props) => {
                                 data-testid="Name-select"
                                 type="text"
                                 placeholder="Name..."
-                                onChange={(event) => { setHutName(event.target.value)}}
+                                onChange={(event) => { setHutName(event.target.value) }}
                                 value={hutName}
                             />
                         </Form>
@@ -380,18 +381,18 @@ const HutFilter = (props) => {
                                 min={altitudeMax ? altitudeMax : 0}
                                 placeholder="Max"
                                 onChange={(event) => {
-                                console.log(event.target.value)
-                                altitudeMin && event.target.value
-                                    ? setAltitudeMax(
-                                        parseFloat(event.target.value) >= parseFloat(altitudeMin)
-                                            ? event.target.value
-                                            : altitudeMax === ""
-                                                ? parseFloat(altitudeMin)
-                                                : ""
-                                    )
-                                    : setAltitudeMax(event.target.value);
-                            }}
-                            value={altitudeMax}
+                                    console.log(event.target.value)
+                                    altitudeMin && event.target.value
+                                        ? setAltitudeMax(
+                                            parseFloat(event.target.value) >= parseFloat(altitudeMin)
+                                                ? event.target.value
+                                                : altitudeMax === ""
+                                                    ? parseFloat(altitudeMin)
+                                                    : ""
+                                        )
+                                        : setAltitudeMax(event.target.value);
+                                }}
+                                value={altitudeMax}
                             />
                         </Form>
                     </div>
@@ -410,36 +411,36 @@ const HutFilter = (props) => {
                 </Col>
             </Row>
             {
-         parseInt(range) !== 0 ?
-           <>
-             <Row className='mt-3'>
-               <Col>
-                 <MapContainer
-                   style={{ height: "50vh" }}
-                   center={center} scrollWheelZoom={true} whenCreated={(map) => this.setState({ map })} zoom={ZOOM_LEVEL} setView={true}>
-                   {marker ?
-                     <Circle center={marker.getLatLng()} radius={range} /> : <></>}
-                   <TileLayer
-                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                     url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
-                   />
-                   {props.huts.map((hut, index) => {
-                     return (
-                       <Marker key={index} position={[hut.latitude, hut.longitude]} icon={icon}>
-                         <Popup>
-                           {hut.name}
-                         </Popup>
-                       </Marker>
-                     )
-                   })}
-                   {currentPosition ? <LocationMarker saveMarkers={saveMarkers} marker={marker} id={'location'} setLocation={setCurrentPosition} /> : 
-                     <AddMarker saveMarkers={saveMarkers} marker={marker} circle={circle} range={range} />}
-                 </MapContainer>
-               </Col>
-             </Row>
-           </>
-           : <></>
-       }
+                parseInt(range) !== 0 ?
+                    <>
+                        <Row className='mt-3'>
+                            <Col>
+                                <MapContainer
+                                    style={{ height: "50vh" }}
+                                    center={center} scrollWheelZoom={true} whenCreated={(map) => this.setState({ map })} zoom={ZOOM_LEVEL} setView={true}>
+                                    {marker ?
+                                        <Circle center={marker.getLatLng()} radius={range} /> : <></>}
+                                    <TileLayer
+                                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                        url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+                                    />
+                                    {props.huts.map((hut, index) => {
+                                        return (
+                                            <Marker key={index} position={[hut.latitude, hut.longitude]} icon={icon}>
+                                                <Popup>
+                                                    {hut.name}
+                                                </Popup>
+                                            </Marker>
+                                        )
+                                    })}
+                                    {currentPosition ? <LocationMarker saveMarkers={saveMarkers} marker={marker} id={'location'} setLocation={setCurrentPosition} /> :
+                                        <AddMarker saveMarkers={saveMarkers} marker={marker} circle={circle} range={range} />}
+                                </MapContainer>
+                            </Col>
+                        </Row>
+                    </>
+                    : <></>
+            }
         </>
     )
 }
