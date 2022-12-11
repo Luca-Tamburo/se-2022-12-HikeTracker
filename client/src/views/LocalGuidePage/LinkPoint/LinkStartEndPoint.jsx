@@ -74,24 +74,31 @@ const LinkStartEndPoint = () => {
                 startPointId: currentStart.id,
                 endPointId: currentEnd.id
             }
+            add(hikeId,data);
         }
         else if (currentStart.id === start.id) {
             data = {
                 endPointId: currentEnd.id
             }
+            add(hikeId,data);
 
         }
-        else {
+        else if (currentEnd.id === end.id){
             data = {
-                endPointId: currentEnd.id
+                startPointId: currentStart.id,
             }
+            add(hikeId,data);
         }
+    }
+
+    const add = (hikeId, data)=>{
         api.putLinkStartEndPoint(hikeId,data).then(() => {
             notify.success(`Update completed successfully`);
             navigate("/", { replace: true });
           })
           .catch((err) => notify.error(err.error))
           .finally(() => setLoading(false));
+        
     }
 
     if (!loading) {
