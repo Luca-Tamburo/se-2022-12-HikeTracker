@@ -13,8 +13,7 @@
 // Imports
 import { useState, useEffect } from 'react'
 import { Row, Col, Spinner, Button } from 'react-bootstrap'
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 
 // Components - uiCore
 import InfoPoint from '../../../components/ui-core/InfoPoint/InfoPoint';
@@ -29,9 +28,8 @@ import useNotification from '../../../hooks/useNotification';
 // Icons
 import { BiReset } from "react-icons/bi";
 import { IoIosSend } from 'react-icons/io'
-import { point } from 'leaflet';
 
-var tj = require("togeojson"),
+let tj = require("togeojson"),
     // node doesn't have xml parsing or a dom. use xmldom
     DOMParser = require("xmldom").DOMParser;
 
@@ -43,17 +41,12 @@ const LinkHutToHike = () => {
     const [currentLinkedHuts, setCurrentLinkedHuts] = useState([]);
     const notify = useNotification();
     const [coordinates, setCoordinates] = useState(null);
-    // const [currentStart, setCurrentStart] = useState();
-    // const [currentEnd, setCurrentEnd] = useState();
-    // const [start, setStart] = useState();
-    // const [end, setEnd] = useState();
     const { hikeId } = useParams();
 
     useEffect(() => {
         api.getLinkHutToHike(hikeId)
             .then(points => {
                 setPoints(points);
-                console.log(points);
                 setCurrentLinkedHuts(points.currentLinkedHuts)
             })
             .catch(err => {
@@ -67,7 +60,7 @@ const LinkHutToHike = () => {
             .then((hikes) => {
                 if (hikes.gpx) {
                     let coord = [];
-                    var gpx = new DOMParser().parseFromString(
+                    let gpx = new DOMParser().parseFromString(
                         String(hikes.gpx),
                         "text/xml"
                     );
@@ -100,7 +93,6 @@ const LinkHutToHike = () => {
         data = {
             hutsToLink: v
         }
-        console.log(data)
         api.putLinkHutToHike(hikeId, data).then(() => {
             notify.success(`Update completed successfully`);
             navigate(`/hikes/${hikeId}`, { replace: true });
@@ -110,7 +102,6 @@ const LinkHutToHike = () => {
     }
 
     const handleCurrentHut = (huts) => {
-        console.log(huts)
         setCurrentLinkedHuts(huts)
     }
 

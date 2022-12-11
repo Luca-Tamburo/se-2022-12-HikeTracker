@@ -13,7 +13,7 @@
 //Imports
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { Button } from "react-bootstrap";
 
 const iconHut = L.icon({
@@ -86,9 +86,6 @@ const MapStartEndLink = (props) => {
     }
 
     }
-
-    console.log(props.points)
-
 
     return (
         <>

@@ -11,12 +11,9 @@
 */
 
 //Imports
-import { useState, useEffect, useContext } from "react";
-import { useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import getCityProvinceRegion from "../../../services/geoApi";
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, Polyline} from "react-leaflet";
 import { Button } from "react-bootstrap";
 
 const limeOptions = { color: "red" };
@@ -69,11 +66,8 @@ const MapLinkHut = (props) => {
     /* const handleUnlink = (point) => {
         let v = props.currentLinkedHuts;
         v = v.filter((p) => p.id !== point.id)
-        console.log(v)
         props.setCurrentLinkedHuts(v)
     } */
-
-    console.log(props.points.possibleLinkedHuts.find((p) => p.id !== props.points.startPoint.id))
 
     return (
         <>
@@ -113,7 +107,6 @@ const MapLinkHut = (props) => {
                 {props.coordinates ? <Polyline pathOptions={limeOptions} positions={props.coordinates} /> : <></>}
                 {props.points.possibleLinkedHuts.map((point, index) => {
                     let find = linkedPoint.find((p) => p.id === point.id)
-                    console.log(find)
                     if (!find && point.id !== props.points.startPoint.id && point.id !== props.points.endPoint.id) {
                         return (
                             <Marker key={index} position={[point.latitude, point.longitude]} icon={hutUnlinkedIcon}>
@@ -141,78 +134,6 @@ const MapLinkHut = (props) => {
                     )
                 }
                 )}
-
-
-                {/* {possibleEnd.map((point, index) => {
-                    if (props.points.currentStartPoint.id !== point.id) {
-                        return (
-                            <Marker key={index} position={[point.latitude, point.longitude]} icon={point.type === 'hut' ? hutIcon : parkingIcon}>
-                                <Popup>
-                                <div className="d-flex flex-column">
-                                <p className="fw-bold">{point.name}</p>
-                                    <Button size="sm" onClick={() => { handleEndPoint(point) }}>set as End Point</Button>
-                                </div>
-                                </Popup>
-                            </Marker>
-                        )
-                    }
-                })}
-                {possibleStart.map((point, index) => {
-                    if (props.points.currentEndPoint.id !== point.id) {
-                        return (
-                            <Marker key={index} position={[point.latitude, point.longitude]} icon={point.type === 'hut' ? hutIcon : parkingIcon}>
-                                <Popup>
-                                <div className="d-flex flex-column"> 
-                                <p className="fw-bold">{point.name}</p>
-                                    <Button size="sm" onClick={() => { handleStartPoint(point) }}>set as Start Point</Button>
-                                </div>
-                                </Popup>
-                            </Marker>
-                        )
-                    }
-                })}
-                {possibleStartEnd.map((point, index) => {
-                    if (props.points.currentStartPoint.id !== point.id) {
-                        return (
-                            <Marker key={index} position={[point.latitude, point.longitude]} icon={point.type === 'hut' ? hutIcon : parkingIcon}>
-                                <Popup>
-                                    <div className="d-flex flex-column">
-                                    <p className="fw-bold">{point.name}</p>
-                                    <Button size="sm" className="m-1" onClick={() => { handleEndPoint(point) }}>set as End Point</Button>
-                                    <Button size="sm" onClick={() => { handleStartPoint(point) }}>set as Start Point</Button>
-                                    </div>
-                                </Popup>
-                            </Marker>
-                        )
-                    }
-                })}
-                {props.points.possibleEndPoints.find((point) => { return point.id === props.currentStart.id }) ?
-                    <Marker key={'start-b'} icon={startIcon} position={[props.currentStart.latitude, props.currentStart.longitude]}>
-                        <Popup>
-                            <p className="fw-bold">{props.currentStart.name}</p>
-                            <Button size="sm" onClick={() => { handleEndPoint(props.currentStart) }}>set as End Point</Button>
-                        </Popup>
-                    </Marker>
-                    : <Marker key={'start'} icon={startIcon} position={[props.currentStart.latitude, props.currentStart.longitude]}>
-                        <Popup>
-                            <span className="fw-bold">{props.currentStart.name}</span><br />
-                        </Popup>
-                    </Marker>}
-
-                {props.points.possibleStartingPoints.find((point) => { return point.id === props.currentEnd.id }) ?
-                    <Marker key={'end-b'} icon={endIcon} position={[props.currentEnd.latitude, props.currentEnd.longitude]}>
-                        <Popup>
-                            <p className="fw-bold">{props.currentEnd.name}</p>
-                            <Button size="sm" onClick={() => { handleStartPoint(props.currentEnd) }}>set as Start Point</Button>
-                        </Popup>
-                    </Marker> :
-                    <Marker key={'end'} icon={endIcon} position={[props.currentEnd.latitude, props.currentEnd.longitude]}>
-                        <Popup>
-                            <span className="fw-bold">{props.currentEnd.name}</span><br />
-                        </Popup>
-                    </Marker>
-
-                } */}
             </MapContainer>
         </>
     )

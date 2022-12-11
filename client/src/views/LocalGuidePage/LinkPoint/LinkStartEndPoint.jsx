@@ -13,8 +13,7 @@
 // Imports
 import { useState, useEffect } from 'react'
 import { Row, Col, Spinner, Button } from 'react-bootstrap'
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 
 // Components - uiCore
 import InfoPoint from '../../../components/ui-core/InfoPoint/InfoPoint';
@@ -42,9 +41,6 @@ const LinkStartEndPoint = () => {
     const [start, setStart] = useState();
     const [end, setEnd] = useState();
     const { hikeId } = useParams();
-    // USA QUESTE PER MODIFICARE I VALORI DEL CURRENT POINT + CAMBIA ANCHE LE PROPS CHE PASSI AGLI INFOPOINT
-    // const [currentStartPoint, setCurrentStartPoint] = useState(points.currentStartPoint);
-    // const [currentEndPoint, setCurrentEndPoint] = useState(points.currentEndPoint);
 
     useEffect(() => {
         api.getLinkStartEndPoint(hikeId)
@@ -75,7 +71,7 @@ const LinkStartEndPoint = () => {
         }
         add(hikeId,data);
     }
-    
+
     const add = (hikeId, data)=>{
         api.putLinkStartEndPoint(hikeId,data).then(() => {
             notify.success(`Update completed successfully`);

@@ -33,7 +33,7 @@ import { IoMdDownload } from 'react-icons/io';
 import { MdAddBusiness, MdAddCircle } from 'react-icons/md';
 
 
-var tj = require("togeojson"),
+let tj = require("togeojson"),
   // node doesn't have xml parsing or a dom. use xmldom
   DOMParser = require("xmldom").DOMParser;
 
@@ -75,7 +75,6 @@ const HikeDetails = () => {
         const endPoint = hikes.pointList.find(p => p.id === hikes.endPointId);
         let s = [startPoint.latitude, startPoint.longitude];
         let e = [endPoint.latitude, endPoint.longitude];
-        console.log(hikes)
         let pList = [];
         hikes.pointList.map((hike) => {
           if (hike.id !== startPoint.id && hike.id !== endPoint.id) {
@@ -87,7 +86,7 @@ const HikeDetails = () => {
         setEnd(e);
         if (hikes.gpx) {
           let coord = [];
-          var gpx = new DOMParser().parseFromString(
+          let gpx = new DOMParser().parseFromString(
             String(hikes.gpx),
             "text/xml"
           );
@@ -191,7 +190,6 @@ const HikeDetails = () => {
                     })}
                     <Polyline pathOptions={limeOptions} positions={coordinates} />
                   </MapContainer>
-                  {/* TODO: Cambiare i link */}
                   <div className="d-flex flex-column flex-xl-row justify-content-between mt-3">
                     {(userInfo.role === 'localGuide' && userInfo.id === hike.authorId) &&
                       <div className="d-flex flex-column flex-md-row justify-content-md-between my-2 ">

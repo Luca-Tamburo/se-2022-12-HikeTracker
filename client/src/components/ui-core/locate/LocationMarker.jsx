@@ -29,7 +29,7 @@ const LocationMarker = (props) => {
     const [bbox, setBbox] = useState([]);
 
     const map = useMap();
-    const mapEvent = useMapEvents({
+    useMapEvents({
         click: (e) => {
           const { lat, lng } = e.latlng;
           props.setLocation(false)

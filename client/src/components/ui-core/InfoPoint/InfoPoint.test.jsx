@@ -41,10 +41,3 @@ describe('life support for this damn test', ()=>{
         expect(1).toEqual(1);
     }) 
 })
-/*describe('InfoPoint component', () => {
-    it.each(expected.info)
-        ('have the correct $label', (item) => {
-            render(<HikeCard hike={testHike} />, { wrapper: MemoryRouter });
-            expect(screen.getByText(item.expect)).toBeInTheDocument();
-        })
-    })*/

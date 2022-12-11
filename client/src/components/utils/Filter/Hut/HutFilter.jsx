@@ -68,10 +68,9 @@ const HutFilter = (props) => {
     const [marker, setMarker] = useState(null);
     const [circle, setCircle] = useState(null);
 
-    const [isRegionUnselected, setIsRegionUnselected] = useState(true); //fai i sei ma poi non lo utilizzi mai. Serve ormai?
     const [isProvinceUnselected, setIsProvinceUnselected] = useState(true);
     const [isCityUnselected, setIsCityUnselected] = useState(true);
-    const [center, setCenter] = useState({ lat: 45.072384, lng: 7.6414976 });
+    const center = { lat: 45.072384, lng: 7.6414976 };
     const handleSearch = () => {
         let result = props.huts;
         if (!(region === "Region" || region === "0")) {
@@ -90,24 +89,24 @@ const HutFilter = (props) => {
         }
         if (range !== 0) {
             let v = [];
-            for (let index = 0; index < result.length; index++) {
+            for (let value of result) {
                 let dst =
-                    6372.795477598 *
-                    1000 *
-                    Math.acos(
-                        Math.sin((result[index].latitude * Math.PI) / 180) *
-                        Math.sin((marker.getLatLng().lat * Math.PI) / 180) +
-                        Math.cos((result[index].latitude * Math.PI) / 180) *
-                        Math.cos((marker.getLatLng().lat * Math.PI) / 180) *
-                        Math.cos(
-                            (result[index].longitude * Math.PI) / 180 -
-                            (marker.getLatLng().lng * Math.PI) / 180
-                        )
-                    );
+                  6372.795477598 *
+                  1000 *
+                  Math.acos(
+                    Math.sin((value.latitude * Math.PI) / 180) *
+                    Math.sin((marker.getLatLng().lat * Math.PI) / 180) +
+                    Math.cos((value.latitude * Math.PI) / 180) *
+                    Math.cos((marker.getLatLng().lat * Math.PI) / 180) *
+                    Math.cos(
+                      (value.longitude * Math.PI) / 180 -
+                      (marker.getLatLng().lng * Math.PI) / 180
+                    )
+                  );
                 if (dst <= range) {
-                    v.push(result[index]);
+                  v.push(value);
                 }
-            }
+              }
             result = v;
         }
         if (hutName) {
@@ -139,7 +138,6 @@ const HutFilter = (props) => {
     };
 
     const handleReset = (e) => {
-        setIsRegionUnselected(true);
         setIsProvinceUnselected(true);
         setIsCityUnselected(true);
         setRange(0);
@@ -162,7 +160,6 @@ const HutFilter = (props) => {
 
     const handleRegion = (event) => {
         if (event.target.value === "0") {
-            setIsRegionUnselected(true);
             setIsProvinceUnselected(true);
             setIsCityUnselected(true);
             setRegion("Region");
@@ -170,7 +167,6 @@ const HutFilter = (props) => {
             setProvince("Province");
         } else {
             setRegion(event.target.value);
-            setIsRegionUnselected(false);
             setIsProvinceUnselected(false);
         }
     };
@@ -382,7 +378,6 @@ const HutFilter = (props) => {
                                 min={altitudeMax ? altitudeMax : 0}
                                 placeholder="Max"
                                 onChange={(event) => {
-                                    console.log(event.target.value)
                                     altitudeMin && event.target.value
                                         ? setAltitudeMax(
                                             parseFloat(event.target.value) >= parseFloat(altitudeMin)

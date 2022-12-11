@@ -37,7 +37,6 @@ const Hut = () => {
         api.getHuts()
             .then(huts => {
                 setHuts(huts);
-                console.log(huts)
                 setHutsDisplay(huts);
             })
             .catch(err => {

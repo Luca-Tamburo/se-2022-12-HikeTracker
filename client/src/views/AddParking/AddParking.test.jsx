@@ -123,39 +123,4 @@ describe('Add parking page', () => {
         render(<AddParking handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
     });
-
-    // it('handleSubmit is called after validation', async () => {
-    //     handleSubmit.mockClear();
-    //     render(<AddParking handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
-
-    //     const name = screen.getByRole('textbox', { name: /name/i });
-    //     const latitude = screen.getByRole('textbox', { name: /latitude/i });
-    //     const longitude = screen.getByRole('textbox', { name: /longitude/i });
-    //     const altitude = screen.getByRole('textbox', { name: /altitude/i });
-    //     const region = screen.getByRole('combobox', { name: /region/i });
-    //     const province = screen.getByRole('combobox', { name: /province/i });
-    //     const city = screen.getByRole('combobox', { name: /city/i });
-    //     const desc = screen.getByRole('textbox', { name: /description/i });
-    //     const submitButton = screen.getByRole('button', { name: /submit/i });
-
-    //     await userEvent.type(name, 'testHike');
-    //     await userEvent.type(latitude, '222.333');
-    //     await userEvent.type(longitude, '644.22');
-    //     await userEvent.type(altitude, '234.245');
-    //     await userEvent.selectOptions(region, within(region).getByRole('option', { name: 'Piemonte' }));
-    //     await userEvent.selectOptions(province, within(province).getByRole('option', { name: 'Tourin' }));
-    //     await userEvent.selectOptions(city, within(city).getByRole('option', { name: 'Tourin' }));
-    //     await userEvent.type(desc, 'A really nice hut');
-
-    //     expect(submitButton.disabled).toBe(false)
-
-    //     await userEvent.click(submitButton);
-
-    //     await waitFor(() => {
-    //         expect(handleSubmit).toHaveBeenCalledTimes(1);
-    //     })
-    //     await waitFor(() => {
-    //         expect(handleSubmit).toHaveBeenCalledWith({ lazy: "" });
-    //     })
-    // })
 })

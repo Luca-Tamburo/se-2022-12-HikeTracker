@@ -38,7 +38,7 @@ const HutDetails = () => {
   const [hut, setHut] = useState([]);
   const notify = useNotification();
   const [loading, setLoading] = useState(false);
-  const [center, setCenter] = useState({ lat: 45.072384, lng: 7.6414976 });
+  const center = { lat: 45.072384, lng: 7.6414976 };
 
 
   const hutIcon = L.icon({
@@ -52,7 +52,6 @@ const HutDetails = () => {
     api.getHutDetails(hutId)
       .then(hut => {
         setHut(hut);
-        console.log(hut)
       })
       .catch(err => {
         setHut([]);
