@@ -48,7 +48,6 @@ router.get('/hikeStartEnd/:hikeId',
         const startPoint = await pointDao.getPointById(infos.startPointId);
         const endPoint = await pointDao.getPointById(infos.endPointId);
         const length = infos.length;
-        console.log(infos)
         returnData = {
             currentStartPoint: {
                 id: startPoint.id,

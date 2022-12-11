@@ -750,7 +750,17 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
 ```
 
-     Hut( id, roomsNumber, bedsNumber, whenIsOpen,phoneNumber, photosPath, pointId )
+     Hut( id, roomsNumber, bedsNumber, whenIsOpen,phoneNumber, photoFile, website, pointId )
+     PRIMARY KEY ( id )
+     FOREIGN KEY ( pointId ) REFERENCES Point ( id )
+
+```
+
+#### *ParkingLot* includes all Parking lots specification
+
+```
+
+     ParkingLot( id, capacity, pointId )
      PRIMARY KEY ( id )
      FOREIGN KEY ( pointId ) REFERENCES Point ( id )
 
@@ -782,6 +792,9 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 | aldobaglio@gmail.com      |   password     |   localGuide      |        Yes        |
 | stefanopioli@acmilan.com  |   password     |   hiker           |        Yes        |
 | antonioconte@gmail.com    |   password     |   localGuide      |        No         |
+| ggatewood@gmail.com       |   Group12Rocks!|   localGuide      |        Yes        |
+| andrewskurka@gmail.com    |   Group12Rocks!|   localGuide      |        Yes        |
+| buddybackpacker@gmail.com |   Group12Rocks!|   localGuide      |        Yes        |
 
 ## Testing
 

@@ -5,7 +5,8 @@ const { iAmTesting, setTesting } = require('../mockDB/iAmTesting');
 setTesting(1);
 const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 
-const { addParkingLot, getParkingLotById} = require("../../dao/parkingLotDao");
+const { addParkingLot} = require("../../dao/parkingLotDao");
+const {getParkingLotById}=require("./mockDAO")
 const { addPoint } = require('../../dao/pointDao');
 
 const cleanDb = async () => {

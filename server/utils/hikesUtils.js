@@ -1,10 +1,5 @@
 'use strict';
 
-const typeValidator = (inputType) => {
-    const type = inputType.toLowerCase();
-    //address, name of location, gps coordinates, hut, parking lot
-    return (type === "address" || type === "name of location" || type === "gps coordinates" || type === "hut" || type === "parking lot");
-};
 
 const difficultyValidator = (inputDiff) => {
     const diff = inputDiff.toLowerCase();
@@ -71,4 +66,4 @@ const photoUrlValidator = async (photoUrl) => {
     return ret;
 }
 
-module.exports = { typeValidator, difficultyValidator, typeFormatter, difficultyFormatter, photoUrlValidator };
+module.exports = {  difficultyValidator, typeFormatter, difficultyFormatter, photoUrlValidator };

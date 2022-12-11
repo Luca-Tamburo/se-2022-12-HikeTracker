@@ -28,7 +28,6 @@ exports.addHut = (title, roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photo
             else {
 
                 if (!photoFile) {
-                    console.log("ciao"+this.lastID)
                     const imgUrl = `http://localhost:3001/images/huts/${this.lastID}_${title.replace(/[ \n\t\r]/g, '_')}.png`
                     sql = "UPDATE Hut SET photoFile=? WHERE id=?";
                     db.run(sql, [imgUrl, this.lastID], (err) => {
@@ -45,33 +44,6 @@ exports.addHut = (title, roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photo
 
         }
         );
-    });
-}
-
-exports.getHutById = (id) => {
-    return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM Hut WHERE id = ?';
-        db.get(sql, [id], (err, r) => {
-            if (err) {
-                reject(err);
-            }
-            else if (r === undefined)
-                resolve(undefined);
-            else {
-                resolve(
-                    {
-                        id: r.id,
-                        roomsNumber: r.roomsNumber,
-                        bedsNumber: r.bedsNumber,
-                        whenIsOpen: r.whenIsOpen,
-                        phoneNumber: r.phoneNumber,
-                        photoFile: r.photoFile,
-                        website: r.website,
-                        pointId: r.pointId
-                    }
-                );
-            }
-        });
     });
 }
 

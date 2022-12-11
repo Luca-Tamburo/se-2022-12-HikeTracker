@@ -26,24 +26,3 @@ const db = iAmTesting() ? getMock() : require('./openDb');
     });
 }
 
-exports.getParkingLotById = (id) => {
-    return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM ParkingLot WHERE id = ?';
-        db.get(sql, [id], (err, r) => {
-            if (err) {
-                reject(err);
-            }
-            else if (r === undefined)
-                resolve(undefined);
-            else {
-                resolve(
-                    {
-                        id : r.id,
-                        capacity : r.capacity,
-                        pointId : r.pointId
-                    }
-                );
-            }
-        });
-    });
-}

@@ -8,7 +8,7 @@ const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 const { addHike } = require("../../dao/hikeDao");
 const { addPoint, addPointHike } = require('../../dao/pointDao');
 const { addUser } = require('../../dao/userDao');
-const { getHikePointCorrispondance, deleteHikePointCorrispondance } = require('../../dao/hikePointDao');
+const { getHikePointCorrispondance, deleteHikePointCorrispondance } = require('./mockDAO');
 const { getRefPointsByHikeId } = require('../../dao/hikePointDao');
 
 const cleanDb = async () => {
@@ -36,8 +36,8 @@ describe("test hikePoint", () => {
 
     // Call tests
     testgetHikePointCorrispondance(1, 3, 1) // hike id, wrongId, pointId
-    testdeleteHikePointCorrispondance(1, 1)
     testgetRefPointsByHikeId(1, 3) // hike id, wrongId
+    testdeleteHikePointCorrispondance(1, 1)
 });
 
 function testgetHikePointCorrispondance(id, wongId, pointId) {
@@ -70,14 +70,25 @@ function testgetRefPointsByHikeId(id, wongId) {
                 "id": 1,
                 "name": "Rifugio Melezè - Bellino - Val Varaita",
                 "type": "hut",
+                "description": "The building was a ...",
                 "latitude": 44.5742508675903,
-                "longitude": 6.98268919251859
+                "longitude": 6.98268919251859,
+                "altitude": 1757.43,
+                "city": "Bellino",
+                "province": "Cuneo",
+                "region": "Piemonte",
             }, {
                 "id": 2,
                 "name": "Monte Ferra",
                 "type": "gpsCoordinates",
+                "description": "Peak of Monte Ferra",
                 "latitude": 44.6020777802914,
-                "longitude": 6.98475264944136
+                "longitude": 6.98475264944136,
+                "altitude": 3094.14,
+                "city": null,
+                "province": null,
+                "region": null,
+
             }]);
     });
 }
