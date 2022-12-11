@@ -496,6 +496,7 @@ describe("Edit.Hikes.APItesting", function () {
         await localGuide
             .put(`hikeStartEnd/${hikeId}`)
             .field({
+                "startPointId":4,
                 "endPointId":4
             })
             .then(function (res) {

@@ -7,23 +7,6 @@ const difficultyValidator = (inputDiff) => {
     return (diff === "tourist" || diff === "hiker" || diff === "professional hiker");
 };
 
-const typeFormatter = (type) => {
-    let typeFormatted;
-    switch (type.toLowerCase()) {
-        case 'address': typeFormatted = 'address';
-            break;
-        case 'name of location': typeFormatted = 'name of location';
-            break;
-        case 'gps coordinates': typeFormatted = 'GPS coordinates';
-            break;
-        case 'hut': typeFormatted = 'hut';
-            break;
-        case 'parking lot': typeFormatted = 'parking lot';
-            break;
-    }
-    return typeFormatted;
-}
-
 
 const difficultyFormatter = (difficulty) => {
     let difficultyFormatted;
@@ -66,4 +49,4 @@ const photoUrlValidator = async (photoUrl) => {
     return ret;
 }
 
-module.exports = {  difficultyValidator, typeFormatter, difficultyFormatter, photoUrlValidator };
+module.exports = {  difficultyValidator, difficultyFormatter, photoUrlValidator };
