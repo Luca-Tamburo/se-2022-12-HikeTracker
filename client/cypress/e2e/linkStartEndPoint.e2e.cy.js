@@ -58,14 +58,14 @@ const testHike = {
  }
 
 const testPoints = {
-    "startPoint": {
+    "currentStartPoint": {
         "id": 1,
         "name": "A",
         "type": "hut",
         "latitude": 44.57425086759031,
         "longitude": 6.982689192518592
     },
-    "endPoint": {
+    "currentEndPoint": {
         "id": 2,
         "name": "Monte",
         "type": "location",
@@ -123,6 +123,20 @@ const testPoints = {
             "longitude": 6.98268919251858,
             "distance": 3.102
         }
+    ],
+    "currentLinkedHuts": [
+        {
+            "id": 16,
+            "name": "Hut Freidour",
+            "type": "hut",
+            "description": "The...",
+            "latitude": 44.973129,
+            "longitude": 7.303155,
+            "altitude": 1757.43,
+            "city": "Bellino",
+            "province": "Cuneo",
+            "region": "Piemonte"
+        }
     ]
   }
  
@@ -156,25 +170,30 @@ describe('linkStartEndPoint', () => {
 
     it('has title', () => {     
         cy.visit('/hikeStartEndPoint/1');
+        cy.wait(500);
         cy.get('h1[class="fw-bold"]').contains(/Change your start\/end point/i);
     })
 
     it('has start point', () => {     
         cy.visit('/hikeStartEndPoint/1');
+        cy.wait(500);
         cy.get('h4[class="m-3 fst-italic"]').contains(/Start point/i);
     })
 
     it('has end point', () => {     
         cy.visit('/hikeStartEndPoint/1');
+        cy.wait(500);
         cy.get('h4[class="m-3 fst-italic"]').contains(/End point/i);
     })
 
     it('contains submit button', () => {
         cy.visit('/hikeStartEndPoint/1');
+        cy.wait(500);
             cy.findByRole('button', { name: /submit/i });
     });
     it('contains submit button', () => {
         cy.visit('/hikeStartEndPoint/1');
+        cy.wait(500);
             cy.findByRole('button', { name: /reset/i });
     });
 })
