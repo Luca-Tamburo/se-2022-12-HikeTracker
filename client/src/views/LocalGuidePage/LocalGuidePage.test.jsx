@@ -73,11 +73,11 @@ describe('Local guide page', () => {
         expect(screen.getByRole('img', { name: /avatar/i })).toBeInTheDocument();
     });
 
-    it('card is render', () => {
+    it('card is rendered', () => {
         render(<AuthContext.Provider value={value.localGuide}>
             <LocalGuidePage />
         </AuthContext.Provider>, { wrapper: MemoryRouter });
-        expect(screen.getAllByTestId('LocalGuideServiceCard')).toHaveLength(3)
+        expect(screen.getAllByTestId('LocalGuideServiceCard')).toHaveLength(4)
     })
 
 });

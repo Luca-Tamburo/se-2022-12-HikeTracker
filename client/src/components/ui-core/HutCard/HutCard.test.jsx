@@ -3,7 +3,7 @@
 *
 * Package:         client
 * Module:          src/components/ui-core/HikeCard
-* File:            HikeCard.test.jsx
+* File:            HutCard.test.jsx
 *
 * Copyright (c) 2022 - se2022-Team12
 * All rights reserved.
@@ -16,7 +16,7 @@ import userEvent from '@testing-library/user-event';
 import { Router, MemoryRouter } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
-import HikeCard from './HikeCard';
+import HutCard from './HutCard';
 
 // Contexts
 import { AuthContext } from "../../../contexts/AuthContext";
@@ -74,24 +74,30 @@ jest.mock('react-bootstrap', () => {
     return ({ Card, Col, Placeholder });
 })
 
-const testHike = {
-    id: 1,
-    title: "Trail to MONT FERRA",
-    description: "Lasciata la macchina nell’ampio parcheggio superiamo il Rifugio Melezè e entriamo nel piccolo gruppo di case sopra la chiesetta di Sant’Anna lasciandoci alle spalle l’imponente edificio della casa per ferie Excelsior. Imbocchiamo il sentiero ben visibile che con numerosi tornanti sale rapidamente nel versante erboso fino ad un pianoro dove sono presenti alcuni ruderi detti Grange Reisassa. Qui troviamo un bivio con le indicazioni per il Monte Ferra a destra e il colle di Fiutrusa a sinistra. Proseguiamo verso il Monte ferra che ora si presenta maestoso davanti a noi, ma ancora troppo lontano. Guadagniamo quota raggiungendo il lago Reisassa che a inizio stagione può presentarsi ancora ghiacciato. A questo punto non ci resta che salire sul ripidissimo sentiero che si snoda tra gli sfasciumi fino a raggiungere la cresta rocciosa, dove svoltiamo a sinistra (direzione Ovest) e la percorriamo fino alla piccola croce di ferro posta ad indicare la nostra meta. Sentiero del ritorno uguale a quello di salita.",
-    authorName: 'aldo',
-    authorSurname: 'baglio',
-    uploadDate: "2022-01-10",
-    photoFile: "https://unsplash.com/photos/phIFdC6lA4E"
+const testHut = {
+    "id": 2,
+    "name": "Refugio",
+    "description": "Beautiful ...",
+    "roomsNumber": 3,
+    "bedsNumber": 30,
+    "photoFile": "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80",
+    "latitude": 45.15013536737316,
+    "longitude": 7.236844649658008,
+    "altitude": 1430,
+    "website": "https://...",
+    "whenIsOpen": "Always",
+    "phoneNumber": "+3757320306",
+    "city": "Condove",
+    "province": "Torino ",
+    "region": "Piemonte"
 }
 
 const expected = {
-    url: `/hikes/${testHike.id}`,
-    image: testHike.photoFile,
+    url: `/huts/${testHut.id}`,
+    image: testHut.photoFile,
     info: [
-        { label: "title", expect: testHike.title },
-        { label: "description", expect: testHike.description },
-        { label: "author", expect: `${testHike.authorName} ${testHike.authorSurname}` },
-        { label: "upload Date", expect: testHike.uploadDate },
+        { label: "name", expect: testHut.name },
+        { label: "description", expect: testHut.description }
     ]
 }
 
@@ -99,18 +105,26 @@ const value = {
     default: {
         userInfo: null,
         isloggedIn: false
+    },
+    hiker: {
+        userInfo: {
+            name: "pippo",
+            role: "hiker",
+            gender: "M"
+        },
+        isloggedIn: true
     }
 }
 
-describe('Hike card component', () => {
+describe('Hut card component', () => {
     it.each(expected.info)
         ('have the correct $label', (item) => {
-            render(<AuthContext.Provider value={value.default}><HikeCard hike={testHike} /></AuthContext.Provider>, { wrapper: MemoryRouter });
+            render(<AuthContext.Provider value={value.hiker}><HutCard hut={testHut} /></AuthContext.Provider>, { wrapper: MemoryRouter });
             expect(screen.getByText(item.expect)).toBeInTheDocument();
         })
 
     it("image correctly rendered", () => {
-        render(<AuthContext.Provider value={value.default}><HikeCard hike={testHike} /></AuthContext.Provider>, { wrapper: MemoryRouter });
+        render(<AuthContext.Provider value={value.hiker}><HutCard hut={testHut} /></AuthContext.Provider>, { wrapper: MemoryRouter });
         expect(screen.getByAltText("card-image")).toHaveAttribute("src", expected.image)
     })
 
@@ -118,7 +132,7 @@ describe('Hike card component', () => {
         const history = createMemoryHistory()
         render(<AuthContext.Provider value={value.default}>
             <Router location={history.location} navigator={history}>
-                <HikeCard hike={testHike} />
+                <HutCard hut={testHut} />
             </Router>
             </AuthContext.Provider>
         );

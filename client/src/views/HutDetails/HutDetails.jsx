@@ -76,7 +76,7 @@ const HutDetails = () => {
               style={{ objectFit: "cover" }}
             />
             <div className="d-flex flex-column flex-md-row justify-content-between mt-2 ">
-              <h2 className="fw-bold my-3">{hut.title}</h2>
+              <h2 className="fw-bold my-3">{hut.name}</h2>
             </div>
             <div className="mb-4">
               <span className="fst-italic">{hut.description}</span>

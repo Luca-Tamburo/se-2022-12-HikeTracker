@@ -66,6 +66,12 @@ jest.mock('react-bootstrap', () => {
             <a href={props.to}>{children}</a>
         )
     }
+    
+    Dropdown.Divider = ({ children, ...props }) => {
+        return (
+            <a href={props.to}>{children}</a>
+        )
+    }
 
     return ({ Navbar, Button, Container, Dropdown });
 })

@@ -85,7 +85,7 @@ jest.mock('react-leaflet', () => {
     return ({ MapContainer, Marker, TileLayer });
 })
 
-describe('Addut page', () => {
+describe('Add hut page', () => {
 
     const handleSubmit = jest.fn();
 

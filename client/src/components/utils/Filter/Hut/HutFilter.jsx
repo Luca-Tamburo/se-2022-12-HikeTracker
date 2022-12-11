@@ -271,7 +271,7 @@ const HutFilter = (props) => {
                     <div className="d-flex">
                         <Form className="pe-2">
                             <Form.Control
-                                data-testid="Name-select"
+                                data-testid="name-select"
                                 type="text"
                                 placeholder="Name..."
                                 onChange={(event) => { setHutName(event.target.value) }}

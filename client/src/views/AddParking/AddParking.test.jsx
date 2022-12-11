@@ -103,7 +103,7 @@ jest.mock('react-leaflet', () => {
 
 })
 
-describe('Addut page', () => {
+describe('Add parking page', () => {
 
     const handleSubmit = jest.fn();
 

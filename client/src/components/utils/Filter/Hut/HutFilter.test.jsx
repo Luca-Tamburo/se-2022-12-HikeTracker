@@ -104,7 +104,7 @@ const dataTestId = [
     'province-select',
     'city-select',
     'range-select',
-    'name-input',
+    'name-select',
     'rooms-select-min',
     'rooms-select-max',
     'beds-select-min',

@@ -78,6 +78,9 @@ jest.mock('react-leaflet', () => {
 })
 
 
+jest.mock('axios')
+jest.mock('../../services/api')
+
 const value = {
     default: {
         userInfo: null,
@@ -93,39 +96,64 @@ const value = {
     }
 }
 
-describe('Huts View', () => {
-    it('has title', ()=>{
-        
+const testHut = {
+    "id": 2,
+    "name": "Refugio",
+    "description": "Beautiful ...",
+    "roomsNumber": 3,
+    "bedsNumber": 30,
+    "photoFile": "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80",
+    "latitude": 45.15013536737316,
+    "longitude": 7.236844649658008,
+    "altitude": 1430,
+    "website": "https://...",
+    "whenIsOpen": "Always",
+    "phoneNumber": "+3757320306",
+    "city": "Condove",
+    "province": "Torino ",
+    "region": "Piemonte"
+}
+
+describe('Hut details', () => {
+    it('has title', async()=>{
+        api.getHutDetails.mockResolvedValue(testHut);
         render(<AuthContext.Provider value={value.hiker}><HutDetails/></AuthContext.Provider>);
         
-        expect(screen.getByRole('heading', {name: /hut info/i}));
+        await waitFor(()=>{expect(screen.getByRole('heading', {name: /hut info/i}));})
     })
-    it('has image', ()=>{
+    it('has image', async()=>{
+        api.getHutDetails.mockResolvedValue(testHut);
         render(<AuthContext.Provider value={value.hiker}><HutDetails/></AuthContext.Provider>);
-        expect(screen.getByRole('img', {name: /hut img/i}));
+        await waitFor(()=>{expect(screen.getByRole('img', {name: /hut img/i}));})
     })
-    it('has disclamer', ()=>{
+    it('has disclamer', async()=>{
+        api.getHutDetails.mockResolvedValue(testHut);
         render(<AuthContext.Provider value={value.hiker}><HutDetails/></AuthContext.Provider>);
-        expect(screen.getByText(/all data are to be considered indicative\./i));
+        await waitFor(()=>{expect(screen.getByText(/all data are to be considered indicative\./i));})
     })
-    it('has website', ()=>{
+    it('has website', async()=>{
+        api.getHutDetails.mockResolvedValue(testHut);
         render(<AuthContext.Provider value={value.hiker}><HutDetails/></AuthContext.Provider>);
-        expect(screen.getByRole('heading', {name: /website/i}));
+        await waitFor(()=>{expect(screen.getByRole('heading', {name: /website/i}));})
     })
-    it('has rooms', ()=>{
+    it('has rooms', async()=>{
+        api.getHutDetails.mockResolvedValue(testHut);
         render(<AuthContext.Provider value={value.hiker}><HutDetails/></AuthContext.Provider>);
-        expect(screen.getByRole('heading', {name: /rooms number/i}));
+        await waitFor(()=>{expect(screen.getByRole('heading', {name: /rooms number/i}));})
     })
-    it('has beds', ()=>{
+    it('has beds', async()=>{
+        api.getHutDetails.mockResolvedValue(testHut);
         render(<AuthContext.Provider value={value.hiker}><HutDetails/></AuthContext.Provider>);
-        expect(screen.getByRole('heading', {name: /beds number/i}));
+        await waitFor(()=>{ expect(screen.getByRole('heading', {name: /beds number/i}));})
     })
-    it('has opening', ()=>{
+    it('has opening', async()=>{
+        api.getHutDetails.mockResolvedValue(testHut);
         render(<AuthContext.Provider value={value.hiker}><HutDetails/></AuthContext.Provider>);
-        expect(screen.getByRole('heading', {name: /opening/i}));
+        await waitFor(()=>{expect(screen.getByRole('heading', {name: /opening/i}));})
     })
-    it('has phone', ()=>{
+    it('has phone', async()=>{
+        api.getHutDetails.mockResolvedValue(testHut);
         render(<AuthContext.Provider value={value.hiker}><HutDetails/></AuthContext.Provider>);
-        expect(screen.getByRole('heading', {name: /phone number/i}));
+        await waitFor(()=>{expect(screen.getByRole('heading', {name: /phone number/i}));})
     })   
 })
