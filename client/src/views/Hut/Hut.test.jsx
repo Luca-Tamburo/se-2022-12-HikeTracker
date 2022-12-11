@@ -43,7 +43,7 @@ jest.mock('../../services/api')
 
 // Mock custom components
 const mockFilter = jest.fn();
-jest.mock('../../components/utils/Filter/Hut/Hutfilter', () => () => {
+jest.mock('../../components/utils/Filter/Hut/HutFilter', () => () => {
     mockFilter();
     return <mock-Filter data-testid='Filter' />
 })
@@ -105,13 +105,13 @@ describe('Huts View', () => {
     it('have the main text', async () => {
         api.getHuts.mockResolvedValue(testHuts)
         render(<AuthContext.Provider value={value.hiker}><Hut /></AuthContext.Provider>, { wrapper: MemoryRouter });
-        expect(screen.getByText(/Search hut/i)).toBeInTheDocument();
+        await waitFor(()=>{expect(screen.getByText(/Search hut/i)).toBeInTheDocument();})
     });
 
     it('correctly renders the Filter component', async () => {
         api.getHuts.mockResolvedValue(testHuts)
         render(<AuthContext.Provider value={value.hiker}><Hut /></AuthContext.Provider>, { wrapper: MemoryRouter });
-        expect(screen.getByTestId('Filter')).toBeInTheDocument();
+        await waitFor(()=>{expect(screen.getByTestId('Filter')).toBeInTheDocument();})
     });
 
 });
