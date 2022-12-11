@@ -25,7 +25,7 @@ console.log(`sto testando? ${iAmTesting() ? `si` : `no`}`);
  * @param {number} id the id of the user
  */
 
- const nomiMaiuscoli = (nome) => {
+const nomiMaiuscoli = (nome) => {
 
     const v = nome.toLowerCase().split(" ");
     let f = "";
@@ -69,11 +69,11 @@ exports.getUserAllInfosById = (id) => {
                     id: row.id,
                     email: row.email,
                     username: row.username,
-                    name: row.name ,
-                    surname: row.surname ,
+                    name: row.name,
+                    surname: row.surname,
                     role: row.role,
                     phoneNumber: row.phoneNumber,
-                    gender:row.gender
+                    gender: row.gender
                 }
                 resolve(user);
             }
@@ -98,11 +98,11 @@ exports.getUser = (email, password) => {
                     id: row.id,
                     email: row.email,
                     username: row.username,
-                    name: row.name ,
-                    surname: row.surname ,
+                    name: row.name,
+                    surname: row.surname,
                     role: row.role,
                     phoneNumber: row.phoneNumber,
-                    gender:row.gender
+                    gender: row.gender
                 }
                 const salt = row.salt;
                 crypto.scrypt(password, salt, 32, (err, hashedPassword) => {
@@ -171,7 +171,7 @@ exports.getUserByUsername = (username) => {
  * @param {string} confirmationCode the user confirmationCode
  */
 
-exports.addUser = async (email, username, role, name, surname, gender,phoneNumber, password, confirmationCode) => {
+exports.addUser = async (email, username, role, name, surname, gender, phoneNumber, password, confirmationCode) => {
 
     //creo sale
     const salt = crypto.randomBytes(8).toString('hex');
@@ -187,7 +187,7 @@ exports.addUser = async (email, username, role, name, surname, gender,phoneNumbe
     const hashedPassword = await getHashPass(password);
     return new Promise((resolve, reject) => {
         const sql = "INSERT INTO user(email, username, role, name, surname,gender, phoneNumber, hash, salt,confirmationCode,verifiedEmail) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-        db.run(sql, [email, username, role, name?nomiMaiuscoli(name):name, surname?nomiMaiuscoli(surname):surname,gender, phoneNumber, hashedPassword, salt, confirmationCode, 0],
+        db.run(sql, [email, username, role, name ? nomiMaiuscoli(name) : name, surname ? nomiMaiuscoli(surname) : surname, gender, phoneNumber, hashedPassword, salt, confirmationCode, 0],
             function (err) {
                 if (err) {
 
@@ -237,6 +237,27 @@ exports.deleteUser = (username) => {
                 reject(err);
             else
                 resolve(1);
+        });
+    });
+}
+
+
+
+exports.getUsers = () => {
+    return new Promise((resolve, reject) => {
+        const sql = "SELECT * FROM user";
+        db.all(sql, [], (err, rows) => {
+            if (err) {
+                reject(err);
+            }
+            const hikes = rows.map((r) => (
+                {
+                    id: r.id,
+                    username: r.username,
+                    email: r.email
+                }
+            ));
+            resolve(hikes);
         });
     });
 }

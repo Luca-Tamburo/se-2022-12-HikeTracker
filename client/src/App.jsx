@@ -98,7 +98,9 @@ const App = () => {
                 <Route path='/huts/:hutId' element={<View.HutDetails />} />
               </Route>
               <Route element={<Utils.LocalGuideProtectedRoute />} >
+                <Route path='/hikeStartEndPoint/:hikeId' element={<View.LinkStartEndPoint />} />
                 <Route path='/localGuide' element={<View.LocalGuidePage />} />
+                <Route path='/localGuide/hikes' element={<View.LocalGuideHikes />} />
                 <Route path='/addHike' element={<View.AddHike userInfo={userInfo} />} />
                 <Route path='/addHut' element={<View.AddHut />} />
                 <Route path='/addParking' element={<View.AddParking />} />
