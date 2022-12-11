@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand",
     "test:watch": "npm run test -- --watch",
     "start": "nodemon index.js",
     "test_coverage": "jest --coverage",
-    "test:cov": "jest --watchAll --coverage --testResultsProcessor=jest-sonar-reporter --runInBand",
+    "test:cov": "jest --watchAll --coverage --testResultsProcessor=jest-sonar-reporter --runInBand",    
     "test_integration": "npx mocha test/integrationTest  --runInBand --require mocha-steps --reporter mochawesome --timeout 30000 --exit",
     "test_integration_coverage": "nyc mocha test/integrationTest  --runInBand --require mocha-steps --reporter mochawesome --timeout 30000 --exit"
   },
