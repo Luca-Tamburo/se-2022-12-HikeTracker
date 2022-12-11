@@ -36,35 +36,28 @@ describe('addParking', () => {
 
     
     it('contains title', () => {
-        cy.wait(100);
+        cy.visit('/addParking');
+        cy.wait(500);
         cy.get('h1[class="fw-bold"]').contains(/Add your Parking/i);
     })
 
-    it('contains name label', () => {
+    it('contains labels', () => {
+        cy.visit('/addParking');
+        cy.wait(500);
         cy.get('form').contains(/name/i);
-    })
-
-    it('contains altitude label', () => {
         cy.get('form').contains(/altitude/i);
-    })
-
-    
-    it('contains description label', () => {
         cy.get('form').contains(/description/i);
     })
 
-    it('contains name field', () => {
+    it('contains fields', () => {
+        cy.visit('/addParking');
+        cy.wait(500);
         cy.get('form').within(() => {
             cy.get('input[placeholder="Insert the parking name"]')
         });
-    })
-
-    it('contains altitude field', () => {
         cy.get('form').within(() => {
             cy.get('input[placeholder="Insert the parking altitude"]')
         });
-    });
-    it('contains description field', () => {
         cy.get('form').within(() => {
             cy.get('textarea[placeholder="Insert the parking description"]')
         });

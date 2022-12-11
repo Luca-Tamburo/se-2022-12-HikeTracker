@@ -46,69 +46,72 @@ describe('addHike', () => {
 
     })
 
-    it('contains title', () => {
-        cy.wait(100);
+    it('contains all labels', () => {
+        cy.visit('/addHike');
+        cy.wait(500);
         cy.get('h1[class="fw-bold"]').contains(/Add your hike/i);
-    })
-    it('contains name label', () => {
         cy.get('form').contains(/name/i);
-    })
-    it('contains image label', () => {
         cy.get('form').contains(/image/i);
-    })
-    it('contains expected time label', () => {
         cy.get('form').contains(/expected time/i);
-    })
-    it("contains Hike's difficulty label", () => {
         cy.get('form').contains(/hike's difficulty/i);
-    })
-    it('contains description label', () => {
         cy.get('form').contains(/description/i);
-    })
-    it('contains GPX file upload label', () => {
         cy.get('form').contains(/GPX file/i);
-    })
-    it('contains image file upload label', () => {
-        cy.get('form').contains(/HIke image file/i);
+        cy.get('form').contains(/Upload your image/i);
     })
 
     it('contains name field', () => {
+        cy.visit('/addHike');
+        cy.wait(500);
         cy.get('form').within(() => {
             cy.get('input[placeholder="Insert the hike name"]')
         });
     })
     it('contains image field', () => {
+        cy.visit('/addHike');
+        cy.wait(500);
         cy.get('form').within(() => {
             cy.get('input[placeholder="Insert the hike image url"]')
         });
     })
     it('contains expected time field', () => {
+        cy.visit('/addHike');
+        cy.wait(500);
         cy.get('form').within(() => {
             cy.get('input[placeholder="Insert the hike expected time"]')
         });
     })
     it('contains difficulty field', () => {
+        cy.visit('/addHike');
+        cy.wait(500);
         cy.get('form').within(() => {
             cy.get('select[name="difficulty"]')
         });
     })
     it('contains description field', () => {
+        cy.visit('/addHike');
+        cy.wait(500);
         cy.get('form').within(() => {
             cy.get('textarea[placeholder="Insert the hike description"]')
         });
     })
     it('contains file field', () => {
+        cy.visit('/addHike');
+        cy.wait(500);
         cy.get('form').within(() => {
             cy.get('input[name="file"]')
         });
     })
     it('contains login button', () => {
+        cy.visit('/addHike');
+        cy.wait(500);
         cy.get('form').within(() => {
             cy.findByRole('button', { name: /submit/i });
         });
     });
 
     it('submit correct information', () => {
+        cy.visit('/addHike');
+        cy.wait(500);
         cy.get('form').within(() => {
             cy.get('input[placeholder="Insert the hike name"]').clear().type(testHike.title);
             cy.get('input[placeholder="Insert the hike image url"]').clear().type(testHike.photoFile);
@@ -116,8 +119,6 @@ describe('addHike', () => {
             cy.get('select[name="difficulty"]').select("Hiker");
             cy.get('textarea[placeholder="Insert the hike description"]').clear().type(testHike.description);
             cy.get('input[ type="file"][accept=".gpx"]').selectFile(testHike.hikeFile);
-
-
 
             cy.findByRole('button', { name: /submit/i }).click();
 
