@@ -20,6 +20,39 @@ const getMock = () => {
 }
 const db = iAmTesting() ? getMock() : require('./openDb');
 
+/*
+Get a hikePoint
+*/
+exports.getHikePointCorrispondance = (hikeId, pointId) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM HikePoint WHERE hikeId = ? AND pointId=?';
+        db.get(sql, [hikeId, pointId], (err, r) => {
+            if (err) {
+                reject(err);
+            }
+            else if (r === undefined)
+                resolve(false);
+            else {
+                resolve(true);
+            }
+        });
+    });
+}
+
+/*
+Delete a hikePoint
+*/
+exports.deleteHikePointCorrispondance = (hikeId, pointId) => {
+    return new Promise((resolve, reject) => {
+        const sql = `DELETE FROM HikePoint WHERE hikeId = ? AND pointId=?`;
+        db.run(sql, [hikeId, pointId], function (err) {
+            if (err)
+                reject(err);
+            else
+                resolve(1);
+        });
+    });
+}
 exports.getRefPointsByHikeId = (hikeId) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM HikePoint,Point WHERE Point.id=HikePoint.pointId and HikePoint.hikeId = ?';
