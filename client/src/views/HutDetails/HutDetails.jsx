@@ -114,7 +114,7 @@ const HutDetails = () => {
                     />
                     <Marker icon={hutIcon} position={[hut.latitude, hut.longitude]}>
                       <Popup>
-                        {hut.name} <br />
+                        <span className="fw-bold" style={{ fontSize: 15 }}>{hut.name}</span>
                       </Popup>
                     </Marker>
                   </MapContainer>

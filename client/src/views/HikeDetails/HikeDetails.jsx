@@ -78,8 +78,7 @@ const HikeDetails = () => {
         console.log(hikes)
         let pList = [];
         hikes.pointList.map((hike) => {
-          if(hike.id !== startPoint.id && hike.id !== endPoint.id)
-          {
+          if (hike.id !== startPoint.id && hike.id !== endPoint.id) {
             pList.push(hike)
           }
         })
@@ -172,21 +171,21 @@ const HikeDetails = () => {
                     />
                     <Marker icon={endIcon} position={end}>
                       <Popup>
-                        <span className="fw-bold">End Point </span><br />
+                        <span className="fw-bold" style={{ fontSize: 15 }}>{hike.pointList.find(p => p.id === hike.endPointId).name}</span><br />
                       </Popup>
                     </Marker>
                     <Marker icon={startIcon} position={start}>
                       <Popup>
-                        <span className="fw-bold">Starting Point </span><br />
+                        <span className="fw-bold" style={{ fontSize: 15 }}>{hike.pointList.find(p => p.id === hike.startPointId).name}</span><br />
                       </Popup>
                     </Marker>
-                    {pointList.map((point,index)=>{
-                      return(
-                      <Marker key={index} icon={hutIcon} position={[point.latitude,point.longitude]}>
-                      <Popup>
-                        <span className="fw-bold">{point.name}</span><br />
-                      </Popup>
-                    </Marker>)
+                    {pointList.map((point, index) => {
+                      return (
+                        <Marker key={index} icon={hutIcon} position={[point.latitude, point.longitude]}>
+                          <Popup>
+                            <span className="fw-bold">{point.name}</span><br />
+                          </Popup>
+                        </Marker>)
 
 
                     })}

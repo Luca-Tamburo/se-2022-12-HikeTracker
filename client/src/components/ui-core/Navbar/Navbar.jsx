@@ -71,9 +71,9 @@ const Navbar = (props) => {
                     <Dropdown.Item as={Link} to="/addParking">
                       Add parking lot
                     </Dropdown.Item>
+                    <Dropdown.Divider />
                   </>
                 }
-                <Dropdown.Divider />
                 <Dropdown.Item onClick={props.handleLogout}>
                   Logout
                 </Dropdown.Item>

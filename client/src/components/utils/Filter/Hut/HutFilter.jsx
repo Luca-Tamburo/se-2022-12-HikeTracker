@@ -3,7 +3,7 @@
  *
  * Package:         client
  * Module:          src/components/utils/Filter
- * File:            Filter.jsx
+ * File:            HutFilter.jsx
  *
  * Copyright (c) 2022 - se2022-Team12
  * All rights reserved.
@@ -13,6 +13,7 @@
 //Imports
 import "./HutFilter.css";
 import { Row, Col, Form, Button } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 import { useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer, Circle, } from "react-leaflet";
 import L from "leaflet";
@@ -20,7 +21,7 @@ import L from "leaflet";
 
 // Icons
 import { BiReset } from "react-icons/bi";
-import { BsSearch } from "react-icons/bs";
+import { BsSearch, BsInfoCircleFill } from "react-icons/bs";
 import { GiPositionMarker } from "react-icons/gi";
 
 
@@ -428,7 +429,12 @@ const HutFilter = (props) => {
                                         return (
                                             <Marker key={index} position={[hut.latitude, hut.longitude]} icon={icon}>
                                                 <Popup>
-                                                    {hut.name}
+                                                    <div className="d-flex flex-column">
+                                                        <span className="fw-bold mb-2" style={{ fontSize: 18 }}>{hut.name}</span>
+                                                        <Link to={`/huts/${hut.id}`}>
+                                                            <Button variant='success' className="w-100"><BsInfoCircleFill className='me-2' size={22} />See hut details</Button>
+                                                        </Link>
+                                                    </div>
                                                 </Popup>
                                             </Marker>
                                         )

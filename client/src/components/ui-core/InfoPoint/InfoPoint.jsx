@@ -39,7 +39,7 @@ const InfoPoint = ({ points, eventKeyNumber, hikeId }) => {
                         </p>
                     }
                     <p>
-                        <b>{points.region}</b>,<b>{points.province}</b>,<b>{points.city}</b>
+                        <b>{points.region}</b>, <b>{points.province}</b>, <b>{points.city}</b>
                     </p>
                     <p>
                         <b>Latitude: </b>

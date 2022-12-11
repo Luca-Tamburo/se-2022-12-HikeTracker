@@ -13,13 +13,14 @@
 //Imports
 import "./HikeFilter.css";
 import { Row, Col, Form, Button } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 import { useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer, Circle, } from "react-leaflet";
 import L from "leaflet";
 
 // Icons
 import { BiReset } from "react-icons/bi";
-import { BsSearch } from "react-icons/bs";
+import { BsSearch, BsInfoCircleFill } from "react-icons/bs";
 import { GiPositionMarker } from "react-icons/gi";
 
 // Helpers
@@ -443,7 +444,12 @@ const Filter = (props) => {
                     return (
                       <Marker key={index} position={[hike.latitude, hike.longitude]} icon={icon}>
                         <Popup>
-                          {hike.title}
+                          <div className="d-flex flex-column">
+                            <span className="fw-bold mb-2" style={{ fontSize: 18 }}>{hike.title}</span>
+                            <Link to={`/hikes/${hike.id}`}>
+                              <Button variant='success' className="w-100"><BsInfoCircleFill className='me-2' size={22} />See hike details</Button>
+                            </Link>
+                          </div>
                         </Popup>
                       </Marker>
                     )

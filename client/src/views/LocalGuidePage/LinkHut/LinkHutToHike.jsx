@@ -29,10 +29,11 @@ import useNotification from '../../../hooks/useNotification';
 // Icons
 import { BiReset } from "react-icons/bi";
 import { IoIosSend } from 'react-icons/io'
+import { point } from 'leaflet';
 
 var tj = require("togeojson"),
-  // node doesn't have xml parsing or a dom. use xmldom
-  DOMParser = require("xmldom").DOMParser;
+    // node doesn't have xml parsing or a dom. use xmldom
+    DOMParser = require("xmldom").DOMParser;
 
 const LinkHutToHike = () => {
 
@@ -61,27 +62,27 @@ const LinkHutToHike = () => {
             })
             .finally(() => setLoading(false));
 
-            api
-      .getHikeDetails(hikeId)
-      .then((hikes) => {
-        if (hikes.gpx) {
-          let coord = [];
-          var gpx = new DOMParser().parseFromString(
-            String(hikes.gpx),
-            "text/xml"
-          );
-          let c = tj.gpx(gpx);
-          for (let index = 0; index < c.features.length; index++) {
-            c.features[0].geometry.coordinates.forEach((element) => {
-              coord.push([element[1], element[0]]);
-            });
-          }
-          setCoordinates(coord);
-        }
-      })
-      .catch((err) => {
-          notify.error(err.error);
-      })
+        api
+            .getHikeDetails(hikeId)
+            .then((hikes) => {
+                if (hikes.gpx) {
+                    let coord = [];
+                    var gpx = new DOMParser().parseFromString(
+                        String(hikes.gpx),
+                        "text/xml"
+                    );
+                    let c = tj.gpx(gpx);
+                    for (let index = 0; index < c.features.length; index++) {
+                        c.features[0].geometry.coordinates.forEach((element) => {
+                            coord.push([element[1], element[0]]);
+                        });
+                    }
+                    setCoordinates(coord);
+                }
+            })
+            .catch((err) => {
+                notify.error(err.error);
+            })
     }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
     const handleReset = () => {
@@ -100,21 +101,18 @@ const LinkHutToHike = () => {
             hutsToLink: v
         }
         console.log(data)
-        api.putLinkHutToHike(hikeId,data).then(() => {
+        api.putLinkHutToHike(hikeId, data).then(() => {
             notify.success(`Update completed successfully`);
             navigate(`/hikes/${hikeId}`, { replace: true });
-          })
-          .catch((err) => notify.error(err.error))
-          .finally(() => setLoading(false)); 
+        })
+            .catch((err) => notify.error(err.error))
+            .finally(() => setLoading(false));
     }
-    
-    const handleCurrentHut = (huts) =>{
+
+    const handleCurrentHut = (huts) => {
         console.log(huts)
         setCurrentLinkedHuts(huts)
     }
-    
-    
-
 
     if (!loading) {
         return (
@@ -125,15 +123,17 @@ const LinkHutToHike = () => {
                 <Row>
                     <Col xs={10} sm={5} lg={5} xl={4} className='mb-3 mb-sm-0 me-sm-4'>
                         <h4 className='m-3 fst-italic'>Hut list</h4>
-                        {currentLinkedHuts.map((point, index) => {
-                            return (
-                                <InfoPoint key={index} points={point} eventKeyNumber={index} hikeId={hikeId} />
-                            )
-                        })}
+                        {currentLinkedHuts.length !== 0 ?
+                            currentLinkedHuts.map((point, index) => {
+                                return (
+                                    <InfoPoint key={index} points={point} eventKeyNumber={index} hikeId={hikeId} />
+                                )
+                            })
+                            : <p className='ms-3 fw-bold' style={{ fontSize: 30 }}>No hut linked</p>}
                     </Col>
                     <Col xs={11} sm={{ span: 6 }} lg={{ span: 6 }} xl={{ span: 6, offset: 1 }} className='mt-3 mt-sm-5'>
                         <div className='ms-3 ms-sm-0'>
-                            <MapLinkHut points={points} coordinates = {coordinates} currentLinkedHuts={currentLinkedHuts} setCurrentLinkedHuts={handleCurrentHut}/>
+                            <MapLinkHut points={points} coordinates={coordinates} currentLinkedHuts={currentLinkedHuts} setCurrentLinkedHuts={handleCurrentHut} />
                             <div className=" my-2">
                                 <Button variant='secondary' onClick={() => { handleReset() }} className='me-4'>
                                     <BiReset className='me-1' /> Reset

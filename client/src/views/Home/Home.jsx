@@ -16,7 +16,7 @@ import { useContext } from "react";
 import { Link } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import { FaMountain } from 'react-icons/fa'
-import { GiHut } from 'react-icons/gi'
+import { GiHut, GiMountainClimbing } from 'react-icons/gi'
 
 //Contexts
 import { AuthContext } from '../../contexts/AuthContext'
@@ -42,6 +42,13 @@ const Home = () => {
                             Hikes list
                         </Button>
                     </Link>
+                    {isloggedIn && userInfo.role === 'localGuide' ?
+                        <Link to={"/localGuide/hikes"}>
+                            <Button className="btn-home ms-5" variant='light' size='lg'>
+                                <GiMountainClimbing className='me-2 mb-1' size={25} />
+                                My hikes
+                            </Button>
+                        </Link> : <></>}
                     {isloggedIn && userInfo.role === 'hiker' ?
                         <Link to={"/huts"}>
                             <Button className="btn-home ms-5" variant='light' size='lg'>

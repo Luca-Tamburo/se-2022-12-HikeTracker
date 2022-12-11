@@ -3,7 +3,7 @@
 *
 * Package:         client
 * Module:          src/components/ui-core/Locate
-* File:            AddMarker.jsx
+* File:            MapLinkHut.jsx
 *
 * Copyright (c) 2022 - se2022-Team12
 * All rights reserved.
@@ -55,12 +55,12 @@ const MapLinkHut = (props) => {
         iconSize: [30, 30],
     });
 
-        let linkedPoint =[];
-        props.currentLinkedHuts.forEach(e => {
-            if(e.id !== props.points.startPoint.id && e.id !== props.points.endPoint.id )
-            {
-                linkedPoint.push(e)
-            }});
+    let linkedPoint = [];
+    props.currentLinkedHuts.forEach(e => {
+        if (e.id !== props.points.startPoint.id && e.id !== props.points.endPoint.id) {
+            linkedPoint.push(e)
+        }
+    });
 
     const handleLink = (point) => {
         // let v = props.currentLinkedHuts;
@@ -74,7 +74,7 @@ const MapLinkHut = (props) => {
         console.log(v)
         props.setCurrentLinkedHuts(v)
     } */
- 
+
 
     return (
         <>
@@ -85,40 +85,40 @@ const MapLinkHut = (props) => {
                 />
                 <Marker key={'start'} icon={startIcon} position={[props.points.startPoint.latitude, props.points.startPoint.longitude]}>
                     <Popup>
-                        <span className="fw-bold">{props.points.startPoint.name}</span><br />
+                        <span className="fw-bold" style={{ fontSize: 15 }}>{props.points.startPoint.name}</span><br />
                     </Popup>
                 </Marker>
                 <Marker key={'end'} icon={endIcon} position={[props.points.endPoint.latitude, props.points.endPoint.longitude]}>
                     <Popup>
-                        <span className="fw-bold">{props.points.endPoint.name}</span><br />
+                        <span className="fw-bold" style={{ fontSize: 15 }}>{props.points.endPoint.name}</span><br />
                     </Popup>
                 </Marker>
-                {props.coordinates?<Polyline pathOptions={limeOptions} positions={props.coordinates} />:<></>}
+                {props.coordinates ? <Polyline pathOptions={limeOptions} positions={props.coordinates} /> : <></>}
                 {props.points.possibleLinkedHuts.map((point, index) => {
-                        return (
-                            <Marker key={index} position={[point.latitude, point.longitude]} icon={hutUnlinkedIcon}>
-                                <Popup>
+                    return (
+                        <Marker key={index} position={[point.latitude, point.longitude]} icon={hutUnlinkedIcon}>
+                            <Popup>
                                 <div className="d-flex flex-column">
-                                <p className="fw-bold">{point.name}</p>
-                                    <Button size="sm" onClick={() => { handleLink(point)}}>Link Hut</Button>
+                                    <span className="fw-bold" style={{ fontSize: 15 }}>{point.name}</span>
+                                    <Button size="sm" onClick={() => { handleLink(point) }}>Link Hut</Button>
                                 </div>
-                                </Popup>
-                            </Marker>
-                        )
-                    }
+                            </Popup>
+                        </Marker>
+                    )
+                }
                 )}
                 {linkedPoint.map((point, index) => {
-                        return (
-                            <Marker key={index} position={[point.latitude, point.longitude]} icon={hutIcon}>
-                                <Popup>
+                    return (
+                        <Marker key={index} position={[point.latitude, point.longitude]} icon={hutIcon}>
+                            <Popup>
                                 <div className="d-flex flex-column">
-                                <p className="fw-bold">{point.name}</p>
+                                    <p className="fw-bold" style={{ fontSize: 15 }}>{point.name}</p>
                                     {/* <Button size="sm" onClick={() => { handleUnlink(point)}}> Unlink Hut</Button> */}
                                 </div>
-                                </Popup>
-                            </Marker>
-                        )
-                    }
+                            </Popup>
+                        </Marker>
+                    )
+                }
                 )}
 
 
