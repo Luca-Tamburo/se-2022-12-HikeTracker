@@ -26,7 +26,8 @@ const cleanDb = async () => {
 }
 
 describe("bla bla bla", function () {
-    before(()=>{cleanDb();});
-    ...
+    before(async () => {
+        await cleanDb();
+    });    ...
 
 }

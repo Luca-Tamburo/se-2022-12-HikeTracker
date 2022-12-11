@@ -39,7 +39,7 @@ jest.mock('../../services/api')
 
 // Mock custom components
 const mockFilter = jest.fn();
-jest.mock('../../components/utils/Filter/Filter', () => () => {
+jest.mock('../../components/utils/Filter/Hike/HikeFilter', () => () => {
     mockFilter();
     return <mock-Filter data-testid='Filter' />
 })

@@ -5,7 +5,8 @@ const { iAmTesting, setTesting } = require('../mockDB/iAmTesting');
 setTesting(1);
 const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 
-const { addParkingLot, getParkingLotById} = require("../../dao/parkingLotDao");
+const { addParkingLot} = require("../../dao/parkingLotDao");
+const {getParkingLotById}=require("./mockDAO")
 const { addPoint } = require('../../dao/pointDao');
 
 const cleanDb = async () => {
@@ -32,8 +33,8 @@ describe("test parkingLot", () => {
 
 function testgetParkingLotById(id, wrongId) {
     test("test getParkingLotById", async () => {
-        let parkingLot = await getParkingLotById(id);
-        expect(parkingLot).toEqual({
+        let parkingLot1 = await getParkingLotById(id);
+        expect(parkingLot1).toEqual({
             "id": 1,
             "capacity": 3,
             "pointId": 1
@@ -41,23 +42,22 @@ function testgetParkingLotById(id, wrongId) {
     });
 
     test("test getParkingLotById wrong id", async () => {
-        let parkingLot = await getParkingLotById(wrongId);
-        expect(parkingLot).toEqual(undefined);
+        let parkingLot2 = await getParkingLotById(wrongId);
+        expect(parkingLot2).toEqual(undefined);
     });
 }
 
 function testaddParkingLot() {
     test("test getParkingLotById", async () => {
 
-        const p2 = await addPoint("Monte Ferra", "Peak of Monte Ferra", "gpsCoordinates", 44.6020777802914, 6.98475264944136, 3094.14, null, null, null);
-        const id = await addParkingLot(5,p2);
+        const id = await addParkingLot(5,1);
         let parkingLot = await getParkingLotById(id);
 
         expect(parkingLot).toEqual(
             {
                 "id": 2,
                 "capacity": 5,
-                "pointId": 2
+                "pointId": 1
             }
         );
     });

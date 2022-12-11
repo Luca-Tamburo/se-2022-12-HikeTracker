@@ -71,6 +71,53 @@ const api = {
         })
     },
 
+    getLocalGuideHikes: () => {
+        return new Promise((resolve, reject) => {
+            axios.get(SERVER_URL + `localGuideHikes`, { withCredentials: true })
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err));
+        })
+    },
+
+    getLinkStartEndPoint: (hikeId) => {
+        return new Promise((resolve, reject) => {
+            axios.get(SERVER_URL + `hikeStartEnd/${hikeId}`, { withCredentials: true })
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err));
+        })
+    },
+
+    putLinkStartEndPoint: (hikeId, formData) => {
+        return new Promise((resolve, reject) => {
+            axios.put(SERVER_URL + `hikeStartEnd/${hikeId}`, formData, { withCredentials: true })
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err));
+        })
+    },
+    putLinkHutToHike: (hikeId, formData) => {
+        return new Promise((resolve, reject) => {
+            axios.put(SERVER_URL + `hikeLinkHuts/${hikeId}`, formData, { withCredentials: true })
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err));
+        })
+    },
+
+    getLinkHutToHike: (hikeId) => {
+        return new Promise((resolve, reject) => {
+            axios.get(SERVER_URL + `hikeLinkHuts/${hikeId}`, { withCredentials: true })
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err));
+        })
+    },
+
+    putLinkHutToHike: (hikeId, formData) => {
+        return new Promise((resolve, reject) => {
+            axios.put(SERVER_URL + `hikeLinkHuts/${hikeId}`, formData, { withCredentials: true })
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err));
+        })
+    },
+
     addHike: (formData) => {
         return new Promise((resolve, reject) => {
             axios.post(SERVER_URL + 'hikes', formData, { withCredentials: true })
@@ -92,6 +139,22 @@ const api = {
             axios.post(SERVER_URL + 'parking', formData, { withCredentials: true })
                 .then((res) => resolve(res.data))
                 .catch((err) => reject(err.response.data));
+        })
+    },
+
+    getHuts: () => {
+        return new Promise((resolve, reject) => {
+            axios.get(SERVER_URL + 'huts')
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err.response.data));
+        })
+    },
+
+    getHutDetails: (hikeId) => {
+        return new Promise((resolve, reject) => {
+            axios.get(SERVER_URL + `hutdetails/${hikeId}`, { withCredentials: true })
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err));
         })
     },
 }

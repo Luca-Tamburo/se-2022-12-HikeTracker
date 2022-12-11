@@ -11,15 +11,16 @@
  */
 
 //Imports
-import "./Filter.css";
+import "./HikeFilter.css";
 import { Row, Col, Form, Button } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 import { useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer, Circle, } from "react-leaflet";
 import L from "leaflet";
 
 // Icons
 import { BiReset } from "react-icons/bi";
-import { BsSearch } from "react-icons/bs";
+import { BsSearch, BsInfoCircleFill } from "react-icons/bs";
 import { GiPositionMarker } from "react-icons/gi";
 
 // Helpers
@@ -29,20 +30,20 @@ import {
   getProvinceForRegion,
   getProvinceName,
   getRegionName,
-} from "../../../lib/helpers/location";
+} from '../../../../lib/helpers/location'
 
 // Constants
-import { Filter as constFilter } from "../../../constants/index";
+import { Filter as constFilter } from '../../../../constants/index'
 
 //Hooks
-import LocationMarker from "../../ui-core/locate/LocationMarker";
-import AddMarker from "../../ui-core/locate/AddMarker";
+import LocationMarker from '../../../ui-core/locate/LocationMarker'
+import AddMarker from "../../../ui-core/locate/AddMarker";
 
 const icon = L.icon({
   iconSize: [25, 41],
   iconAnchor: [10, 41],
   popupAnchor: [2, -40],
-  iconUrl: require("../../../assets/mapIcons/mountain.png"),
+  iconUrl: require("../../../../assets/mapIcons/mountain.png"),
   shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png",
 });
 
@@ -406,13 +407,13 @@ const Filter = (props) => {
         <Col>
           <Button
             variant="secondary"
-            className="mt-sm-3 me-sm-3"
+            className="mt-3 me-3"
             onClick={handleReset}
           >
             <BiReset /> Reset
           </Button>
           <Button
-            className="mt-sm-3"
+            className="mt-3"
             onClick={() => {
               handleSearch();
             }}
@@ -420,7 +421,7 @@ const Filter = (props) => {
             <BsSearch /> Search
           </Button>
           {parseInt(range) !== 0 &&
-            <Button className='mt-sm-3 ms-sm-3' variant="info" onClick={() => { handlePosition() }}>
+            <Button className='mt-3 ms-3' variant="info" onClick={() => { handlePosition() }}>
               <GiPositionMarker />Your Position
             </Button>}
         </Col>
@@ -436,14 +437,19 @@ const Filter = (props) => {
                   {marker ?
                     <Circle center={marker.getLatLng()} radius={range} /> : <></>}
                   <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                     url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
                   />
                   {props.hikes.map((hike, index) => {
                     return (
                       <Marker key={index} position={[hike.latitude, hike.longitude]} icon={icon}>
                         <Popup>
-                          {hike.title}
+                          <div className="d-flex flex-column">
+                            <span className="fw-bold mb-2" style={{ fontSize: 18 }}>{hike.title}</span>
+                            <Link to={`/hikes/${hike.id}`}>
+                              <Button variant='success' className="w-100"><BsInfoCircleFill className='me-2' size={22} />See hike details</Button>
+                            </Link>
+                          </div>
                         </Popup>
                       </Marker>
                     )

@@ -21,32 +21,6 @@ const { check, checksValidation } = require("../utils/validationUtil");
 const userDao = require("../dao/userDao"); // module for accessing the users in the DB
 
 
-/*** TEST API ***/
-
-// GET /api/test
-// To test the isLoggedIn function and some checkValidation functions
-// if ok, the response is ciaociao
-
-/*
-request body example
-{
-   "booleanTest":1,
-   "stringTest":"passwod"
-}
-*/
-
-router.put("/test", isLoggedIn,
-    check("booleanTest").exists().withMessage("This field is mandatory").bail()
-        .isBoolean().withMessage("This field must be a Boolean value in the form true/false or 1/0"),
-    check("stringTest").exists().withMessage("This field is mandatory").bail().isString().withMessage("This field must be a string").bail()
-        .isLength({ min: 1, max: 7 }).withMessage("This field length must be from 1 to 7").bail()
-        .matches(/^[A-Za-z0-9]+$/).withMessage("This field must be only made of letters and digits"),
-    checksValidation,
-    (req, res) => {
-        const ciao = "ciaociao";
-        res.json(ciao);
-    });
-
 /*** Users APIs ***/
 
 // POST /api/sessions

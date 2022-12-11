@@ -29,7 +29,7 @@ const cleanDb = async () => {
 
 
 describe("Post.Parking.Hut.APItesting", function () {
-    before(() => { cleanDb(); });
+    before(async () => { await cleanDb(); });
 
     const localGuide = request.agent(server);
 
@@ -503,7 +503,6 @@ describe("Post.Parking.Hut.APItesting", function () {
 
     step('Elimina tutti i file creati', async function () {
         const huts = await hutDao.getHuts();
-        console.log(huts)
         for (let hut of huts) {
             fs.unlink(`./utils/images/huts/${hut.id}_${hut.name.replace(/[ \n\t\r]/g, '_')}.png`, function (err, results) {
                 if (err) console.log(`./utils/images/huts/${hut.id}_${hut.name.replace(/[ \n\t\r]/g, '_')}.png not found`);

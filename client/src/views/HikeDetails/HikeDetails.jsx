@@ -12,8 +12,8 @@
 
 // Imports
 import { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
-import { Row, Col, ListGroup, Button, NavItem, Spinner } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
+import { Row, Col, ListGroup, Button, Spinner } from "react-bootstrap";
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
 
 // Views
@@ -28,20 +28,30 @@ import { AuthContext } from "../../contexts/AuthContext";
 // Hooks
 import useNotification from "../../hooks/useNotification";
 
+// Icons
+import { IoMdDownload } from 'react-icons/io';
+import { MdAddBusiness, MdAddCircle } from 'react-icons/md';
+
+
 var tj = require("togeojson"),
   // node doesn't have xml parsing or a dom. use xmldom
   DOMParser = require("xmldom").DOMParser;
 
 const L = require("leaflet");
+const hutIcon = L.icon({
+  iconUrl: require("../../assets/mapIcons/hut.png"),
+  iconSize: [30, 30],
+});
 
 const limeOptions = { color: "red" };
 
-const HikeDetails = (props) => {
+const HikeDetails = () => {
   const [end, setEnd] = useState(null);
   const [coordinates, setCoordinates] = useState(null);
   const [hike, setHike] = useState(undefined);
   const [start, setStart] = useState(null);
-  const { isloggedIn } = useContext(AuthContext);
+  const [pointList, setPointList] = useState(null);
+  const { userInfo, isloggedIn } = useContext(AuthContext);
   const { hikeId } = useParams();
   const notify = useNotification();
   const [loading, setLoading] = useState(false);
@@ -65,7 +75,14 @@ const HikeDetails = (props) => {
         const endPoint = hikes.pointList.find(p => p.id === hikes.endPointId);
         let s = [startPoint.latitude, startPoint.longitude];
         let e = [endPoint.latitude, endPoint.longitude];
-
+        console.log(hikes)
+        let pList = [];
+        hikes.pointList.map((hike) => {
+          if (hike.id !== startPoint.id && hike.id !== endPoint.id) {
+            pList.push(hike)
+          }
+        })
+        setPointList(pList)
         setStart(s);
         setEnd(e);
         if (hikes.gpx) {
@@ -97,15 +114,8 @@ const HikeDetails = (props) => {
     return (
       <>
         {hike && hike.id > 0 ? (
-          <Col xs={10} className="mx-auto p-0">
-            <img
-              alt="Hike Img"
-              src={hike.photoFile}
-              height="300px"
-              width="1250px"
-              className="mt-3 w-100"
-              style={{ objectFit: "cover" }}
-            />
+          <Col xs={10} className="mx-auto p-0 mt-2">
+            <img alt="Hike Img" src={hike.photoFile} height="300px" width="1250px" className="mt-3 w-100" style={{ objectFit: "cover" }} />
             <div className="d-flex flex-column flex-md-row justify-content-between mt-2 ">
               <h2 className="fw-bold my-3">{hike.title}</h2>
               <div className="d-flex justify-content-between mx-sm-4 my-md-3">
@@ -161,45 +171,56 @@ const HikeDetails = (props) => {
                     />
                     <Marker icon={endIcon} position={end}>
                       <Popup>
-                        End Point <br />
+                        <span className="fw-bold" style={{ fontSize: 15 }}>{hike.pointList.find(p => p.id === hike.endPointId).name}</span><br />
                       </Popup>
                     </Marker>
                     <Marker icon={startIcon} position={start}>
                       <Popup>
-                        Starting Point <br />
+                        <span className="fw-bold" style={{ fontSize: 15 }}>{hike.pointList.find(p => p.id === hike.startPointId).name}</span><br />
                       </Popup>
                     </Marker>
-                    <Polyline
-                      pathOptions={limeOptions}
-                      positions={coordinates}
-                    />
-                  </MapContainer>
+                    {pointList.map((point, index) => {
+                      return (
+                        <Marker key={index} icon={hutIcon} position={[point.latitude, point.longitude]}>
+                          <Popup>
+                            <span className="fw-bold">{point.name}</span><br />
+                          </Popup>
+                        </Marker>)
 
-                  <div className="mt-3">
-                    <div className="btnDiv">
-                      <NavItem
-                        className="navbar"
-                        target="_blank"
-                        role="link"
-                        href={`http://localhost:3001/api/hikegpx/${hikeId}`}
-                        as="a"
-                      >
-                        <Button
-                          variant="primary"
-                          type="submit"
-                          className=" p-3 rounded-3  fw-semibold border "
-                        >
-                          Download GPX Track
-                        </Button>
-                      </NavItem>
-                    </div>
+
+                    })}
+                    <Polyline pathOptions={limeOptions} positions={coordinates} />
+                  </MapContainer>
+                  {/* TODO: Cambiare i link */}
+                  <div className="d-flex flex-column flex-xl-row justify-content-between mt-3">
+                    {(userInfo.role === 'localGuide' && userInfo.id === hike.authorId) &&
+                      <div className="d-flex flex-column flex-md-row justify-content-md-between my-2 ">
+                        <Link to={`/linkHutToHike/${hike.id}`}>
+                          <Button variant="success" className='mt-2 mt-md-0'>
+                            <MdAddBusiness className='me-2' size={25} />
+                            Link hut
+                          </Button>
+                        </Link>
+                        <Link to={`/hikeStartEndPoint/${hike.id}`}>
+                          <Button variant="success" className='mt-2 mt-md-0 ms-xl-2'>
+                            <MdAddCircle className='me-2' size={25} />
+                            Add start/end point
+                          </Button>
+                        </Link>
+                      </div>
+                    }
+                    <Button type="submit">
+                      <a href={`http://localhost:3001/api/hikegpx/${hikeId}`} target="_blank" rel="noreferrer" className="text-white">
+                        <IoMdDownload className='me-2' size={25} />Download GPX Track
+                      </a>
+                    </Button>
                   </div>
                 </Col>
               ) : (
                 <Col xs={7} className="m-0"></Col>
               )}
             </Row>
-          </Col>
+          </Col >
         ) : (
           <>{hike && hike.id === -1 ? <ErrorView></ErrorView> : <></>} </>
         )}
