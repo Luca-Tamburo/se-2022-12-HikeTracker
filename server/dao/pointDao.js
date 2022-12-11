@@ -58,7 +58,7 @@ exports.addPointHike = (hikeId, pointId) => {
 /**
  * Get point by id
  */
- exports.getPointById = (id) => {
+exports.getPointById = (id) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM Point WHERE id = ?';
         db.get(sql, [id], (err, r) => {
@@ -79,7 +79,7 @@ exports.addPointHike = (hikeId, pointId) => {
                         altitude: r.altitude,
                         city: r.city,
                         province: r.province,
-                        region:r.region
+                        region: r.region
                     }
                 );
             }
@@ -90,7 +90,7 @@ exports.addPointHike = (hikeId, pointId) => {
 /**
  * Get point by type
  */
- exports.getPointByType = (type) => {
+exports.getPointByType = (type) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM Point WHERE type = ?';
         db.all(sql, [type], (err, r) => {
@@ -104,14 +104,14 @@ exports.addPointHike = (hikeId, pointId) => {
                     const d = {
                         id: p.id,
                         name: p.name,
-                        description: p.description,
                         type: p.type,
+                        description: p.description,
                         latitude: p.latitude,
                         longitude: p.longitude,
                         altitude: p.altitude,
                         city: p.city,
                         province: p.province,
-                        region:p.region
+                        region: p.region
                     }
                     return d;
                 })
