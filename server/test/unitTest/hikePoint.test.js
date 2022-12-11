@@ -8,6 +8,7 @@ const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 const { addHike} = require("../../dao/hikeDao");
 const { addPoint, addPointHike } = require('../../dao/pointDao');
 const { addUser } = require('../../dao/userDao');
+const { getHikePointCorrispondance, deleteHikePointCorrispondance} = require('../../dao/hikePointDao');
 const { getRefPointsByHikeId} = require('../../dao/hikePointDao');
 
 const cleanDb = async () => {
@@ -34,8 +35,31 @@ describe("test hikePoint", () => {
     });
     
     // Call tests
+    testgetHikePointCorrispondance(1, 3, 1) // hike id, wrongId, pointId
+    testdeleteHikePointCorrispondance(1, 1)
     testgetRefPointsByHikeId(1, 3) // hike id, wrongId
 });
+
+function testgetHikePointCorrispondance(id, wongId, pointId) {
+    test("test getHikePointCorrispondance", async () => {
+
+        let correspondance1 = await getHikePointCorrispondance(id,pointId);
+        expect(correspondance1).toEqual(true);
+    });
+
+    test("test getHikePointCorrispondance wrong id", async () => {
+        let correspondance2 = await getHikePointCorrispondance(wongId,pointId);
+        expect(correspondance2).toEqual(false);
+    });
+}
+
+function testdeleteHikePointCorrispondance(id, pointId) {
+    test("test deleteHikePointCorrispondance", async () => {
+        await deleteHikePointCorrispondance(id,pointId);
+        let correspondance3 = await getHikePointCorrispondance(id,pointId);
+        expect(correspondance3).toEqual(false);
+    });
+}
 
 function testgetRefPointsByHikeId(id, wongId) {
     test("test getRefPointsByHikeId", async () => {
