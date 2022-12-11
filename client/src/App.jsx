@@ -99,6 +99,7 @@ const App = () => {
               </Route>
               <Route element={<Utils.LocalGuideProtectedRoute />} >
                 <Route path='/hikeStartEndPoint/:hikeId' element={<View.LinkStartEndPoint />} />
+                <Route path='/linkHutToHike/:hikeId' element={<View.LinkHutToHike />} />
                 <Route path='/localGuide' element={<View.LocalGuidePage />} />
                 <Route path='/localGuide/hikes' element={<View.LocalGuideHikes />} />
                 <Route path='/addHike' element={<View.AddHike userInfo={userInfo} />} />

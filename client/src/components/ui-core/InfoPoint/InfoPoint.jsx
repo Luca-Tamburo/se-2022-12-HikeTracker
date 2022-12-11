@@ -11,9 +11,12 @@
 */
 
 // Imports
+import { useLocation } from 'react-router-dom';
 import { Accordion } from 'react-bootstrap'
 
-const InfoPoint = ({ points, eventKeyNumber }) => {
+const InfoPoint = ({ points, eventKeyNumber, hikeId }) => {
+
+    const location = useLocation();
 
     // Function to print the first letter of the type field in upper case
     const firstLetterUpperCase = (name) => {
@@ -29,10 +32,12 @@ const InfoPoint = ({ points, eventKeyNumber }) => {
                     <b>{points.name}</b>
                 </Accordion.Header>
                 <Accordion.Body>
-                    <p>
-                        <b>Type: </b>
-                        {firstLetterUpperCase(points.type)}
-                    </p>
+                    {location.path === `/linkHutToHike/${hikeId}` &&
+                        <p>
+                            <b>Type: </b>
+                            {firstLetterUpperCase(points.type)}
+                        </p>
+                    }
                     <p>
                         <b>{points.region}</b>,<b>{points.province}</b>,<b>{points.city}</b>
                     </p>
