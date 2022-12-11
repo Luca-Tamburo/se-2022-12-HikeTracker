@@ -162,7 +162,6 @@ exports.getHikesOfAuthor = (authorId) => {
     });
 }
 
-
 /**
  * Get hike gpx by hike id
  */
