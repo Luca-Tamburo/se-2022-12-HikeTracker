@@ -173,8 +173,8 @@ router.post('/hikes',
             let pointTwoId = await pointDao.addPoint(cpr.name, cpr.name, cpr.type, finalTrackPoint.latitude, finalTrackPoint.longitude, finalTrackPoint.elevation, cpr.city, cpr.province, cpr.region);
 
             const hikeId = await hikeDao.addHike(req.body.title, req.body.description, totalLength, req.body.expectedTime, ascent, difficultyFormatter(req.body.difficulty), pointOneId, pointTwoId, req.user.id, dayjs().format("YYYY-MM-DD"), uploadedImage === true ? null : photoUrl);
-            // await pointDao.addPointHike(hikeId, pointOneId);
-            // await pointDao.addPointHike(hikeId, pointTwoId);
+            //            await pointDao.addPointHike(hikeId, pointOneId);
+            //            await pointDao.addPointHike(hikeId, pointTwoId);
 
             //Create gpx file and save it as IDHIKE_TITOLOHIKE.gpx
             fs.writeFileSync(`./utils/gpxFiles/${hikeId}_${req.body.title.replace(/[ \n\t\r]/g, '_')}.gpx`, `${req.files.File.data}`, function (err) {
