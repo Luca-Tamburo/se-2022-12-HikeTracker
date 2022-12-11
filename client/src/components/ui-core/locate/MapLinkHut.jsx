@@ -63,8 +63,6 @@ const MapLinkHut = (props) => {
     });
 
     const handleLink = (point) => {
-        // let v = props.currentLinkedHuts;
-        // v.push(point);
         props.setCurrentLinkedHuts(old => [...old, point])
     }
 
@@ -75,6 +73,7 @@ const MapLinkHut = (props) => {
         props.setCurrentLinkedHuts(v)
     } */
 
+    console.log(props.points.possibleLinkedHuts.find((p) => p.id !== props.points.startPoint.id))
 
     return (
         <>
@@ -83,28 +82,50 @@ const MapLinkHut = (props) => {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                     url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
                 />
-                <Marker key={'start'} icon={startIcon} position={[props.points.startPoint.latitude, props.points.startPoint.longitude]}>
-                    <Popup>
-                        <span className="fw-bold" style={{ fontSize: 15 }}>{props.points.startPoint.name}</span><br />
-                    </Popup>
-                </Marker>
-                <Marker key={'end'} icon={endIcon} position={[props.points.endPoint.latitude, props.points.endPoint.longitude]}>
-                    <Popup>
-                        <span className="fw-bold" style={{ fontSize: 15 }}>{props.points.endPoint.name}</span><br />
-                    </Popup>
-                </Marker>
+                {!props.points.possibleLinkedHuts.find((p) => p.id !== props.points.startPoint.id) && !props.currentLinkedHuts.find((c)=> c.id === props.points.startPoint.id) ?
+                    <Marker key={'start-link'} icon={startIcon} position={[props.points.startPoint.latitude, props.points.startPoint.longitude]}>
+                        <Popup>
+                            <div className="d-flex flex-column">
+                                <span className="fw-bold" style={{ fontSize: 15 }}>{props.points.startPoint.name}</span><br />
+                                <Button size="sm" onClick={() => { handleLink(props.points.startPoint) }}>Link Hut</Button>
+                            </div>
+                        </Popup>
+                    </Marker> :
+                    <Marker key={'start-nl'} icon={startIcon} position={[props.points.startPoint.latitude, props.points.startPoint.longitude]}>
+                        <Popup>
+                            <span className="fw-bold" style={{ fontSize: 15 }}>{props.points.startPoint.name}</span><br />
+                        </Popup>
+                    </Marker>}
+                {!props.points.possibleLinkedHuts.find((p) => p.id !== props.points.endPoint.id) && !props.currentLinkedHuts.find((c)=> c.id === props.points.endPoint.id)?
+                    <Marker key={'end'} icon={endIcon} position={[props.points.endPoint.latitude, props.points.endPoint.longitude]}>
+                        <Popup>
+                            <div className="d-flex flex-column">
+                                <span className="fw-bold" style={{ fontSize: 15 }}>{props.points.endPoint.name}</span><br />
+                                <Button size="sm" onClick={() => { handleLink(props.points.endPoint) }}>Link Hut</Button>
+                            </div>
+                        </Popup>
+                    </Marker>
+                    : <Marker key={'end'} icon={endIcon} position={[props.points.endPoint.latitude, props.points.endPoint.longitude]}>
+                        <Popup>
+                            <span className="fw-bold" style={{ fontSize: 15 }}>{props.points.endPoint.name}</span><br />
+                        </Popup>
+                    </Marker>}
                 {props.coordinates ? <Polyline pathOptions={limeOptions} positions={props.coordinates} /> : <></>}
                 {props.points.possibleLinkedHuts.map((point, index) => {
-                    return (
-                        <Marker key={index} position={[point.latitude, point.longitude]} icon={hutUnlinkedIcon}>
-                            <Popup>
-                                <div className="d-flex flex-column">
-                                    <span className="fw-bold" style={{ fontSize: 15 }}>{point.name}</span>
-                                    <Button size="sm" onClick={() => { handleLink(point) }}>Link Hut</Button>
-                                </div>
-                            </Popup>
-                        </Marker>
-                    )
+                    let find = linkedPoint.find((p) => p.id === point.id)
+                    console.log(find)
+                    if (!find && point.id !== props.points.startPoint.id && point.id !== props.points.endPoint.id) {
+                        return (
+                            <Marker key={index} position={[point.latitude, point.longitude]} icon={hutUnlinkedIcon}>
+                                <Popup>
+                                    <div className="d-flex flex-column">
+                                        <span className="fw-bold" style={{ fontSize: 15 }}>{point.name}</span>
+                                        <Button size="sm" onClick={() => { handleLink(point) }}>Link Hut</Button>
+                                    </div>
+                                </Popup>
+                            </Marker>
+                        )
+                    }
                 }
                 )}
                 {linkedPoint.map((point, index) => {

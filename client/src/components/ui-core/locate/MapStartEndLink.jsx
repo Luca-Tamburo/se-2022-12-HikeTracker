@@ -11,10 +11,8 @@
 */
 
 //Imports
-import { useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import getCityProvinceRegion from "../../../services/geoApi";
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
 import { Button } from "react-bootstrap";
 
@@ -34,25 +32,6 @@ const iconParking = L.icon({
     shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
 });
 const MapStartEndLink = (props) => {
-    /* let icon;
-    const map = useMapEvents({
-      click: async (e) => {
-        const { lat, lng } = e.latlng;
-        let data = await getCityProvinceRegion(lat, lng)
-        if (props.marker) {
-          map.removeLayer(props.marker)
-        }
-        if (props.hut) { icon = iconHut }
-        else { icon = iconParking }
-        let marker = L.marker([lat, lng], { icon });
-        let popup = L.popup().setContent(`<center><b>${data.region} <br/> ${data.province} <br/>${data.city}</b><center/>`)
-        marker.bindPopup(popup).openPopup();
-        const circle = L.circle(marker.getLatLng(), 10);
-        marker.addTo(map)
-        props.saveMarkers(marker, circle);
-      }
-    });
-    return null; */
     const startIcon = L.icon({
         iconUrl: require("../../../assets/mapIcons/start.png"),
         iconSize: [30, 30],
@@ -70,6 +49,7 @@ const MapStartEndLink = (props) => {
         iconSize: [30, 30],
     });
     const handleEndPoint = (point) => {
+
         props.setEnd(point)
 
     }
@@ -92,7 +72,22 @@ const MapStartEndLink = (props) => {
         let p = possibleStartEnd.find((point) => { return e.id === point.id })
         if (!p) { possibleStart.push(e) }
     });
-    console.log(props.currentStart)
+
+    if(props.points.currentStartPoint.id != props.currentStart.id){
+        let p = props.points.possibleEndPoints.find((point) => { return props.points.currentStartPoint.id === point.id })
+        if(p){possibleStartEnd.push(p);
+        possibleEnd = possibleEnd.filter((point)=> point.id !== p.id)}
+    }
+
+    if(props.points.currentEndPoint.id != props.currentEnd.id){
+        let p = props.points.possibleStartingPoints.find((point) => { return props.points.currentStartPoint.id === point.id })
+        if(p){possibleStartEnd.push(p);
+        possibleStart = possibleStart.filter((point)=> point.id !== p.id)
+    }
+
+    }
+
+    console.log(props.points)
 
 
     return (
@@ -102,8 +97,23 @@ const MapStartEndLink = (props) => {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                     url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
                 />
+                {possibleStartEnd.map((point, index) => {
+                    if (props.currentStart.id !== point.id) {
+                        return (
+                            <Marker key={index} position={[point.latitude, point.longitude]} icon={point.type === 'hut' ? hutIcon : parkingIcon}>
+                                <Popup>
+                                    <div className="d-flex flex-column">
+                                        <p className="fw-bold my-2" style={{ fontSize: 15 }}>{point.name}</p>
+                                        <Button className="mb-1 w-100" onClick={() => { handleEndPoint(point) }}>Set as end point</Button>
+                                        <Button className='w-100' onClick={() => { handleStartPoint(point) }}>Set as start point</Button>
+                                    </div>
+                                </Popup>
+                            </Marker>
+                        )
+                    }
+                })}
                 {possibleEnd.map((point, index) => {
-                    if (props.points.currentStartPoint.id !== point.id) {
+                    if (props.currentStart.id !== point.id) {
                         return (
                             <Marker key={index} position={[point.latitude, point.longitude]} icon={point.type === 'hut' ? iconHut : iconParking}>
                                 <Popup>
@@ -117,27 +127,12 @@ const MapStartEndLink = (props) => {
                     }
                 })}
                 {possibleStart.map((point, index) => {
-                    if (props.points.currentEndPoint.id !== point.id) {
+                    if (props.currentEnd.id !== point.id) {
                         return (
                             <Marker key={index} position={[point.latitude, point.longitude]} icon={point.type === 'hut' ? iconHut : iconParking}>
                                 <Popup>
                                     <div className="d-flex flex-column">
                                         <p className="fw-bold my-2" style={{ fontSize: 15 }}>{point.name}</p>
-                                        <Button className='w-100' onClick={() => { handleStartPoint(point) }}>Set as start point</Button>
-                                    </div>
-                                </Popup>
-                            </Marker>
-                        )
-                    }
-                })}
-                {possibleStartEnd.map((point, index) => {
-                    if (props.points.currentStartPoint.id !== point.id) {
-                        return (
-                            <Marker key={index} position={[point.latitude, point.longitude]} icon={point.type === 'hut' ? hutIcon : parkingIcon}>
-                                <Popup>
-                                    <div className="d-flex flex-column">
-                                        <p className="fw-bold my-2" style={{ fontSize: 15 }}>{point.name}</p>
-                                        <Button className="m-1 w-100" onClick={() => { handleEndPoint(point) }}>Set as end point</Button>
                                         <Button className='w-100' onClick={() => { handleStartPoint(point) }}>Set as start point</Button>
                                     </div>
                                 </Popup>

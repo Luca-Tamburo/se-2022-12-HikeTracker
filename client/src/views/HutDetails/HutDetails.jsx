@@ -66,7 +66,7 @@ const HutDetails = () => {
     return (
       <>
         {hut && hut.id > 0 ? (
-          <Col xs={10} className="mx-auto p-0">
+          <Col xs={10} className="mx-auto p-0 mb-3">
             <img
               alt="Hut Img"
               src={hut.photoFile}

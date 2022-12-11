@@ -69,32 +69,17 @@ const LinkStartEndPoint = () => {
 
     const handleSave = () => {
         let data;
-        if (currentStart.id !== start.id && currentEnd.id !== end.id) {
-            data = {
-                startPointId: currentStart.id,
-                endPointId: currentEnd.id
-            }
-            add(hikeId,data);
+        data={
+            startPointId: currentStart.id === start.id?undefined:currentStart.id,
+            endPointId: currentEnd.id === end.id?undefined:currentEnd.id,
         }
-        else if (currentStart.id === start.id) {
-            data = {
-                endPointId: currentEnd.id
-            }
-            add(hikeId,data);
-
-        }
-        else if (currentEnd.id === end.id){
-            data = {
-                startPointId: currentStart.id,
-            }
-            add(hikeId,data);
-        }
+        add(hikeId,data);
     }
-
+    
     const add = (hikeId, data)=>{
         api.putLinkStartEndPoint(hikeId,data).then(() => {
             notify.success(`Update completed successfully`);
-            navigate("/", { replace: true });
+            navigate(`/hikes/${hikeId}`, { replace: true });
           })
           .catch((err) => notify.error(err.error))
           .finally(() => setLoading(false));
