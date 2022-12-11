@@ -11,7 +11,7 @@
     "test_coverage": "jest --coverage",
     "test:cov": "jest --watchAll --coverage --testResultsProcessor=jest-sonar-reporter --runInBand",
     "test:unit": "jest --runInBand --coverage",
-    "test_integration": "npx mocha test/integrationTest  --runInBand --require mocha-steps --reporter mochawesome --timeout 30000 --exit"
+    "test_integration": "npx mocha test/integrationTest  --runInBand --require mocha-steps --reporter mochawesome --timeout 30000 --exit",
     "test_integration_coverage": "nyc mocha test/integrationTest  --runInBand --require mocha-steps --reporter mochawesome --timeout 30000 --exit"
   },
   "author": "",
