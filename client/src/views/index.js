@@ -23,7 +23,9 @@ import Home from './Home/Home';
 import Hut from './Hut/Hut';
 import HutDetails from './HutDetails/HutDetails';
 import Login from './Login/Login';
+import LinkStartEndPoint from './LocalGuidePage/LinkPoint/LinkStartEndPoint';
 import LocalGuidePage from './LocalGuidePage/LocalGuidePage';
+import LocalGuideHikes from './LocalGuidePage/Hikes/LocalGuideHikes';
 import Register from './Register/Register';
 import RegisterRole from './Register/RegisterRole';
 
@@ -39,7 +41,9 @@ export {
     Home,
     Hut,
     HutDetails,
+    LinkStartEndPoint,
     Login,
+    LocalGuideHikes,
     LocalGuidePage,
     Register,
     RegisterRole,
