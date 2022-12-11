@@ -124,7 +124,7 @@ exports.getHikes = () => {
 /**
  * Get localguide inserted hikes from the system (general information) 
  */
- exports.getHikesOfAuthor = (authorId) => {
+exports.getHikesOfAuthor = (authorId) => {
     return new Promise((resolve, reject) => {
         const sql = "SELECT Hike.id AS id, Hike.title AS title, Hike.description AS description,Hike.length AS length, Hike.expectedTime as expectedTime, Hike.ascent as ascent, Hike.difficulty as difficulty,"
             + " Hike.uploadDate AS uploadDate, Hike.photoFile AS photoFile,"
