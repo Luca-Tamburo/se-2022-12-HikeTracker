@@ -59,6 +59,19 @@ sections:
   - Total hours estimated &rarr; 7h
   - Total hours spent &rarr; 7h
 
+- Technical Debt management:
+  - Total hours estimated &rarr; 4h
+  - Total hours spent &rarr; 4h
+  - Hours estimated for remediation by SonarQube &rarr; 41h
+  - Hours estimated for remediation by SonarQube only for the selected and planned issues &rarr; 25h
+  - Hours spent on remediation &rarr; 3h
+  - debt ratio (as reported by SonarQube under "Measures-Maintainability") &rarr; 0.3%
+  - rating for each quality characteristic reported in SonarQube under "Measures" (namely reliability, security, maintainability)
+    - reliability &rarr; A
+    - security &rarr; A
+    - maintainability &rarr; A
+
+
 ## ASSESSMENT
 
 - What caused your errors in estimation (if any)?
@@ -81,9 +94,9 @@ sections:
 
   - No one.
 
-- One thing you are proud of as a Team!!
-
-  - We archived our goals.
+- Improvement goals for the next sprint and how to achieve them (techincal tastk, team coordination, etc.)
+  - Improve test coverage, achievable by adding specific tasks
+  - Higher productivity, achievable by merging different part of the project earlier (possibly as soon as they are ready)
 
 ## Time report from youtrack
 
