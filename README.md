@@ -629,7 +629,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   - Response body: _nothing_
 
 
-  - GET `/hikeLinkHuts/:hikeId`
+- GET `/hikeLinkHuts/:hikeId`
   - Description: Retrieve the start/end point, current linked huts possible ones of an hike
   - Request body: _nothing_
   - Response: `200 OK` (success), `422` if the :hikeId format is wrong,or if the localguide did not insert that hike `503 Service Unavailable` (generic error).
@@ -715,6 +715,37 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
   - Response: `204` (success), `422` if the localguide did not upload that hike or if the input is not correct, `404` if something is not found, `503 Service Unavailable` (generic error).
   - Response body: _nothing_
+
+- GET `/isHikeInProgress/:hikeId`
+  - Description: Retrieve the infos about the starting status of an hike for a logged in hiker. If a hiker has already started an other hike, those infos are given
+  - Request body: _nothing_
+  - Response: `200 OK` (success), `422` if the :hikeId format is wrong,  `401` if who require the api is not logged in as hiker, `404` if the hike does not exist, `503 Service Unavailable` (generic error).
+  - Response body: infos about started hike
+
+  ```json
+  {
+    "inProgress": 0,
+    "startTime": undefined,
+    "startedHikeId":undefined
+  }
+
+  OR
+
+  {
+    "inProgress": 1,
+    "startTime": "2022-05-04 22:22:22",
+    "startedHikeId":undefined
+  }
+
+  OR
+
+  {
+    "inProgress": -1,
+    "startTime": undefined,
+    "startedHikeId":12
+  }
+
+  ```
 
 ## Database Tables
 
