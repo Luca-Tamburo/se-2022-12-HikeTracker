@@ -96,7 +96,6 @@ router.post('/startHike',
             const terminatedHikes = await hikePerformanceDao.getTerminatedHikes(userId);
             for (let terminatedHike of terminatedHikes) {
 
-                console.log(terminatedHike);
                 const terminatedHikeStartTime = dayjs(terminatedHike.startTime, 'YYYY-MM-DD HH:mm:ss', true);
                 const terminatedHikeTerminateTime = dayjs(terminatedHike.terminateTime, 'YYYY-MM-DD HH:mm:ss', true);
                 //se il mio startTime !is before tst e !isafter ttt
@@ -122,7 +121,6 @@ router.post('/startHike',
 
             const a = dayjs("2022-05-05 12:12:12", 'YYYY-MM-DD HH:mm:ss', true);
             const b = dayjs("2022-05-05 12:12:13", 'YYYY-MM-DD HH:mm:ss', true);
-            console.log("a: "+a+"\nb: "+b); 
 
             return res.status(201).json({ message: "Hike started" });
 
