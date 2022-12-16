@@ -38,7 +38,7 @@ describe("test hikes", () => {
     testgetPointsByHikeId(1) // hike id
     testgetHikeAuthor(1, 3) // hike id, wrongId 
     testgetStartEndPointDistanceData(1, 3) // hike id, wrongId
-    testgetHikesOfAuthor(3) // author id
+    testgetHikesOfAuthor(4) // author id
 });
 
 function testgetHikes() {
@@ -55,7 +55,7 @@ function testgetHikes() {
                 "difficulty": "Professional Hiker",
                 "authorName": "Antonio",
                 "authorSurname": "Conte",
-                "authorId":3,
+                "authorId":4,
                 "uploadDate": "2022-01-10",
                 "photoFile": "https://images.unsplash.com/1",
                 "latitude": 44.5742508675903,
@@ -75,7 +75,7 @@ function testgetHikes() {
                 "difficulty": "Professional Hiker",
                 "authorName": "Antonio",
                 "authorSurname": "Conte",
-                "authorId":3,
+                "authorId":4,
                 "uploadDate": "2022-04-12",
                 "photoFile": "https://images.unsplash.com/2",
                 "latitude": 44.5742508675903,
@@ -103,7 +103,7 @@ function testgetDetailsByHikeId(id, wongId) {
                 "description": "Leaving the car in the large parking lot ...",
                 "authorName": "Antonio",
                 "authorSurname": "Conte",
-                "authorId":3,
+                "authorId":4,
                 "uploadDate": "2022-01-10",
                 "photoFile": "https://images.unsplash.com/1",
                 "length": 13,
@@ -172,7 +172,7 @@ function testgetPointsByHikeId(id) {
 function testgetHikeAuthor(id, wongId) {
     test("test getHikeAuthor", async () => {
         let authorId1 = await getHikeAuthor(id);
-        expect(authorId1).toEqual(3);
+        expect(authorId1).toEqual(4);
     });
 
     test("test getHikeAuthor wrong id", async () => {
@@ -213,7 +213,7 @@ function testgetHikesOfAuthor(authorId) {
                 "difficulty": "Professional Hiker",
                 "authorName": "Antonio",
                 "authorSurname": "Conte",
-                "authorId": 3,
+                "authorId": 4,
                 "uploadDate": "2022-01-10",
                 "photoFile": "https://images.unsplash.com/1",
                 "latitude": 44.5742508675903,
@@ -233,7 +233,7 @@ function testgetHikesOfAuthor(authorId) {
                 "difficulty": "Professional Hiker",
                 "authorName": "Antonio",
                 "authorSurname": "Conte",
-                "authorId": 3,
+                "authorId": 4,
                 "uploadDate": "2022-04-12",
                 "photoFile": "https://images.unsplash.com/2",
                 "latitude": 44.5742508675903,

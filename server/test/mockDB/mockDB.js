@@ -15,8 +15,10 @@ const createDatabase = async () => {
     await newHut();
     await newHikePoint();
     await newHike();
+    await newHikePerformance();
     await addUser("aldobaglio@gmail.com", "aldobaglio", "localGuide", "aldo", "baglio", "M", "+393315658745", "password", 1);
     await addUser("antonioconte@gmail.com", "antonioconte", "localGuide", "antonio", "conte", "M", "+393564896545", "password", 0);
+    await addUser("silvioberlusconi@gmail.com", "silvioberlusconi", "hiker", "silvio", "berlusconi", "M", "+393312456543", "password", 1);
 }
 
 const deleteDatabase = async () => {
@@ -27,6 +29,7 @@ const deleteDatabase = async () => {
     await newHut();
     await newHikePoint();
     await newHike();
+    await newHikePerformance();
     await deleteTables();
 
 }
@@ -45,6 +48,15 @@ const deleteTables = () => {
         }),
         new Promise(async (resolve, reject) => {
             const sql = "DELETE FROM HikePoint";
+            db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                } else
+                    resolve('done');
+            });
+        }),
+        new Promise(async (resolve, reject) => {
+            const sql = "DELETE FROM HikePerformance";
             db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -282,6 +294,30 @@ function newHikePoint() {
             "FOREIGN KEY(pointId) REFERENCES Point(id), " +
             "PRIMARY KEY(hikeId,pointId) " +
             ")";
+        db.run(sql, (err) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve('done');
+        });
+    });
+}
+
+function newHikePerformance() {
+    return new Promise((resolve, reject) => {
+        const sql =
+            "CREATE TABLE IF NOT EXISTS HikePerformance ( " +
+            "id	INTEGER, " +
+            "startTime	TEXT, " +
+            "terminateTime	TEXT, " +
+            "hikeId	INTEGER, " +
+            "userId	INTEGER, " +
+            "PRIMARY KEY(id AUTOINCREMENT), " +
+            "FOREIGN KEY(hikeId) REFERENCES Hike(id), " +
+            "FOREIGN KEY(userId) REFERENCES User(id) " +
+            ") "
+
         db.run(sql, (err) => {
             if (err) {
                 reject(err);
