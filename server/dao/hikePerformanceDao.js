@@ -71,7 +71,7 @@ exports.getTerminatedHikes = (userId) => {
 
 exports.addHikePerformance = (startTime, hikeId, userId) => {
     return new Promise((resolve, reject) => {
-        let sql = "INSERT INTO HikePerformance(startTime, hikeId, userId) VALUES (?,?,?)";
+        const sql = "INSERT INTO HikePerformance(startTime, hikeId, userId) VALUES (?,?,?)";
         db.run(sql, [startTime, hikeId, userId],
             function (err) {
                 if (err) {
@@ -82,3 +82,20 @@ exports.addHikePerformance = (startTime, hikeId, userId) => {
             });
     });
 }
+
+exports.terminateHikePerformance = (terminateTime,id) => {
+    return new Promise((resolve, reject) => {
+
+        const sql = "UPDATE HikePerformance SET terminateTime=? WHERE id=?";
+        db.run(sql, [terminateTime, id], (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve("ok");
+            }
+        });
+
+    });
+}
+
+

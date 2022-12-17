@@ -121,7 +121,7 @@ router.post('/startHike',
                     &&
                     (!startTime.isAfter(terminatedHikeTerminateTime))
                 )
-                    return res.status(422).json({ error: `You want to start an hike in a time period where you were hiking hike ${terminatedHike.hikeId}` });
+                    return res.status(422).json({ error: `You want to start an hike in a time period where you were hiking an other hike` });
             }
 
             //ORA HO FATTO TUTTI I CONTROLLI E DEVO FARE L'INSERIMENTO DELLA PERFORMANCE NEL DB
@@ -185,15 +185,15 @@ router.post('/terminateHike',
                     &&
                     (!terminateTime.isBefore(terminatedHikeStartTime))
                 )
-                    return res.status(422).json({ error: `You want to terminate an hike in a time period where you were hiking hike ${terminatedHike.hikeId}` });
+                    return res.status(422).json({ error: `You want to terminate an hike in a time period where you already hiked other hikes` });
             }
 
             //ORA HO FATTO TUTTI I CONTROLLI E DEVO FARE L'INSERIMENTO DELLA PERFORMANCE NEL DB
 
             //faccio la put
-            //   await hikePerformanceDao.addHikePerformance(req.body.startTime, hikeId, userId);
+            await hikePerformanceDao.terminateHikePerformance(req.body.terminateTime, startedHike.id);
 
-            return res.status(201).json({ message: "Hike started" });
+            return res.status(201).json({ message: "Hike terminated" });
         } catch (error) {
             res.status(503).json({ error: `Service unavailable` });
         }
