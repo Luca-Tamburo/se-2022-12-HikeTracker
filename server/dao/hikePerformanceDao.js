@@ -70,7 +70,7 @@ exports.getTerminatedHikes = (userId) => {
 }
 
 exports.addHikePerformance = (startTime, hikeId, userId) => {
-    return new P++romise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         let sql = "INSERT INTO HikePerformance(startTime, hikeId, userId) VALUES (?,?,?)";
         db.run(sql, [startTime, hikeId, userId],
             function (err) {
