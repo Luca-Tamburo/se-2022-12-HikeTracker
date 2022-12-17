@@ -51,7 +51,7 @@ exports.getStartedHikeByUserId = (userId) => {
 exports.getTerminatedHikes = (userId) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM HikePerformance WHERE terminateTime IS NOT ? AND userId = ?';
-        db.all(sql, [null,userId], (err, rows) => {
+        db.all(sql, [null, userId], (err, rows) => {
             if (err) {
                 reject(err);
             }
@@ -66,5 +66,19 @@ exports.getTerminatedHikes = (userId) => {
             ));
             resolve(terminatedHikes);
         });
+    });
+}
+
+exports.addHikePerformance = (startTime, hikeId, userId) => {
+    return new P++romise((resolve, reject) => {
+        let sql = "INSERT INTO HikePerformance(startTime, hikeId, userId) VALUES (?,?,?)";
+        db.run(sql, [startTime, hikeId, userId],
+            function (err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(this.lastID);
+                }
+            });
     });
 }

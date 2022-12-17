@@ -78,7 +78,13 @@ router.post('/startHike',
 
         try {
             const userId = req.user.id;
+            const hikeId = parseInt(req.body.hikeId);
             const startTime = dayjs(req.body.startTime, 'YYYY-MM-DD HH:mm:ss', true);
+
+            const hike = await hikeDao.getDetailsByHikeId(hikeId);
+
+            if (hike === undefined)
+                return res.status(404).json({ error: `Hike not found` });
 
             //startTime non deve essere nel futuro
             const now = dayjs();
@@ -88,7 +94,7 @@ router.post('/startHike',
             //controllo che l'utente non abbia altre hike iniziate e non concluse
             const startedHike = await hikePerformanceDao.getStartedHikeByUserId(userId); //return the hike that the user started
             if (startedHike !== undefined)
-                return res.status(422).json({ error: `Can you double your self? You already started an hike` });
+                return res.status(422).json({ error: `Can you double your self? You already started the hike ${startedHike.hikeId}` });
 
 
             //controllo che non ci siano altre hike iniziate prima dello startTime inserito ora e terminate dopo lo startTime inserito 
@@ -99,7 +105,7 @@ router.post('/startHike',
                 const terminatedHikeStartTime = dayjs(terminatedHike.startTime, 'YYYY-MM-DD HH:mm:ss', true);
                 const terminatedHikeTerminateTime = dayjs(terminatedHike.terminateTime, 'YYYY-MM-DD HH:mm:ss', true);
                 //se il mio startTime !is before tst e !isafter ttt
- //1000
+                //1000
                 if (
                     //cosa vuol dire il -1000?
                     //tengo 1 secondo di spazio tra quando inizi una nuova hike e quando avevi iniziato una vecchia hike
@@ -111,23 +117,86 @@ router.post('/startHike',
                     //inizia la hike che avevi già iniziato
                     //è più che altro un salvagente per i casi estremi, non dovremmo mai trovarci in una situazione del genere... 
                     //... specie nella demo!!! :)
-                    (!startTime.isBefore(terminatedHikeStartTime-1000)) 
+                    (!startTime.isBefore(terminatedHikeStartTime - 1000))
                     &&
                     (!startTime.isAfter(terminatedHikeTerminateTime))
                 )
                     return res.status(422).json({ error: `You want to start an hike in a time period where you were hiking hike ${terminatedHike.hikeId}` });
-
             }
 
-            const a = dayjs("2022-05-05 12:12:12", 'YYYY-MM-DD HH:mm:ss', true);
-            const b = dayjs("2022-05-05 12:12:13", 'YYYY-MM-DD HH:mm:ss', true);
+            //ORA HO FATTO TUTTI I CONTROLLI E DEVO FARE L'INSERIMENTO DELLA PERFORMANCE NEL DB
+
+            //faccio la put
+            await hikePerformanceDao.addHikePerformance(req.body.startTime, hikeId, userId);
 
             return res.status(201).json({ message: "Hike started" });
-
         } catch (error) {
             res.status(503).json({ error: `Service unavailable` });
         }
+    });
 
+router.post('/terminateHike',
+    check('hikeId').exists().withMessage("This field is mandatory").bail().isInt({ gt: 0 }).withMessage('hikeId format is wrong'),
+    check("terminateTime").exists().withMessage("This field is mandatory").bail().isString().bail().custom((value, { req }) => (dayjs(value, 'YYYY-MM-DD HH:mm:ss', true).isValid())).withMessage("terminateTime format is wrong"),
+    isLoggedInHiker,
+    checksValidation, async (req, res) => {
+
+        try {
+
+            const userId = req.user.id;
+            const hikeId = parseInt(req.body.hikeId);
+            const terminateTime = dayjs(req.body.terminateTime, 'YYYY-MM-DD HH:mm:ss', true);
+
+            const hike = await hikeDao.getDetailsByHikeId(hikeId);
+
+            //se la hike non esiste
+            if (hike === undefined)
+                return res.status(404).json({ error: `Hike not found` });
+
+            //terminateTime non deve essere nel futuro
+            const now = dayjs();
+            if (terminateTime.isAfter(now))
+                return res.status(422).json({ error: `Do you come from the future? terminateTime seems in the future` });
+
+            //controllo che l'utente abbia iniziato la hike
+            const startedHike = await hikePerformanceDao.getStartedHikeByUserId(userId); //return the hike that the user started
+            if (startedHike === undefined) //non ci sono hike iniziate
+                return res.status(422).json({ error: `You have no hikes started` });
+            else if (startedHike.hikeId !== hikeId) //ha iniziato una hike che non è quella che ha messo nel body
+                return res.status(422).json({ error: `What are you doing? You started the hike ${startedHike.hikeId}, not the one you inserted in the body` });
+
+            const startTime = dayjs(startedHike.startTime, 'YYYY-MM-DD HH:mm:ss', true);
+
+            //controllo che terminateTime sia after startTime
+            if (
+                (!terminateTime.isAfter(startTime))
+            )
+                return res.status(422).json({ error: `You want to terminate this hike in an instant that is not after the start instant` });
+
+            //per quell’utente non ci devono essere hikes già presenti che siano partite dopo lo startTime che ho per questa hike,
+            // e prima del terminateTime che voglio inserire ora, altrimenti ho sovrapposizioni 
+            const terminatedHikes = await hikePerformanceDao.getTerminatedHikes(userId);
+            for (let terminatedHike of terminatedHikes) {
+
+                const terminatedHikeStartTime = dayjs(terminatedHike.startTime, 'YYYY-MM-DD HH:mm:ss', true);
+                //se il mio startTime è before il tst e il mio terminate time è !before tst
+                if (
+                    (startTime.isBefore(terminatedHikeStartTime))
+                    &&
+                    (!terminateTime.isBefore(terminatedHikeStartTime))
+                )
+                    return res.status(422).json({ error: `You want to terminate an hike in a time period where you were hiking hike ${terminatedHike.hikeId}` });
+            }
+
+            //ORA HO FATTO TUTTI I CONTROLLI E DEVO FARE L'INSERIMENTO DELLA PERFORMANCE NEL DB
+
+            //faccio la put
+            //   await hikePerformanceDao.addHikePerformance(req.body.startTime, hikeId, userId);
+
+            return res.status(201).json({ message: "Hike started" });
+        } catch (error) {
+            res.status(503).json({ error: `Service unavailable` });
+        }
     });
 
 module.exports = router;
