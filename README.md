@@ -241,7 +241,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   ]
   ```
 
-- GET `/hikedetails/:hikeId`
+- GET `/api/hikedetails/:hikeId`
   - Description: Retrieve details (including point information) for a specific hike
   - Request body: hikeId
   - Response: `200 OK` (success), `404 NOT FOUND` if the id does not correspond to a hike, `503 Service Unavailable` (generic error).
@@ -424,7 +424,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   ]
   ```
 
-- GET `/hutdetails/:hutId`
+- GET `/api/hutdetails/:hutId`
   - Description: Retrieve details for a specific hut given its id
   - Request body: hutId
   - Response: `200 OK` (success), `404 NOT FOUND` if the id does not correspond to a hut, `503 Service Unavailable` (generic error).
@@ -449,7 +449,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
       "region": "Piemonte"
   }
 
-- GET `/hikeStartEnd/:hikeId`
+- GET `/api/hikeStartEnd/:hikeId`
   - Description: Retrieve the current start/end point and some other possible start/end points (hut/parking lot) for an hike
   - Request body: _nothing_
   - Response: `200 OK` (success), `422` if the :hikeId format is wrong,or if the localguide did not insert that hike `503 Service Unavailable` (generic error).
@@ -525,7 +525,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
     ]
   }
 
-- PUT `/hikeStartEnd/:hikeId`
+- PUT `/api/hikeStartEnd/:hikeId`
   - Description: Modify an Hike start/end point with a hut/parking lot.
   - Request body: An object representing the new infos
 
@@ -541,7 +541,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   - Response body: _nothing_
 
 
-- GET `/hikeLinkHuts/:hikeId`
+- GET `/api/hikeLinkHuts/:hikeId`
   - Description: Retrieve the start/end point, current linked huts possible ones of an hike
   - Request body: _nothing_
   - Response: `200 OK` (success), `422` if the :hikeId format is wrong,or if the localguide did not insert that hike `503 Service Unavailable` (generic error).
@@ -614,7 +614,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
     ]
   }
 
-- PUT `/hikeLinkHuts/:hikeId`
+- PUT `/api/hikeLinkHuts/:hikeId`
   - Description: Link huts to an hike
   - Request body: An object representing the huts to link
 
@@ -629,7 +629,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   - Response body: _nothing_
 
 
-- GET `/hikeLinkHuts/:hikeId`
+- GET `/api/hikeLinkHuts/:hikeId`
   - Description: Retrieve the start/end point, current linked huts possible ones of an hike
   - Request body: _nothing_
   - Response: `200 OK` (success), `422` if the :hikeId format is wrong,or if the localguide did not insert that hike `503 Service Unavailable` (generic error).
@@ -702,7 +702,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
     ]
   }
 
-- PUT `/hikeLinkHuts/:hikeId`
+- PUT `/api/hikeLinkHuts/:hikeId`
   - Description: Link huts to an hike
   - Request body: An object representing the huts to link
 
@@ -716,7 +716,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   - Response: `204` (success), `422` if the localguide did not upload that hike or if the input is not correct, `404` if something is not found, `503 Service Unavailable` (generic error).
   - Response body: _nothing_
 
-- GET `/isHikeInProgress/:hikeId`
+- GET `/api/isHikeInProgress/:hikeId`
   - Description: Retrieve the infos about the starting status of an hike for a logged in hiker. If a hiker has already started an other hike, those infos are given
   - Request body: _nothing_
   - Response: `200 OK` (success), `422` if the :hikeId format is wrong,  `401` if who require the api is not logged in as hiker, `404` if the hike does not exist, `503 Service Unavailable` (generic error).
@@ -743,6 +743,52 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
     "inProgress": -1,
     "startTime": undefined,
     "startedHikeId":12
+  }
+
+  ```
+
+- POST `/api/startHike`
+  - Description: Start an hike.
+  - Request body: An object containing the hikeId and the startTime
+
+  ```json
+
+  {
+     "hikeId":1,
+     "startTime": "2022-05-04 22:12:13"
+  }
+
+  ```
+  - Response: `201` (success), `422` if the input is not acceptable, for example if :hikeId format is wrong or if the startTime has wrong format/impossible time,  `401` if who require the api is not logged in as hiker, `404` if the hike does not exist, `503 Service Unavailable` (generic error).
+  - Response body: Confirmation message.
+
+  ```json
+
+  {
+      "message": "Hike started"
+  }
+
+  ```
+
+- POST `/api/terminateHike`
+  - Description: Terminate a started hike.
+  - Request body: An object containing the hikeId and the terminateTime
+
+  ```json
+
+  {
+     "hikeId":1,
+     "terminateTime": "2022-05-04 22:12:13"
+  }
+
+  ```
+  - Response: `201` (success), `422` if the input is not acceptable, for example if :hikeId format is wrong or if the terminateTime has wrong format/impossible time,  `401` if who require the api is not logged in as hiker, `404` if the hike does not exist, `503 Service Unavailable` (generic error).
+  - Response body: Confirmation message.
+
+  ```json
+
+  {
+      "message": "Hike terminated"
   }
 
   ```

@@ -192,7 +192,6 @@ router.post('/terminateHike',
 
             //faccio la put
             await hikePerformanceDao.terminateHikePerformance(req.body.terminateTime, startedHike.id);
-
             return res.status(201).json({ message: "Hike terminated" });
         } catch (error) {
             res.status(503).json({ error: `Service unavailable` });
