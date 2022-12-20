@@ -24,13 +24,14 @@ const db = iAmTesting() ? getMock() : require('./openDb');
  */
 exports.getCompletedHikesDetails = (userId) => {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT title,length,expectedTime,ascent,difficulty,startTime,terminateTime FROM Hike,HikePerformance WHERE terminateTime IS NOT ? AND Hike.id=hikeId AND userId = ?';
+        const sql = 'SELECT hikeId,title,length,expectedTime,ascent,difficulty,startTime,terminateTime FROM Hike,HikePerformance WHERE terminateTime IS NOT ? AND Hike.id=hikeId AND userId = ?';
         db.all(sql, [null, userId], (err, rows) => {
             if (err) {
                 reject(err);
             }
             const completedHikes = rows.map((r) => (
                 {
+                    id: r.hikeId,
                     title: r.title,
                     length: r.length,
                     expectedTime: r.expectedTime,
