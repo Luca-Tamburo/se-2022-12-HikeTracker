@@ -29,18 +29,40 @@ exports.getCompletedHikesDetails = (userId) => {
             if (err) {
                 reject(err);
             }
-      /*      const terminatedHikes = rows.map((r) => (
+            const completedHikes = rows.map((r) => (
                 {
-                    id: r.id,
+                    title: r.title,
+                    length: r.length,
+                    expectedTime: r.expectedTime,
+                    ascent: r.ascent,
+                    difficulty: r.difficulty,
                     startTime: r.startTime,
-                    terminateTime: r.terminateTime,
-                    hikeId: r.hikeId,
-                    userId: r.userId
+                    terminateTime: r.terminateTime
                 }
-        
-                ));
-         */
-           resolve(rows)//terminatedHikes);
+
+            ));
+
+            resolve(completedHikes);
+        });
+    });
+}
+
+exports.getCompletedHikeTimes = (hikeId, userId) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT startTime,terminateTime FROM HikePerformance WHERE terminateTime IS NOT ? AND hikeId=? AND userId = ?';
+        db.all(sql, [null, hikeId, userId], (err, rows) => {
+            if (err) {
+                reject(err);
+            }
+            const terminatedHikeTimes = rows.map((r) => (
+                {
+                    startTime: r.startTime,
+                    terminateTime: r.terminateTime
+                }
+
+            ));
+
+            resolve(terminatedHikeTimes);
         });
     });
 }
