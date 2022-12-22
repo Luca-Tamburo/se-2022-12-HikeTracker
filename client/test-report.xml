@@ -1,276 +1,287 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testExecutions version="1">
-  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\Register\RegisterRole.test.jsx">
-    <testCase name="Register Role shows the hiker form" duration="75"/>
-    <testCase name="Register Role shows the advanced form" duration="34"/>
-    <testCase name="Register Role send back to home if logged" duration="23"/>
-    <testCase name="Register Role onSubmit is called after validation" duration="456"/>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\LocalGuidePage\LinkPoint\LinkStartEndPoint.test.jsx">
+    <testCase name="LinkStartEndPoint View has title" duration="160"/>
+    <testCase name="LinkStartEndPoint View has start point" duration="37"/>
+    <testCase name="LinkStartEndPoint View has end point" duration="29"/>
+    <testCase name="LinkStartEndPoint View has submit button" duration="239"/>
+    <testCase name="LinkStartEndPoint View has reset button" duration="86"/>
   </file>
   <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\AddHike\AddHike.test.jsx">
-    <testCase name="AddHike page has title" duration="255"/>
-    <testCase name="AddHike page has the correct Name field and it exists" duration="40"/>
-    <testCase name="AddHike page has the correct Image field and it exists" duration="48"/>
-    <testCase name="AddHike page has the correct Expected Time (in hour) field and it exists" duration="45"/>
-    <testCase name="AddHike page has the correct Hike&apos;s difficulty field and it exists" duration="30"/>
-    <testCase name="AddHike page has the correct Description field and it exists" duration="32"/>
+    <testCase name="AddHike page has title" duration="248"/>
+    <testCase name="AddHike page has the correct Name field and it exists" duration="48"/>
+    <testCase name="AddHike page has the correct Image field and it exists" duration="50"/>
+    <testCase name="AddHike page has the correct Expected Time (in hour) field and it exists" duration="37"/>
+    <testCase name="AddHike page has the correct Hike&apos;s difficulty field and it exists" duration="23"/>
+    <testCase name="AddHike page has the correct Description field and it exists" duration="22"/>
     <testCase name="AddHike page has the correct Upload your GPX File field and it exists" duration="22"/>
-    <testCase name="AddHike page has the correct Upload your image field and it exists" duration="26"/>
-    <testCase name="AddHike page has Submit button" duration="69"/>
+    <testCase name="AddHike page has the correct Upload your image field and it exists" duration="27"/>
+    <testCase name="AddHike page has Submit button" duration="70"/>
   </file>
   <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\ui-core\LoginForm\LoginForm.test.jsx">
-    <testCase name="LoginForm has email label" duration="81"/>
-    <testCase name="LoginForm has password label" duration="29"/>
-    <testCase name="LoginForm has email field" duration="122"/>
-    <testCase name="LoginForm has password field" duration="19"/>
-    <testCase name="LoginForm has login button" duration="28"/>
-    <testCase name="LoginForm handleSubmit is called after validation" duration="604"/>
+    <testCase name="LoginForm has email label" duration="71"/>
+    <testCase name="LoginForm has password label" duration="12"/>
+    <testCase name="LoginForm has email field" duration="142"/>
+    <testCase name="LoginForm has password field" duration="20"/>
+    <testCase name="LoginForm has login button" duration="45"/>
+    <testCase name="LoginForm handleSubmit is called after validation" duration="641"/>
+  </file>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\Register\RegisterRole.test.jsx">
+    <testCase name="Register Role shows the hiker form" duration="120"/>
+    <testCase name="Register Role shows the advanced form" duration="38"/>
+    <testCase name="Register Role send back to home if logged" duration="21"/>
+    <testCase name="Register Role onSubmit is called after validation" duration="1125"/>
   </file>
   <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\ui-core\RegisterForm\RegisterForm.test.jsx">
-    <testCase name="RegisterFormHiker has username label" duration="81"/>
-    <testCase name="RegisterFormHiker has email label" duration="35"/>
-    <testCase name="RegisterFormHiker has password label" duration="16"/>
-    <testCase name="RegisterFormHiker has password confimation label" duration="17"/>
-    <testCase name="RegisterFormHiker has username field" duration="136"/>
-    <testCase name="RegisterFormHiker has email field" duration="88"/>
-    <testCase name="RegisterFormHiker has password field" duration="15"/>
-    <testCase name="RegisterFormHiker has password confirmation field" duration="19"/>
-    <testCase name="RegisterFormHiker Check if RegisterForm has signup button" duration="38"/>
-    <testCase name="RegisterFormHiker onSubmit is called after validation" duration="990"/>
+    <testCase name="RegisterFormHiker has username label" duration="75"/>
+    <testCase name="RegisterFormHiker has email label" duration="16"/>
+    <testCase name="RegisterFormHiker has password label" duration="15"/>
+    <testCase name="RegisterFormHiker has password confimation label" duration="22"/>
+    <testCase name="RegisterFormHiker has username field" duration="153"/>
+    <testCase name="RegisterFormHiker has email field" duration="62"/>
+    <testCase name="RegisterFormHiker has password field" duration="17"/>
+    <testCase name="RegisterFormHiker has password confirmation field" duration="26"/>
+    <testCase name="RegisterFormHiker Check if RegisterForm has signup button" duration="27"/>
+    <testCase name="RegisterFormHiker onSubmit is called after validation" duration="1143"/>
   </file>
   <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\utils\Filter\Hike\HikeFilter.test.jsx">
-    <testCase name="Filter components is rendered" duration="411"/>
-    <testCase name="Filter components have the correct region-select" duration="41"/>
-    <testCase name="Filter components have the correct province-select" duration="49"/>
-    <testCase name="Filter components have the correct city-select" duration="32"/>
-    <testCase name="Filter components have the correct range-select" duration="27"/>
+    <testCase name="Filter components is rendered" duration="232"/>
+    <testCase name="Filter components have the correct region-select" duration="34"/>
+    <testCase name="Filter components have the correct province-select" duration="28"/>
+    <testCase name="Filter components have the correct city-select" duration="37"/>
+    <testCase name="Filter components have the correct range-select" duration="38"/>
     <testCase name="Filter components have the correct difficulty-select" duration="32"/>
-    <testCase name="Filter components have the correct ascent-select-min" duration="25"/>
-    <testCase name="Filter components have the correct ascent-select-max" duration="36"/>
-    <testCase name="Filter components have the correct expectedTime-select-min" duration="27"/>
-    <testCase name="Filter components have the correct expectedTime-select-max" duration="20"/>
+    <testCase name="Filter components have the correct ascent-select-min" duration="49"/>
+    <testCase name="Filter components have the correct ascent-select-max" duration="42"/>
+    <testCase name="Filter components have the correct expectedTime-select-min" duration="37"/>
+    <testCase name="Filter components have the correct expectedTime-select-max" duration="36"/>
     <testCase name="Filter components have the correct length-select-min" duration="26"/>
-    <testCase name="Filter components have the correct length-select-max" duration="27"/>
-    <testCase name="Filter components reset button is rendered and it works" duration="66"/>
-    <testCase name="Filter components search button is rendered and it works" duration="56"/>
-  </file>
-  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\Home\Home.test.jsx">
-    <testCase name="HomeView Check if Home have the background image" duration="42"/>
-    <testCase name="HomeView Check if Home have the main test" duration="11"/>
-    <testCase name="HomeView Check if Home have the link to show the hike list" duration="127"/>
-  </file>
-  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\LocalGuidePage\Hikes\LocalGuideHikes.test.jsx">
-    <testCase name="LocalGuideHikes View have title" duration="81"/>
-  </file>
-  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\ui-core\RegisterForm\RegisterFormAdvanced.test.jsx">
-    <testCase name="RegisterFormAdvanced Check if RegisterForm has username label" duration="132"/>
-    <testCase name="RegisterFormAdvanced Check if RegisterForm has email label" duration="35"/>
-    <testCase name="RegisterFormAdvanced has name label" duration="30"/>
-    <testCase name="RegisterFormAdvanced has surname label" duration="45"/>
-    <testCase name="RegisterFormAdvanced has phone number label" duration="24"/>
-    <testCase name="RegisterFormAdvanced Check if RegisterForm has password label" duration="36"/>
-    <testCase name="RegisterFormAdvanced Check if RegisterForm has password confimation label" duration="31"/>
-    <testCase name="RegisterFormAdvanced has gender label" duration="41"/>
-    <testCase name="RegisterFormAdvanced Check if RegisterForm has username field" duration="202"/>
-    <testCase name="RegisterFormAdvanced Check if RegisterForm has email field" duration="64"/>
-    <testCase name="RegisterFormAdvanced has name field" duration="22"/>
-    <testCase name="RegisterFormAdvanced has surname field" duration="68"/>
-    <testCase name="RegisterFormAdvanced has phone number field" duration="72"/>
-    <testCase name="RegisterFormAdvanced has password field" duration="31"/>
-    <testCase name="RegisterFormAdvanced has password confirmation field" duration="26"/>
-    <testCase name="RegisterFormAdvanced has gender field" duration="53"/>
-    <testCase name="RegisterFormAdvanced Check if RegisterForm has signup button" duration="49"/>
-    <testCase name="RegisterFormAdvanced onSubmit is called after validation" duration="1607"/>
-  </file>
-  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\Register\Register.test.jsx">
-    <testCase name="Register view has the correct Text" duration="119"/>
-    <testCase name="Register view has the correct Hiker button" duration="48"/>
-    <testCase name="Register view has the correct Local guide button" duration="32"/>
-    <testCase name="Register view has the correct Hut worker button" duration="38"/>
-    <testCase name="Register view has the correct Image" duration="25"/>
-    <testCase name="Register view has the correct /signup/hiker to show registration form for Hiker" duration="93"/>
-    <testCase name="Register view has the correct /signup/localGuide to show registration form for Local guide" duration="68"/>
-    <testCase name="Register view has the correct /signup/hutWorker to show registration form for Hut worker" duration="87"/>
+    <testCase name="Filter components have the correct length-select-max" duration="40"/>
+    <testCase name="Filter components reset button is rendered and it works" duration="78"/>
+    <testCase name="Filter components search button is rendered and it works" duration="79"/>
   </file>
   <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\utils\Filter\Hut\HutFilter.test.jsx">
-    <testCase name="Filter components is rendered" duration="250"/>
-    <testCase name="Filter components have the correct region-select" duration="23"/>
-    <testCase name="Filter components have the correct province-select" duration="27"/>
-    <testCase name="Filter components have the correct city-select" duration="16"/>
-    <testCase name="Filter components have the correct range-select" duration="21"/>
-    <testCase name="Filter components have the correct name-select" duration="28"/>
-    <testCase name="Filter components have the correct rooms-select-min" duration="23"/>
-    <testCase name="Filter components have the correct rooms-select-max" duration="24"/>
-    <testCase name="Filter components have the correct beds-select-min" duration="28"/>
-    <testCase name="Filter components have the correct beds-select-max" duration="15"/>
-    <testCase name="Filter components have the correct altitude-select-min" duration="14"/>
-    <testCase name="Filter components have the correct altitude-select-max" duration="25"/>
-    <testCase name="Filter components reset button is rendered and it works" duration="59"/>
-    <testCase name="Filter components search button is rendered and it works" duration="42"/>
+    <testCase name="Filter components is rendered" duration="327"/>
+    <testCase name="Filter components have the correct region-select" duration="35"/>
+    <testCase name="Filter components have the correct province-select" duration="41"/>
+    <testCase name="Filter components have the correct city-select" duration="40"/>
+    <testCase name="Filter components have the correct range-select" duration="55"/>
+    <testCase name="Filter components have the correct name-select" duration="50"/>
+    <testCase name="Filter components have the correct rooms-select-min" duration="56"/>
+    <testCase name="Filter components have the correct rooms-select-max" duration="45"/>
+    <testCase name="Filter components have the correct beds-select-min" duration="36"/>
+    <testCase name="Filter components have the correct beds-select-max" duration="33"/>
+    <testCase name="Filter components have the correct altitude-select-min" duration="33"/>
+    <testCase name="Filter components have the correct altitude-select-max" duration="33"/>
+    <testCase name="Filter components reset button is rendered and it works" duration="98"/>
+    <testCase name="Filter components search button is rendered and it works" duration="98"/>
+  </file>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\ui-core\RegisterForm\RegisterFormAdvanced.test.jsx">
+    <testCase name="RegisterFormAdvanced Check if RegisterForm has username label" duration="111"/>
+    <testCase name="RegisterFormAdvanced Check if RegisterForm has email label" duration="42"/>
+    <testCase name="RegisterFormAdvanced has name label" duration="25"/>
+    <testCase name="RegisterFormAdvanced has surname label" duration="30"/>
+    <testCase name="RegisterFormAdvanced has phone number label" duration="26"/>
+    <testCase name="RegisterFormAdvanced Check if RegisterForm has password label" duration="35"/>
+    <testCase name="RegisterFormAdvanced Check if RegisterForm has password confimation label" duration="28"/>
+    <testCase name="RegisterFormAdvanced has gender label" duration="34"/>
+    <testCase name="RegisterFormAdvanced Check if RegisterForm has username field" duration="175"/>
+    <testCase name="RegisterFormAdvanced Check if RegisterForm has email field" duration="65"/>
+    <testCase name="RegisterFormAdvanced has name field" duration="25"/>
+    <testCase name="RegisterFormAdvanced has surname field" duration="60"/>
+    <testCase name="RegisterFormAdvanced has phone number field" duration="77"/>
+    <testCase name="RegisterFormAdvanced has password field" duration="19"/>
+    <testCase name="RegisterFormAdvanced has password confirmation field" duration="31"/>
+    <testCase name="RegisterFormAdvanced has gender field" duration="55"/>
+    <testCase name="RegisterFormAdvanced Check if RegisterForm has signup button" duration="35"/>
+    <testCase name="RegisterFormAdvanced onSubmit is called after validation" duration="2244"/>
+  </file>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\Home\Home.test.jsx">
+    <testCase name="HomeView Check if Home have the background image" duration="75"/>
+    <testCase name="HomeView Check if Home have the main test" duration="19"/>
+    <testCase name="HomeView Check if Home have the link to show the hike list" duration="202"/>
+  </file>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\HikeDetails\HikeDetails.test.jsx">
+    <testCase name="Hike details has title" duration="392"/>
+    <testCase name="Hike details has image" duration="43"/>
+    <testCase name="Hike details has disclamer" duration="43"/>
+    <testCase name="Hike details has length" duration="108"/>
+    <testCase name="Hike details has ascent" duration="113"/>
+    <testCase name="Hike details has time" duration="108"/>
+    <testCase name="Hike details has start" duration="109"/>
+    <testCase name="Hike details has end" duration="122"/>
+    <testCase name="Hike details has reference" duration="110"/>
   </file>
   <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\AddHut\AddHut.test.jsx">
-    <testCase name="Add hut page has title" duration="114"/>
-    <testCase name="Add hut page has form fiels" duration="17"/>
-    <testCase name="Add hut page has Submit button" duration="68"/>
+    <testCase name="Add hut page has title" duration="199"/>
+    <testCase name="Add hut page has form fiels" duration="26"/>
+    <testCase name="Add hut page has Submit button" duration="75"/>
   </file>
   <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\utils\Input\Select.test.jsx">
-    <testCase name="Select component Component is correctly rendered" duration="37"/>
-    <testCase name="Select component Select id is correctly set" duration="9"/>
-    <testCase name="Select component Select name is correctly set" duration="8"/>
-    <testCase name="Select component Default option is correctly rendered" duration="81"/>
-    <testCase name="Select component Children options are correctly rendered" duration="65"/>
-    <testCase name="Select component Child option 1 is correctly set" duration="51"/>
-    <testCase name="Select component Child option 2 is correctly set" duration="30"/>
-    <testCase name="Select component Child option 3 is correctly set" duration="33"/>
-    <testCase name="Select component Default option has value set to 0 if it is not set" duration="17"/>
-    <testCase name="Select component Default option has empty label if it is not set" duration="23"/>
-    <testCase name="Select component Default option label is correctly set" duration="18"/>
-    <testCase name="Select component Default option value is correctly set" duration="25"/>
+    <testCase name="Select component Component is correctly rendered" duration="79"/>
+    <testCase name="Select component Select id is correctly set" duration="15"/>
+    <testCase name="Select component Select name is correctly set" duration="11"/>
+    <testCase name="Select component Default option is correctly rendered" duration="69"/>
+    <testCase name="Select component Children options are correctly rendered" duration="83"/>
+    <testCase name="Select component Child option 1 is correctly set" duration="62"/>
+    <testCase name="Select component Child option 2 is correctly set" duration="60"/>
+    <testCase name="Select component Child option 3 is correctly set" duration="52"/>
+    <testCase name="Select component Default option has value set to 0 if it is not set" duration="40"/>
+    <testCase name="Select component Default option has empty label if it is not set" duration="30"/>
+    <testCase name="Select component Default option label is correctly set" duration="24"/>
+    <testCase name="Select component Default option value is correctly set" duration="22"/>
     <testCase name="Select component Input is not disabled if prop is not true" duration="10"/>
-    <testCase name="Select component Select is disabled if prop is true" duration="6"/>
+    <testCase name="Select component Select is disabled if prop is true" duration="7"/>
     <testCase name="Select component Error style is applied to the select when a validation error occurs" duration="9"/>
-    <testCase name="Select component Success style is applied to the input when there is no validation error" duration="6"/>
-    <testCase name="Select component Error message is not visable when there is no validation error" duration="4"/>
-    <testCase name="Select component Error message is visable when there is a validation error" duration="9"/>
+    <testCase name="Select component Success style is applied to the input when there is no validation error" duration="11"/>
+    <testCase name="Select component Error message is not visable when there is no validation error" duration="8"/>
+    <testCase name="Select component Error message is visable when there is a validation error" duration="5"/>
+  </file>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\utils\Input\Input.test.jsx">
+    <testCase name="Input component is correctly rendered" duration="57"/>
+    <testCase name="Input component Input id is correctly set" duration="10"/>
+    <testCase name="Input component Input name is correctly set" duration="6"/>
+    <testCase name="Input component Input type is correctly set" duration="6"/>
+    <testCase name="Input component Input placeholder is correctly set" duration="7"/>
+    <testCase name="Input component is not disable if props is not true" duration="6"/>
+    <testCase name="Input component is disable if props is true" duration="5"/>
+    <testCase name="Input component error style is applied when a validation error occurs" duration="10"/>
+    <testCase name="Input component success style is applied when a validation error occurs" duration="7"/>
+    <testCase name="Input component error message is not showed if there is no validation error" duration="5"/>
+    <testCase name="Input component error message is showed if there is validation error" duration="6"/>
+    <testCase name="Input component user is able to type and change input value" duration="143"/>
   </file>
   <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\AddParking\AddParking.test.jsx">
     <testCase name="Add parking page has title" duration="87"/>
     <testCase name="Add parking page has form fiels" duration="14"/>
-    <testCase name="Add parking page has Submit button" duration="32"/>
-  </file>
-  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\utils\Input\Input.test.jsx">
-    <testCase name="Input component is correctly rendered" duration="61"/>
-    <testCase name="Input component Input id is correctly set" duration="8"/>
-    <testCase name="Input component Input name is correctly set" duration="4"/>
-    <testCase name="Input component Input type is correctly set" duration="5"/>
-    <testCase name="Input component Input placeholder is correctly set" duration="7"/>
-    <testCase name="Input component is not disable if props is not true" duration="7"/>
-    <testCase name="Input component is disable if props is true" duration="5"/>
-    <testCase name="Input component error style is applied when a validation error occurs" duration="7"/>
-    <testCase name="Input component success style is applied when a validation error occurs" duration="20"/>
-    <testCase name="Input component error message is not showed if there is no validation error" duration="7"/>
-    <testCase name="Input component error message is showed if there is validation error" duration="8"/>
-    <testCase name="Input component user is able to type and change input value" duration="146"/>
-  </file>
-  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\ui-core\Navbar\Navbar.test.jsx">
-    <testCase name="Navbar component render logo" duration="38"/>
-    <testCase name="Navbar component have home link" duration="11"/>
-    <testCase name="Navbar component have Login link" duration="47"/>
-    <testCase name="Navbar component have SignUp link" duration="32"/>
-    <testCase name="Navbar component have not Login link when an user is loggedIn" duration="11"/>
-    <testCase name="Navbar component have not SignUp link when an user is loggedIn" duration="13"/>
-    <testCase name="Navbar component have Profile link for the localGuide" duration="34"/>
-    <testCase name="Navbar component have Add hike link for the localGuide" duration="46"/>
-    <testCase name="Navbar component have Add hut link for the localGuide" duration="37"/>
-    <testCase name="Navbar component have Add parking lot link for the localGuide" duration="44"/>
+    <testCase name="Add parking page has Submit button" duration="41"/>
   </file>
   <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\utils\Input\TextArea.test.jsx">
-    <testCase name="TextArea component is correctly rendered" duration="48"/>
-    <testCase name="TextArea component id is correctly set" duration="7"/>
-    <testCase name="TextArea component name is correctly set" duration="5"/>
-    <testCase name="TextArea component placeholder is correctly set" duration="13"/>
-    <testCase name="TextArea component is not disable if props is not true" duration="4"/>
-    <testCase name="TextArea component is disable if props is true" duration="7"/>
-    <testCase name="TextArea component error style is applied when a validation error occurs" duration="11"/>
-    <testCase name="TextArea component success style is applied when a validation error occurs" duration="9"/>
-    <testCase name="TextArea component error message is not showed if there is no validation error" duration="11"/>
-    <testCase name="TextArea component error message is showed if there is validation error" duration="14"/>
-    <testCase name="TextArea component user is able to type and change input value" duration="127"/>
+    <testCase name="TextArea component is correctly rendered" duration="67"/>
+    <testCase name="TextArea component id is correctly set" duration="12"/>
+    <testCase name="TextArea component name is correctly set" duration="17"/>
+    <testCase name="TextArea component placeholder is correctly set" duration="10"/>
+    <testCase name="TextArea component is not disable if props is not true" duration="11"/>
+    <testCase name="TextArea component is disable if props is true" duration="9"/>
+    <testCase name="TextArea component error style is applied when a validation error occurs" duration="10"/>
+    <testCase name="TextArea component success style is applied when a validation error occurs" duration="6"/>
+    <testCase name="TextArea component error message is not showed if there is no validation error" duration="8"/>
+    <testCase name="TextArea component error message is showed if there is validation error" duration="5"/>
+    <testCase name="TextArea component user is able to type and change input value" duration="157"/>
+  </file>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\Register\Register.test.jsx">
+    <testCase name="Register view has the correct Text" duration="86"/>
+    <testCase name="Register view has the correct Hiker button" duration="49"/>
+    <testCase name="Register view has the correct Local guide button" duration="27"/>
+    <testCase name="Register view has the correct Hut worker button" duration="20"/>
+    <testCase name="Register view has the correct Image" duration="11"/>
+    <testCase name="Register view has the correct /signup/hiker to show registration form for Hiker" duration="127"/>
+    <testCase name="Register view has the correct /signup/localGuide to show registration form for Local guide" duration="120"/>
+    <testCase name="Register view has the correct /signup/hutWorker to show registration form for Hut worker" duration="80"/>
+  </file>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\ui-core\Navbar\Navbar.test.jsx">
+    <testCase name="Navbar component render logo" duration="53"/>
+    <testCase name="Navbar component have home link" duration="18"/>
+    <testCase name="Navbar component have Login link" duration="64"/>
+    <testCase name="Navbar component have SignUp link" duration="54"/>
+    <testCase name="Navbar component have not Login link when an user is loggedIn" duration="21"/>
+    <testCase name="Navbar component have not SignUp link when an user is loggedIn" duration="15"/>
+    <testCase name="Navbar component have Profile link for the localGuide" duration="42"/>
+    <testCase name="Navbar component have Add hike link for the localGuide" duration="42"/>
+    <testCase name="Navbar component have Add hut link for the localGuide" duration="49"/>
+    <testCase name="Navbar component have Add parking lot link for the localGuide" duration="53"/>
   </file>
   <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\utils\Input\Check.test.jsx">
-    <testCase name="Check component is correctly rendered" duration="64"/>
-    <testCase name="Check component id attribute is correctly set" duration="7"/>
-    <testCase name="Check component name attribute is correctly set" duration="10"/>
-    <testCase name="Check component is not active if its value is false" duration="28"/>
-    <testCase name="Check component is active if its value is true" duration="16"/>
-    <testCase name="Check component User is able to change checkbox status to active on click" duration="52"/>
-    <testCase name="Check component User is able to change checkbox status to unactive on click" duration="28"/>
-  </file>
-  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\LocalGuidePage\LinkHut\LinkHutToHike.test.jsx">
-    <testCase name="LinkHutToHike View has title" duration="48"/>
-    <testCase name="LinkHutToHike View has start point" duration="18"/>
-    <testCase name="LinkHutToHike View has submit button" duration="64"/>
-    <testCase name="LinkHutToHike View has reset button" duration="52"/>
-  </file>
-  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\LocalGuidePage\LinkPoint\LinkStartEndPoint.test.jsx">
-    <testCase name="LinkStartEndPoint View has title" duration="52"/>
-    <testCase name="LinkStartEndPoint View has start point" duration="11"/>
-    <testCase name="LinkStartEndPoint View has end point" duration="16"/>
-    <testCase name="LinkStartEndPoint View has submit button" duration="80"/>
-    <testCase name="LinkStartEndPoint View has reset button" duration="50"/>
-  </file>
-  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\HutDetails\HutDetails.test.js">
-    <testCase name="Hut details has title" duration="154"/>
-    <testCase name="Hut details has image" duration="29"/>
-    <testCase name="Hut details has disclamer" duration="23"/>
-    <testCase name="Hut details has website" duration="66"/>
-    <testCase name="Hut details has rooms" duration="58"/>
-    <testCase name="Hut details has beds" duration="38"/>
-    <testCase name="Hut details has opening" duration="52"/>
-    <testCase name="Hut details has phone" duration="46"/>
-  </file>
-  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\LocalGuidePage\LocalGuidePage.test.jsx">
-    <testCase name="Local guide page has welcome name" duration="51"/>
-    <testCase name="Local guide page has user image" duration="33"/>
-    <testCase name="Local guide page card is rendered" duration="5"/>
-  </file>
-  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\ui-core\HutCard\HutCard.test.jsx">
-    <testCase name="Hut card component have the correct name" duration="49"/>
-    <testCase name="Hut card component have the correct description" duration="12"/>
-    <testCase name="Hut card component image correctly rendered" duration="10"/>
-    <testCase name="Hut card component user is able to navigate when card is clicked" duration="62"/>
+    <testCase name="Check component is correctly rendered" duration="50"/>
+    <testCase name="Check component id attribute is correctly set" duration="5"/>
+    <testCase name="Check component name attribute is correctly set" duration="5"/>
+    <testCase name="Check component is not active if its value is false" duration="38"/>
+    <testCase name="Check component is active if its value is true" duration="25"/>
+    <testCase name="Check component User is able to change checkbox status to active on click" duration="88"/>
+    <testCase name="Check component User is able to change checkbox status to unactive on click" duration="54"/>
   </file>
   <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\ErrorView\ErrorView.test.jsx">
-    <testCase name="Error view have the error text" duration="70"/>
-    <testCase name="Error view have the &quot;Back to home&quot; button" duration="29"/>
-    <testCase name="Error view have the back top homepage link" duration="42"/>
+    <testCase name="Error view have the error text" duration="71"/>
+    <testCase name="Error view have the &quot;Back to home&quot; button" duration="26"/>
+    <testCase name="Error view have the back top homepage link" duration="48"/>
+  </file>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\LocalGuidePage\Hikes\LocalGuideHikes.test.jsx">
+    <testCase name="LocalGuideHikes View have title" duration="79"/>
+  </file>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\LocalGuidePage\LinkHut\LinkHutToHike.test.jsx">
+    <testCase name="LinkHutToHike View has title" duration="74"/>
+    <testCase name="LinkHutToHike View has start point" duration="18"/>
+    <testCase name="LinkHutToHike View has submit button" duration="85"/>
+    <testCase name="LinkHutToHike View has reset button" duration="81"/>
   </file>
   <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\ui-core\HikeCard\HikeCard.test.jsx">
-    <testCase name="Hike card component have the correct title" duration="44"/>
-    <testCase name="Hike card component have the correct description" duration="8"/>
-    <testCase name="Hike card component have the correct author" duration="9"/>
-    <testCase name="Hike card component have the correct upload Date" duration="5"/>
-    <testCase name="Hike card component image correctly rendered" duration="5"/>
-    <testCase name="Hike card component user is able to navigate when card is clicked" duration="70"/>
+    <testCase name="Hike card component have the correct title" duration="64"/>
+    <testCase name="Hike card component have the correct description" duration="16"/>
+    <testCase name="Hike card component have the correct author" duration="10"/>
+    <testCase name="Hike card component have the correct upload Date" duration="11"/>
+    <testCase name="Hike card component image correctly rendered" duration="10"/>
+    <testCase name="Hike card component user is able to navigate when card is clicked" duration="91"/>
   </file>
-  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\ui-core\LocalGuideServiceCard\LocalGuideServiceCard.test.jsx">
-    <testCase name="Local guide service card component have the correct title" duration="203"/>
-    <testCase name="Local guide service card component have the correct description" duration="10"/>
-    <testCase name="Local guide service card component have the correct addName" duration="10"/>
-    <testCase name="Local guide service card component image correctly rendered" duration="8"/>
-    <testCase name="Local guide service card component user is able to navigate when card is clicked" duration="27"/>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\LocalGuidePage\LocalGuidePage.test.jsx">
+    <testCase name="Local guide page has welcome name" duration="43"/>
+    <testCase name="Local guide page has user image" duration="36"/>
+    <testCase name="Local guide page card is rendered" duration="9"/>
   </file>
-  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\Hike\Hike.test.jsx">
-    <testCase name="Hikes View have the main test" duration="59"/>
-    <testCase name="Hikes View correctly renders the Filter component" duration="8"/>
-  </file>
-  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\Login\Login.test.jsx">
-    <testCase name="Login page has title" duration="53"/>
-    <testCase name="Login page has image" duration="13"/>
-    <testCase name="Login page form is render" duration="6"/>
-  </file>
-  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\utils\AppContainer\AppContainer.test.jsx">
-    <testCase name="AppContainer Check if Navbar is render" duration="50"/>
-    <testCase name="AppContainer Check if go to top page button is render" duration="13"/>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\ui-core\HutCard\HutCard.test.jsx">
+    <testCase name="Hut card component have the correct name" duration="52"/>
+    <testCase name="Hut card component have the correct description" duration="9"/>
+    <testCase name="Hut card component image correctly rendered" duration="8"/>
+    <testCase name="Hut card component user is able to navigate when card is clicked" duration="99"/>
   </file>
   <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\Hut\Hut.test.jsx">
-    <testCase name="Huts View have the main text" duration="112"/>
-    <testCase name="Huts View correctly renders the Filter component" duration="17"/>
+    <testCase name="Huts View have the main text" duration="90"/>
+    <testCase name="Huts View correctly renders the Filter component" duration="7"/>
+  </file>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\ui-core\LocalGuideServiceCard\LocalGuideServiceCard.test.jsx">
+    <testCase name="Local guide service card component have the correct title" duration="104"/>
+    <testCase name="Local guide service card component have the correct description" duration="11"/>
+    <testCase name="Local guide service card component have the correct addName" duration="6"/>
+    <testCase name="Local guide service card component image correctly rendered" duration="6"/>
+    <testCase name="Local guide service card component user is able to navigate when card is clicked" duration="31"/>
+  </file>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\Login\Login.test.jsx">
+    <testCase name="Login page has title" duration="71"/>
+    <testCase name="Login page has image" duration="20"/>
+    <testCase name="Login page form is render" duration="10"/>
+  </file>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\utils\AppContainer\AppContainer.test.jsx">
+    <testCase name="AppContainer Check if Navbar is render" duration="57"/>
+    <testCase name="AppContainer Check if go to top page button is render" duration="8"/>
+  </file>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\ui-core\locate\AddMarkerAndInfo.test.jsx">
+    <testCase name="AddMarkerAndInfo component has rendered" duration="32"/>
+  </file>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\Hike\Hike.test.jsx">
+    <testCase name="Hikes View have the main test" duration="122"/>
+    <testCase name="Hikes View correctly renders the Filter component" duration="7"/>
+  </file>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\Email\EmailErr.test.jsx">
+    <testCase name="Email confirmation have the error text" duration="24"/>
+    <testCase name="Email confirmation have the subtitle" duration="4"/>
+  </file>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\Email\EmailConf.test.jsx">
+    <testCase name="Email confirmation have the confirmation text" duration="33"/>
+    <testCase name="Email confirmation have the subtitle" duration="3"/>
   </file>
   <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\ui-core\InfoPoint\InfoPoint.test.jsx">
     <testCase name="life support for this damn test has to exist" duration="2"/>
   </file>
-  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\ui-core\locate\AddMarkerAndInfo.test.jsx">
-    <testCase name="AddMarkerAndInfo component has rendered" duration="15"/>
-  </file>
-  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\Email\EmailErr.test.jsx">
-    <testCase name="Email confirmation have the error text" duration="18"/>
-    <testCase name="Email confirmation have the subtitle" duration="3"/>
-  </file>
-  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\Email\EmailConf.test.jsx">
-    <testCase name="Email confirmation have the confirmation text" duration="19"/>
-    <testCase name="Email confirmation have the subtitle" duration="3"/>
-  </file>
   <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\components\ui-core\locate\AddMarker.test.jsx">
-    <testCase name="AddMarker component has rendered" duration="12"/>
+    <testCase name="AddMarker component has rendered" duration="18"/>
+  </file>
+  <file path="C:\Users\HP\Desktop\SoftEng2\se-2022-12-HikeTracker\client\src\views\HutDetails\HutDetails.test.jsx">
+    <testCase name="Hut details has title" duration="124"/>
+    <testCase name="Hut details has image" duration="18"/>
+    <testCase name="Hut details has disclamer" duration="11"/>
+    <testCase name="Hut details has website" duration="34"/>
+    <testCase name="Hut details has rooms" duration="47"/>
+    <testCase name="Hut details has beds" duration="85"/>
+    <testCase name="Hut details has opening" duration="61"/>
+    <testCase name="Hut details has phone" duration="71"/>
   </file>
 </testExecutions>
