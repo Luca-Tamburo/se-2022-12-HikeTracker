@@ -26,6 +26,14 @@ const value = {
     default: {
         userInfo: null,
         isloggedIn: false
+    },
+    guide: {
+        userInfo: {
+            name: "pippo",
+            role: "localGuide",
+            gender: "M"
+        },
+        isloggedIn: true
     }
 }
 describe('HomeView', () => {
@@ -40,7 +48,7 @@ describe('HomeView', () => {
         expect(screen.getByText(/Welcome to HikeTracker/i)).toBeInTheDocument();
     });
 
-    it('Check if Home have the link to show the hike list', async () => {
+    it('Check if Home have the link to show the general hike list', async () => {
         const history = createMemoryHistory();
         render(<AuthContext.Provider value={value.default}>
             <Router location={history.location} navigator={history}>
@@ -52,3 +60,29 @@ describe('HomeView', () => {
         expect(history.location.pathname).toBe('/hikes')
     });
 });
+
+describe('HomeView logged in', () => {
+    it('Check if Home has the link to show the personal hike list', async () => {
+        const history = createMemoryHistory();
+        render(<AuthContext.Provider value={value.guide}>
+            <Router location={history.location} navigator={history}>
+                <Home />
+            </Router></AuthContext.Provider>);
+        const button = screen.getByRole('button', { name: /my hikes/i })
+        expect(button).toBeInTheDocument();
+        await userEvent.click(button);
+        expect(history.location.pathname).toBe('/localGuide/hikes')
+    });
+
+    it('Check if Home has the link to show the general hut list', async () => {
+        const history = createMemoryHistory();
+        render(<AuthContext.Provider value={value.guide}>
+            <Router location={history.location} navigator={history}>
+                <Home />
+            </Router></AuthContext.Provider>);
+        const button = screen.getByRole('button', { name: /Huts list/i })
+        expect(button).toBeInTheDocument();
+        await userEvent.click(button);
+        expect(history.location.pathname).toBe('/huts')
+    });
+})

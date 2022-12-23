@@ -153,7 +153,18 @@ const testHike =  {
               "altitude": 3094,
               "city": null,
               "province": null
-         } 
+         },
+         {
+            "id": 3,
+            "name": "Monte Bho",
+            "description": "Peak of ...",
+            "type": "gpsCoordinates",
+            "latitude": 44.57436,
+            "longitude": 6.98294,
+            "altitude": 3094,
+            "city": null,
+            "province": null
+       } 
        ]
  }
 

@@ -58,11 +58,29 @@ const value = {
     default: {
         userInfo: null,
         isloggedIn: false
+    },
+    hiker: {
+        userInfo: {
+            name: "pippo",
+            role: "hiker",
+            gender: "M"
+        },
+        isloggedIn: true
     }
 }
 
 describe('Register view', () => {
 
+    it('does not load if logged', async ()=>{
+        const history = createMemoryHistory();
+        render(
+            <AuthContext.Provider value={value.hiker}>
+                <Router location={history.location} navigator={history}>
+                        <Register />
+                    </Router>
+            </AuthContext.Provider>);
+         expect(history.location.pathname).toBe('/');
+    })
     it.each(registerRole)
         ('has the correct $label', (item) => {
             render(

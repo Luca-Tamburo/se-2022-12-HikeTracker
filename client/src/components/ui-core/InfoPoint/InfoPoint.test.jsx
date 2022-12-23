@@ -32,12 +32,26 @@ jest.mock('react-bootstrap', () => {
             <div data-testid='Row'>{props.children}</div>
         )
     }
+    const Accordion = (props) => {
+        return (
+            <div data-testid='Accordion'>{props.children}</div>
+        )
+    }
+    Accordion.Item = ({ children }) => <div>{children}</div>
+    Accordion.Header = ({ children }) => <div>{children}</div>
+    Accordion.Body = ({ children }) => <div>{children}</div>
 
-    return ({ Col, Row });
+    return ({ Col, Row, Accordion });
 })
 
-describe('life support for this damn test', ()=>{
-    it('has to exist', ()=>{
-        expect(1).toEqual(1);
-    }) 
+describe('Info point', ()=>{
+    it('has accordion', () => {
+        render(<InfoPoint points={{type: "Random type  "}} eventKeyNumber={1} hikeId={1} />, { wrapper: MemoryRouter });
+        expect(screen.getByTestId('Accordion')).toBeInTheDocument();
+    });
+ 
+    it('no points', () => {
+        render(<InfoPoint points={[]} eventKeyNumber={1} hikeId={1} />, { wrapper: MemoryRouter });
+        expect(screen.getByTestId('Accordion')).toBeInTheDocument();
+    });
 })

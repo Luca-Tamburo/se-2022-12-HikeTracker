@@ -46,35 +46,64 @@ jest.mock('../../components/ui-core/LocalGuideServiceCard/LocalGuideServiceCard'
 })
 
 const value = {
-    localGuide: {
+    localGuide1: {
         userInfo: {
             name: "aldo",
             role: "localGuide",
             gender: "M"
         },
         isloggedIn: true
-    }
+    },
+    localGuide2: {
+            userInfo: {
+                name: "alda",
+                role: "localGuide",
+                gender: "F"
+            },
+        isloggedIn: true
+    },
+    localGuide3: {
+        userInfo: {
+            name: "alda",
+            role: "localGuide",
+            gender: "NB"
+        },
+    isloggedIn: true
+}
 
 }
 
 describe('Local guide page', () => {
 
     it('has welcome name', () => {
-        render(<AuthContext.Provider value={value.localGuide}>
+        render(<AuthContext.Provider value={value.localGuide1}>
             <LocalGuidePage />
         </AuthContext.Provider>, { wrapper: MemoryRouter });
         expect(screen.getByText(/welcome/i)).toBeInTheDocument();
     });
 
-    it('has user image', () => {
-        render(<AuthContext.Provider value={value.localGuide}>
+    it('has user image male', () => {
+        render(<AuthContext.Provider value={value.localGuide1}>
             <LocalGuidePage />
         </AuthContext.Provider>, { wrapper: MemoryRouter });
         expect(screen.getByRole('img', { name: /avatar/i })).toBeInTheDocument();
     });
+    it('has user image female', () => {
+        render(<AuthContext.Provider value={value.localGuide2}>
+            <LocalGuidePage />
+        </AuthContext.Provider>, { wrapper: MemoryRouter });
+        expect(screen.getByRole('img', { name: /avatar/i })).toBeInTheDocument();
+    });
+    it('has user gender undefined', () => {
+        render(<AuthContext.Provider value={value.localGuide3}>
+            <LocalGuidePage />
+        </AuthContext.Provider>, { wrapper: MemoryRouter });
+        expect(screen.queryByRole('img', { name: /avatar/i })).toBeNull();
+    });
+
 
     it('card is rendered', () => {
-        render(<AuthContext.Provider value={value.localGuide}>
+        render(<AuthContext.Provider value={value.localGuide1}>
             <LocalGuidePage />
         </AuthContext.Provider>, { wrapper: MemoryRouter });
         expect(screen.getAllByTestId('LocalGuideServiceCard')).toHaveLength(4)

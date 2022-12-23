@@ -97,12 +97,12 @@ describe("TextArea component", () => {
             expect(screen.getByLabelText(props.label)).toHaveAttribute(attribute, props[attribute])
         })
 
-    it('is not disable if props is not true', () => {
+    it('is not disabled if props is not true', () => {
         setup.default();
         expect(screen.getByLabelText(props.label).disabled).toBe(false);
     })
 
-    it('is disable if props is true', () => {
+    it('is disabled if props is true', () => {
         setup.disabled();
         expect(screen.getByLabelText(props.label).disabled).toBe(true);
     })

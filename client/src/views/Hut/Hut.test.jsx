@@ -114,4 +114,10 @@ describe('Huts View', () => {
         await waitFor(()=>{expect(screen.getByTestId('Filter')).toBeInTheDocument();})
     });
 
+    it('have cards', async () => {
+        api.getHuts.mockResolvedValue(testHuts)
+        render(<AuthContext.Provider value={value.hiker}><Hut /></AuthContext.Provider>, { wrapper: MemoryRouter });
+        await waitFor(()=>{expect(screen.getAllByTestId(`Card`)).toHaveLength(2);})
+    });
+
 });

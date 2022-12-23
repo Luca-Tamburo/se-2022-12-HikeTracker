@@ -118,9 +118,21 @@ describe('Add parking page', () => {
         expect(screen.getByTestId('TextArea')).toBeInTheDocument();
     });
 
+    it('has map', () => {
+        handleSubmit.mockClear();
+        render(<AddParking handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByTestId('MapContainer')).toBeInTheDocument();
+    });
+
     it('has Submit button', () => {
         handleSubmit.mockClear();
         render(<AddParking handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
+    });
+
+    it('has Center button', () => {
+        handleSubmit.mockClear();
+        render(<AddParking handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByRole('button', { name: /center your position/i })).toBeInTheDocument();
     });
 })

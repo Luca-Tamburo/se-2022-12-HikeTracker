@@ -127,7 +127,7 @@ const AddParking = (props) => {
                                 </MapContainer>
                                 <Row>
                                     <div className="d-flex justify-content-evenly mt-2">
-                                        <Button onClick={() => { setLocation(true) }}>Center Your Postion</Button>
+                                        <Button onClick={() => { setLocation(true) }}>Center Your Position</Button>
                                     </div>
                                 </Row>
                             </Col>
