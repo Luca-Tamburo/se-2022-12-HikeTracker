@@ -74,6 +74,14 @@ const Navbar = (props) => {
                     <Dropdown.Divider />
                   </>
                 }
+                {userInfo.role === 'hiker' &&
+                  <>
+                    <Dropdown.Item as={Link} to="hiker/completedHikes">
+                      My completed hikes
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
+                  </>
+                }
                 <Dropdown.Item onClick={props.handleLogout}>
                   Logout
                 </Dropdown.Item>

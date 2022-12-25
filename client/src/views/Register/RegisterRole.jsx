@@ -18,7 +18,8 @@ import { Col } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 
 // Components
-import { RegisterFormHiker, RegisterFormAdvanced } from "../../components/ui-core/RegisterForm/RegisterForm";
+import RegisterForm from "../../components/ui-core/RegisterForm/RegisterForm";
+import { RegisterFormAdvanced } from "../../components/ui-core";
 
 // Styles
 import registerImg from '../../assets/registerImg.png';
@@ -63,7 +64,7 @@ const RegisterRole = () => {
       {role === 'hiker' ?
         <>
           <Col xs={10} sm={10} md={5} lg={5} xl={5} className='ms-4 mb-3 ms-lg-5'>
-            <RegisterFormHiker Role={role} handleSubmit={handleSubmit} loading={loading} setLoading={setLoading} />
+            <RegisterForm Role={role} handleSubmit={handleSubmit} loading={loading} setLoading={setLoading} />
           </Col>
           <Col md={4} lg={{ span: 5, offset: 1 }} xl={{ span: 4, offset: 2 }} className='d-none d-md-block'>
             <img alt='Registration' src={registerImg} style={{ width: 500 }} />
