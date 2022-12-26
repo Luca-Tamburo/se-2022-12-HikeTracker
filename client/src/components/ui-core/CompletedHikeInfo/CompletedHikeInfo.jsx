@@ -17,18 +17,19 @@ const CompletedHikeInfo = ({ completedHikes, eventKeyNumber }) => {
     return (
         <Accordion className="mt-2 mb-2">
             <Accordion.Item eventKey={eventKeyNumber}>
-                <Accordion.Header className="d-flex justify-content-between">
-                    <div className='w-full'>
-                        <span>
-                            <b>{completedHikes.title}</b>
-                        </span>
-                        <span>
-                            <b>Start Time</b>{completedHikes.startTime}
-                        </span>
-                        <b>Terminate Time</b>
-                        <span>
-                            {completedHikes.terminateTime}
-                        </span>
+                <Accordion.Header>
+                    <div className='w-100 text-lg-center'>
+                        <div className='d-flex flex-column flex-lg-row justify-content-around'>
+                            <span>
+                                <b>{completedHikes.title}</b>
+                            </span>
+                            <span className="my-1 my-lg-0">
+                                <b>Start Time </b>{completedHikes.startTime}
+                            </span>
+                            <span>
+                                <b>Terminate Time </b>{completedHikes.terminateTime}
+                            </span>
+                        </div>
                     </div>
                 </Accordion.Header>
                 <Accordion.Body className="d-flex flex-column flex-lg-row justify-content-around">
