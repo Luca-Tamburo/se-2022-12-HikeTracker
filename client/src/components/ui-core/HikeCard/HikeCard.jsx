@@ -41,20 +41,25 @@ const HikeCard = ({ hike, loading }) => {
                                 </>
                             }
                             {location.pathname === '/localGuide/hikes' ?
-                                <div className="d-flex flex-row flex-sm-column flex-md-row flex-lg-column flex-xxl-row justify-content-between justify-content-md-between mt-3">
+                                <div className="d-flex justify-content-between mt-3">
                                     {(userInfo.role === 'localGuide' && userInfo.id === hike.authorId) &&
-                                        <>
+                                        <div>
                                             <Link to={`/linkHutToHike/${hike.id}`}>
-                                                <Button size='sm' className='me-2 mb-sm-2 mb-md-0 mb-lg-2 mb-xl-2 mb-xxl-0'>
+                                                <Button size='sm' className='me-2 mb-2'>
                                                     Link huts
                                                 </Button>
                                             </Link>
                                             <Link to={`/hikeStartEndPoint/${hike.id}`}>
-                                                <Button size='sm'>
+                                                <Button size='sm' className='me-2 mb-2'>
                                                     Add start/end point
                                                 </Button>
                                             </Link>
-                                        </>
+                                            <Link to={`/addReferencePoint/${hike.id}`}>
+                                                <Button size='sm' className='mb-2'>
+                                                    Add reference points
+                                                </Button>
+                                            </Link>
+                                        </div>
                                     }
                                 </div>
                                 : <Card.Text className='crop-text-10'>{hike.description}</Card.Text>
@@ -86,8 +91,9 @@ const HikeCard = ({ hike, loading }) => {
                         }
                         {location.pathname === '/localGuide/hikes' ?
                             <>
-                                <Placeholder.Button variant="primary" xs={6} />
-                                <Placeholder.Button variant="primary" xs={6} />
+                                <Placeholder.Button variant="primary" xs={4} />
+                                <Placeholder.Button variant="primary" xs={4} />
+                                <Placeholder.Button variant="primary" xs={4} />
                             </> :
                             <Placeholder as={Card.Text} animation="glow">
                                 <Placeholder xs={12} />

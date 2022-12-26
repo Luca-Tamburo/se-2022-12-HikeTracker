@@ -31,6 +31,7 @@ import useNotification from "../../hooks/useNotification";
 // Icons
 import { IoMdDownload } from 'react-icons/io';
 import { MdAddBusiness, MdAddCircle } from 'react-icons/md';
+import { GiImpactPoint } from 'react-icons/gi'
 
 
 let tj = require("togeojson"),
@@ -185,24 +186,28 @@ const HikeDetails = () => {
                             <span className="fw-bold">{point.name}</span><br />
                           </Popup>
                         </Marker>)
-
-
                     })}
                     <Polyline pathOptions={limeOptions} positions={coordinates} />
                   </MapContainer>
-                  <div className="d-flex flex-column flex-xl-row justify-content-between mt-3">
+                  <div className="d-flex flex-column justify-content-between mt-2">
                     {(userInfo.role === 'localGuide' && userInfo.id === hike.authorId) &&
-                      <div className="d-flex flex-column flex-md-row justify-content-md-between my-2 ">
+                      <div className="mb-2">
                         <Link to={`/linkHutToHike/${hike.id}`}>
-                          <Button variant="success" className='mt-2 mt-md-0'>
+                          <Button variant="success" className='mt-2 me-sm-2 me-0'>
                             <MdAddBusiness className='me-2' size={25} />
-                            Link hut
+                            Link huts
                           </Button>
                         </Link>
                         <Link to={`/hikeStartEndPoint/${hike.id}`}>
-                          <Button variant="success" className='mt-2 mt-md-0 ms-xl-2'>
+                          <Button variant="success" className='mt-2 ms-xl-2 me-xl-2'>
                             <MdAddCircle className='me-2' size={25} />
                             Add start/end point
+                          </Button>
+                        </Link>
+                        <Link to={`/addReferencePoint/${hike.id}`}>
+                          <Button variant="success" className='mt-2 ms-xl-2'>
+                            <GiImpactPoint className='me-2' size={25} />
+                            Add reference points
                           </Button>
                         </Link>
                       </div>
@@ -220,20 +225,14 @@ const HikeDetails = () => {
             </Row>
           </Col >
         ) : (
-          <>{hike && hike.id === -1 ? <ErrorView></ErrorView> : <></>} </>
+          <>{hike && hike.id === -1 ? <ErrorView /> : <></>} </>
         )}
       </>
     );
   } else {
     return (
       <div className="d-flex justify-content-center m-5">
-        <Spinner
-          as="span"
-          animation="border"
-          size="xl"
-          role="status"
-          aria-hidden="true"
-        />
+        <Spinner as="span" animation="border" size="xl" role="status" aria-hidden="true" />
         <h1 className="fw-bold mx-4">LOADING...</h1>
       </div>
     );
