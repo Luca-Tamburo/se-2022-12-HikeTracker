@@ -212,7 +212,7 @@ const AddReferencePoint = () => {
                                 value={type}
                                 className='ms-sm-5 me-sm-3 me-md-0'
                                 onChange={(event) => {
-                                    if (event.target.value === '1' || event.target.value === '2') {
+                                    if (event.target.value === 'Hut' || event.target.value === 'Parking Lot') {
                                         setIsDisabled(false);
                                     } else {
                                         setIsDisabled(true);
@@ -222,10 +222,10 @@ const AddReferencePoint = () => {
                                 }}
                             >
                                 <option value='0'>Point Type</option>
-                                <option value='1'>Hut</option>
-                                <option value='2'>Parking Lot</option>
-                                <option value='3'>GPS coordinate</option>
-                                <option value='4'>Location name</option>
+                                <option value='Hut'>Hut</option>
+                                <option value='Parking Lot'>Parking Lot</option>
+                                <option value='GPS coordinate'>GPS coordinate</option>
+                                <option value='Location name'>Location name</option>
                             </Form.Select>
                         </div>
                         <MapContainer center={start} zoom={13} scrollWheelZoom={true}>
