@@ -31,7 +31,8 @@ import useNotification from '../../../hooks/useNotification';
 
 // Icons
 import { BiReset } from "react-icons/bi";
-import { IoIosSend } from 'react-icons/io'
+import { IoIosSend, IoMdAddCircle } from 'react-icons/io'
+import { BsFillTrashFill } from 'react-icons/bs'
 
 //TO DO: add icon for each possibility also add/addded
 
@@ -83,10 +84,9 @@ const hutUnlinkedIcon = L.icon({
 const AddReferencePoint = () => {
 
     const navigate = useNavigate(); // Navigation handler
-    const [loading, setLoading] = useState(true); //TODO: DA PORTARE A TRUE APPENA ABBIAMO L'API
+    const [loading, setLoading] = useState(true);
     const [points, setPoints] = useState([]);
     const notify = useNotification();
-    const { userInfo, isloggedIn } = useContext(AuthContext);
     const [currentStart, setCurrentStart] = useState();
     const [currentEnd, setCurrentEnd] = useState();
     const [start, setStart] = useState();
@@ -98,7 +98,6 @@ const AddReferencePoint = () => {
     const [hike, setHike] = useState(undefined);
     const [coordinates, setCoordinates] = useState(null);
     const [refPoint, setRefPoint] = useState(false);
-
 
     useEffect(() => {
         api
@@ -146,9 +145,9 @@ const AddReferencePoint = () => {
 
         //we need to parse the type from integer to the actual name
 
-        if (type === '0') { notify.error('select a reference point type') }
+        if (type === '0') { notify.error('Select a reference point type') }
         else {
-            if (!isDisabled && pointName === '') { notify.error('reference point name missing') }
+            if (!isDisabled && pointName === '') { notify.error('Insert a reference point name') }
             else {
                 let data = await getCityProvinceRegion(refPoint.lat, refPoint.lng);
                 const point = {
@@ -160,15 +159,11 @@ const AddReferencePoint = () => {
                     province: data.province,
                     city: data.city
                 }
-
                 points.push(point);
                 setPointName("");
                 setRefPoint(false);
                 setType(undefined);
-
-
             }
-
         }
     }
 
@@ -177,8 +172,6 @@ const AddReferencePoint = () => {
         setPoints(p)
     }
 
-
-
     if (!loading) {
         return (
             <div>
@@ -186,110 +179,103 @@ const AddReferencePoint = () => {
                     <h1 className="fw-bold">Add your reference points</h1>
                 </div>
                 <Row>
-                    <Col xs={10} sm={5} lg={5} xl={4} className='mb-3 mb-sm-0 me-sm-4'>
+                    <Col xs={11} md={5} className='mb-3 mb-md-0 me-sm-4'>
                         <div>
-                            <h4 className='m-3 fst-italic'>Reference point list</h4>
+                            <h4 className='mx-3 mt-3 mb-4 fst-italic'>Reference point list</h4>
                             {points.length > 0 ?
                                 <>
                                     {points.map((point, index) => {
                                         return (
-                                            <InfoPoint key={index} points={point} eventKeyNumber={'0'} />
+                                            <InfoPoint key={index} points={point} />
                                         )
 
                                     })}
                                 </>
                                 :
-                                <></>
+                                <p className='ms-3 fw-bold' style={{ fontSize: 30 }}>No reference point added</p>
                             }
                         </div>
                     </Col>
-                    <Col xs={11} sm={{ span: 6 }} lg={{ span: 6 }} xl={{ span: 6, offset: 1 }} className='mt-3 mt-sm-4'>
-                        <Row>
-                            <Col xs={7}>
-                                <Form.Control
-                                    data-testid="name-select"
-                                    type="text"
-                                    placeholder="Reference point name"
-                                    disabled={isDisabled}
-                                    onChange={(event) => { setPointName(event.target.value) }}
-                                    value={pointName}
-                                />
-                            </Col>
-                            <Col xs={5}>
-                                <Form.Select
-                                    data-testid="type-select"
-                                    value={type}
-                                    onChange={(event) => {
-                                        if (event.target.value === '1' || event.target.value === '2') {
-                                            setIsDisabled(false);
-                                        } else {
-                                            setIsDisabled(true);
-                                            setPointName('');
-                                        }
-                                        setType(event.target.value);
-                                    }}
-                                >
-                                    <option value='0'>Point Type</option>
-                                    <option value='1'>Hut</option>
-                                    <option value='2'>Parking Lot</option>
-                                    <option value='3'>GPS coordinate</option>
-                                    <option value='4'>Location name</option>
-                                </Form.Select>
-                            </Col>
-                        </Row>
-                        <Row className='my-2'>
-
-                            <MapContainer center={start} zoom={13} scrollWheelZoom={true}>
-                                <TileLayer
-                                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                                    url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
-                                />
-                                <Marker icon={endIcon} position={end}>
+                    <Col xs={11} md={6} className='ms-3 mt-md-3'>
+                        <div className='d-flex flex-column flex-sm-row mb-3'>
+                            <Form.Control
+                                data-testid="name-select"
+                                type="text"
+                                className='mb-3 mb-sm-0'
+                                placeholder="Point name..."
+                                disabled={isDisabled}
+                                onChange={(event) => { setPointName(event.target.value) }}
+                                value={pointName}
+                            />
+                            <Form.Select
+                                data-testid="type-select"
+                                value={type}
+                                className='ms-sm-5 me-sm-3 me-md-0'
+                                onChange={(event) => {
+                                    if (event.target.value === '1' || event.target.value === '2') {
+                                        setIsDisabled(false);
+                                    } else {
+                                        setIsDisabled(true);
+                                        setPointName('');
+                                    }
+                                    setType(event.target.value);
+                                }}
+                            >
+                                <option value='0'>Point Type</option>
+                                <option value='1'>Hut</option>
+                                <option value='2'>Parking Lot</option>
+                                <option value='3'>GPS coordinate</option>
+                                <option value='4'>Location name</option>
+                            </Form.Select>
+                        </div>
+                        <MapContainer center={start} zoom={13} scrollWheelZoom={true}>
+                            <TileLayer
+                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                                url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
+                            />
+                            <Marker icon={endIcon} position={end}>
+                                <Popup>
+                                    <span className="fw-bold" style={{ fontSize: 15 }}>{hike.pointList.find(p => p.id === hike.endPointId).name}</span><br />
+                                </Popup>
+                            </Marker>
+                            <Marker icon={startIcon} position={start}>
+                                <Popup>
+                                    <span className="fw-bold" style={{ fontSize: 15 }}>{hike.pointList.find(p => p.id === hike.startPointId).name}</span><br />
+                                </Popup>
+                            </Marker>
+                            {points.length > 0 ?
+                                <>
+                                    {points.map((point, index) => {
+                                        return (
+                                            <Marker key={index} icon={icon} position={[point.latitude, point.longitude]}>
+                                                <Popup>
+                                                    <span className="fw-bold" style={{ fontSize: 15 }}>{point.type}</span><br />
+                                                    <Button size="sm" variant='danger' onClick={() => { removeReferencePoint(point) }}><BsFillTrashFill className='me-2' />Remove</Button>
+                                                </Popup>
+                                            </Marker>
+                                        )
+                                    })}
+                                </>
+                                : <></>
+                            }
+                            {refPoint ?
+                                <Marker icon={icon} position={refPoint}>
                                     <Popup>
-                                        <span className="fw-bold" style={{ fontSize: 15 }}>{hike.pointList.find(p => p.id === hike.endPointId).name}</span><br />
+                                        <div className="d-flex flex-column">
+                                            {/* <span className="fw-bold" style={{ fontSize: 15 }}>{type}</span><br /> */}
+                                            <Button size="sm" variant='success' onClick={AddReferencePoint}><IoMdAddCircle className='me-2' />Add reference point</Button>
+                                        </div>
                                     </Popup>
                                 </Marker>
-                                <Marker icon={startIcon} position={start}>
-                                    <Popup>
-                                        <span className="fw-bold" style={{ fontSize: 15 }}>{hike.pointList.find(p => p.id === hike.startPointId).name}</span><br />
-                                    </Popup>
-                                </Marker>
-                                {points.length > 0 ?
-                                    <>
-                                        {points.map((point, index) => {
-                                            return (
-                                                <Marker key={index} icon={icon} position={[point.latitude, point.longitude]}>
-                                                    <Popup>
-                                                        <span className="fw-bold" style={{ fontSize: 15 }}>{point.type}</span><br />
-                                                        <Button size="sm" variant='danger' onClick={() => { removeReferencePoint(point) }}>Remove</Button>
-                                                    </Popup>
-                                                </Marker>
-                                            )
-
-                                        })}
-                                    </>
-                                    : <></>
-                                }
-                                {refPoint ?
-                                    <Marker icon={icon} position={refPoint}>
-                                        <Popup>
-                                            <div className="d-flex flex-column">
-                                                {/* <span className="fw-bold" style={{ fontSize: 15 }}>{type}</span><br /> */}
-                                                <Button size="sm" variant='success' onClick={AddReferencePoint}>Link reference point</Button>
-                                            </div>
-                                        </Popup>
-                                    </Marker>
-                                    :
-                                    <></>
-                                }
-                                <Polyline pathOptions={limeOptions} positions={coordinates} eventHandlers={{
-                                    click: e => {
-                                        setRefPoint(e.latlng)
-                                    },
-                                }} />
-                            </MapContainer>
-                        </Row>
-                        {/* <MapStartEndLink points={points} setEnd={setCurrentEnd} setStart={setCurrentStart} currentEnd={currentEnd} currentStart={currentStart} className='my-2'/> */}
+                                :
+                                <></>
+                            }
+                            <Polyline pathOptions={limeOptions} positions={coordinates} eventHandlers={{
+                                click: e => {
+                                    setRefPoint(e.latlng)
+                                },
+                            }} />
+                        </MapContainer>
                         <div className=" my-2">
                             {/* <Button variant='secondary' onClick={() => { handleReset() }} className='me-4'> */}
                             <Button variant='secondary' className='me-4'>
