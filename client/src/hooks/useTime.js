@@ -147,7 +147,7 @@ const MyTime = (props) => {
                 }
                 {hikeTime.inProgress === -1 && <Button variant="warning" className='me-2' onClick={handleHikeTimeInfo}><GiStopSign className="me-2" />Stop hike</Button>}
             </Col>
-            <Col xs={12} md={6} lg={{ span: 5, offset: 2 }} xl={{ span: 4, offset: 3 }} className='ps-md-5 ps-lg-3 pe-lg-0 ps-xl-5'>
+            <Col xs={12} md={6} lg={{ span: 5, offset: 2 }} xl={{ span: 4, offset: 3 }} className='ps-md-5 ps-lg-3 pe-lg-0'>
                 <TimerStyled seconds={seconds} minutes={minutes} hours={hours} days={days} />
             </Col>
         </Row>

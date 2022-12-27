@@ -13,6 +13,7 @@
 // Imports
 import styled from 'styled-components';
 import Digit from './Digit';
+import DigitHour from './DigitHour';
 
 const TimerContainer = styled.div`
   display: flex;
@@ -41,7 +42,7 @@ const Separtor = styled.span`
 export default function TimerStyled({ seconds, minutes, hours, days }) {
   return (
     <TimerContainer>
-      {days !== undefined ? <Digit value={days} title="DAYS" addSeparator /> : null}
+      {days !== undefined ? <DigitHour value={days} title="DAYS" addSeparator /> : null}
       {days !== undefined ?
         (<SepartorContainer>
           <Separtor />
