@@ -59,26 +59,12 @@ const icon = L.icon({
     iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
     shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
 });
-
-const iconHut = L.icon({
-    iconSize: [25, 41],
-    iconAnchor: [10, 41],
-    popupAnchor: [2, -40],
-    iconUrl: require("../../../assets/mapIcons/hut.png"),
-    shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
+const iconRed = L.icon({
+    iconUrl: require("../../../assets/mapIcons/marker_red.png"),
+    iconSize: [41, 41],
 });
 
-const iconParking = L.icon({
-    iconSize: [35, 40],
-    iconAnchor: [10, 41],
-    popupAnchor: [2, -40],
-    iconUrl: require("../../../assets/mapIcons/parking.png"),
-    shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
-});
-const hutUnlinkedIcon = L.icon({
-    iconUrl: require("../../../assets/mapIcons/hutUnlinked.png"),
-    iconSize: [30, 30],
-});
+
 
 
 const AddReferencePoint = () => {
@@ -94,7 +80,6 @@ const AddReferencePoint = () => {
     const { hikeId } = useParams();
     const [pointName, setPointName] = useState("");
     const [type, setType] = useState('0');
-    const [isDisabled, setIsDisabled] = useState(true);
     const [hike, setHike] = useState(undefined);
     const [coordinates, setCoordinates] = useState(null);
     const [refPoint, setRefPoint] = useState(false);
@@ -145,27 +130,29 @@ const AddReferencePoint = () => {
 
         //we need to parse the type from integer to the actual name
 
-        if (type === '0') { notify.error('Select a reference point type') }
-        else {
-            if (!isDisabled && pointName === '') { notify.error('Insert a reference point name') }
-            else {
-                let data = await getCityProvinceRegion(refPoint.lat, refPoint.lng);
-                const point = {
-                    name: pointName,
-                    type: type,
-                    latitude: refPoint.lat,
-                    longitude: refPoint.lng,
-                    region: data.region,
-                    province: data.province,
-                    city: data.city
-                }
-                points.push(point);
-                setPointName("");
-                setRefPoint(false);
-                setType(undefined);
+        // if (type === '0') { notify.error('Select a reference point type') }
+        // else {
+        //     if (!isDisabled && pointName === '') { notify.error('Insert a reference point name') }
+        //     else {
+        //     }
+        if(pointName == ''){notify.error('Insert a reference point name')}
+        else{
+            let data = await getCityProvinceRegion(refPoint.lat, refPoint.lng);
+            const point = {
+                name: pointName,
+                type: type,
+                latitude: refPoint.lat,
+                longitude: refPoint.lng,
+                region: data.region,
+                province: data.province,
+                city: data.city}
+            points.push(point);
+            setPointName("");
+            setRefPoint(false);
+            setType(undefined);
             }
         }
-    }
+
 
     const removeReferencePoint = (point) => {
         let p = points.filter((p) => p.latitude !== point.latitude && p.longitude !== point.longitude)
@@ -203,11 +190,10 @@ const AddReferencePoint = () => {
                                 type="text"
                                 className='mb-3 mb-sm-0'
                                 placeholder="Point name..."
-                                disabled={isDisabled}
                                 onChange={(event) => { setPointName(event.target.value) }}
                                 value={pointName}
                             />
-                            <Form.Select
+                            {/* <Form.Select
                                 data-testid="type-select"
                                 value={type}
                                 className='ms-sm-5 me-sm-3 me-md-0'
@@ -226,7 +212,7 @@ const AddReferencePoint = () => {
                                 <option value='Parking Lot'>Parking Lot</option>
                                 <option value='GPS coordinate'>GPS coordinate</option>
                                 <option value='Location name'>Location name</option>
-                            </Form.Select>
+                            </Form.Select> */}
                         </div>
                         <MapContainer center={start} zoom={13} scrollWheelZoom={true}>
                             <TileLayer
@@ -249,7 +235,7 @@ const AddReferencePoint = () => {
                                         return (
                                             <Marker key={index} icon={icon} position={[point.latitude, point.longitude]}>
                                                 <Popup>
-                                                    <span className="fw-bold" style={{ fontSize: 15 }}>{point.type}</span><br />
+                                                    <span className="fw-bold" style={{ fontSize: 15 }}>{point.name}</span><br />
                                                     <Button size="sm" variant='danger' onClick={() => { removeReferencePoint(point) }}><BsFillTrashFill className='me-2' />Remove</Button>
                                                 </Popup>
                                             </Marker>
@@ -259,7 +245,7 @@ const AddReferencePoint = () => {
                                 : <></>
                             }
                             {refPoint ?
-                                <Marker icon={icon} position={refPoint}>
+                                <Marker icon={iconRed} position={refPoint}>
                                     <Popup>
                                         <div className="d-flex flex-column">
                                             {/* <span className="fw-bold" style={{ fontSize: 15 }}>{type}</span><br /> */}
