@@ -39,7 +39,7 @@ router.post('/referencePoint',
         try {
             //Check that this user uploaded the hike
             const userId = req.user.id;
-            const isOk = await isThisMyHike(hikeId, userId);
+            const isOk = await isThisMyHike(req.body.hikeId, userId);
             if (!isOk)
                 return res.status(422).json({ error: `Are you sure you uploaded this hike?` });
 
