@@ -15,6 +15,7 @@ const hikeRoute = require("../routes/hikeRoute");
 const editHikeRoute = require("../routes/editHikeRoute");
 const parkingLotRoute = require("../routes/parkingLotRoute");
 const hutRoute = require("../routes/hutRoute");
+const hikePointRoute = require("../routes/hikePointRoute");
 const path = require('path');
 
 
@@ -58,7 +59,7 @@ app.use(passport.session());
 
 
 /* --- APIs --- */
-app.use("/api", sessionRoute, signUpRoute, hikeRoute, editHikeRoute, parkingLotRoute, hutRoute);
+app.use("/api", sessionRoute, signUpRoute, hikeRoute, editHikeRoute, parkingLotRoute, hutRoute, hikePointRoute);
 
 
 // activate the server

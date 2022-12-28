@@ -297,3 +297,22 @@ exports.getStartEndPointDistanceData = (id) => {
         });
     });
 }
+
+/**
+ * Get hike existance by hike id 
+ * @param {number} id the id of the hike
+ */
+exports.getHikeCheck = (id) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM Hike WHERE id = ?';
+        db.get(sql, [id], (err, r) => {
+            if (err) {
+                reject(err);
+            } else if (r === undefined)
+                resolve(0);
+            else {
+                resolve(1);
+            }
+        });
+    });
+}

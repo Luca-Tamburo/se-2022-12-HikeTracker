@@ -716,6 +716,24 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   - Response: `204` (success), `422` if the localguide did not upload that hike or if the input is not correct, `404` if something is not found, `503 Service Unavailable` (generic error).
   - Response body: _nothing_
 
+- POST `/referencePoint`
+  - Description: Link reference points to a hike
+  - Request body: An object representing the reference point information
+
+  ```json
+  {
+    "hikeId": 2, 
+    "title":"Viewpoint ...",
+    "description":"If you are silent you can get to see ...",
+    "latitude": 44.57426,
+    "longitude": 6.98264
+  }
+
+  ```
+
+  - Response: `204` (success), `422` if the localguide did not upload that hike or if the input is not correct, `404` if something is not found, `503 Service Unavailable` (generic error).
+  - Response body: _nothing_
+
 ## Database Tables
 
 #### *Hike* includes all hikes specifications
