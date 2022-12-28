@@ -731,7 +731,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
   ```
 
-  - Response: `204` (success), `422` if the localguide did not upload that hike or if the input is not correct, `404` if something is not found, `503 Service Unavailable` (generic error).
+  - Response: `201` (success), `422` if the localguide did not upload that hike or if the input is not correct, `404` if something is not found, `503 Service Unavailable` (generic error).
   - Response body: _nothing_
 
 ## Database Tables
