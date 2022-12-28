@@ -15,6 +15,7 @@
 const express = require('express');
 const hikeDao = require('../dao/hikeDao');
 const pointDao = require('../dao/pointDao');
+const hikePointDao = require('../dao/hikePointDao')
 const router = express.Router();
 const { check } = require("express-validator"); // validation middleware
 const { checksValidation } = require("../utils/validationUtil");
@@ -22,7 +23,8 @@ const sessionUtil = require("../utils/sessionUtil");
 const isLoggedInLocalGuide = sessionUtil.isLoggedInLocalGuide;
 const fs = require('fs');
 const { getCityProvinceRegion } = require("../utils/geoUtils");
-const { isThisMyHike } = require("../utils/editHikesUtils");
+const { isThisMyHike, isItNearEnough} = require("../utils/editHikesUtils");
+const parseGpx = require('parse-gpx');
 
 /**
 * Post reference point into the system
@@ -42,23 +44,53 @@ router.post('/referencePoint',
             const isOk = await isThisMyHike(req.body.hikeId, userId);
             if (!isOk)
                 return res.status(422).json({ error: `Are you sure you uploaded this hike?` });
-
+            
             //Check that the hikeId exists
             let hikeCheck = await hikeDao.getHikeCheck(req.body.hikeId)
-            
             if (hikeCheck === 0) {
                 return res.status(404).json({ error: `Hike not found` })
             };
-            
-            //Get the gpx of the hike
-            let gpx = await hikeDao.getGpxByHikeId(req.body.hikeId);
+
+            //Check that the reference point is not already in the list of points for that hike
+            let ref_points = await hikePointDao.getRefPointsByHikeId(req.body.hikeId);
+            for (let ref_point of ref_points){
+                if (ref_point.latitude === req.body.latitude && ref_point.longitude === req.body.longitude){
+                    return res.status(422).json({ error: `This point is already a reference point of the hike` });
+                }
+            }
 
             //Check that the reference point is close to the hike track points
-            //TODO
-
+            //Get the gpx address of the hike
+            let gpx = await hikeDao.getGpxByHikeId(req.body.hikeId);
+            let trackPoints;
+            try {
+                //Get gpx content
+                let gpxContent = fs.readFileSync(path.join(__dirname, `..//utils/gpxFiles/${gpx}`));
+                let track = await parseGpx(gpxContent);
+                trackPoints = track.trackPoints;
+            } catch (err) { //gpx could be corrupted or the name in the db could be wrong
+                return res.status(422).json({ error: `Error while reading the stored gpx, please check the gpx.` });
+            }
+            let infos = await hikeDao.getStartEndPointDistanceData(req.body.hikeId);
+            let length = infos.length;
+            let referencePointData = {
+                latitude: req.body.latitude,
+                longitude: req.body.longitude
+            };
+            //For every 5 points in the hike track evaluate distance to the reference point, if near criteria is met close is changed to 1 (break could be included to make code more efficient)
+            let close = 0;
+            for (let i = 0; i < trackPoints.length; i += 5) {
+                if (isItNearEnough(trackPoints[i], referencePointData, length)) {
+                    close = 1
+                }
+            }
+            if (close === 0) {
+                return res.status(422).json({ error: `Reference point is not close enough` })
+            };
+            
             //Obtain city, province, region
             const cpr = await getCityProvinceRegion(req.body.latitude, req.body.longitude);
-            //Create point with no type or altitude (?)
+            //Create point with no altitude (?)
             const pointId = await pointDao.addPoint(req.body.title, req.body.description, cpr.type, req.body.latitude, req.body.longitude, 0, cpr.city, cpr.province, cpr.region);
             //Associate point to hike
             await pointDao.addPointHike(req.body.hikeId, pointId)
