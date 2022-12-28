@@ -15,7 +15,8 @@ Here you can find a visual schema of source directory structure by means the tre
 
 |--- /client
      |--- /cypress
-          |--- /downloads
+          |--- /utils
+               |--- /loginData.json
           |--- /e2e
                |--- /addHike.e2e.cy.js
                |--- /addHut.e2e.cy.js
@@ -24,11 +25,14 @@ Here you can find a visual schema of source directory structure by means the tre
                |--- /hikes.e2e.cy.js
                |--- /home.e2e.cy.js
                |--- /homeRouting.e2e.cy.js
+               |--- /hutDetails.e2e.cy.js
+               |--- /huts.e2e.cy.js
+               |--- /linkHutToHike.e2e.cy.js
+               |--- /linkStartEndPoint.e2e.cy.js
                |--- /login.e2e.cy.js
                |--- /RigthFile.gpx
           |--- /fixtures
                |--- /example.json
-          |--- /integration
           |--- /plugin
                |--- /index.js
           |--- /support
@@ -48,6 +52,7 @@ Here you can find a visual schema of source directory structure by means the tre
                     |--- /AddHikeService.png
                     |--- /AddHutService.png
                     |--- /AddParkingService.png
+                    |--- /MyHikesService.png
                |--- /logo
                     |--- /logo-black.png
                     |--- /logo-color.png
@@ -55,7 +60,11 @@ Here you can find a visual schema of source directory structure by means the tre
                     |--- /logo-white.png
                |--- /mapIcons
                     |--- /finish.png
+                    |--- /hut.png
+                    |--- /hutUnlinked.png
+                    |--- /marker_red.png
                     |--- /mountain.png
+                    |--- /parking.png
                     |--- /start.png
                |--- /authenticationImg.jpg
                |--- /femaleImg.jpg
@@ -65,17 +74,32 @@ Here you can find a visual schema of source directory structure by means the tre
                |--- /registerImg.svg
           |--- /components
                |--- /ui-core
+                    |--- /CompletedHikeInfo
+                         |--- /CompletedHikeInfo.jsx
+                         |--- /CompletedHikeInfo.test.jsx
                     |--- /HikeCard
                          |--- /HikeCard.css
                          |--- /HikeCard.jsx
                          |--- /HikeCard.test.jsx
+                    |--- /HutCard
+                         |--- /HutCard.css
+                         |--- /HutCard.jsx
+                         |--- /HutCard.test.jsx
+                    |--- /InfoPoint
+                         |--- /InfoPoint.jsx
+                         |--- /InfoPoint.test.jsx
                     |--- /LocalGuideServiceCard
                          |--- /LocalGuideServiceCard.css
                          |--- /LocalGuideServiceCard.jsx
                          |--- /LocalGuideServiceCard.test.jsx
                     |--- /Locate
                          |--- /AddMarker.jsx
+                         |--- /AddMarker.test.jsx
+                         |--- /AddMarkerAndInfo.jsx
+                         |--- /AddMarkerAndInfo.test.jsx
                          |--- /LocationMarker.jsx
+                         |--- /MapLinkHut.jsx
+                         |--- /MapStartEndLink.jsx
                          |--- /SetYourLocation.test.jsx
                     |--- /LoginForm
                          |--- /LoginForm.jsx
@@ -87,18 +111,26 @@ Here you can find a visual schema of source directory structure by means the tre
                     |--- /RegisterForm
                          |--- /RegisterForm.jsx
                          |--- /RegisterForm.test.jsx
+                         |--- /RegisterFormAdvanced.jsx
                          |--- /RegisterFormAdvanced.test.jsx
                     |--- /index.js
                |--- /utils
                     |--- /AppContainer
+                         |--- /AppContainer.css
                          |--- /AppContainer.jsx
                          |--- /AppContainer.test.jsx
                     |--- /Filter
-                         |--- /Filter.css
-                         |--- /Filter.jsx
-                         |--- /Filter.test.jsx
+                         |--- /Hike
+                              |--- /HikeFilter.css
+                              |--- /HikeFilter.jsx
+                              |--- /HikeFilter.test.jsx
+                         |--- /Hut
+                              |--- /HutFilter.css
+                              |--- /HutFilter.jsx
+                              |--- /HutFilter.test.jsx
                     |--- /Input
                          |--- /Check.jsx
+                         |--- /Check.test.jsx
                          |--- /index.jsx
                          |--- /Input.jsx
                          |--- /Input.test.jsx
@@ -107,10 +139,14 @@ Here you can find a visual schema of source directory structure by means the tre
                          |--- /TextArea.jsx
                          |--- /TextArea.test.jsx
                     |--- /ProtectedRoute
+                         |--- /HikerProtectedRoute.jsx
                          |--- /LocalGuideProtectedRoute.jsx
                          |--- /ProtectedRoute.jsx
+                    |--- /Timer
+                         |--- /Digit.js
+                         |--- /DigitHour.js
+                         |--- /TimerStyled.js
                     |--- /index.js
-                    |--- /Input.jsx
                |--- /index.js
           |--- /constants
                |--- /AddHikeForm.js
@@ -129,11 +165,14 @@ Here you can find a visual schema of source directory structure by means the tre
                |--- /regions.json
           |--- /hooks
                |--- /useNotification.js
+               |--- /useTime.js
+               |--- /useTime.test.js
           |--- /lib
                |--- /helpers
                     |--- /location.js
           |--- /services
                |--- /api.js
+               |--- /geoApi.js
           |--- /validation
                |--- /AddHikeSchema.js
                |--- /AddHutSchema.js
@@ -145,6 +184,8 @@ Here you can find a visual schema of source directory structure by means the tre
                |--- /AddHike
                     |--- /AddHike.jsx
                     |--- /AddHike.test.jsx
+                    |--- /gpxTestTrack.gpx
+                    |--- /imageTest.png
                |--- /AddHut
                     |--- /AddHut.jsx
                     |--- /AddHut.test.jsx
@@ -165,11 +206,33 @@ Here you can find a visual schema of source directory structure by means the tre
                |--- /HikeDetails
                     |--- /HikeDetails.jsx
                     |--- /HikeDetails.test.jsx 
+               |--- /Hiker
+                    |--- /CompletedHikes
+                         |--- /CompletedHikes.jsx
+                         |--- /CompletedHikes.test.jsx 
                |--- /Home
                     |--- /Home.css
                     |--- /Home.jsx  
-                    |--- /Home.test.jsx  
+                    |--- /Home.test.jsx 
+               |--- /Hut
+                    |--- /Hut.jsx
+                    |--- /Hut.test.jsx
+               |--- /HutDetails
+                    |--- /HutDetails.jsx
+                    |--- /HutDetails.test.js
                |--- /LocalGuidePage
+                    |--- /Hikes
+                         |--- /AddReferencePoint.jsx
+                         |--- /AddReferencePoint.test.jsx
+                    |--- /AddReferencePoint
+                         |--- /LinkHutToHike.jsx
+                         |--- /LinkHutToHike.test.jsx
+                    |--- /LinkHut
+                         |--- /LinkHutToHike.jsx
+                         |--- /LinkHutToHike.test.jsx
+                    |--- /LinkPoint
+                         |--- /LinkStartEndPoint.jsx
+                         |--- /LinkStartEndPoint.test.jsx
                     |--- /LocalGuidePage.jsx
                     |--- /LocalGuidePage.test.jsx
                |--- /Login
@@ -178,20 +241,24 @@ Here you can find a visual schema of source directory structure by means the tre
                |--- /Register
                     |--- /Register.jsx
                     |--- /Register.test.jsx
+                    |--- /RegisterRole.jsx
+                    |--- /RegisterRole.test.jsx
                |--- /index.js
           |--- /App.css
           |--- /App.jsx
-          |--- /App.test.jsx
           |--- /index.css
           |--- /index.js
           |--- /logo.svg
           |--- /reportWebVitals.js
           |--- /setupTests.js
+     |--- /.babelrc
      |--- /.gitignore
-     |--- /.cypress.config.js
+     |--- /cypress.config.js
+     |--- /Dockerfiler
      |--- /package-lock.json
      |--- /package.json
      |--- /README.md
+     |--- /test-report.xml
 ```
 
 ## Main react components
@@ -199,6 +266,14 @@ Here you can find a visual schema of source directory structure by means the tre
 ### `Hike Card`
 
 This component shows the basic information of a hike.
+
+### `Hut Card`
+
+This component shows the basic information of a hut.
+
+### `Info Point`
+
+This component shows the basic information of a point (name, type, and geographic information).
 
 ### `Login Form`
 
@@ -208,9 +283,13 @@ This component contains the login form that calls the correlated API on submit.
 
 This component contains the register form that calls the correlated API on submit.
 
-### `Filter`
+### `Hike Filter`
 
-This component manages the filters.
+This component handles the filters on the hikes.
+
+### `Hut Filter`
+
+This component handles the filters on the huts.
 
 ## Main react views
 
@@ -233,6 +312,30 @@ This page shows all the hikes in the db and allows you to filter the hikes based
 ### `Hike Details`
 
 This page shows all the information for a single hike. In addition, if you are a local guide, the map is also shown and you can download the gpx file.
+
+### `Hut`
+
+This page shows all the huts in the db and allows you to filter the htus based on predetermined parameters.
+
+### `Hut Details`
+
+This page shows all the information for a single hut.
+
+### `LocalGuidePage/Hikes`
+
+This page shows all the hikes created by a local guide.
+
+### `LocalGuidePage/AddReferencePoint`
+
+This page allows a local guide who has created a specific hike, to add a reference point to a hike.
+
+### `LocalGuidePage/LinkHut`
+
+This page allows a local guide who has created a specific hike, to link a hut to a hike.
+
+### `LocalGuidePage/LinkPoint`
+
+This page allows a local guide who has created a specific hike to link to a hut or parking lot as the start or end point of a hike.
 
 ## Getting Started with Create React App
 
