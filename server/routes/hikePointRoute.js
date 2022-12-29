@@ -25,6 +25,7 @@ const fs = require('fs');
 const { getCityProvinceRegion } = require("../utils/geoUtils");
 const { isThisMyHike, isItNearEnough} = require("../utils/editHikesUtils");
 const parseGpx = require('parse-gpx');
+const path = require('path');
 
 /**
 * Post reference point into the system
