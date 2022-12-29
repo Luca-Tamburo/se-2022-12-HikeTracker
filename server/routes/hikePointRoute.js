@@ -32,20 +32,19 @@ const path = require('path');
 */
 
 router.post('/referencePoint',
-    isLoggedInLocalGuide,
+    //isLoggedInLocalGuide,
     check("hikeId").exists().withMessage("This field is mandatory").bail().isInt({ gt: 0 }),
     check("title").exists().withMessage("This field is mandatory").bail().isString(),
-    check("description").exists().withMessage("This field is mandatory").bail().isString(), 
     check("latitude").exists().withMessage("This field is mandatory").bail().isNumeric(),
     check("longitude").exists().withMessage("This field is mandatory").bail().isNumeric(),
     checksValidation, async (req, res) => {
         try {
             //Check that this user uploaded the hike
-            const userId = req.user.id;
+            /*const userId = req.user.id;
             const isOk = await isThisMyHike(req.body.hikeId, userId);
             if (!isOk)
                 return res.status(422).json({ error: `Are you sure you uploaded this hike?` });
-            
+            */
             //Check that the hikeId exists
             let hikeCheck = await hikeDao.getHikeCheck(req.body.hikeId)
             if (hikeCheck === 0) {
@@ -92,7 +91,7 @@ router.post('/referencePoint',
             //Obtain city, province, region
             const cpr = await getCityProvinceRegion(req.body.latitude, req.body.longitude);
             //Create point with no altitude (?)
-            const pointId = await pointDao.addPoint(req.body.title, req.body.description, cpr.type, req.body.latitude, req.body.longitude, 0, cpr.city, cpr.province, cpr.region);
+            const pointId = await pointDao.addPoint(req.body.title, "", cpr.type, req.body.latitude, req.body.longitude, 0, cpr.city, cpr.province, cpr.region);
             //Associate point to hike
             await pointDao.addPointHike(req.body.hikeId, pointId)
             
