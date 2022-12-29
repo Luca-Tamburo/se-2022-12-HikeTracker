@@ -135,8 +135,8 @@ const AddReferencePoint = () => {
         //     if (!isDisabled && pointName === '') { notify.error('Insert a reference point name') }
         //     else {
         //     }
-        if(pointName == ''){notify.error('Insert a reference point name')}
-        else{
+        if (pointName == '') { notify.error('Insert a reference point name') }
+        else {
             let data = await getCityProvinceRegion(refPoint.lat, refPoint.lng);
             const point = {
                 name: pointName,
@@ -145,13 +145,34 @@ const AddReferencePoint = () => {
                 longitude: refPoint.lng,
                 region: data.region,
                 province: data.province,
-                city: data.city}
+                city: data.city,
+            }
+            const dataApi = {
+                hikeId: hikeId,
+                title: pointName,
+                description: "",
+                latitude: refPoint.lat,
+                longitude: refPoint.lng,
+
+            }
+
+
+            //Api AddReferencePoint
+            api.addReferencePoint(dataApi)
+                .then(() => {
+                    notify.success(`Hike correctly added`);
+                    //navigate("/", { replace: true });
+                })
+                .catch((err) => notify.error(err.error))
+                .finally(() => setLoading(false));
             points.push(point);
             setPointName("");
             setRefPoint(false);
             setType(undefined);
-            }
+
         }
+
+    }
 
 
     const removeReferencePoint = (point) => {
