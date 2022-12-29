@@ -256,14 +256,14 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
      "authorSurname": "baglio",
      "authorId": 1,
      "uploadDate": "2022-01-10",
-     "photoFile": "www. ..."
+     "photoFile": "www. ...",
      "length": 13,
      "expectedTime": 5,
      "ascent": 1280,
      "difficulty": 4,
      "startPointId": 1,
      "endPointId": 2,
-     "gpx": "gpx file data if loggedin, nothing ("") if not logged in"
+     "gpx": "gpx file data if loggedin, nothing ("") if not logged in",
      "pointList": 
         [
           {
