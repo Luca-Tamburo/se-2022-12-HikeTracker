@@ -39,6 +39,13 @@ let tj = require("togeojson"),
   DOMParser = require("xmldom").DOMParser;
 
 const L = require("leaflet");
+const icon = L.icon({
+  iconSize: [25, 41],
+  iconAnchor: [10, 41],
+  popupAnchor: [2, -40],
+  iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
+});
 const hutIcon = L.icon({
   iconUrl: require("../../assets/mapIcons/hut.png"),
   iconSize: [30, 30],
@@ -52,6 +59,7 @@ const HikeDetails = () => {
   const [hike, setHike] = useState(undefined);
   const [start, setStart] = useState(null);
   const [pointList, setPointList] = useState(null);
+  const [hutList,sethutList] = useState([])
   const { userInfo, isloggedIn } = useContext(AuthContext);
   const { hikeId } = useParams();
   const notify = useNotification();
@@ -77,11 +85,18 @@ const HikeDetails = () => {
         let s = [startPoint.latitude, startPoint.longitude];
         let e = [endPoint.latitude, endPoint.longitude];
         let pList = [];
+        let hList = [];
         hikes.pointList.map((hike) => {
           if (hike.id !== startPoint.id && hike.id !== endPoint.id) {
-            pList.push(hike)
+            if(hike.type === 'hut'){
+              hList.push(hike)
+            }
+            else{
+              pList.push(hike)
+            }
           }
         })
+        sethutList(hList);
         setPointList(pList)
         setStart(s);
         setEnd(e);
@@ -110,6 +125,7 @@ const HikeDetails = () => {
       .finally(() => setLoading(false));
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
+  console.log(pointList)  
   if (!loading) {
     return (
       <>
@@ -180,6 +196,14 @@ const HikeDetails = () => {
                       </Popup>
                     </Marker>
                     {pointList.map((point, index) => {
+                      return (
+                        <Marker key={index} icon={icon} position={[point.latitude, point.longitude]}>
+                          <Popup>
+                            <span className="fw-bold">{point.name}</span><br />
+                          </Popup>
+                        </Marker>)
+                    })}
+                    {hutList.map((point, index) => {
                       return (
                         <Marker key={index} icon={hutIcon} position={[point.latitude, point.longitude]}>
                           <Popup>

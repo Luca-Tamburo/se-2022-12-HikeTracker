@@ -84,6 +84,7 @@ const AddReferencePoint = () => {
     const [coordinates, setCoordinates] = useState(null);
     const [refPoint, setRefPoint] = useState(false);
 
+    console.log(hike)
     useEffect(() => {
         api
             .getHikeDetails(hikeId)
@@ -95,10 +96,11 @@ const AddReferencePoint = () => {
                 let e = [endPoint.latitude, endPoint.longitude];
                 let pList = [];
                 hikes.pointList.map((hike) => {
-                    if (hike.id !== startPoint.id && hike.id !== endPoint.id) {
+                    if (hike.id !== startPoint.id && hike.id !== endPoint.id && hike.type !== 'hut' && hike.type !== 'parking lot' ) {
                         pList.push(hike)
                     }
                 })
+                setPoints(pList)
                 setStart(s);
                 setEnd(e);
                 if (hikes.gpx) {
@@ -161,7 +163,7 @@ const AddReferencePoint = () => {
             api.addReferencePoint(dataApi)
                 .then(() => {
                     notify.success(`Hike correctly added`);
-                    //navigate("/", { replace: true });
+                    navigate(`/hikes/${hikeId}`, { replace: true });
                 })
                 .catch((err) => notify.error(err.error))
                 .finally(() => setLoading(false));
