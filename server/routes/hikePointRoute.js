@@ -31,32 +31,41 @@ const path = require('path');
 * Post reference point into the system
 */
 
-router.post('/referencePoint',
-    //isLoggedInLocalGuide,
+router.post('/referencePoints',
+    isLoggedInLocalGuide,
     check("hikeId").exists().withMessage("This field is mandatory").bail().isInt({ gt: 0 }),
-    check("title").exists().withMessage("This field is mandatory").bail().isString(),
-    check("latitude").exists().withMessage("This field is mandatory").bail().isNumeric(),
-    check("longitude").exists().withMessage("This field is mandatory").bail().isNumeric(),
+    check("pointsToLink").exists().withMessage("This field is mandatory").bail().isArray({ min: 1 }).withMessage("This field is an array and can't be empty"),
+    check("pointsToLink.*.title").exists().withMessage("This field is mandatory").bail().isString(),
+    check("pointsToLink.*.latitude").exists().withMessage("This field is mandatory").bail().isNumeric(),
+    check("pointsToLink.*.longitude").exists().withMessage("This field is mandatory").bail().isNumeric(),
     checksValidation, async (req, res) => {
         try {
             //Check that this user uploaded the hike
-            /*const userId = req.user.id;
+            const userId = req.user.id;
             const isOk = await isThisMyHike(req.body.hikeId, userId);
             if (!isOk)
                 return res.status(422).json({ error: `Are you sure you uploaded this hike?` });
-            */
+
             //Check that the hikeId exists
             let hikeCheck = await hikeDao.getHikeCheck(req.body.hikeId)
             if (hikeCheck === 0) {
                 return res.status(404).json({ error: `Hike not found` })
             };
-
+            
+            const indexes = []
             //Check that the reference point is not already in the list of points for that hike
             let ref_points = await hikePointDao.getRefPointsByHikeId(req.body.hikeId);
-            for (let ref_point of ref_points){
-                if (ref_point.latitude === req.body.latitude && ref_point.longitude === req.body.longitude){
-                    return res.status(422).json({ error: `This point is already a reference point of the hike` });
+            for (let i in req.body.pointsToLink){
+                indexes.push(i)
+                for (let ref_point of ref_points){
+                    if (ref_point.latitude === req.body.pointsToLink[i].latitude && ref_point.longitude ===  req.body.pointsToLink[i].longitude){
+                        indexes.pop()
+                    }
                 }
+            }
+            
+            if (indexes.length == 0){
+                return res.status(422).json({ error: `These points are already a reference point of the hike` });
             }
 
             //Check that the reference point is close to the hike track points
@@ -73,29 +82,37 @@ router.post('/referencePoint',
             }
             let infos = await hikeDao.getStartEndPointDistanceData(req.body.hikeId);
             let length = infos.length;
-            let referencePointData = {
-                latitude: req.body.latitude,
-                longitude: req.body.longitude
-            };
+            let referencePointData = {};
             //For every 5 points in the hike track evaluate distance to the reference point, if near criteria is met close is changed to 1 (break could be included to make code more efficient)
-            let close = 0;
-            for (let i = 0; i < trackPoints.length; i += 5) {
-                if (isItNearEnough(trackPoints[i], referencePointData, length)) {
-                    close = 1
+            const indexes2 = []
+            for (let i of indexes){
+                referencePointData = {
+                    latitude: req.body.pointsToLink[i].latitude,
+                    longitude: req.body.pointsToLink[i].longitude
+                }
+                console.log(referencePointData)
+                for (let j = 0; j < trackPoints.length; j += 5) {
+                    if (isItNearEnough(trackPoints[j], referencePointData, length)) {
+                            if (!indexes2.includes(i)){
+                                indexes2.push(i)
+                        }
+                    }
                 }
             }
-            if (close === 0) {
-                return res.status(422).json({ error: `Reference point is not close enough` })
+            if (indexes2.length == 0){
+                return res.status(422).json({ error: `Reference points are not close enough` })
             };
-            
-            //Obtain city, province, region
-            const cpr = await getCityProvinceRegion(req.body.latitude, req.body.longitude);
-            //Create point with no altitude (?)
-            const pointId = await pointDao.addPoint(req.body.title, "", cpr.type, req.body.latitude, req.body.longitude, 0, cpr.city, cpr.province, cpr.region);
-            //Associate point to hike
-            await pointDao.addPointHike(req.body.hikeId, pointId)
-            
-            return res.status(201).json({ message: "Reference point inserted in the system"});
+           
+            for (let i of indexes2){
+                //Obtain city, province, region
+                const cpr = await getCityProvinceRegion(req.body.pointsToLink[i].latitude, req.body.pointsToLink[i].longitude);
+                //Create point with no altitude
+                const pointId = await pointDao.addPoint(req.body.pointsToLink[i].title, "", cpr.type, req.body.pointsToLink[i].latitude, req.body.pointsToLink[i].longitude, 0, cpr.city, cpr.province, cpr.region);
+                 //Associate point to hike
+                await pointDao.addPointHike(req.body.hikeId, pointId)
+            }
+
+            return res.status(201).json({ message: "Reference points inserted in the system"});
         } catch (error) {
             res.status(503).json({ error: `Service unavailable` });
         }
