@@ -152,7 +152,7 @@ const api = {
     },
     addReferencePoint: (formData) => {
         return new Promise((resolve, reject) => {
-            axios.post(SERVER_URL + 'referencePoint', formData, { withCredentials: true })
+            axios.post(SERVER_URL + 'referencePoints', formData, { withCredentials: true })
                 .then((res) => resolve(res.data))
                 .catch((err) => reject(err.response.data));
         })

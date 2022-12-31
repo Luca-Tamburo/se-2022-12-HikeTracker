@@ -72,6 +72,7 @@ const AddReferencePoint = () => {
     const navigate = useNavigate(); // Navigation handler
     const [loading, setLoading] = useState(true);
     const [points, setPoints] = useState([]);
+    const [newPoints, setnewPoints] = useState([]);
     const notify = useNotification();
     const [currentStart, setCurrentStart] = useState();
     const [currentEnd, setCurrentEnd] = useState();
@@ -149,28 +150,10 @@ const AddReferencePoint = () => {
                 province: data.province,
                 city: data.city,
             }
-            const dataApi = {
-                hikeId: hikeId,
-                title: pointName,
-                description: "",
-                latitude: refPoint.lat,
-                longitude: refPoint.lng,
-
-            }
-
-
-            //Api AddReferencePoint
-            api.addReferencePoint(dataApi)
-                .then(() => {
-                    notify.success(`Hike correctly added`);
-                    navigate(`/hikes/${hikeId}`, { replace: true });
-                })
-                .catch((err) => notify.error(err.error))
-                .finally(() => setLoading(false));
-            points.push(point);
+            
+            newPoints.push(point);
             setPointName("");
             setRefPoint(false);
-            setType(undefined);
 
         }
 
@@ -178,8 +161,42 @@ const AddReferencePoint = () => {
 
 
     const removeReferencePoint = (point) => {
-        let p = points.filter((p) => p.latitude !== point.latitude && p.longitude !== point.longitude)
+        let p = newPoints.filter((p) => p.latitude !== point.latitude && p.longitude !== point.longitude)
         setPoints(p)
+    }
+
+    const handleSubmit = () =>{
+        let pointList = [];
+        newPoints.map((point,index)=>{
+                let data = {
+                    title: point.name,
+                    latitude: point.latitude,
+                    longitude: point.longitude,
+                }
+                pointList.push(data);
+        })
+        const dataApi = {
+            hikeId: hikeId,
+            pointsToLink : pointList,
+        }
+
+        console.log(dataApi)
+
+        //Api AddReferencePoint
+        api.addReferencePoint(dataApi)
+            .then(() => {
+                notify.success(`Hike correctly added`);
+                navigate(`/hikes/${hikeId}`, { replace: true });
+            })
+            .catch((err) => notify.error(err.error))
+            .finally(() => setLoading(false));
+    }
+
+    const handleReset= ()=>{
+        setnewPoints([]);
+        setRefPoint(false);
+        setPointName("");
+
     }
 
     if (!loading) {
@@ -203,6 +220,18 @@ const AddReferencePoint = () => {
                                 </>
                                 :
                                 <p className='ms-3 fw-bold' style={{ fontSize: 30 }}>No reference point added</p>
+                            }
+                            {newPoints.length > 0 ?
+                                <>
+                                    {newPoints.map((point, index) => {
+                                        return (
+                                            <InfoPoint key={index} points={point} />
+                                        )
+
+                                    })}
+                                </>
+                                :
+                                <></>
                             }
                         </div>
                     </Col>
@@ -259,6 +288,20 @@ const AddReferencePoint = () => {
                                             <Marker key={index} icon={icon} position={[point.latitude, point.longitude]}>
                                                 <Popup>
                                                     <span className="fw-bold" style={{ fontSize: 15 }}>{point.name}</span><br />
+                                                </Popup>
+                                            </Marker>
+                                        )
+                                    })}
+                                </>
+                                : <></>
+                            }
+                            {newPoints.length > 0 ?
+                                <>
+                                    {newPoints.map((point, index) => {
+                                        return (
+                                            <Marker key={index} icon={icon} position={[point.latitude, point.longitude]}>
+                                                <Popup>
+                                                    <span className="fw-bold" style={{ fontSize: 15 }}>{point.name}</span><br />
                                                     <Button size="sm" variant='danger' onClick={() => { removeReferencePoint(point) }}><BsFillTrashFill className='me-2' />Remove</Button>
                                                 </Popup>
                                             </Marker>
@@ -287,11 +330,11 @@ const AddReferencePoint = () => {
                         </MapContainer>
                         <div className=" my-2">
                             {/* <Button variant='secondary' onClick={() => { handleReset() }} className='me-4'> */}
-                            <Button variant='secondary' className='me-4'>
+                            <Button variant='secondary' className='me-4' onClick={handleReset}>
                                 <BiReset className='me-1' /> Reset
                             </Button>
                             {/* <Button onClick={() => { handleSave() }}> */}
-                            <Button >
+                            <Button onClick={handleSubmit}>
                                 <IoIosSend className='me-2' />Submit
                             </Button>
                         </div>
