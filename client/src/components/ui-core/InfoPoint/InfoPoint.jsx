@@ -26,13 +26,13 @@ const InfoPoint = ({ points, eventKeyNumber, hikeId }) => {
     }
 
     return (
-        <Accordion alwaysOpen defaultActiveKey={['0', '1']} className='ms-3'>
+        <Accordion alwaysOpen defaultActiveKey={['0', '1']} className='ms-3 my-3'>
             <Accordion.Item eventKey={eventKeyNumber}>
                 <Accordion.Header>
-                    <b>{points.name}</b>
+                    <b> {points.name}</b>
                 </Accordion.Header>
                 <Accordion.Body>
-                    {location.path === `/linkHutToHike/${hikeId}` &&
+                    {location.pathname === `/linkHutToHike/${hikeId}` &&
                         <p>
                             <b>Type: </b>
                             {firstLetterUpperCase(points.type)}
