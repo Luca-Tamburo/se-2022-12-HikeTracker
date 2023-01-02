@@ -60,6 +60,17 @@ describe("Edit.Hikes.APItesting", function () {
             });
     });
 
+    step("Test0.9: GET - /isHikeInProgress/:hikeId - hiker not logged in",  async (done) => {
+        let hikeId = 2;
+
+        await hiker
+            .get(`/isHikeInProgress/${hikeId}`)
+            .end((err, res) => {
+                res.should.have.status(401);
+                done();
+            });
+    });
+
     step('Step1: login', (done) => {
         let user = {
             "email": "silvioberlusconi@gmail.com",
@@ -100,6 +111,17 @@ describe("Edit.Hikes.APItesting", function () {
             });
     });
 
+    step("Test1.9: GET - /isHikeInProgress/:hikeId - hike id < 0",  async (done) => {
+        let hikeId = -1;
+
+        await hiker
+            .get(`/isHikeInProgress/${hikeId}`)
+            .end((err, res) => {
+                res.should.have.status(422);
+                done();
+            });
+    });
+
     step("Test2: POST - /startHike - hikeID wrong format", async function () {
 
 
@@ -124,6 +146,17 @@ describe("Edit.Hikes.APItesting", function () {
             })
             .then(function (res) {
                 res.should.have.status(422);
+            });
+    });
+
+    step("Test2.9: GET - /isHikeInProgress/:hikeId - hike not found",  async (done) => {
+        let hikeId = 5;
+
+        await hiker
+            .get(`/isHikeInProgress/${hikeId}`)
+            .end((err, res) => {
+                res.should.have.status(404);
+                done();
             });
     });
 
@@ -249,7 +282,7 @@ describe("Edit.Hikes.APItesting", function () {
             });
     });
 
-    step("Test6.6: POST - /terminateHike - wrong hikeId, you started some other hike", async function () {
+    step("Test6.7: POST - /terminateHike - wrong hikeId, you started some other hike", async function () {
 
         await hiker
             .post(`/terminateHike`)
@@ -259,6 +292,17 @@ describe("Edit.Hikes.APItesting", function () {
             })
             .then(function (res) {
                 res.should.have.status(422);
+            });
+    });
+
+    step("Test6.9: GET - /isHikeInProgress/:hikeId - success",  async (done) => {
+        let hikeId = 1;
+
+        await hiker
+            .get(`/isHikeInProgress/${hikeId}`)
+            .end((err, res) => {
+                res.should.have.status(200);
+                done();
             });
     });
 
