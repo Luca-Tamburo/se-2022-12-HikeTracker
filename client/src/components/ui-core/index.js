@@ -17,6 +17,8 @@ import LocalGuideServiceCard from "./LocalGuideServiceCard/LocalGuideServiceCard
 import LoginForm from "./LoginForm/LoginForm";
 import Navbar from "./Navbar/Navbar";
 import RegisterForm from "./RegisterForm/RegisterForm";
+import RegisterFormAdvanced from "./RegisterForm/RegisterFormAdvanced";
+import CompletedHikeInfo from "./CompletedHikeInfo/CompletedHikeInfo";
 
 export {
     InfoPoint,
@@ -24,5 +26,7 @@ export {
     LocalGuideServiceCard,
     LoginForm,
     Navbar,
-    RegisterForm
+    RegisterForm,
+    RegisterFormAdvanced,
+    CompletedHikeInfo
 }
