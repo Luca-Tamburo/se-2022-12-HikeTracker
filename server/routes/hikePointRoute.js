@@ -40,18 +40,18 @@ router.post('/referencePoints',
     check("pointsToLink.*.longitude").exists().withMessage("This field is mandatory").bail().isNumeric(),
     checksValidation, async (req, res) => {
         try {
+            //Check that the hikeId exists
+            let hikeCheck = await hikeDao.getHikeCheck(req.body.hikeId)
+            if (hikeCheck === 0) {
+                return res.status(404).json({ error: `Hike not found` })
+            };
+
             //Check that this user uploaded the hike
             const userId = req.user.id;
             const isOk = await isThisMyHike(req.body.hikeId, userId);
             if (!isOk)
                 return res.status(422).json({ error: `Are you sure you uploaded this hike?` });
 
-            //Check that the hikeId exists
-            let hikeCheck = await hikeDao.getHikeCheck(req.body.hikeId)
-            if (hikeCheck === 0) {
-                return res.status(404).json({ error: `Hike not found` })
-            };
-            
             const indexes = []
             //Check that the reference point is not already in the list of points for that hike
             let ref_points = await hikePointDao.getRefPointsByHikeId(req.body.hikeId);

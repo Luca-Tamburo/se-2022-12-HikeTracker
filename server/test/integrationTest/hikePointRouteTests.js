@@ -391,7 +391,7 @@ describe("Hike.Points.APItesting", function () {
             });
     });
 
-   /* step("Test15: no hike id in the db", async function () {
+    step("Test15: no hike id in the db", async function () {
 
         await localGuide
             .post('referencePoints')
@@ -414,7 +414,7 @@ describe("Hike.Points.APItesting", function () {
             .then(function (res) {
                 res.should.have.status(404);
             });
-    }); */
+    }); 
 
     step("Test16: points too far from the hike", async function () {
 
