@@ -27,11 +27,11 @@ import { AuthContext } from "../../contexts/AuthContext";
 
 // Hooks
 import useNotification from "../../hooks/useNotification";
+import MyTime from "../../hooks/useTime";
 
 // Icons
 import { IoMdDownload } from 'react-icons/io';
 import { MdAddBusiness, MdAddCircle } from 'react-icons/md';
-
 
 let tj = require("togeojson"),
   // node doesn't have xml parsing or a dom. use xmldom
@@ -124,10 +124,13 @@ const HikeDetails = () => {
                 <h5 className="ms-3">{hike.uploadDate}</h5>
               </div>
             </div>
-            <div className="mb-4">
+            <div className="mb-3">
               <span className="fst-italic">{hike.description}</span>
+              {isloggedIn && userInfo.role === 'hiker' &&
+                <MyTime hikeId={hikeId} />
+              }
             </div>
-            <Row className="d-flex justify-content-between">
+            <Row className="d-flex justify-content-between mt-3">
               <Col xs={5} xl={4} className="p-0">
                 <div className="shadow-lg px-0 py-3 mb-5 bg-white rounded">
                   <div className="d-flex flex-column ms-3">
@@ -143,6 +146,7 @@ const HikeDetails = () => {
                       {hike.ascent} {""} mt
                       <h5 className="fw-bold mt-3">DIFFICULTY</h5>{" "}
                       {hike.difficulty}
+                      {/* Aggiungere start ed end time */}
                       <h5 className="fw-bold mt-3">EXPECTED TIME</h5>{" "}
                       {hike.expectedTime} {""} hr
                       <h5 className="fw-bold mt-3">START POINT</h5>{" "}

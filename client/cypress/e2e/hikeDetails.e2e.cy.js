@@ -63,6 +63,18 @@ describe('hike details', () => {
             statusCode: 201,
             body: testHike,
           })
+        cy.intercept('GET', '/api/sessions/current', {
+            statusCode: 201,
+            body: {"id":1,
+            "email":"aldobaglio@gmail.com",
+            "username":"aldobaglio",
+            "name":"aldo",
+            "surname":"baglio",
+            "role":"hiker",
+            "phoneNumber":"+393315658745",
+            "gender":"M"},
+          })
+          
         })
 
     it('goes to hike details', () => {
@@ -95,6 +107,7 @@ describe('hike details', () => {
         cy.wait(500);
         cy.get('h3').contains('HIKE INFO');
     })
+  
     it('has correct titles', ()=>{
         cy.visit(`/hikes/1`);
         cy.wait(500);
@@ -105,5 +118,45 @@ describe('hike details', () => {
         cy.get('h5').contains('START POINT');
         cy.get('h5').contains('END POINT');
         cy.get('h5').contains('REFERENCE POINTS');
+    })  
+    it('has correct dowload button', ()=>{
+        cy.visit(`/hikes/1`);
+        cy.wait(500);
+        cy.findByRole('button', { name: /Download GPX Track/i });
+    })
+    it('has correct start hike button', ()=>{
+        cy.intercept('GET', '/api/isHikeInProgress/1', {
+            statusCode: 200,
+            body:   {
+            "inProgress": 0,
+            "startTime": undefined,
+            "startedHikeId":1
+          }
+          })
+        cy.visit(`/hikes/1`);
+        cy.wait(500);
+        cy.findByRole('button', { name: /Start hike/i });
+    })
+    it('has correct terminate hike button', ()=>{
+        cy.intercept('GET', '/api/isHikeInProgress/1', {
+            statusCode: 200,
+            body:     {
+                "inProgress": 1,
+                "startTime": "2022-05-04 22:22:22",
+                "startedHikeId":1
+              }
+          })
+        cy.visit(`/hikes/1`);
+        cy.wait(500);
+        cy.findByRole('button', { name: /Stop hike/i });
+    })
+    it('has correct time', ()=>{
+        cy.visit(`/hikes/1`);
+        cy.wait(500);
+        cy.get('span').contains('DAYS');
+        cy.get('span').contains('HOURS');
+        cy.get('span').contains('MINUTES');
+        cy.get('span').contains('SECONDS');
+
     })
 })
