@@ -59,7 +59,7 @@ app.use(passport.session());
 
 
 /* --- APIs --- */
-app.use("/api", sessionRoute, signUpRoute, hikeRoute, editHikeRoute, parkingLotRoute, hutRoute,hikePerformanceRoute);
+app.use("/api", sessionRoute, signUpRoute, hikeRoute, editHikeRoute, parkingLotRoute, hutRoute, hikePerformanceRoute);
 
 
 // activate the server

@@ -49,6 +49,13 @@ const Home = () => {
                                 My hikes
                             </Button>
                         </Link> : <></>}
+                    {isloggedIn && userInfo.role === 'hiker' ?
+                        <Link to={"/hiker/completedHikes"}>
+                            <Button className="btn-home ms-5" variant='light' size='lg'>
+                                <GiMountainClimbing className='me-2 mb-1' size={25} />
+                                My completed hikes
+                            </Button>
+                        </Link> : <></>}
                     {isloggedIn ?
                         <Link to={"/huts"}>
                             <Button className="btn-home ms-5" variant='light' size='lg'>

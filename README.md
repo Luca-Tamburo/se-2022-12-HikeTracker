@@ -793,6 +793,70 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
   ```
 
+- GET `/api/myCompletedHikes`
+  - Description: Retrieve the history of completed hike for the logged in hiker
+  - Request body: _nothing_
+  - Response: `200 OK` (success), `401` if who require the api is not logged in as hiker, `503 Service Unavailable` (generic error).
+  - Response body: the history of completed hikes for the logged in hiker
+  ```json
+    [
+      {
+          "id": 1,
+          "title": "Trail to MONTE FERRA",
+          "length": 13,
+          "expectedTime": 5,
+          "ascent": 1336.71,
+          "difficulty": "Professional Hiker",
+          "startTime": "2022-05-05 12:12:12",
+          "terminateTime": "2022-05-05 22:12:12"
+      },
+      {
+          "id": 5,
+          "title": "Trail to MONTE CHABERTON",
+          "length": 7.65,
+          "expectedTime": 6,
+          "ascent": 1233.46,
+          "difficulty": "Hiker",
+          "startTime": "2022-05-06 12:12:12",
+          "terminateTime": "2022-05-06 22:12:12"
+      },
+      {
+          "id": 2,
+          "title": "Trail to ROCCA PATANUA",
+          "length": 9,
+          "expectedTime": 5.5,
+          "ascent": 923.62,
+          "difficulty": "Professional Hiker",
+          "startTime": "2022-06-06 22:12:13",
+          "terminateTime": "2022-06-06 22:12:14"
+      }
+    ]
+  ```
+
+- GET `/api/myCompletedHikeTimes/:hikeId`
+  - Description: Retrieve the history of the hiking times for a completed hike for the logged in hiker, given the hikeId
+  - Request body: _nothing_
+  - Response: `200 OK` (success), `422` if the :hikeId format is wrong,  `401` if who require the api is not logged in as hiker, `404` if the hike does not exist, `503 Service Unavailable` (generic error).
+  - Response body: history of hiking times (if there is something), otherwise an empty vector ( [ ] )
+  ```json
+    [
+      {
+          "startTime": "2022-05-05 12:12:12",
+          "terminateTime": "2022-05-05 22:12:12"
+      },
+      {
+          "startTime": "2022-05-06 12:12:12",
+          "terminateTime": "2022-05-06 22:12:12"
+      },
+      {
+          "startTime": "2022-06-06 22:12:13",
+          "terminateTime": "2022-06-06 22:12:14"
+      }
+    ]
+  ```
+
+
+
 ## Database Tables
 
 #### *Hike* includes all hikes specifications

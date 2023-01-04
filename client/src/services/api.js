@@ -103,6 +103,22 @@ const api = {
         })
     },
 
+    getMyCompletedHikes: () => {
+        return new Promise((resolve, reject) => {
+            axios.get(SERVER_URL + 'myCompletedHikes', { withCredentials: true })
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err.response.data));
+        })
+    },
+
+    getMyCompletedHikeTimes: (hikeId) => {
+        return new Promise((resolve, reject) => {
+            axios.get(SERVER_URL + `myCompletedHikeTimes/${hikeId}`, { withCredentials: true })
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err.response.data));
+        })
+    },
+
     getLinkStartEndPoint: (hikeId) => {
         return new Promise((resolve, reject) => {
             axios.get(SERVER_URL + `hikeStartEnd/${hikeId}`, { withCredentials: true })

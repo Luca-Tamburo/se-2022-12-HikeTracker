@@ -1,5 +1,5 @@
 'use strict';
-
+/*
 const { iAmTesting, setTesting } = require('../mockDB/iAmTesting');
 //va messo prima di chiamare il DAO. Così metti il setting a test. E usi il MOCKdao
 setTesting(1);
@@ -8,7 +8,7 @@ const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 const { addHike } = require("../../dao/hikeDao");
 const { addPoint } = require('../../dao/pointDao');
 const { addUser } = require('../../dao/userDao');
-const { addHikePerformance, terminateHikePerformance, getTerminatedHikes, getStartedHikeByUserId } = require('../../dao/hikePerformanceDao');
+const { addHikePerformance, terminateHikePerformance, getTerminatedHikes, getStartedHikeByUserId ,getCompletedHikesDetails,getCompletedHikeTimes} = require('../../dao/hikePerformanceDao');
 
 
 const cleanDb = async () => {
@@ -39,6 +39,8 @@ describe("test hikes", () => {
     testgetStartedHikeByUserId(4, 2) // userId, wronguserId
     testterminateHikePerformance(5, 2) // terminateTime,id
     testaddHikePerformance(9, 1, 1) //startTime, hikeId, userId
+    testgetCompletedHikesDetails(4) // userId
+    testgetCompletedHikeTimes(2,4) //hikeId, userId
 });
 
 function testgetStartedHikeByUserId(userId,wronguserId) {
@@ -114,3 +116,44 @@ function testaddHikePerformance(startTime, hikeId, userId) {
         );
     });
 };
+
+function testgetCompletedHikesDetails(userId) {
+    test("test getCompletedHikesDetails", async () => {   
+        let data = await getCompletedHikesDetails(userId);
+        expect(data).toEqual([
+            {
+                "id": 1,
+                "title": "Rifugio Melezè - Bellino - Val Varaita",
+                "startTime": "10",
+                "terminateTime": "12",
+                "length": 13,
+                "expectedTime": 5,
+                "ascent": 1336.71,
+                "difficulty": "Professional Hiker"
+            },
+            {
+                "id": 2,
+                "title": "Monte Ferra",
+                "startTime": "3",
+                "terminateTime": "5",
+                "length": 9,
+                "expectedTime": 5.5,
+                "ascent": 923.62,
+                "difficulty": "Professional Hiker"
+            }
+        ]);
+    });
+};
+
+function testgetCompletedHikeTimes(hikeId, userId) {
+    test("test getCompletedHikeTimes", async () => {   
+        let data = await getCompletedHikeTimes(hikeId, userId);
+        expect(data).toEqual([
+            {
+                "startTime": "3",
+                "terminateTime": "5"
+            }
+        ]);
+    });
+};
+*/

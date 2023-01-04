@@ -13,7 +13,7 @@
 // Imports
 import { useState, useEffect, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Row, Col, ListGroup, Button, Spinner } from "react-bootstrap";
+import { Row, Col, ListGroup, Button, Spinner, Modal, Table } from "react-bootstrap";
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
 
 // Views
@@ -55,6 +55,8 @@ const HikeDetails = () => {
   const { hikeId } = useParams();
   const notify = useNotification();
   const [loading, setLoading] = useState(false);
+  const [myCompletedHikeTimes, setMyCompletedHikeTimes] = useState([]);
+  const [lgShow, setLgShow] = useState(false);
 
   const startIcon = L.icon({
     iconUrl: require("../../assets/mapIcons/start.png"),
@@ -67,8 +69,7 @@ const HikeDetails = () => {
 
   useEffect(() => {
     setLoading(true);
-    api
-      .getHikeDetails(hikeId)
+    api.getHikeDetails(hikeId)
       .then((hikes) => {
         setHike(hikes);
         const startPoint = hikes.pointList.find(p => p.id === hikes.startPointId);
@@ -107,6 +108,18 @@ const HikeDetails = () => {
         }
       })
       .finally(() => setLoading(false));
+
+    if (userInfo.role === 'hiker') {
+      api.getMyCompletedHikeTimes(hikeId)
+        .then(myCompletedHikeTimes => {
+          setMyCompletedHikeTimes(myCompletedHikeTimes);
+        })
+        .catch(err => {
+          setMyCompletedHikeTimes([]);
+          notify.error(err.error);
+        })
+        .finally(() => setLoading(false));
+    }
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   if (!loading) {
@@ -161,6 +174,43 @@ const HikeDetails = () => {
                           </div>
                         );
                       })}
+                      <h5 className="fw-bold mt-3">EXPECTED TIME</h5>{" "}
+                      {hike.expectedTime} {""} hr
+                      <h5 className="fw-bold mt-3">HISTORY HIKE COMPLETED</h5>{" "}
+                      {(userInfo.role === 'hiker' && myCompletedHikeTimes.length !== 0) ?
+                        <>
+                          <Button variant="success" size='sm' onClick={() => setLgShow(true)}>
+                            Show your history hike completed
+                          </Button>
+                          <Modal size="lg" show={lgShow} onHide={() => setLgShow(false)}>
+                            <Modal.Header className="p-2">
+                              <Modal.Title className="fw-bold ms-2">History hike completed</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body className="pb-1">
+                              <Table bordered hover>
+                                <thead>
+                                  <tr>
+                                    <th>#</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {myCompletedHikeTimes.map((completedHikeTimes, index) => {
+                                    return (
+                                      <tr key={index}>
+                                        <td>{index}</td>
+                                        <td className="fst-italic">{completedHikeTimes.startTime}</td>
+                                        <td className="fst-italic">{completedHikeTimes.terminateTime}</td>
+                                      </tr>
+                                    );
+                                  })}
+                                </tbody>
+                              </Table>
+                            </Modal.Body>
+                          </Modal>
+                        </>
+                        : <span>You have not yet completed this hike.</span>}
                     </ListGroup.Item>
                   </ListGroup>
                 </div>
@@ -189,8 +239,6 @@ const HikeDetails = () => {
                             <span className="fw-bold">{point.name}</span><br />
                           </Popup>
                         </Marker>)
-
-
                     })}
                     <Polyline pathOptions={limeOptions} positions={coordinates} />
                   </MapContainer>
@@ -231,13 +279,7 @@ const HikeDetails = () => {
   } else {
     return (
       <div className="d-flex justify-content-center m-5">
-        <Spinner
-          as="span"
-          animation="border"
-          size="xl"
-          role="status"
-          aria-hidden="true"
-        />
+        <Spinner as="span" animation="border" size="xl" role="status" aria-hidden="true" />
         <h1 className="fw-bold mx-4">LOADING...</h1>
       </div>
     );
