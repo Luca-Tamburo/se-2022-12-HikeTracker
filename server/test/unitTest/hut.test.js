@@ -5,7 +5,7 @@ const { iAmTesting, setTesting } = require('../mockDB/iAmTesting');
 setTesting(1);
 const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 
-const { addHut, getAllHuts, getDetailsByHutId} = require('../../dao/hutDao'); //getAllHuts, getDetailsByHutId DA TESTARE
+const { addHut, getHuts, getAllHuts, getDetailsByHutId} = require('../../dao/hutDao'); //getAllHuts, getDetailsByHutId DA TESTARE
 const { addPoint } = require('../../dao/pointDao');
 const {getHutById}=require('./mockDAO')
 
@@ -23,6 +23,7 @@ describe("test hut", () => {
     // Call tests
     testaddHut(4, 16, "null", "+393409728904", "https://some/photo/link", "https:...", 1);
     testgetAllHuts();
+    testgetHuts();
     testgetDetailsByHutId();
 });
 
@@ -82,11 +83,25 @@ function testgetAllHuts(){
             }
             ]
         );
-
-
     });
 };
 
+function testgetHuts(){
+    test("test getHuts", async() => {
+        let huts = await getHuts();
+        expect(huts).toEqual(
+            [{
+                "id": 1,
+                "name": "nameofthepoint1"
+            },
+            {
+                "id": 2,
+                "name": "nameofthepoint2"
+            }
+            ]
+        );
+    });
+};
 
 function testgetDetailsByHutId(){
     test("test getDetailsByHutId", async() => {
@@ -108,5 +123,10 @@ function testgetDetailsByHutId(){
                 "province": "province2", 
                 "region": "region2"
         });
+    });
+
+    test("test getDetailsByHutId wrong id", async () => {
+        let hut2 = await getDetailsByHutId(9);
+        expect(hut2).toEqual(undefined);
     });
 };
