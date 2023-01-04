@@ -421,7 +421,7 @@ describe("Hike.Points.APItesting", function () {
         await localGuide
             .post('referencePoints')
             .send({ 
-                "hikeId":5,
+                "hikeId":2,
                 "pointsToLink": 
                 [
                     {
