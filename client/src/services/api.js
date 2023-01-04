@@ -71,6 +71,30 @@ const api = {
         })
     },
 
+    getIsHikeInProgress: (hikeId) => {
+        return new Promise((resolve, reject) => {
+            axios.get(SERVER_URL + `isHikeInProgress/${hikeId}`, { withCredentials: true })
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err));
+        })
+    },
+
+    addIsHikeProgress: (formData) => {
+        return new Promise((resolve, reject) => {
+            axios.post(SERVER_URL + 'startHike', formData, { withCredentials: true })
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err.response.data));
+        })
+    },
+
+    terminateIsHikeProgress: (formData) => {
+        return new Promise((resolve, reject) => {
+            axios.post(SERVER_URL + 'terminateHike', formData, { withCredentials: true })
+                .then((res) => resolve(res.data))
+                .catch((err) => reject(err.response.data));
+        })
+    },
+
     getLocalGuideHikes: () => {
         return new Promise((resolve, reject) => {
             axios.get(SERVER_URL + `localGuideHikes`, { withCredentials: true })
