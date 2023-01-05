@@ -30,6 +30,7 @@ import LocalGuideHikes from './LocalGuidePage/Hikes/LocalGuideHikes';
 import Register from './Register/Register';
 import RegisterRole from './Register/RegisterRole';
 import HikerCompletedHikes from './Hiker/CompletedHikes/HikerCompletedHikes';
+import AddReferencePoint from './LocalGuidePage/AddReferencePoint/AddReferencePoint';
 
 export {
     AddHike,
@@ -51,4 +52,5 @@ export {
     Register,
     RegisterRole,
     HikerCompletedHikes,
+    AddReferencePoint
 }

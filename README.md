@@ -256,14 +256,14 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
      "authorSurname": "baglio",
      "authorId": 1,
      "uploadDate": "2022-01-10",
-     "photoFile": "www. ..."
+     "photoFile": "www. ...",
      "length": 13,
      "expectedTime": 5,
      "ascent": 1280,
      "difficulty": 4,
      "startPointId": 1,
      "endPointId": 2,
-     "gpx": "gpx file data if loggedin, nothing ("") if not logged in"
+     "gpx": "gpx file data if loggedin, nothing ("") if not logged in",
      "pointList": 
         [
           {
@@ -714,6 +714,34 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   ```
 
   - Response: `204` (success), `422` if the localguide did not upload that hike or if the input is not correct, `404` if something is not found, `503 Service Unavailable` (generic error).
+  - Response body: _nothing_
+
+- POST `/referencePoints`
+  - Description: Link reference points to a hike
+  - Request body: An object with the hike id and a list of representing the reference points information
+
+  ```json
+  {
+    "hikeId":5, 
+    "pointsToLink": 
+    [
+        {
+        "title": "POINT 1",
+        "latitude": 44.93603, 
+        "longitude": 6.73868
+        },
+        {
+        "title": "POINT 2",
+        "latitude": 44.96452393010258, 
+        "longitude": 6.75131052732467666
+        }
+        ...
+    ]
+  }
+
+  ```
+
+  - Response: `201` (success), `422` if the localguide did not upload that hike or if the input is not correct, `404` if something is not found, `503 Service Unavailable` (generic error).
   - Response body: _nothing_
 
 - GET `/api/isHikeInProgress/:hikeId`

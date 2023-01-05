@@ -32,12 +32,20 @@ import MyTime from "../../hooks/useTime";
 // Icons
 import { IoMdDownload } from 'react-icons/io';
 import { MdAddBusiness, MdAddCircle } from 'react-icons/md';
+import { GiImpactPoint } from 'react-icons/gi'
 
 let tj = require("togeojson"),
   // node doesn't have xml parsing or a dom. use xmldom
   DOMParser = require("xmldom").DOMParser;
 
 const L = require("leaflet");
+const icon = L.icon({
+  iconSize: [25, 41],
+  iconAnchor: [10, 41],
+  popupAnchor: [2, -40],
+  iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
+});
 const hutIcon = L.icon({
   iconUrl: require("../../assets/mapIcons/hut.png"),
   iconSize: [30, 30],
@@ -51,6 +59,7 @@ const HikeDetails = () => {
   const [hike, setHike] = useState(undefined);
   const [start, setStart] = useState(null);
   const [pointList, setPointList] = useState(null);
+  const [hutList,sethutList] = useState([])
   const { userInfo, isloggedIn } = useContext(AuthContext);
   const { hikeId } = useParams();
   const notify = useNotification();
@@ -77,11 +86,18 @@ const HikeDetails = () => {
         let s = [startPoint.latitude, startPoint.longitude];
         let e = [endPoint.latitude, endPoint.longitude];
         let pList = [];
+        let hList = [];
         hikes.pointList.map((hike) => {
           if (hike.id !== startPoint.id && hike.id !== endPoint.id) {
-            pList.push(hike)
+            if(hike.type === 'hut'){
+              hList.push(hike)
+            }
+            else{
+              pList.push(hike)
+            }
           }
         })
+        sethutList(hList);
         setPointList(pList)
         setStart(s);
         setEnd(e);
@@ -122,6 +138,7 @@ const HikeDetails = () => {
     }
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
+  console.log(pointList)  
   if (!loading) {
     return (
       <>
@@ -234,6 +251,14 @@ const HikeDetails = () => {
                     </Marker>
                     {pointList.map((point, index) => {
                       return (
+                        <Marker key={index} icon={icon} position={[point.latitude, point.longitude]}>
+                          <Popup>
+                            <span className="fw-bold">{point.name}</span><br />
+                          </Popup>
+                        </Marker>)
+                    })}
+                    {hutList.map((point, index) => {
+                      return (
                         <Marker key={index} icon={hutIcon} position={[point.latitude, point.longitude]}>
                           <Popup>
                             <span className="fw-bold">{point.name}</span><br />
@@ -242,19 +267,25 @@ const HikeDetails = () => {
                     })}
                     <Polyline pathOptions={limeOptions} positions={coordinates} />
                   </MapContainer>
-                  <div className="d-flex flex-column flex-xl-row justify-content-between mt-3">
+                  <div className="d-flex flex-column justify-content-between mt-2">
                     {(userInfo.role === 'localGuide' && userInfo.id === hike.authorId) &&
-                      <div className="d-flex flex-column flex-md-row justify-content-md-between my-2 ">
+                      <div className="mb-2">
                         <Link to={`/linkHutToHike/${hike.id}`}>
-                          <Button variant="success" className='mt-2 mt-md-0'>
+                          <Button variant="success" className='mt-2 me-sm-2 me-0'>
                             <MdAddBusiness className='me-2' size={25} />
-                            Link hut
+                            Link huts
                           </Button>
                         </Link>
                         <Link to={`/hikeStartEndPoint/${hike.id}`}>
-                          <Button variant="success" className='mt-2 mt-md-0 ms-xl-2'>
+                          <Button variant="success" className='mt-2 ms-xl-2 me-xl-2'>
                             <MdAddCircle className='me-2' size={25} />
                             Add start/end point
+                          </Button>
+                        </Link>
+                        <Link to={`/addReferencePoint/${hike.id}`}>
+                          <Button variant="success" className='mt-2 ms-xl-2'>
+                            <GiImpactPoint className='me-2' size={25} />
+                            Add reference points
                           </Button>
                         </Link>
                       </div>
@@ -272,7 +303,7 @@ const HikeDetails = () => {
             </Row>
           </Col >
         ) : (
-          <>{hike && hike.id === -1 ? <ErrorView></ErrorView> : <></>} </>
+          <>{hike && hike.id === -1 ? <ErrorView /> : <></>} </>
         )}
       </>
     );
