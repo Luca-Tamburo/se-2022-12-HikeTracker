@@ -235,7 +235,7 @@ router.get('/hikedetails/:hikeId', check('hikeId').isInt().withMessage('hikeId m
 
             hike = {
                 ...hike,
-                pointList: dbList.map((p) => new Point(p.id, p.name, p.description, p.type, p.latitude, p.longitude, p.altitude, p.city, p.province)),
+                pointList: dbList.map((p) => new Point(p.id, p.name, p.description, p.type, p.latitude, p.longitude, p.altitude, p.city, p.province, p.region)),
                 gpx: gpxContent
             };
             return res.status(200).json(hike); //Return object with all the information

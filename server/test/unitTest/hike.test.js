@@ -151,7 +151,8 @@ function testgetPointsByHikeId(id) {
                 "longitude": 6.98268919251859,
                 "altitude": 1757.43,
                 "city": "Bellino",
-                "province": "Cuneo"
+                "province": "Cuneo",
+                "region": "Piemonte"
             },
             {
                 "id": 2,
@@ -162,7 +163,8 @@ function testgetPointsByHikeId(id) {
                 "longitude": 6.98475264944136,
                 "altitude": 3094.14,
                 "city": null,
-                "province": null
+                "province": null,
+                "region": null
             }
         ]
         );
