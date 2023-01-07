@@ -43,11 +43,20 @@ All routes available are listed below
 - **`/signup`** : In this route you can choose which role a user wants to register with.
 - **`/signup/:role`** : In this route you can find the register form.
 - **`/hikes`** : In this page you can find the list of all hike and they can be filtered according to predetermined parameters.
-- **`/hikes/:${id}`** : In this route you can find the details of an individual hike. Also if you have an account, you can view the map and you can download the gpx file.
-- **`/localGuide`** : **This route is protected. The user must be authenticated as local guide to navigate here.** It is a personal page for a local guide where he can add a hike, hut or parking lot.
-- **`/addHike`** : **This route is protected. The user must be authenticated as local guide to navigate here.** You can add a hike.
-- **`/addHut`** : **This route is protected. The user must be authenticated as local guide to navigate here.** You can add a hut.
-- **`/addParking`** : **This route is protected. The user must be authenticated as local guide to navigate here.** You can add a parking lot.
+- **`/hikes/:${hikeId}`** : In this route you can find the details of an individual hike. If you have an account, you can view the map and you can download the gpx file. Also, if you are logged in as a LocalGuide and select a hike you created yourself, you can link a hut to a hike, add one or more reference points on the hike, and edit start and end points.
+- **`/huts`** : **This route is protected. The user must be authenticated to navigate here.** In this page you can find the list of all hut and they can be filtered according to predetermined parameters.
+- **`/huts/:${hutId}`** : **This route is protected. The user must be authenticated to navigate here.** In this route you can find the details of an individual hut.
+- **`/hiker/completedHikes`** : **This route is protected. The user must be authenticated as an hiker to navigate here.**. In this route you can find the history of all the hikes you have completed.
+- **`/localGuide`** : **This route is protected. The user must be authenticated as local guide to navigate here.** In this route you can find a personal page for a local guide where he can add a hike, hut, parking lot or see the hike I've inserted.
+- **`/localGuide/hikes`** : **This route is protected. The user must be authenticated as local guide to navigate here.** In this route you can find all the hike created by a local guide.
+- **`/addHike`** : **This route is protected. The user must be authenticated as local guide to navigate here.** In this route you can find a form to enter a hike.
+- **`/addHut`** : **This route is protected. The user must be authenticated as local guide to navigate here.** n this route you can find a form to enter a hut.
+- **`/addParking`** : **This route is protected. The user must be authenticated as local guide to navigate here.** n this route you can find a form to enter a parking lot.
+- **`/addReferencePoint/:${hikeId}`** : **This route is protected. The user must be authenticated as local guide to navigate here and he must have created that particular hike.** In this route you can find a map to select a reference point on the hike and a list of its points.
+- **`/linkHutToHike/:${hikeId}`** : **This route is protected. The user must be authenticated as local guide to navigate here and he must have created that particular hike.** In this route you can find a map to link a hut to a hike and a list of linked huts within 5 km.
+- **`/hikeStartEndPoint/:${hikeId}`** : **This route is protected. The user must be authenticated as local guide to navigate here and he must have created that particular hike.** In this route you can find a map to change the current start and/or end point to a hut or parking lot within 5 km.
+- **`/email/confirmed`** : In this route you can find a screen that notifies the user that the email confirmation was successful and that they can log in.
+- **`/email/error`** : In this route you can find a screen notifying the user that the email confirmation was unsuccessful and that they cannot log in.
 - **`/*`** : Any other route is matched by this one where the application shows a page not found error.
 
 ## API Server
@@ -894,17 +903,25 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
 #### *Hike* includes all hikes specifications
 
- ```table
+ ```SQL
      Hike(id,title,description,length,expectedTime,ascent,difficulty,startPointId,endPointId,authorId,uploadDate,gpxFile,photoFile)
      PRIMARY KEY ( Id )
      FOREIGN KEY (authorId, startPointId, endPointId) REFERENCES User ( id ) , Point ( id ) , Point ( id )
 
  ```
 
+#### *HikePerformance* includes all hikes specifications
+
+ ```SQL
+     Hike(id,startTime, terminateTime, hikeId, userId)
+     PRIMARY KEY ( Id )
+     FOREIGN KEY ()
+
+ ```
+
 #### *HikePoint* includes relation between Hike and Point
 
-```
-
+```SQL
      HikePoint( hikeId,pointId)
      PRIMARY KEY ( hikeId , pointId )
      FOREIGN KEY (hikeId , pointId ) REFERENCES Point ( id ) , Point ( id )
@@ -913,18 +930,16 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
 #### *Point* includes all Points specifications
 
-```
-
-     Point( id, name, description, type, longitude, latitude, altitude, city, province, region )
+```SQL
+     Point( id, name, description, type, latitude, longitude, altitude, city, province, region )
      PRIMARY KEY ( id )
 
 ```
 
 #### *Hut* includes all Huts specification
 
-```
-
-     Hut( id, roomsNumber, bedsNumber, whenIsOpen,phoneNumber, photoFile, website, pointId )
+```SQL
+     Hut( id, roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photoFile, website, pointId )
      PRIMARY KEY ( id )
      FOREIGN KEY ( pointId ) REFERENCES Point ( id )
 
@@ -932,8 +947,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
 #### *ParkingLot* includes all Parking lots specification
 
-```
-
+```SQL
      ParkingLot( id, capacity, pointId )
      PRIMARY KEY ( id )
      FOREIGN KEY ( pointId ) REFERENCES Point ( id )
@@ -942,8 +956,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
 #### *User* includes all Users specification
 
-```
-
+```SQL
      User( id, email, username, role, name, surname, gender, phoneNumber, hash, salt, verifiedEmail, confirmationCode )
      PRIMARY KEY ( id )
 
@@ -951,11 +964,10 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
 #### *UserPreferences* includes preferences specified by the user
 
-```
-
+```SQL
      UserPreferences( id, duration, altitude, ascent, length, difficulty, userId )
      PRIMARY KEY ( id )
-      FOREIGN KEY ( userId ) REFERENCES User ( id )
+     FOREIGN KEY ( userId ) REFERENCES User ( id )
 
 ```
 
@@ -1022,7 +1034,9 @@ npm run test_integration
 ### Frontend
 
 ```json
-"dependencies": {
+  "dependencies": {
+    "@cypress/code-coverage": "^3.10.0",
+    "@cypress/instrument-cra": "^1.4.0",
     "@mapbox/togeojson": "^0.16.0",
     "@testing-library/dom": "^8.19.0",
     "@testing-library/jest-dom": "^5.16.5",
@@ -1031,40 +1045,46 @@ npm run test_integration
     "@tmcw/togeojson": "^5.5.0",
     "autoprefixer": "^10.4.13",
     "axios": "^1.1.3",
+    "babel-plugin-istanbul": "^6.1.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "bootstrap": "^5.2.2",
     "classnames": "^2.3.2",
     "cypress": "^11.2.0",
     "cypress-dark": "^1.8.3",
     "dayjs": "^1.11.6",
     "formik": "^2.2.9",
-    "gps-file-converter": "^1.0.4",
-    "gpx-parser-builder": "^1.0.2",
     "gpxparser": "^3.0.8",
     "history": "^5.3.0",
+    "jest": "^27.5.1",
     "leaflet": "^1.9.2",
+    "nyc": "^15.1.0",
     "path": "^0.12.7",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-normalize": "^10.0.1",
     "postcss-preset-env": "^7.8.3",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
+    "react-bootstrap-icons": "^1.10.2",
+    "react-datetime-picker": "^4.1.1",
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",
     "react-leaflet": "^4.1.0",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
+    "react-timer-hook": "^3.0.5",
     "react-toastify": "^9.1.1",
+    "styled-components": "^5.3.6",
     "togeojson": "^0.16.0",
     "web-vitals": "^2.1.4",
     "xmldom": "^0.6.0",
     "yup": "^0.32.11",
-    "yup-password": "^0.2.2",
-    "zlib": "^1.0.5"
+    "yup-password": "^0.2.2"
   },
    "devDependencies": {
     "@testing-library/cypress": "^8.0.7",
     "@types/leaflet": "^1.9.0",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "jest-sonar-reporter": "^2.0.0"
   }
 ````
 
@@ -1073,6 +1093,7 @@ npm run test_integration
 ```json
   "dependencies": {
     "chai-http": "^4.3.0",
+    "check-code-coverage": "^1.10.4",
     "cors": "^2.8.5",
     "cypress": "^10.11.0",
     "dayjs": "^1.11.6",
@@ -1083,16 +1104,20 @@ npm run test_integration
     "fs": "^0.0.1-security",
     "image-url-validator": "^1.0.4",
     "jest": "^29.2.1",
+    "jest-sonar-reporter": "^2.0.0",
     "jwt-encode": "^1.0.1",
+    "mochawesome-report-generator": "^6.2.0",
     "morgan": "^1.10.0",
     "node-fetch": "^2.6.7",
     "nodemailer": "^6.8.0",
     "nodemon": "^2.0.20",
+    "nyc": "^15.1.0",
     "parse-gpx": "^2.1.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
-    "sqlite3": "^5.1.2"
+    "sqlite3": "^5.1.2",
+    "valid-url-utf8": "^1.0.7"
   },
   "devDependencies": {
     "chai": "^4.3.6",

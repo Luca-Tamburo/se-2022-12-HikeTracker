@@ -417,7 +417,7 @@ const Filter = (props) => {
             <BsSearch /> Search
           </Button>
           {parseInt(range) !== 0 &&
-            <Button className='mt-3 ms-3' variant="info" onClick={() => { handlePosition() }}>
+            <Button className='mt-3 ms-2 ms-sm-3' variant="info" onClick={() => { handlePosition() }}>
               <GiPositionMarker />Your Position
             </Button>}
         </Col>
