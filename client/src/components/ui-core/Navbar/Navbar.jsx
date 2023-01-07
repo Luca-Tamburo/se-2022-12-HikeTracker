@@ -32,11 +32,11 @@ const Navbar = (props) => {
         <MyNavbar.Brand as={Link} to="/" data-testid='home-logo-button'>
           <img src={logo} alt="Logo Icon" width="230" />
         </MyNavbar.Brand>
-        <Link to={"/"} data-testid='home-icon-button'>
+        <Link to={"/"} data-testid='home-icon-button' className="pe-3 me-3 pe-sm-5 me-sm-5">
           <FaHome className="home-icon-navbar" />
         </Link>
         {!isloggedIn ?
-          (<div className="d-flex d-sm-block flex-column justify-content-center align-items-center">
+          (<div className="d-flex d-sm-block flex-column justify-content-center align-items-center pe-3">
             <Link to={"/signup"}>
               <Button variant="secondary" className="btn-navbar mb-2 mb-sm-0">
                 SignUp
@@ -46,8 +46,7 @@ const Navbar = (props) => {
               <Button className="btn-navbar mx-sm-2">Login</Button>
             </Link>
           </div>) : (
-
-            <Dropdown drop="start">
+            <Dropdown drop="start" className="ms-5">
               <Dropdown.Toggle variant="primary" id="user-dropdown">
                 Hi, {userInfo.name || userInfo.username}
               </Dropdown.Toggle>
@@ -70,6 +69,14 @@ const Navbar = (props) => {
                     </Dropdown.Item>
                     <Dropdown.Item as={Link} to="/addParking">
                       Add parking lot
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
+                  </>
+                }
+                {userInfo.role === 'hiker' &&
+                  <>
+                    <Dropdown.Item as={Link} to="hiker/completedHikes">
+                      My completed hikes
                     </Dropdown.Item>
                     <Dropdown.Divider />
                   </>

@@ -167,7 +167,7 @@ describe('linkHutToHike', () => {
         cy.visit('/linkHutToHike/1');
             cy.findByRole('button', { name: /submit/i });
     });
-    it('contains submit button', () => {
+    it('contains reset button', () => {
         cy.visit('/linkHutToHike/1');
             cy.findByRole('button', { name: /reset/i });
     });

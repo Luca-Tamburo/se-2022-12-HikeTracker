@@ -222,7 +222,7 @@ exports.getDetailsByHikeId = (id) => {
  */
 exports.getPointsByHikeId = (id) => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT Point.id AS id, Point.name AS name, Point.description AS description, Point.type AS type, Point.latitude AS latitude, Point.longitude AS longitude, Point.altitude AS altitude, Point.city AS city, Point.province AS province FROM Point " +
+        const sql = "SELECT Point.id AS id, Point.name AS name, Point.description AS description, Point.type AS type, Point.latitude AS latitude, Point.longitude AS longitude, Point.altitude AS altitude, Point.city AS city, Point.province AS province, Point.region AS region FROM Point " +
             "WHERE id IN( " +
             "SELECT Point.id " +
             "FROM Point " +
@@ -247,7 +247,8 @@ exports.getPointsByHikeId = (id) => {
                     longitude: r.longitude,
                     altitude: r.altitude,
                     city: r.city,
-                    province: r.province
+                    province: r.province,
+                    region: r.region
                 }
             ));
             resolve(points);
@@ -293,6 +294,25 @@ exports.getStartEndPointDistanceData = (id) => {
                     length: r.length
                 };
                 resolve(details);
+            }
+        });
+    });
+}
+
+/**
+ * Get hike existance by hike id 
+ * @param {number} id the id of the hike
+ */
+exports.getHikeCheck = (id) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM Hike WHERE id = ?';
+        db.get(sql, [id], (err, r) => {
+            if (err) {
+                reject(err);
+            } else if (r === undefined)
+                resolve(0);
+            else {
+                resolve(1);
             }
         });
     });

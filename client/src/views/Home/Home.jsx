@@ -35,23 +35,30 @@ const Home = () => {
             />
             <div className='mb-5 d-flex flex-column justify-content-center align-items-center' style={{ zIndex: 99 }}>
                 <h1 className='text-center fw-bold fst-italic mb-4'>Welcome to HikeTracker </h1>
-                <div className='mb-5'>
+                <div className='d-flex flex-column flex-sm-row mb-5'>
                     <Link to={"/hikes"}>
-                        <Button className="btn-home" variant='light' size='lg'>
+                        <Button className="btn-home ms-0 ms-sm-5" variant='light' size='lg'>
                             <FaMountain className='me-2 mb-1' size={25} />
                             Hikes list
                         </Button>
                     </Link>
                     {isloggedIn && userInfo.role === 'localGuide' ?
                         <Link to={"/localGuide/hikes"}>
-                            <Button className="btn-home ms-5" variant='light' size='lg'>
+                            <Button className="btn-home ms-0 ms-sm-5 my-3 my-sm-0" variant='light' size='lg'>
                                 <GiMountainClimbing className='me-2 mb-1' size={25} />
                                 My hikes
                             </Button>
                         </Link> : <></>}
+                    {isloggedIn && userInfo.role === 'hiker' ?
+                        <Link to={"/hiker/completedHikes"}>
+                            <Button className="btn-home ms-5" variant='light' size='lg'>
+                                <GiMountainClimbing className='me-2 mb-1' size={25} />
+                                My completed hikes
+                            </Button>
+                        </Link> : <></>}
                     {isloggedIn ?
                         <Link to={"/huts"}>
-                            <Button className="btn-home ms-5" variant='light' size='lg'>
+                            <Button className="btn-home ms-0 ms-sm-5 pe-4 pe-sm-3" variant='light' size='lg'>
                                 <GiHut className='me-2 mb-1' size={25} />
                                 Huts list
                             </Button>

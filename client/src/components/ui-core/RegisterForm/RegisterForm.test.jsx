@@ -16,69 +16,69 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 
 // Components
-import { RegisterFormHiker } from './RegisterForm'
+import { RegisterForm } from './RegisterForm'
 
-describe('RegisterFormHiker', () => {
+describe('RegisterForm', () => {
 
     const handleSubmit = jest.fn();
 
     it('has username label', () => {
         handleSubmit.mockClear();
-        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        render(<RegisterForm handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByText(/username/i)).toBeInTheDocument();
     });
 
     it('has email label', () => {
         handleSubmit.mockClear();
-        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        render(<RegisterForm handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByText(/email/i)).toBeInTheDocument();
     });
 
     it('has password label', () => {
         handleSubmit.mockClear();
-        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        render(<RegisterForm handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByPlaceholderText(/insert your password/i)).toBeInTheDocument();
     });
 
     it('has password confimation label', () => {
         handleSubmit.mockClear();
-        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        render(<RegisterForm handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByText(/confirm password/i)).toBeInTheDocument();
     });
 
     it('has username field', () => {
         handleSubmit.mockClear();
-        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        render(<RegisterForm handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByRole('textbox', { name: /username/i })).toBeInTheDocument();
     });
 
     it('has email field', () => {
         handleSubmit.mockClear();
-        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        render(<RegisterForm handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByRole('textbox', { name: /email/i })).toBeInTheDocument();
     });
 
     it('has password field', () => {
         handleSubmit.mockClear();
-        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        render(<RegisterForm handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByPlaceholderText(/insert your password/i)).toBeInTheDocument();
     });
 
     it('has password confirmation field', () => {
         handleSubmit.mockClear();
-        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        render(<RegisterForm handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByLabelText(/confirm password/i)).toBeInTheDocument();
     });
 
 
     it('Check if RegisterForm has signup button', () => {
         handleSubmit.mockClear();
-        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        render(<RegisterForm handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByRole('button', { name: /sign up/i })).toBeInTheDocument();
     });
 
     it('onSubmit is called after validation', async () => {
-        render(<RegisterFormHiker handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        render(<RegisterForm handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
 
         const username = screen.getByRole('textbox', { name: /username/i });
         const email = screen.getByRole('textbox', { name: /email/i });

@@ -13,7 +13,7 @@
 // Imports
 import { useState, useEffect, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Row, Col, ListGroup, Button, Spinner } from "react-bootstrap";
+import { Row, Col, ListGroup, Button, Spinner, Modal, Table } from "react-bootstrap";
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
 
 // Views
@@ -27,17 +27,25 @@ import { AuthContext } from "../../contexts/AuthContext";
 
 // Hooks
 import useNotification from "../../hooks/useNotification";
+import MyTime from "../../hooks/useTime";
 
 // Icons
 import { IoMdDownload } from 'react-icons/io';
 import { MdAddBusiness, MdAddCircle } from 'react-icons/md';
-
+import { GiImpactPoint } from 'react-icons/gi'
 
 let tj = require("togeojson"),
   // node doesn't have xml parsing or a dom. use xmldom
   DOMParser = require("xmldom").DOMParser;
 
 const L = require("leaflet");
+const icon = L.icon({
+  iconSize: [25, 41],
+  iconAnchor: [10, 41],
+  popupAnchor: [2, -40],
+  iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
+});
 const hutIcon = L.icon({
   iconUrl: require("../../assets/mapIcons/hut.png"),
   iconSize: [30, 30],
@@ -51,10 +59,13 @@ const HikeDetails = () => {
   const [hike, setHike] = useState(undefined);
   const [start, setStart] = useState(null);
   const [pointList, setPointList] = useState(null);
+  const [hutList,sethutList] = useState([])
   const { userInfo, isloggedIn } = useContext(AuthContext);
   const { hikeId } = useParams();
   const notify = useNotification();
   const [loading, setLoading] = useState(false);
+  const [myCompletedHikeTimes, setMyCompletedHikeTimes] = useState([]);
+  const [lgShow, setLgShow] = useState(false);
 
   const startIcon = L.icon({
     iconUrl: require("../../assets/mapIcons/start.png"),
@@ -67,8 +78,7 @@ const HikeDetails = () => {
 
   useEffect(() => {
     setLoading(true);
-    api
-      .getHikeDetails(hikeId)
+    api.getHikeDetails(hikeId)
       .then((hikes) => {
         setHike(hikes);
         const startPoint = hikes.pointList.find(p => p.id === hikes.startPointId);
@@ -76,11 +86,18 @@ const HikeDetails = () => {
         let s = [startPoint.latitude, startPoint.longitude];
         let e = [endPoint.latitude, endPoint.longitude];
         let pList = [];
+        let hList = [];
         hikes.pointList.map((hike) => {
           if (hike.id !== startPoint.id && hike.id !== endPoint.id) {
-            pList.push(hike)
+            if(hike.type === 'hut'){
+              hList.push(hike)
+            }
+            else{
+              pList.push(hike)
+            }
           }
         })
+        sethutList(hList);
         setPointList(pList)
         setStart(s);
         setEnd(e);
@@ -107,8 +124,21 @@ const HikeDetails = () => {
         }
       })
       .finally(() => setLoading(false));
+
+    if (userInfo.role === 'hiker') {
+      api.getMyCompletedHikeTimes(hikeId)
+        .then(myCompletedHikeTimes => {
+          setMyCompletedHikeTimes(myCompletedHikeTimes);
+        })
+        .catch(err => {
+          setMyCompletedHikeTimes([]);
+          notify.error(err.error);
+        })
+        .finally(() => setLoading(false));
+    }
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
+  console.log(pointList)  
   if (!loading) {
     return (
       <>
@@ -124,10 +154,13 @@ const HikeDetails = () => {
                 <h5 className="ms-3">{hike.uploadDate}</h5>
               </div>
             </div>
-            <div className="mb-4">
+            <div className="mb-3">
               <span className="fst-italic">{hike.description}</span>
+              {isloggedIn && userInfo.role === 'hiker' &&
+                <MyTime hikeId={hikeId} />
+              }
             </div>
-            <Row className="d-flex justify-content-between">
+            <Row className="d-flex justify-content-between mt-3">
               <Col xs={5} xl={4} className="p-0">
                 <div className="shadow-lg px-0 py-3 mb-5 bg-white rounded">
                   <div className="d-flex flex-column ms-3">
@@ -143,6 +176,7 @@ const HikeDetails = () => {
                       {hike.ascent} {""} mt
                       <h5 className="fw-bold mt-3">DIFFICULTY</h5>{" "}
                       {hike.difficulty}
+                      {/* Aggiungere start ed end time */}
                       <h5 className="fw-bold mt-3">EXPECTED TIME</h5>{" "}
                       {hike.expectedTime} {""} hr
                       <h5 className="fw-bold mt-3">START POINT</h5>{" "}
@@ -157,6 +191,43 @@ const HikeDetails = () => {
                           </div>
                         );
                       })}
+                      <h5 className="fw-bold mt-3">EXPECTED TIME</h5>{" "}
+                      {hike.expectedTime} {""} hr
+                      <h5 className="fw-bold mt-3">HISTORY HIKE COMPLETED</h5>{" "}
+                      {(userInfo.role === 'hiker' && myCompletedHikeTimes.length !== 0) ?
+                        <>
+                          <Button variant="success" size='sm' onClick={() => setLgShow(true)}>
+                            Show your history hike completed
+                          </Button>
+                          <Modal size="lg" show={lgShow} onHide={() => setLgShow(false)}>
+                            <Modal.Header className="p-2">
+                              <Modal.Title className="fw-bold ms-2">History hike completed</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body className="pb-1">
+                              <Table bordered hover>
+                                <thead>
+                                  <tr>
+                                    <th>#</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {myCompletedHikeTimes.map((completedHikeTimes, index) => {
+                                    return (
+                                      <tr key={index}>
+                                        <td>{index}</td>
+                                        <td className="fst-italic">{completedHikeTimes.startTime}</td>
+                                        <td className="fst-italic">{completedHikeTimes.terminateTime}</td>
+                                      </tr>
+                                    );
+                                  })}
+                                </tbody>
+                              </Table>
+                            </Modal.Body>
+                          </Modal>
+                        </>
+                        : <span>You have not yet completed this hike.</span>}
                     </ListGroup.Item>
                   </ListGroup>
                 </div>
@@ -180,29 +251,41 @@ const HikeDetails = () => {
                     </Marker>
                     {pointList.map((point, index) => {
                       return (
+                        <Marker key={index} icon={icon} position={[point.latitude, point.longitude]}>
+                          <Popup>
+                            <span className="fw-bold">{point.name}</span><br />
+                          </Popup>
+                        </Marker>)
+                    })}
+                    {hutList.map((point, index) => {
+                      return (
                         <Marker key={index} icon={hutIcon} position={[point.latitude, point.longitude]}>
                           <Popup>
                             <span className="fw-bold">{point.name}</span><br />
                           </Popup>
                         </Marker>)
-
-
                     })}
                     <Polyline pathOptions={limeOptions} positions={coordinates} />
                   </MapContainer>
-                  <div className="d-flex flex-column flex-xl-row justify-content-between mt-3">
+                  <div className="d-flex flex-column justify-content-between mt-2">
                     {(userInfo.role === 'localGuide' && userInfo.id === hike.authorId) &&
-                      <div className="d-flex flex-column flex-md-row justify-content-md-between my-2 ">
+                      <div className="mb-2">
                         <Link to={`/linkHutToHike/${hike.id}`}>
-                          <Button variant="success" className='mt-2 mt-md-0'>
+                          <Button variant="success" className='mt-2 me-sm-2 me-0'>
                             <MdAddBusiness className='me-2' size={25} />
-                            Link hut
+                            Link huts
                           </Button>
                         </Link>
                         <Link to={`/hikeStartEndPoint/${hike.id}`}>
-                          <Button variant="success" className='mt-2 mt-md-0 ms-xl-2'>
+                          <Button variant="success" className='mt-2 ms-xl-2 me-xl-2'>
                             <MdAddCircle className='me-2' size={25} />
                             Add start/end point
+                          </Button>
+                        </Link>
+                        <Link to={`/addReferencePoint/${hike.id}`}>
+                          <Button variant="success" className='mt-2 ms-xl-2'>
+                            <GiImpactPoint className='me-2' size={25} />
+                            Add reference points
                           </Button>
                         </Link>
                       </div>
@@ -220,20 +303,14 @@ const HikeDetails = () => {
             </Row>
           </Col >
         ) : (
-          <>{hike && hike.id === -1 ? <ErrorView></ErrorView> : <></>} </>
+          <>{hike && hike.id === -1 ? <ErrorView /> : <></>} </>
         )}
       </>
     );
   } else {
     return (
       <div className="d-flex justify-content-center m-5">
-        <Spinner
-          as="span"
-          animation="border"
-          size="xl"
-          role="status"
-          aria-hidden="true"
-        />
+        <Spinner as="span" animation="border" size="xl" role="status" aria-hidden="true" />
         <h1 className="fw-bold mx-4">LOADING...</h1>
       </div>
     );

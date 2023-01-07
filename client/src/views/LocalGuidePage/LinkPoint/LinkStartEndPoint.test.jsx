@@ -13,6 +13,7 @@
 // Imports
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
 import api from '../../../services/api';
 
 // Contexts
@@ -20,6 +21,7 @@ import { AuthContext } from "../../../contexts/AuthContext";
 
 // Components
 import LinkStartEndPoint from './LinkStartEndPoint';
+import { resolve } from 'path';
 //Mock react-bootstrap
 jest.mock('react-bootstrap', () => {
     const Row = (props) => {
@@ -162,5 +164,12 @@ describe('LinkStartEndPoint View', () => {
         render(<AuthContext.Provider value={value.localGuide}><LinkStartEndPoint /></AuthContext.Provider>, { wrapper: MemoryRouter });
         await waitFor(()=>{expect(screen.getByRole('button', {name: /reset/i})).toBeInTheDocument();
     })    
+    });
+
+    it('has reset function', async () => {
+        api.getHikeDetails.mockResolvedValue(testHike)
+        api.getLinkStartEndPoint.mockResolvedValue(testPoints)
+        render(<AuthContext.Provider value={value.localGuide}><LinkStartEndPoint /></AuthContext.Provider>, { wrapper: MemoryRouter });
+        await waitFor(()=>{userEvent.click(screen.getByRole('button', {name: /reset/i}));});   
     });
 })

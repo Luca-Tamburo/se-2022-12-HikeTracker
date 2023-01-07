@@ -14,7 +14,7 @@
  * @param {char} region region of the point 
  */
 
-function Point(id, name, description = "", type, latitude, longitude, altitude, city, province) {
+function Point(id, name, description = "", type, latitude, longitude, altitude, city, province, region) {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -24,6 +24,7 @@ function Point(id, name, description = "", type, latitude, longitude, altitude, 
     this.altitude = altitude; 
     this.city = city; 
     this.province = province; 
+    this.region = region;
 }
 
 exports.Point = Point;

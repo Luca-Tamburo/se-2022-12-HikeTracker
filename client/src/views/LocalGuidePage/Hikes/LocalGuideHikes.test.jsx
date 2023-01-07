@@ -21,6 +21,10 @@ import { AuthContext } from "../../../contexts/AuthContext";
 // Components
 import LocalGuideHikes from './LocalGuideHikes'
 
+//Mock Axios
+jest.mock('axios')
+jest.mock('../../../services/api')
+
 //Mock react-bootstrap
 jest.mock('react-bootstrap', () => {
 
@@ -39,8 +43,12 @@ jest.mock('react-bootstrap', () => {
     return ({ Col, Row });
 })
 
-jest.mock('axios')
-jest.mock('../../../services/api')
+const mockCard = jest.fn();
+jest.mock('../../../components/ui-core/HikeCard/HikeCard', () => () => {
+    mockCard();
+    return <mock-Card data-testid='Card' />
+})
+
 
 const value = {
     default: {
@@ -108,4 +116,10 @@ describe('LocalGuideHikes View', () => {
         render(<AuthContext.Provider value={value.localGuide}><LocalGuideHikes /></AuthContext.Provider>, { wrapper: MemoryRouter });
         await waitFor(()=>{expect(screen.getByText(`${value.localGuide.userInfo.name}'s hikes`)).toBeInTheDocument();})
     });
+    it('have cards', async () => {
+        api.getLocalGuideHikes.mockResolvedValue(testMyHikes)
+        render(<AuthContext.Provider value={value.localGuide}><LocalGuideHikes /></AuthContext.Provider>, { wrapper: MemoryRouter });
+        await waitFor(()=>{expect(screen.getAllByTestId(`Card`)).toHaveLength(2);})
+    });
+
 })

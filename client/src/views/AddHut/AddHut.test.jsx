@@ -67,7 +67,7 @@ jest.mock('../../components/ui-core/locate/AddMarkerAndInfo', () => () => {
 jest.mock('react-leaflet', () => {
     const MapContainer = (props) => {
         return (
-            <div>{props.children}</div>
+            <div data-testid='MapContainer'>{props.children}</div>
         )
     }
 
@@ -100,9 +100,20 @@ describe('Add hut page', () => {
         expect(screen.getByTestId('TextArea')).toBeInTheDocument();
     });
 
+    it('has map', () => {
+        handleSubmit.mockClear();
+        render(<AddHut handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByTestId('MapContainer')).toBeInTheDocument();
+    });
+
     it('has Submit button', () => {
         handleSubmit.mockClear();
         render(<AddHut handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
         expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
+    });
+    it('has Center button', () => {
+        handleSubmit.mockClear();
+        render(<AddHut handleSubmit={handleSubmit} />, { wrapper: MemoryRouter });
+        expect(screen.getByRole('button', { name: /center your position/i })).toBeInTheDocument();
     });
 })
