@@ -1,5 +1,5 @@
 'use strict';
-/*
+
 const { iAmTesting, setTesting } = require('../mockDB/iAmTesting');
 //va messo prima di chiamare il DAO. Così metti il setting a test. E usi il MOCKdao
 setTesting(1);
@@ -123,7 +123,7 @@ function testgetCompletedHikesDetails(userId) {
         expect(data).toEqual([
             {
                 "id": 1,
-                "title": "Rifugio Melezè - Bellino - Val Varaita",
+                "title": "Trail to MONTE FERRA",
                 "startTime": "10",
                 "terminateTime": "12",
                 "length": 13,
@@ -133,7 +133,7 @@ function testgetCompletedHikesDetails(userId) {
             },
             {
                 "id": 2,
-                "title": "Monte Ferra",
+                "title": "Trail to ROCCA PATANUA",
                 "startTime": "3",
                 "terminateTime": "5",
                 "length": 9,
@@ -156,4 +156,3 @@ function testgetCompletedHikeTimes(hikeId, userId) {
         ]);
     });
 };
-*/
