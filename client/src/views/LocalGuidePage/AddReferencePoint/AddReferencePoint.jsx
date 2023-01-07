@@ -97,7 +97,7 @@ const AddReferencePoint = () => {
                 let e = [endPoint.latitude, endPoint.longitude];
                 let pList = [];
                 hikes.pointList.map((hike) => {
-                    if (hike.id !== startPoint.id && hike.id !== endPoint.id && hike.type !== 'hut' && hike.type !== 'parking lot' ) {
+                    if (hike.id !== startPoint.id && hike.id !== endPoint.id && hike.type !== 'hut' && hike.type !== 'parking lot') {
                         pList.push(hike)
                     }
                 })
@@ -150,7 +150,7 @@ const AddReferencePoint = () => {
                 province: data.province,
                 city: data.city,
             }
-            
+
             newPoints.push(point);
             setPointName("");
             setRefPoint(false);
@@ -162,22 +162,22 @@ const AddReferencePoint = () => {
 
     const removeReferencePoint = (point) => {
         let p = newPoints.filter((p) => p.latitude !== point.latitude && p.longitude !== point.longitude)
-        setPoints(p)
+        setnewPoints(p)
     }
 
-    const handleSubmit = () =>{
+    const handleSubmit = () => {
         let pointList = [];
-        newPoints.map((point,index)=>{
-                let data = {
-                    title: point.name,
-                    latitude: point.latitude,
-                    longitude: point.longitude,
-                }
-                pointList.push(data);
+        newPoints.map((point, index) => {
+            let data = {
+                title: point.name,
+                latitude: point.latitude,
+                longitude: point.longitude,
+            }
+            pointList.push(data);
         })
         const dataApi = {
             hikeId: hikeId,
-            pointsToLink : pointList,
+            pointsToLink: pointList,
         }
 
         console.log(dataApi)
@@ -192,7 +192,7 @@ const AddReferencePoint = () => {
             .finally(() => setLoading(false));
     }
 
-    const handleReset= ()=>{
+    const handleReset = () => {
         setnewPoints([]);
         setRefPoint(false);
         setPointName("");
@@ -209,6 +209,7 @@ const AddReferencePoint = () => {
                     <Col xs={11} md={5} className='mb-3 mb-md-0 me-sm-4'>
                         <div>
                             <h4 className='mx-3 mt-3 mb-4 fst-italic'>Reference point list</h4>
+                            {points.length === 0 && newPoints.length === 0 && <p className='ms-3 fw-bold' style={{ fontSize: 30 }}>No reference point added</p>}
                             {points.length > 0 ?
                                 <>
                                     {points.map((point, index) => {
@@ -219,7 +220,7 @@ const AddReferencePoint = () => {
                                     })}
                                 </>
                                 :
-                                <p className='ms-3 fw-bold' style={{ fontSize: 30 }}>No reference point added</p>
+                                <></>
                             }
                             {newPoints.length > 0 ?
                                 <>
