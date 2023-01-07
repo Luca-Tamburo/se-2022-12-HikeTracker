@@ -32,11 +32,11 @@ const Navbar = (props) => {
         <MyNavbar.Brand as={Link} to="/" data-testid='home-logo-button'>
           <img src={logo} alt="Logo Icon" width="230" />
         </MyNavbar.Brand>
-        <Link to={"/"} data-testid='home-icon-button' className="pe-5 me-5">
+        <Link to={"/"} data-testid='home-icon-button' className="pe-3 me-3 pe-sm-5 me-sm-5">
           <FaHome className="home-icon-navbar" />
         </Link>
         {!isloggedIn ?
-          (<div className="d-flex d-sm-block flex-column justify-content-center align-items-center">
+          (<div className="d-flex d-sm-block flex-column justify-content-center align-items-center pe-3">
             <Link to={"/signup"}>
               <Button variant="secondary" className="btn-navbar mb-2 mb-sm-0">
                 SignUp
