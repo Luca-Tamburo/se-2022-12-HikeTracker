@@ -39,7 +39,7 @@ const RegisterForm = (props) => {
           <Form>
             {registerForm.map((input, index) => {
               return (
-                <Col xs={12} key={index}>
+                <Col xs={12} key={input.id}>
                   <CustomField.Input
                     id={input.id}
                     name={input.name}

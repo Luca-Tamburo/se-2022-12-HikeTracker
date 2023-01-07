@@ -51,7 +51,7 @@ const RegisterFormAdvanced = (props) => {
                         <Row>
                             {registerAdvancedForm.map((input, index) => {
                                 return (
-                                    <Col xs={6} key={index}>
+                                    <Col xs={6} key={input.id}>
                                         <CustomField.Input
                                             className='mt-3'
                                             id={input.id}
