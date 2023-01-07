@@ -16,7 +16,7 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 
 // Components
-import { RegisterForm } from './RegisterForm'
+import  RegisterForm  from './RegisterForm'
 
 describe('RegisterForm', () => {
 

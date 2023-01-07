@@ -39,8 +39,13 @@ jest.mock('react-bootstrap', () => {
             <div data-testid='Row'>{props.children}</div>
         )
     }
+    const Spinner = (props) => {
+        return (
+            <div data-testid='Spinner'>{props.children}</div>
+        )
+    }
 
-    return ({ Col, Row });
+    return ({ Col, Row, Spinner });
 })
 
 const mockCard = jest.fn();

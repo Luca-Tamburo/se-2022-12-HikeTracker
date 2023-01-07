@@ -30,8 +30,12 @@ jest.mock('react-bootstrap', () => {
             <div data-testid='Col'>{props.children}</div>
         );
     }
-
-    return ({ Row, Col });
+    const Spinner = (props) => {
+        return (
+            <div data-testid='Spinner'>{props.children}</div>
+        )
+    }
+    return ({ Row, Col, Spinner });
 })
 
 jest.mock('axios')
