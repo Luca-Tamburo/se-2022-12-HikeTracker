@@ -98,7 +98,7 @@ const MapStartEndLink = (props) => {
                     url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
                 />
                 {possibleStartEnd.map((point, index) => {
-                    if (props.currentStart.id !== point.id && props.currentEnd !== point.id) {
+                    if (props.currentStart.id !== point.id && props.currentEnd.id !== point.id) {
                         return (
                             <Marker key={index} position={[point.latitude, point.longitude]} icon={point.type === 'hut' ? hutIcon : parkingIcon}>
                                 <Popup>
