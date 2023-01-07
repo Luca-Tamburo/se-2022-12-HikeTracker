@@ -32,6 +32,8 @@ const iconParking = L.icon({
     shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
 });
 const MapStartEndLink = (props) => {
+    let currentStart = props.currentStart;
+    let currentEnd = props.currentEnd;
     const startIcon = L.icon({
         iconUrl: require("../../../assets/mapIcons/start.png"),
         iconSize: [30, 30],
@@ -49,16 +51,17 @@ const MapStartEndLink = (props) => {
         iconSize: [30, 30],
     });
     const handleEndPoint = (point) => {
-
+        currentEnd= point;
         props.setEnd(point)
 
     }
 
     const handleStartPoint = (point) => {
+        currentStart = point;
         props.setStart(point)
     }
 
-
+    
     let possibleStartEnd = [];
     let possibleStart = [];
     let possibleEnd = [];
@@ -95,7 +98,7 @@ const MapStartEndLink = (props) => {
                     url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
                 />
                 {possibleStartEnd.map((point, index) => {
-                    if (props.currentStart.id !== point.id) {
+                    if (props.currentStart.id !== point.id && props.currentEnd !== point.id) {
                         return (
                             <Marker key={index} position={[point.latitude, point.longitude]} icon={point.type === 'hut' ? hutIcon : parkingIcon}>
                                 <Popup>
@@ -110,7 +113,7 @@ const MapStartEndLink = (props) => {
                     }
                 })}
                 {possibleEnd.map((point, index) => {
-                    if (props.currentStart.id !== point.id) {
+                    if (props.currentEnd.id !== point.id) {
                         return (
                             <Marker key={index} position={[point.latitude, point.longitude]} icon={point.type === 'hut' ? iconHut : iconParking}>
                                 <Popup>
@@ -123,8 +126,9 @@ const MapStartEndLink = (props) => {
                         )
                     }
                 })}
-                {possibleStart.map((point, index) => {
-                    if (props.currentEnd.id !== point.id) {
+                {possibleStart.map((point, index) => {  
+
+                    if (props.currentStart.id !== point.id) {
                         return (
                             <Marker key={index} position={[point.latitude, point.longitude]} icon={point.type === 'hut' ? iconHut : iconParking}>
                                 <Popup>
@@ -137,6 +141,8 @@ const MapStartEndLink = (props) => {
                         )
                     }
                 })}
+                {props.currentEnd.id !== props.currentStart.id ?
+                <>
                 {props.points.possibleEndPoints.find((point) => { return point.id === props.currentStart.id }) ?
                     <Marker key={'start-b'} icon={startIcon} position={[props.currentStart.latitude, props.currentStart.longitude]}>
                         <Popup>
@@ -164,6 +170,15 @@ const MapStartEndLink = (props) => {
                     </Marker>
 
                 }
+                
+                </>:<>
+                <Marker key={'end-b'} icon={endIcon} position={[props.currentEnd.latitude, props.currentEnd.longitude]}>
+                        <Popup>
+                            <p className="fw-bold my-2" style={{ fontSize: 15 }}>{props.currentEnd.name}</p>
+                        </Popup>
+                    </Marker>
+                </>}
+                
             </MapContainer>
         </>
     )
