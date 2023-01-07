@@ -40,7 +40,13 @@ jest.mock('react-bootstrap', () => {
     }
     ListGroup.Item = ({ children }) => <div>{children}</div>
 
-    return ({ Row, Col, ListGroup });
+    const Spinner = (props) => {
+        return (
+            <div data-testid='Spinner'>{props.children}</div>
+        )
+    }
+
+    return ({ Row, Col, ListGroup, Spinner });
 })
 
 jest.mock('react-leaflet', () => {

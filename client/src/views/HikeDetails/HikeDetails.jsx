@@ -177,8 +177,7 @@ const HikeDetails = () => {
                       <h5 className="fw-bold mt-3">DIFFICULTY</h5>{" "}
                       {hike.difficulty}
                       {/* Aggiungere start ed end time */}
-                      <h5 className="fw-bold mt-3">EXPECTED TIME</h5>{" "}
-                      {hike.expectedTime} {""} hr
+                     
                       <h5 className="fw-bold mt-3">START POINT</h5>{" "}
                       {hike.pointList.find(p => p.id === hike.startPointId).name}
                       <h5 className="fw-bold mt-3">END POINT</h5>{" "}
