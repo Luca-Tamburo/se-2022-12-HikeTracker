@@ -138,7 +138,12 @@ const AddReferencePoint = () => {
         //     if (!isDisabled && pointName === '') { notify.error('Insert a reference point name') }
         //     else {
         //     }
+        let point_result = points.find((point) => point.name === pointName)
+        let new_point_result = newPoints.find((point) => point.name === pointName)
         if (pointName == '') { notify.error('Insert a reference point name') }
+        else if (point_result !== undefined || new_point_result !== undefined) {
+            notify.error('Name of the point already inserted')
+        }
         else {
             let data = await getCityProvinceRegion(refPoint.lat, refPoint.lng);
             const point = {
@@ -188,7 +193,7 @@ const AddReferencePoint = () => {
                 notify.success(`Hike correctly added`);
                 navigate(`/hikes/${hikeId}`, { replace: true });
             })
-            .catch((err) => notify.error(err.error))
+            .catch((err) => notify.error("Something went wrong"))
             .finally(() => setLoading(false));
     }
 

@@ -1,7 +1,9 @@
 ![sonarcloud analysis workflow](https://github.com/Luca-Tamburo/se-2022-12-HikeTracker/actions/workflows/sonarcloud.yml/badge.svg)
 ---
+
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-orange.svg)](https://sonarcloud.io/summary/new_code?id=Luca-Tamburo_se-2022-12-HikeTracker)
 ---
+
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Luca-Tamburo_se-2022-12-HikeTracker&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Luca-Tamburo_se-2022-12-HikeTracker)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Luca-Tamburo_se-2022-12-HikeTracker&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=Luca-Tamburo_se-2022-12-HikeTracker)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Luca-Tamburo_se-2022-12-HikeTracker&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Luca-Tamburo_se-2022-12-HikeTracker)
@@ -9,7 +11,9 @@
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Luca-Tamburo_se-2022-12-HikeTracker&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=Luca-Tamburo_se-2022-12-HikeTracker)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Luca-Tamburo_se-2022-12-HikeTracker&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Luca-Tamburo_se-2022-12-HikeTracker)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Luca-Tamburo_se-2022-12-HikeTracker&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Luca-Tamburo_se-2022-12-HikeTracker)
+
 # HikeTracker
+
 Project developed by ***Team-12*** for the course "Software Engineering II," attended during the academic year 2022/23 at Politecnico di Torino, Master's Degree in Computer Engineering.
 
 ## Table of Contents
@@ -29,7 +33,6 @@ Project developed by ***Team-12*** for the course "Software Engineering II," att
 ## Docker Documentation
 
 Docker documentation is available <a href="https://hub.docker.com/repository/docker/antoniocolelli/se-2022-12-hiketracker" target="_blank">here</a> (Repository README)
-
 
 ## React Client Application Routes
 
@@ -372,6 +375,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   }
 
   ```
+
   - Request files: .Image : The hut image
 
   - Response: `201 CREATED` (success), `422` if the input is not correct, `503 Service Unavailable` (generic error).
@@ -384,6 +388,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   }
 
   ```
+
 - GET `/api/huts`
   - Description: Retrieve list of available huts generic information
   - Request body: *None*
@@ -451,7 +456,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
 - GET `/api/hikeStartEnd/:hikeId`
   - Description: Retrieve the current start/end point and some other possible start/end points (hut/parking lot) for an hike
-  - Request body: _nothing_
+  - Request body: *nothing*
   - Response: `200 OK` (success), `422` if the :hikeId format is wrong,or if the localguide did not insert that hike `503 Service Unavailable` (generic error).
   - Response body: detailed information of current and possible start/end points of the hike.
 
@@ -537,13 +542,12 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
   ```
 
-    - Response: `204` (success), `422` if the localguide did not upload that hike or if the input is not correct, `404` if something is not found, `503 Service Unavailable` (generic error).
-  - Response body: _nothing_
-
+  - Response: `204` (success), `422` if the localguide did not upload that hike or if the input is not correct, `404` if something is not found, `503 Service Unavailable` (generic error).
+  - Response body: *nothing*
 
 - GET `/api/hikeLinkHuts/:hikeId`
   - Description: Retrieve the start/end point, current linked huts possible ones of an hike
-  - Request body: _nothing_
+  - Request body: *nothing*
   - Response: `200 OK` (success), `422` if the :hikeId format is wrong,or if the localguide did not insert that hike `503 Service Unavailable` (generic error).
   - Response body: detailed information of start/end point, current/possible ref points (huts)
 
@@ -626,12 +630,11 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   ```
 
   - Response: `204` (success), `422` if the localguide did not upload that hike or if the input is not correct, `404` if something is not found, `503 Service Unavailable` (generic error).
-  - Response body: _nothing_
-
+  - Response body: *nothing*
 
 - GET `/api/hikeLinkHuts/:hikeId`
   - Description: Retrieve the start/end point, current linked huts possible ones of an hike
-  - Request body: _nothing_
+  - Request body: *nothing*
   - Response: `200 OK` (success), `422` if the :hikeId format is wrong,or if the localguide did not insert that hike `503 Service Unavailable` (generic error).
   - Response body: detailed information of start/end point, current/possible ref points (huts)
 
@@ -714,7 +717,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   ```
 
   - Response: `204` (success), `422` if the localguide did not upload that hike or if the input is not correct, `404` if something is not found, `503 Service Unavailable` (generic error).
-  - Response body: _nothing_
+  - Response body: *nothing*
 
 - POST `/referencePoints`
   - Description: Link reference points to a hike
@@ -742,11 +745,11 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   ```
 
   - Response: `201` (success), `422` if the localguide did not upload that hike or if the input is not correct, `404` if something is not found, `503 Service Unavailable` (generic error).
-  - Response body: _nothing_
+  - Response body: *nothing*
 
 - GET `/api/isHikeInProgress/:hikeId`
   - Description: Retrieve the infos about the starting status of an hike for a logged in hiker. If a hiker has already started an other hike, those infos are given
-  - Request body: _nothing_
+  - Request body: *nothing*
   - Response: `200 OK` (success), `422` if the :hikeId format is wrong,  `401` if who require the api is not logged in as hiker, `404` if the hike does not exist, `503 Service Unavailable` (generic error).
   - Response body: infos about started hike
 
@@ -787,6 +790,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   }
 
   ```
+
   - Response: `201` (success), `422` if the input is not acceptable, for example if :hikeId format is wrong or if the startTime has wrong format/impossible time,  `401` if who require the api is not logged in as hiker, `404` if the hike does not exist, `503 Service Unavailable` (generic error).
   - Response body: Confirmation message.
 
@@ -810,6 +814,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
   }
 
   ```
+
   - Response: `201` (success), `422` if the input is not acceptable, for example if :hikeId format is wrong or if the terminateTime has wrong format/impossible time,  `401` if who require the api is not logged in as hiker, `404` if the hike does not exist, `503 Service Unavailable` (generic error).
   - Response body: Confirmation message.
 
@@ -823,9 +828,10 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
 - GET `/api/myCompletedHikes`
   - Description: Retrieve the history of completed hike for the logged in hiker
-  - Request body: _nothing_
+  - Request body: *nothing*
   - Response: `200 OK` (success), `401` if who require the api is not logged in as hiker, `503 Service Unavailable` (generic error).
   - Response body: the history of completed hikes for the logged in hiker
+
   ```json
     [
       {
@@ -863,9 +869,10 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
 - GET `/api/myCompletedHikeTimes/:hikeId`
   - Description: Retrieve the history of the hiking times for a completed hike for the logged in hiker, given the hikeId
-  - Request body: _nothing_
+  - Request body: *nothing*
   - Response: `200 OK` (success), `422` if the :hikeId format is wrong,  `401` if who require the api is not logged in as hiker, `404` if the hike does not exist, `503 Service Unavailable` (generic error).
   - Response body: history of hiking times (if there is something), otherwise an empty vector ( [ ] )
+
   ```json
     [
       {
@@ -882,8 +889,6 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
       }
     ]
   ```
-
-
 
 ## Database Tables
 
@@ -960,6 +965,7 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 |:-------------------------:|:--------------:|:-----------------:|:-----------------:|
 | aldobaglio@gmail.com      |   password     |   localGuide      |        Yes        |
 | stefanopioli@acmilan.com  |   password     |   hiker           |        Yes        |
+| kayix84170@cnxcoin.com    | HikerTester12@ |   hiker           |        Yes        |
 | antonioconte@gmail.com    |   password     |   localGuide      |        No         |
 | ggatewood@gmail.com       |   Group12Rocks!|   localGuide      |        Yes        |
 | andrewskurka@gmail.com    |   Group12Rocks!|   localGuide      |        Yes        |

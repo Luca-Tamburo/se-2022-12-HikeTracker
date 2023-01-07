@@ -51,7 +51,7 @@ const Hut = () => {
                 <h1 className='fw-bold text-center mt-2'>Search hut</h1>
                 <HutFilter setFilter={setFilter} filter={filter} huts={huts} setHutsDisplay={setHutsDisplay} />
                 <Row>
-                    {hutsDisplay.length === 0 ? <h2 className='d-flex justify-content-center fw-bold mb-3'>No Matched Huts</h2> : hutsDisplay.map((hut, index) => {
+                    {hutsDisplay.length === 0 ? <h2 className='d-flex justify-content-center fw-bold mb-3 mt-4'>No Matched Huts</h2> : hutsDisplay.map((hut, index) => {
                         return (
                             <HutCard key={index} hut={hut} loading={loading} />
                         )
