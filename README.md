@@ -22,13 +22,14 @@ Project developed by ***Team-12*** for the course "Software Engineering II," att
 2. [React Client Application Routes](#react-client-application-routes)
 3. [API Server](#api-server)
 4. [Database Tables](#database-tables)
-5. [Testing](#testing)
+5. [Users credentials](#users-credentials)
+6. [Testing](#testing)
    - [Client](#client)
    - [Server](#server)
-6. [Technologies](#technologies)
+7. [Technologies](#technologies)
    - [Frontend](#frontend)
    - [Backend](#backend)
-7. [Team members](#team-members)
+8. [Team members](#team-members)
 
 ## Docker Documentation
 

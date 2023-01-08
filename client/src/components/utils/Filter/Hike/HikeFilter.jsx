@@ -14,7 +14,7 @@
 import "./HikeFilter.css";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { Link } from 'react-router-dom';
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer, Circle, } from "react-leaflet";
 import L from "leaflet";
 
@@ -182,9 +182,7 @@ const Filter = (props) => {
     }
   };
 
-  function handleCity(event) {
-    setCity(event.target.value);
-  }
+  const handleCity = useCallback((event) => setCity(event.target.value), []);
 
   function handleRange(event) {
     setRange(event.target.value);
