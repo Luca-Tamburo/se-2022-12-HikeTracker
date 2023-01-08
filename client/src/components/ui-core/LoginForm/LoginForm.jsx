@@ -25,7 +25,7 @@ const LoginForm = (props) => {
     <Formik
       initialValues={{ email: "", password: "" }}
       validationSchema={LoginSchema}
-      onSubmit={props.handleSubmit}
+      onSubmit={(values) => props.handleSubmit(values)}
     >
       {({ touched, isValid }) => {
         const disableSubmit = (!touched.email && !touched.password) || !isValid;
