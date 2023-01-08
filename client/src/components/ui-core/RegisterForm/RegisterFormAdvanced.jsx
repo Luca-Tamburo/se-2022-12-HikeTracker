@@ -41,7 +41,7 @@ const RegisterFormAdvanced = (props) => {
                 gender: "none",
             }}
             validationSchema={RegisterAdvancedSchema}
-            onSubmit={props.handleSubmit}
+            onSubmit={(values) => props.handleSubmit(values)}
         >
             {({ touched, isValid }) => {
                 const disableSubmit =

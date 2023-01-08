@@ -30,7 +30,7 @@ const RegisterForm = (props) => {
     <Formik
       initialValues={{ username: "", email: "", password: "", passwordConfirmation: "" }}
       validationSchema={RegisterSchema}
-      onSubmit={props.handleSubmit}
+      onSubmit={(values) => props.handleSubmit(values)}
     >
       {({ touched, isValid }) => {
         const disableSubmit =
