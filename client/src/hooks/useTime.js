@@ -64,7 +64,7 @@ const MyTime = (props) => {
             })
     }, [update]) //eslint-disable-line react-hooks/exhaustive-deps
 
-    const handleHikeTimeInfo = () => {
+    function handleHikeTimeInfo(){
         let startedHikeInfo;
         api.getHikeDetails(hikeTime.startedHikeId)
             .then((hikes) => {
@@ -93,7 +93,7 @@ const MyTime = (props) => {
             })
     }
 
-    const handleTerminateHikeTimeInfo = () => {
+    function handleTerminateHikeTimeInfo(){
         // We need to set n object with hikeId and dayjs with format YYYY-MM-DD and HH-MM-SS
         let dataInfo = {
             hikeId: props.hikeId,
