@@ -90,7 +90,6 @@ router.post('/referencePoints',
                     latitude: req.body.pointsToLink[i].latitude,
                     longitude: req.body.pointsToLink[i].longitude
                 }
-                console.log(referencePointData)
                 for (let j = 0; j < trackPoints.length; j += 5) {
                     if (isItNearEnough(trackPoints[j], referencePointData, length)) {
                             if (!indexes2.includes(i)){

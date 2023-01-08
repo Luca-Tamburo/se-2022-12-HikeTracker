@@ -212,7 +212,6 @@ router.get('/myCompletedHikes',
 
             return res.status(200).json(hikes); //Return object with all the information
         } catch (error) {
-            console.log(error)
             res.status(503).json({ error: `Service unavailable` });
         }
     }
@@ -237,7 +236,6 @@ router.get('/myCompletedHikeTimes/:hikeId',
 
             return res.status(200).json(hikes); //Return object with all the information
         } catch (error) {
-            console.log(error)
             res.status(503).json({ error: `Service unavailable` });
         }
     }

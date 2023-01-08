@@ -910,12 +910,12 @@ Hereafter, we report the designed HTTP APIs, also implemented in the project.
 
  ```
 
-#### *HikePerformance* includes all hikes specifications
+#### *HikePerformance* includes all the performance of an hiker for hikes he/she hiked
 
  ```SQL
-     Hike(id,startTime, terminateTime, hikeId, userId)
+     HikePerformance(id,startTime, terminateTime, hikeId, userId)
      PRIMARY KEY ( Id )
-     FOREIGN KEY ()
+     FOREIGN KEY (hikeId, userId)
 
  ```
 
@@ -1005,7 +1005,7 @@ npm run startTest
 
 ```
 
-#### Note: to run these commands you must be in `/code/client/`
+#### Note: to run these commands you must be in `/client/`
 
 ### Server
 
@@ -1027,7 +1027,7 @@ npm run test_integration
 
 ```
 
-#### Note: to run these commands you must be in `/code/server/`
+#### Note: to run these commands you must be in `/server/`
 
 ## Technologies
 

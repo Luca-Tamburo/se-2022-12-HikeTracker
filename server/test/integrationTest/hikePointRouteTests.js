@@ -15,6 +15,7 @@ chai.should();
 const server = "http://localhost:3001/api/";
 const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 chai.use(chaiHttp);
+const fs = require('fs');
 const { step } = require('mocha-steps');
 const request = require('supertest');
 let agent = chai.request.agent(app);
@@ -492,6 +493,22 @@ describe("Hike.Points.APItesting", function () {
             });
     });
 
-    ////
+        ////////////////
 
+        step('Elimina tutti i file creati', async function () {
+            const hikes = await hikeDao.getHikes();
+            for (let hike of hikes) {
+                fs.unlink(`./utils/gpxFiles/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.gpx`, function (err, results) {
+                    if (err) console.log(`./utils/gpxFiles/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.gpx not found`);
+                    else console.log(`./utils/gpxFiles/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.gpx deleted`);
+                });
+                fs.unlink(`./utils/images/hikes/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.png`, function (err, results) {
+                    if (err) console.log(`./utils/images/hikes/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.png not found`);
+                    else console.log(`./utils/images/hikes/${hike.id}.png deleted`);
+                });
+            }
+        });
+    
+
+    
 });
