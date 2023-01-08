@@ -71,7 +71,7 @@ const MapLinkHut = (props) => {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                     url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
                 />
-                {!props.points.possibleLinkedHuts.find((p) => p.id !== props.points.startPoint.id) && !props.currentLinkedHuts.find((c)=> c.id === props.points.startPoint.id) ?
+                {props.points.possibleLinkedHuts.find((p) => p.id === props.points.startPoint.id)  && props.currentLinkedHuts.find((c)=> c.id === props.points.startPoint.id) ?
                     <Marker key={'start-link'} icon={startIcon} position={[props.points.startPoint.latitude, props.points.startPoint.longitude]}>
                         <Popup>
                             <div className="d-flex flex-column">
@@ -85,7 +85,7 @@ const MapLinkHut = (props) => {
                             <span className="fw-bold" style={{ fontSize: 15 }}>{props.points.startPoint.name}</span><br />
                         </Popup>
                     </Marker>}
-                {!props.points.possibleLinkedHuts.find((p) => p.id !== props.points.endPoint.id) && !props.currentLinkedHuts.find((c)=> c.id === props.points.endPoint.id)?
+                {props.points.possibleLinkedHuts.find((p) => p.id === props.points.endPoint.id) && props.currentLinkedHuts.find((c)=> c.id === props.points.endPoint.id)?
                     <Marker key={'end'} icon={endIcon} position={[props.points.endPoint.latitude, props.points.endPoint.longitude]}>
                         <Popup>
                             <div className="d-flex flex-column">
