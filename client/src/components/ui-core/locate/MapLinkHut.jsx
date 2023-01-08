@@ -63,11 +63,6 @@ const MapLinkHut = (props) => {
         props.setCurrentLinkedHuts(old => [...old, point])
     }
 
-    /* const handleUnlink = (point) => {
-        let v = props.currentLinkedHuts;
-        v = v.filter((p) => p.id !== point.id)
-        props.setCurrentLinkedHuts(v)
-    } */
 
     return (
         <>
@@ -105,11 +100,11 @@ const MapLinkHut = (props) => {
                         </Popup>
                     </Marker>}
                 {props.coordinates ? <Polyline pathOptions={limeOptions} positions={props.coordinates} /> : <></>}
-                {props.points.possibleLinkedHuts.map((point, index) => {
+                {props.points.possibleLinkedHuts.map((point) => {
                     let find = linkedPoint.find((p) => p.id === point.id)
                     if (!find && point.id !== props.points.startPoint.id && point.id !== props.points.endPoint.id) {
                         return (
-                            <Marker key={index} position={[point.latitude, point.longitude]} icon={hutUnlinkedIcon}>
+                            <Marker key={point.id} position={[point.latitude, point.longitude]} icon={hutUnlinkedIcon}>
                                 <Popup>
                                     <div className="d-flex flex-column">
                                         <span className="fw-bold" style={{ fontSize: 15 }}>{point.name}</span>
@@ -121,13 +116,12 @@ const MapLinkHut = (props) => {
                     }
                 }
                 )}
-                {linkedPoint.map((point, index) => {
+                {linkedPoint.map((point) => {
                     return (
-                        <Marker key={index} position={[point.latitude, point.longitude]} icon={hutIcon}>
+                        <Marker key={point.id} position={[point.latitude, point.longitude]} icon={hutIcon}>
                             <Popup>
                                 <div className="d-flex flex-column">
                                     <p className="fw-bold" style={{ fontSize: 15 }}>{point.name}</p>
-                                    {/* <Button size="sm" onClick={() => { handleUnlink(point)}}> Unlink Hut</Button> */}
                                 </div>
                             </Popup>
                         </Marker>
