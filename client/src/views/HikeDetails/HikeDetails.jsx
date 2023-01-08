@@ -138,6 +138,14 @@ const HikeDetails = () => {
     }
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
+  function handleLgShowTrue() {
+    setLgShow(true);
+  }
+
+  function handleLgShowFalse() {
+    setLgShow(false);
+  }
+
   if (!loading) {
     return (
       <>
@@ -192,10 +200,10 @@ const HikeDetails = () => {
                       <h5 className="fw-bold mt-3">HISTORY HIKE COMPLETED</h5>{" "}
                       {(isloggedIn && userInfo.role === 'hiker' && myCompletedHikeTimes.length !== 0) ?
                         <>
-                          <Button variant="success" size='sm' onClick={() => setLgShow(true)}>
+                          <Button variant="success" size='sm' onClick={handleLgShowTrue}>
                             Show your history hike completed
                           </Button>
-                          <Modal size="lg" show={lgShow} onHide={() => setLgShow(false)}>
+                          <Modal size="lg" show={lgShow} onHide={handleLgShowFalse}>
                             <Modal.Header className="p-2">
                               <Modal.Title className="fw-bold ms-2">History hike completed</Modal.Title>
                             </Modal.Header>

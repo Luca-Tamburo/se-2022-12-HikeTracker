@@ -46,7 +46,7 @@ const RegisterRole = () => {
       navigate('/', { replace: true });
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleSubmit = (credentials) => {
+  function handleSubmit(credentials) {
     setLoading(true);
     credentials["role"] = role;
     api.addNewUser(credentials)
