@@ -52,8 +52,7 @@ const App = () => {
       .finally(() => setLoading(false))
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
-
-  const handleLogout = () => {
+  function handleLogout() {
     setLoading(true)
     api.logout()
       .then(() => {
@@ -66,7 +65,7 @@ const App = () => {
       .finally(() => setLoading(false))
   }
 
-  const handleSubmit = (credentials) => {
+  function handleSubmit(credentials) {
     setLoading(true)
     api.login(credentials)
       .then((user) => {

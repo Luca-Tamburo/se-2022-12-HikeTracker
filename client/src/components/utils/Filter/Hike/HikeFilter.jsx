@@ -71,7 +71,8 @@ const Filter = (props) => {
   const [isProvinceUnselected, setIsProvinceUnselected] = useState(true);
   const [isCityUnselected, setIsCityUnselected] = useState(true);
   const center = { lat: 45.072384, lng: 7.6414976 };
-  const handleSearch = () => {
+
+  function handleSearch() {
     let result = props.hikes;
     if (!(region === "Region" || region === "0")) {
       result = result.filter(
@@ -138,7 +139,7 @@ const Filter = (props) => {
     props.setHikesDisplay(result);
   };
 
-  const handleReset = (e) => {
+  function handleReset() {
     setIsProvinceUnselected(true);
     setIsCityUnselected(true);
     setRange(0);
@@ -157,7 +158,7 @@ const Filter = (props) => {
     props.setHikesDisplay(props.hikes);
   };
 
-  const handleRegion = (event) => {
+  function handleRegion(event) {
     if (event.target.value === "0") {
       setIsProvinceUnselected(true);
       setIsCityUnselected(true);
@@ -170,7 +171,7 @@ const Filter = (props) => {
     }
   };
 
-  const handleProvince = (event) => {
+  function handleProvince(event) {
     if (event.target.value === "0") {
       setIsCityUnselected(true);
       setCity("City");
@@ -182,11 +183,75 @@ const Filter = (props) => {
     }
   };
 
-  const handlePosition = () => {
+  function handleCity(event) {
+    setCity(event.target.value);
+  }
+
+  function handleRange(event) {
+    setRange(event.target.value);
+  }
+
+  function handleDifficulty(event) {
+    setDifficulty(event.target.value);
+  }
+
+  function handleAscentMin(event) {
+    if (parseFloat(event.target.value) >= parseFloat(ascentMax))
+      setAscentMax(event.target.value);
+    setAscentMin(event.target.value);;
+  }
+
+  function handleAscentMax(event) {
+    ascentMin && event.target.value
+      ? setAscentMax(
+        parseFloat(event.target.value) >= parseFloat(ascentMin)
+          ? event.target.value
+          : ascentMax === ""
+            ? parseFloat(ascentMin)
+            : ""
+      )
+      : setAscentMax(event.target.value);
+  }
+
+  function handleExpectideTimeMin(event) {
+    if (parseFloat(event.target.value) >= parseFloat(expectedTimeMax))
+      setExpectedTimeMax(event.target.value);
+    setExpectedTimeMin(event.target.value);
+  }
+
+  function handleExpectideTimeMax(event) {
+    expectedTimeMin && event.target.value
+      ? setExpectedTimeMax(
+        parseFloat(event.target.value) >= parseFloat(expectedTimeMin)
+          ? event.target.value
+          : expectedTimeMax === ""
+            ? parseFloat(expectedTimeMin)
+            : "")
+      : setExpectedTimeMax(event.target.value);
+  }
+
+  function handleLengthMin(event) {
+    if (parseFloat(event.target.value) >= parseFloat(lengthMax))
+      setLengthMax(event.target.value);
+    setLengthMin(event.target.value);
+  }
+
+  function handleLengthMax(event) {
+    lengthMin && event.target.value
+      ? setLengthMax(
+        parseFloat(event.target.value) >= parseFloat(lengthMin)
+          ? event.target.value
+          : lengthMax === ""
+            ? parseFloat(lengthMin)
+            : "")
+      : setLengthMax(event.target.value);
+  }
+
+  function handlePosition() {
     setCurrentPosition(true);
   };
 
-  const saveMarkers = (newMarkerCoords, circle) => {
+  function saveMarkers(newMarkerCoords, circle) {
     setMarker(newMarkerCoords);
     setCircle(circle);
   };
@@ -198,7 +263,7 @@ const Filter = (props) => {
             data-testid="region-select"
             value={region}
             className='mt-3 mt-sm-3'
-            onChange={(event) => handleRegion(event)}
+            onChange={handleRegion}
           >
             <option value={0}>Region</option>
             {__REGIONS.map((r) => (
@@ -214,7 +279,7 @@ const Filter = (props) => {
             value={province}
             className='mt-3 mt-sm-3'
             disabled={isProvinceUnselected}
-            onChange={(event) => handleProvince(event)}
+            onChange={handleProvince}
           >
             <option value={0}>Province</option>
             {getProvinceForRegion(parseInt(region)).map((p) => (
@@ -230,9 +295,7 @@ const Filter = (props) => {
             className='mt-3 mt-sm-3'
             value={city}
             disabled={isCityUnselected}
-            onChange={(event) => {
-              setCity(event.target.value);
-            }}
+            onChange={handleCity}
           >
             <option value={0}>City</option>
             {getCitiesForProvince(parseInt(province)).map((c) => (
@@ -252,9 +315,7 @@ const Filter = (props) => {
               value={range}
               min="0"
               max="100000"
-              onChange={(e) => {
-                setRange(e.target.value);
-              }}
+              onChange={handleRange}
             />
           </Form>
         </Col>
@@ -265,9 +326,7 @@ const Filter = (props) => {
           <Form.Select
             data-testid="difficulty-select"
             value={difficulty}
-            onChange={(event) => {
-              setDifficulty(event.target.value);
-            }}
+            onChange={handleDifficulty}
           >
             <option value={0}>Difficulty</option>
             {constFilter[2].map((item, index) => {
@@ -289,11 +348,7 @@ const Filter = (props) => {
                 type="number"
                 min="0"
                 placeholder="Min"
-                onChange={(event) => {
-                  if (parseFloat(event.target.value) >= parseFloat(ascentMax))
-                    setAscentMax(event.target.value);
-                  setAscentMin(event.target.value);
-                }}
+                onChange={handleAscentMin}
                 value={ascentMin}
               />
             </Form>
@@ -303,17 +358,7 @@ const Filter = (props) => {
                 type="number"
                 min={ascentMin ? ascentMin : 0}
                 placeholder="Max"
-                onChange={(event) => {
-                  ascentMin && event.target.value
-                    ? setAscentMax(
-                      parseFloat(event.target.value) >= parseFloat(ascentMin)
-                        ? event.target.value
-                        : ascentMax === ""
-                          ? parseFloat(ascentMin)
-                          : ""
-                    )
-                    : setAscentMax(event.target.value);
-                }}
+                onChange={handleAscentMax}
                 value={ascentMax}
               />
             </Form>
@@ -328,14 +373,7 @@ const Filter = (props) => {
                 type="number"
                 min="0"
                 placeholder="Min"
-                onChange={(event) => {
-                  if (
-                    parseFloat(event.target.value) >=
-                    parseFloat(expectedTimeMax)
-                  )
-                    setExpectedTimeMax(event.target.value);
-                  setExpectedTimeMin(event.target.value);
-                }}
+                onChange={handleExpectideTimeMin}
                 value={expectedTimeMin}
               />
             </Form>
@@ -345,18 +383,7 @@ const Filter = (props) => {
                 type="number"
                 min="0"
                 placeholder="Max"
-                onChange={(event) => {
-                  expectedTimeMin && event.target.value
-                    ? setExpectedTimeMax(
-                      parseFloat(event.target.value) >=
-                        parseFloat(expectedTimeMin)
-                        ? event.target.value
-                        : expectedTimeMax === ""
-                          ? parseFloat(expectedTimeMin)
-                          : "")
-                    : setExpectedTimeMax(event.target.value);
-                }}
-
+                onChange={handleExpectideTimeMax}
                 value={expectedTimeMax}
               />
             </Form>
@@ -371,11 +398,7 @@ const Filter = (props) => {
                 type="number"
                 min="0"
                 placeholder="Min"
-                onChange={(event) => {
-                  if (parseFloat(event.target.value) >= parseFloat(lengthMax))
-                    setLengthMax(event.target.value);
-                  setLengthMin(event.target.value);
-                }}
+                onChange={handleLengthMin}
                 value={lengthMin}
               />
             </Form>
@@ -385,41 +408,17 @@ const Filter = (props) => {
                 type="number"
                 min="0"
                 placeholder="Max"
-                onChange={(event) => {
-                  lengthMin && event.target.value
-                    ? setLengthMax(
-                      parseFloat(event.target.value) >= parseFloat(lengthMin)
-                        ? event.target.value
-                        : lengthMax === ""
-                          ? parseFloat(lengthMin)
-                          : "")
-                    : setLengthMax(event.target.value);
-                }}
+                onChange={handleLengthMax}
                 value={lengthMax}
               />
             </Form>
           </div>
         </Col>
         <Col>
-          <Button
-            variant="secondary"
-            className="mt-3 me-3"
-            onClick={handleReset}
-          >
-            <BiReset /> Reset
-          </Button>
-          <Button
-            className="mt-3"
-            onClick={() => {
-              handleSearch();
-            }}
-          >
-            <BsSearch /> Search
-          </Button>
+          <Button variant="secondary" className="mt-3 me-3" onClick={handleReset}><BiReset /> Reset</Button>
+          <Button className="mt-3" onClick={handleSearch}><BsSearch /> Search</Button>
           {parseInt(range) !== 0 &&
-            <Button className='mt-3 ms-2 ms-sm-3' variant="info" onClick={() => { handlePosition() }}>
-              <GiPositionMarker />Your Position
-            </Button>}
+            <Button className='mt-3 ms-2 ms-sm-3' variant="info" onClick={handlePosition}><GiPositionMarker />Your Position</Button>}
         </Col>
       </Row>
       {
