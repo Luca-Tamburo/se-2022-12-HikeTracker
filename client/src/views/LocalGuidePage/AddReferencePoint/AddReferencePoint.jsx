@@ -307,7 +307,7 @@ const AddReferencePoint = () => {
                                 <BiReset className='me-1' /> Reset
                             </Button>
                             {/* <Button onClick={() => { handleSave() }}> */}
-                            <Button onClick={handleSubmit}>type
+                            <Button onClick={handleSubmit}>
                                 <IoIosSend className='me-2' />Submit
                             </Button>
                         </div>
