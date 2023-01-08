@@ -154,7 +154,7 @@ const HikeDetails = () => {
             <img alt="Hike Img" src={hike.photoFile} height="300px" width="1250px" className="mt-3 w-100" style={{ objectFit: "cover" }} />
             <div className="d-flex flex-column flex-md-row justify-content-between mt-2 ">
               <h2 className="fw-bold my-3">{hike.title}</h2>
-              <div className="d-flex justify-content-between mx-sm-4 my-md-3">
+              <div className="d-flex justify-content-between mx-md-4 my-md-3">
                 <h5>
                   {hike.authorName} {""} {hike.authorSurname}
                 </h5>
@@ -168,7 +168,7 @@ const HikeDetails = () => {
               }
             </div>
             <Row className="d-flex justify-content-between mt-3">
-              <Col xs={5} xl={4} className="p-0">
+              <Col xs={12} md={5} xl={4} className="p-0">
                 <div className="shadow-lg px-0 py-3 mb-5 bg-white rounded">
                   <div className="d-flex flex-column ms-3">
                     <h3 className="fw-bold">HIKE INFO</h3>
@@ -237,7 +237,7 @@ const HikeDetails = () => {
                 </div>
               </Col>
               {isloggedIn ? (
-                <Col xs={7} className="m-0">
+                <Col xs={12} md={7} className="m-0">
                   <MapContainer center={start} zoom={13} scrollWheelZoom={true}>
                     <TileLayer
                       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -294,7 +294,7 @@ const HikeDetails = () => {
                         </Link>
                       </div>
                     }
-                    <Button type="submit">
+                    <Button type="submit" className="mb-3 mb-md-0">
                       <a href={`http://localhost:3001/api/hikegpx/${hikeId}`} target="_blank" rel="noreferrer" className="text-white">
                         <IoMdDownload className='me-2' size={25} />Download GPX Track
                       </a>

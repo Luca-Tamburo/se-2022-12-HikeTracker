@@ -64,7 +64,7 @@ const MyTime = (props) => {
             })
     }, [update]) //eslint-disable-line react-hooks/exhaustive-deps
 
-    function handleHikeTimeInfo(){
+    function handleHikeTimeInfo() {
         let startedHikeInfo;
         api.getHikeDetails(hikeTime.startedHikeId)
             .then((hikes) => {
@@ -93,7 +93,7 @@ const MyTime = (props) => {
             })
     }
 
-    function handleTerminateHikeTimeInfo(){
+    function handleTerminateHikeTimeInfo() {
         // We need to set n object with hikeId and dayjs with format YYYY-MM-DD and HH-MM-SS
         let dataInfo = {
             hikeId: props.hikeId,
@@ -127,7 +127,7 @@ const MyTime = (props) => {
                                 onChange={() => setDisableDate(!disableDate)}
                             />
                         </Form>
-                        <Button variant="success" className='me-4 my-3 my-sm-2' onClick={handleAddHikeTimeInfo}><IoPlay className="me-2" />Start hike</Button>
+                        <Button variant="success" className='me-4 my-2 mb-2' onClick={handleAddHikeTimeInfo}><IoPlay className="me-2" />Start hike</Button>
                         <DateTimePicker disabled={disableDate} onChange={onChange} value={value} className='datepicker' />
                     </>
                 }
@@ -141,11 +141,11 @@ const MyTime = (props) => {
                             onChange={() => setDisableDate(!disableDate)}
                         />
                     </Form>
-                    <Button variant="danger" className='me-4' onClick={handleTerminateHikeTimeInfo}><GiStopSign className="me-2" />Stop hike</Button>
+                    <Button variant="danger" className='me-4 my-2 mb-2' onClick={handleTerminateHikeTimeInfo}><GiStopSign className="me-2" />Stop hike</Button>
                     <DateTimePicker disabled={disableDate} onChange={onChange} value={value} className='datepicker' />
                 </>
                 }
-                {hikeTime.inProgress === -1 && <Button variant="warning" className='me-2' onClick={handleHikeTimeInfo}><GiStopSign className="me-2" />Stop hike</Button>}
+                {hikeTime.inProgress === -1 && <Button variant="warning" className='me-2 mb-2 mt-sm-4' onClick={handleHikeTimeInfo}><GiStopSign className="me-2" />Stop hike</Button>}
             </Col>
             <Col xs={12} md={6} lg={{ span: 5, offset: 2 }} xl={{ span: 4, offset: 3 }} className='ps-md-5 ps-lg-3 pe-lg-0'>
                 <TimerStyled seconds={seconds} minutes={minutes} hours={hours} days={days} />

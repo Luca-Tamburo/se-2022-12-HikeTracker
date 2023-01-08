@@ -30,7 +30,7 @@ const Navbar = (props) => {
     <MyNavbar collapseOnSelect bg="light" variant="light" className="shadow p-2 bg-white sticky-top">
       <Container fluid>
         <MyNavbar.Brand as={Link} to="/" data-testid='home-logo-button'>
-          <img src={logo} alt="Logo Icon" width="230" />
+          <img src={logo} alt="Logo Icon" width="200" />
         </MyNavbar.Brand>
         <Link to={"/"} data-testid='home-icon-button' className="pe-3 me-3 pe-sm-5 me-sm-5">
           <FaHome className="home-icon-navbar" />
@@ -46,7 +46,7 @@ const Navbar = (props) => {
               <Button className="btn-navbar mx-sm-2">Login</Button>
             </Link>
           </div>) : (
-            <Dropdown drop="start" className="ms-5">
+            <Dropdown drop="start" className="ms-sm-5">
               <Dropdown.Toggle variant="primary" id="user-dropdown">
                 Hi, {userInfo.name || userInfo.username}
               </Dropdown.Toggle>

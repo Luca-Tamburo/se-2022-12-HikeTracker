@@ -78,11 +78,11 @@ const LinkHutToHike = () => {
             })
     }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
-    const handleReset = () => {
+    function handleReset() {
         setCurrentLinkedHuts(points.currentLinkedHuts)
     }
 
-    const handleSave = () => {
+    function handleSave() {
         let v = [];
 
         currentLinkedHuts.map((point, index) => {
@@ -112,7 +112,7 @@ const LinkHutToHike = () => {
                     <h1 className="fw-bold">Link hut to a hike</h1>
                 </div>
                 <Row>
-                    <Col xs={10} sm={5} lg={5} xl={4} className='mb-3 mb-sm-0 me-sm-4'>
+                    <Col xs={11} sm={5} lg={5} xl={4} className='mb-2 mb-sm-0 me-sm-4'>
                         <h4 className='m-3 fst-italic'>Hut list</h4>
                         {currentLinkedHuts.length !== 0 ?
                             currentLinkedHuts.map((point, index) => {
@@ -122,14 +122,14 @@ const LinkHutToHike = () => {
                             })
                             : <p className='ms-3 fw-bold' style={{ fontSize: 30 }}>No hut linked</p>}
                     </Col>
-                    <Col xs={11} sm={{ span: 6 }} lg={{ span: 6 }} xl={{ span: 6, offset: 1 }} className='mt-3 mt-sm-5'>
+                    <Col xs={11} sm={{ span: 6 }} lg={{ span: 6 }} xl={{ span: 6, offset: 1 }} className='mt-sm-5'>
                         <div className='ms-3 ms-sm-0'>
                             <MapLinkHut points={points} coordinates={coordinates} currentLinkedHuts={currentLinkedHuts} setCurrentLinkedHuts={handleCurrentHut} />
-                            <div className=" my-2">
-                                <Button variant='secondary' onClick={() => { handleReset() }} className='me-4'>
+                            <div className="my-2 mb-5">
+                                <Button variant='secondary' onClick={handleReset} className='me-4'>
                                     <BiReset className='me-1' /> Reset
                                 </Button>
-                                <Button onClick={() => { handleSave() }}>
+                                <Button onClick={handleSave}>
                                     <IoIosSend className='me-2' />Submit
                                 </Button>
                             </div>

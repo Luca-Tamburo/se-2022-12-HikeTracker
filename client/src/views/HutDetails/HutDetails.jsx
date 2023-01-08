@@ -75,15 +75,15 @@ const HutDetails = () => {
               <span className="fst-italic">{hut.description}</span>
             </div>
             <Row className="d-flex justify-content-between">
-              <Col xs={5} xl={4} className="p-0">
-                <div className="shadow-lg px-0 py-3 mb-5 bg-white rounded">
+              <Col xs={12} lg={5} xl={4} className="p-0">
+                <div className="shadow-lg px-0 py-3 mb-4 bg-white rounded">
                   <div className="d-flex flex-column ms-3">
                     <h3 className="fw-bold">HUT INFO</h3>
                     <span>All data are to be considered indicative.</span>
                     <hr className="mb-0" />
                   </div>
                   <ListGroup horizontal>
-                    <ListGroup.Item className="border-0">
+                    <ListGroup.Item className="border-0 px-0 ms-3">
                       <h5 className="fw-bold mt-3">WEBSITE</h5>
                       {hut.website ? <a href={hut.website} target="_blank" rel="noreferrer">{hut.website}</a> : "No website added"}
                       <h5 className="fw-bold mt-3">ROOMS NUMBER</h5>
@@ -99,8 +99,8 @@ const HutDetails = () => {
                 </div>
               </Col>
               {isloggedIn ? (
-                <Col xs={7} className="m-0">
-                  <MapContainer center={[hut.latitude, hut.longitude]} zoom={13} scrollWheelZoom={true}>
+                <Col xs={12} lg={7} className="m-0">
+                  <MapContainer center={[hut.latitude, hut.longitude]} zoom={13} scrollWheelZoom={true} className='mb-3'>
                     <TileLayer
                       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                       url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"

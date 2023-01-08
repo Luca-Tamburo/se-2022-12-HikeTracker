@@ -204,7 +204,7 @@ const AddReferencePoint = () => {
                     <Col xs={11} md={5} className='mb-3 mb-md-0 me-sm-4'>
                         <div>
                             <h4 className='mx-3 mt-3 mb-4 fst-italic'>Reference point list</h4>
-                            {points.length === 0 && newPoints.length === 0 && <p className='ms-3 fw-bold' style={{ fontSize: 30 }}>No reference point added</p>}
+                            {points.length === 0 && newPoints.length === 0 && <p className='ms-3 mb-0 fw-bold' style={{ fontSize: 25 }}>No reference point added</p>}
                             {points.length > 0 ?
                                 <>
                                     {points.map((point) => {
@@ -291,7 +291,6 @@ const AddReferencePoint = () => {
                                 <Marker icon={iconRed} position={refPoint}>
                                     <Popup>
                                         <div className="d-flex flex-column">
-                                            {/* <span className="fw-bold" style={{ fontSize: 15 }}>{type}</span><br /> */}
                                             <Button size="sm" variant='success' onClick={AddReferencePoint}><IoMdAddCircle className='me-2' />Add reference point</Button>
                                         </div>
                                     </Popup>
@@ -305,12 +304,10 @@ const AddReferencePoint = () => {
                                 },
                             }} />
                         </MapContainer>
-                        <div className=" my-2">
-                            {/* <Button variant='secondary' onClick={() => { handleReset() }} className='me-4'> */}
+                        <div className="my-2 mb-4">
                             <Button variant='secondary' className='me-4' onClick={handleReset}>
                                 <BiReset className='me-1' /> Reset
                             </Button>
-                            {/* <Button onClick={() => { handleSave() }}> */}
                             <Button onClick={handleSubmit}>
                                 <IoIosSend className='me-2' />Submit
                             </Button>

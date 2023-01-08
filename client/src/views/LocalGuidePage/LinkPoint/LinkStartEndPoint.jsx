@@ -13,7 +13,7 @@
 // Imports
 import { useState, useEffect } from 'react'
 import { Row, Col, Spinner, Button } from 'react-bootstrap'
-import { useNavigate,useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 // Components - uiCore
 import InfoPoint from '../../../components/ui-core/InfoPoint/InfoPoint';
@@ -65,21 +65,21 @@ const LinkStartEndPoint = () => {
 
     const handleSave = () => {
         let data;
-        data={
-            startPointId: currentStart.id === start.id?undefined:currentStart.id,
-            endPointId: currentEnd.id === end.id?undefined:currentEnd.id,
+        data = {
+            startPointId: currentStart.id === start.id ? undefined : currentStart.id,
+            endPointId: currentEnd.id === end.id ? undefined : currentEnd.id,
         }
-        add(hikeId,data);
+        add(hikeId, data);
     }
 
-    const add = (hikeId, data)=>{
-        api.putLinkStartEndPoint(hikeId,data).then(() => {
+    const add = (hikeId, data) => {
+        api.putLinkStartEndPoint(hikeId, data).then(() => {
             notify.success(`Update completed successfully`);
             navigate(`/hikes/${hikeId}`, { replace: true });
-          })
-          .catch((err) => notify.error(err.error))
-          .finally(() => setLoading(false));
-        
+        })
+            .catch((err) => notify.error(err.error))
+            .finally(() => setLoading(false));
+
     }
 
     if (!loading) {
@@ -89,7 +89,7 @@ const LinkStartEndPoint = () => {
                     <h1 className="fw-bold">Change your start/end point</h1>
                 </div>
                 <Row>
-                    <Col xs={10} sm={5} lg={5} xl={4} className='mb-3 mb-sm-0 me-sm-4'>
+                    <Col xs={11} md={5} lg={5} xl={4} className='mb-3 mb-sm-0 me-sm-4'>
                         <div>
                             <h4 className='m-3 fst-italic'>Start Point</h4>
                             <InfoPoint points={currentStart} eventKeyNumber={'0'} />
@@ -99,10 +99,10 @@ const LinkStartEndPoint = () => {
                             <InfoPoint points={currentEnd} eventKeyNumber={'1'} />
                         </div>
                     </Col>
-                    <Col xs={11} sm={{ span: 6 }} lg={{ span: 6 }} xl={{ span: 6, offset: 1 }} className='mt-3 mt-sm-5'>
-                        <div className='ms-3 ms-sm-0'>
+                    <Col xs={11} md={{ span: 6 }} lg={{ span: 6 }} xl={{ span: 6, offset: 1 }} className='mt-0 mt-sm-2 mt-md-5'>
+                        <div className='ms-3 ms-md-0'>
                             <MapStartEndLink points={points} setEnd={setCurrentEnd} setStart={setCurrentStart} currentEnd={currentEnd} currentStart={currentStart} />
-                            <div className=" my-2">
+                            <div className=" my-2 mb-4">
                                 <Button variant='secondary' onClick={() => { handleReset() }} className='me-4'>
                                     <BiReset className='me-1' /> Reset
                                 </Button>

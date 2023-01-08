@@ -47,23 +47,6 @@ const icon = L.icon({
   shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png",
 });
 
-
-const HandleSelect = ({ children, onChange, disabled, testId, className, value }) => {
-  function handleSelect(event) {
-    onChange(event);
-  }
-  return (
-    <Form.Select
-      data-testid={testId}
-      className={className}
-      value={value}
-      disabled={disabled}
-      onChange={handleSelect}
-    >{children}
-    </Form.Select>
-  )
-}
-
 const Filter = (props) => {
   const ZOOM_LEVEL = 8;
 
@@ -306,8 +289,8 @@ const Filter = (props) => {
           </Form.Select>
         </Col>
         <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
-          <HandleSelect
-            testId="city-select"
+          <Form.Select
+            data-testid="city-select"
             className='mt-3 mt-sm-3'
             value={city}
             disabled={isCityUnselected}
@@ -319,7 +302,7 @@ const Filter = (props) => {
                 {c.nome}
               </option>
             ))}
-          </HandleSelect>
+          </Form.Select>
         </Col>
         <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
           <Form className='my-2 mt-sm-2 mt-lg-0'>
@@ -431,10 +414,10 @@ const Filter = (props) => {
           </div>
         </Col>
         <Col>
-          <Button variant="secondary" className="mt-3 me-3" onClick={handleReset}><BiReset /> Reset</Button>
-          <Button className="mt-3" onClick={handleSearch}><BsSearch /> Search</Button>
+          <Button variant="secondary" className="mt-3" onClick={handleReset}><BiReset /> Reset</Button>
+          <Button className="mt-3 mx-2" onClick={handleSearch}><BsSearch /> Search</Button>
           {parseInt(range) !== 0 &&
-            <Button className='mt-3 ms-2 ms-sm-3' variant="info" onClick={handlePosition}><GiPositionMarker />Your Position</Button>}
+            <Button className='mt-3' variant="info" onClick={handlePosition}><GiPositionMarker />Your Position</Button>}
         </Col>
       </Row>
       {

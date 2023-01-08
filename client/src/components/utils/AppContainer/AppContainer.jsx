@@ -51,7 +51,7 @@ const AppContainer = ({ ...props }) => {
             <Row className='flex-fill p-0'>
                 {props.children}
             </Row>
-            <Button onClick={backToTop} id='btn-back-to-top' data-testid='go-to-top-page-button'>
+            <Button onClick={backToTop} id='btn-back-to-top' data-testid='go-to-top-page-button' style={{ zIndex: 9999 }}>
                 <FaArrowUp size={25} />
             </Button>
         </Container >

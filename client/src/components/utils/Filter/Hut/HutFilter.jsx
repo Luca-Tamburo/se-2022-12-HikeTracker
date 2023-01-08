@@ -71,7 +71,7 @@ const HutFilter = (props) => {
     const [isProvinceUnselected, setIsProvinceUnselected] = useState(true);
     const [isCityUnselected, setIsCityUnselected] = useState(true);
     const center = { lat: 45.072384, lng: 7.6414976 };
-    function handleSearch(){
+    function handleSearch() {
         let result = props.huts;
         if (!(region === "Region" || region === "0")) {
             result = result.filter(
@@ -137,7 +137,7 @@ const HutFilter = (props) => {
         props.setHutsDisplay(result);
     };
 
-    function handleReset(){
+    function handleReset() {
         setIsProvinceUnselected(true);
         setIsCityUnselected(true);
         setRange(0);
@@ -189,17 +189,17 @@ const HutFilter = (props) => {
     function handleRange(event) {
         setRange(event.target.value);
     }
-    
+
     function handleHutName(event) {
         setHutName(event.target.value);
     }
 
-    function handleRoomMin(event){
+    function handleRoomMin(event) {
         if (parseFloat(event.target.value) >= parseFloat(RoomsNumberMax))
             setRoomsNumberMax(event.target.value);
         setRoomsNumberMin(event.target.value);
     }
-    function handleRoomMax(event){
+    function handleRoomMax(event) {
         RoomsNumberMin && event.target.value
             ? setRoomsNumberMax(
                 parseFloat(event.target.value) >= parseFloat(RoomsNumberMin)
@@ -209,13 +209,13 @@ const HutFilter = (props) => {
                         : "")
             : setRoomsNumberMax(event.target.value);
     }
-    function handleBedMin(event){
+    function handleBedMin(event) {
         console.log(event.target.value)
         if (parseFloat(event.target.value) >= parseFloat(bedsNumberMax))
             setBedNumberMax(event.target.value);
         setBedNumberMin(event.target.value);
     }
-    function handleBedMax(event){
+    function handleBedMax(event) {
         bedsNumberMin && event.target.value
             ? setBedNumberMax(
                 parseFloat(event.target.value) >= parseFloat(bedsNumberMin)
@@ -227,13 +227,13 @@ const HutFilter = (props) => {
             : setBedNumberMax(event.target.value);
     }
 
-    function handleAltitudeMin(event){
+    function handleAltitudeMin(event) {
         console.log(event.target.value)
         if (parseFloat(event.target.value) >= parseFloat(altitudeMax))
             setAltitudeMax(event.target.value);
         setAltitudeMin(event.target.value);
     }
-    function handleAltitudeMax(event){
+    function handleAltitudeMax(event) {
         altitudeMin && event.target.value
             ? setAltitudeMax(
                 parseFloat(event.target.value) >= parseFloat(altitudeMin)
@@ -245,11 +245,11 @@ const HutFilter = (props) => {
             : setAltitudeMax(event.target.value);
     }
 
-    function handlePosition(){
+    function handlePosition() {
         setCurrentPosition(true);
     };
 
-    function saveMarkers(newMarkerCoords, circle){
+    function saveMarkers(newMarkerCoords, circle) {
         setMarker(newMarkerCoords);
         setCircle(circle);
     };
@@ -323,8 +323,8 @@ const HutFilter = (props) => {
             </Row>
             <Row className="align-items-end mt-sm-2 mt-md-0">
                 <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
-                    <p className='fw-bold my-2 my-sm-2 mt-md-0 mb-0'>Hut name</p>
-                    <div className="d-flex">
+                    <p className='fw-bold my-sm-2 mt-md-0 mb-0'>Hut name</p>
+                    <div className="w-100">
                         <Form className="pe-2">
                             <Form.Control
                                 data-testid="name-select"
@@ -332,6 +332,7 @@ const HutFilter = (props) => {
                                 placeholder="Name..."
                                 onChange={handleHutName}
                                 value={hutName}
+                                className='w-100'
                             />
                         </Form>
                     </div>
