@@ -65,7 +65,7 @@ export default function DigitHour({ value, title }) {
   // Getting the string as a parameter and typecasting it into an integer
   let myFunc = num => Number(num);
 
-  var intArr = Array.from(String(value), myFunc);
+  let intArr = Array.from(String(value), myFunc);
 
   return (
     <Container>
