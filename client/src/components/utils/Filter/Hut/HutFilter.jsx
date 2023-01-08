@@ -71,7 +71,7 @@ const HutFilter = (props) => {
     const [isProvinceUnselected, setIsProvinceUnselected] = useState(true);
     const [isCityUnselected, setIsCityUnselected] = useState(true);
     const center = { lat: 45.072384, lng: 7.6414976 };
-    const handleSearch = () => {
+    function handleSearch(){
         let result = props.huts;
         if (!(region === "Region" || region === "0")) {
             result = result.filter(
@@ -137,7 +137,7 @@ const HutFilter = (props) => {
         props.setHutsDisplay(result);
     };
 
-    const handleReset = (e) => {
+    function handleReset(){
         setIsProvinceUnselected(true);
         setIsCityUnselected(true);
         setRange(0);
@@ -158,7 +158,7 @@ const HutFilter = (props) => {
         props.setHutsDisplay(props.huts);
     };
 
-    const handleRegion = (event) => {
+    function handleRegion(event) {
         if (event.target.value === "0") {
             setIsProvinceUnselected(true);
             setIsCityUnselected(true);
@@ -171,7 +171,7 @@ const HutFilter = (props) => {
         }
     };
 
-    const handleProvince = (event) => {
+    function handleProvince(event) {
         if (event.target.value === "0") {
             setIsCityUnselected(true);
             setCity("City");
@@ -182,12 +182,74 @@ const HutFilter = (props) => {
             setIsCityUnselected(false);
         }
     };
+    function handleCity(event) {
+        setCity(event.target.value);
+    }
 
-    const handlePosition = () => {
+    function handleRange(event) {
+        setRange(event.target.value);
+    }
+    
+    function handleHutName(event) {
+        setHutName(event.target.value);
+    }
+
+    function handleRoomMin(event){
+        if (parseFloat(event.target.value) >= parseFloat(RoomsNumberMax))
+            setRoomsNumberMax(event.target.value);
+        setRoomsNumberMin(event.target.value);
+    }
+    function handleRoomMax(event){
+        RoomsNumberMin && event.target.value
+            ? setRoomsNumberMax(
+                parseFloat(event.target.value) >= parseFloat(RoomsNumberMin)
+                    ? event.target.value
+                    : RoomsNumberMax === ""
+                        ? parseFloat(RoomsNumberMin)
+                        : "")
+            : setRoomsNumberMax(event.target.value);
+    }
+    function handleBedMin(event){
+        console.log(event.target.value)
+        if (parseFloat(event.target.value) >= parseFloat(bedsNumberMax))
+            setBedNumberMax(event.target.value);
+        setBedNumberMin(event.target.value);
+    }
+    function handleBedMax(event){
+        bedsNumberMin && event.target.value
+            ? setBedNumberMax(
+                parseFloat(event.target.value) >= parseFloat(bedsNumberMin)
+                    ? event.target.value
+                    : bedsNumberMax === ""
+                        ? parseFloat(bedsNumberMin)
+                        : ""
+            )
+            : setBedNumberMax(event.target.value);
+    }
+
+    function handleAltitudeMin(event){
+        console.log(event.target.value)
+        if (parseFloat(event.target.value) >= parseFloat(altitudeMax))
+            setAltitudeMax(event.target.value);
+        setAltitudeMin(event.target.value);
+    }
+    function handleAltitudeMax(event){
+        altitudeMin && event.target.value
+            ? setAltitudeMax(
+                parseFloat(event.target.value) >= parseFloat(altitudeMin)
+                    ? event.target.value
+                    : altitudeMax === ""
+                        ? parseFloat(altitudeMin)
+                        : ""
+            )
+            : setAltitudeMax(event.target.value);
+    }
+
+    function handlePosition(){
         setCurrentPosition(true);
     };
 
-    const saveMarkers = (newMarkerCoords, circle) => {
+    function saveMarkers(newMarkerCoords, circle){
         setMarker(newMarkerCoords);
         setCircle(circle);
     };
@@ -202,7 +264,7 @@ const HutFilter = (props) => {
                         data-testid="region-select"
                         value={region}
                         className='mt-3 mt-sm-3'
-                        onChange={(event) => handleRegion(event)}
+                        onChange={handleRegion}
                     >
                         <option value={0}>Region</option>
                         {__REGIONS.map((r) => (
@@ -234,7 +296,7 @@ const HutFilter = (props) => {
                         className='mt-3 mt-sm-3'
                         value={city}
                         disabled={isCityUnselected}
-                        onChange={(event) => { setCity(event.target.value); }}
+                        onChange={handleCity}
                     >
                         <option value={0}>City</option>
                         {getCitiesForProvince(parseInt(province)).map((c) => (
@@ -254,9 +316,7 @@ const HutFilter = (props) => {
                             value={range}
                             min="0"
                             max="100000"
-                            onChange={(e) => {
-                                setRange(e.target.value);
-                            }}
+                            onChange={handleRange}
                         />
                     </Form>
                 </Col>
@@ -270,7 +330,7 @@ const HutFilter = (props) => {
                                 data-testid="name-select"
                                 type="text"
                                 placeholder="Name..."
-                                onChange={(event) => { setHutName(event.target.value) }}
+                                onChange={handleHutName}
                                 value={hutName}
                             />
                         </Form>
@@ -285,11 +345,7 @@ const HutFilter = (props) => {
                                 type="number"
                                 min="0"
                                 placeholder="Min"
-                                onChange={(event) => {
-                                    if (parseFloat(event.target.value) >= parseFloat(RoomsNumberMax))
-                                        setRoomsNumberMax(event.target.value);
-                                    setRoomsNumberMin(event.target.value);
-                                }}
+                                onChange={handleRoomMin}
                                 value={RoomsNumberMin}
                             />
                         </Form>
@@ -299,16 +355,7 @@ const HutFilter = (props) => {
                                 type="number"
                                 min="0"
                                 placeholder="Max"
-                                onChange={(event) => {
-                                    RoomsNumberMin && event.target.value
-                                        ? setRoomsNumberMax(
-                                            parseFloat(event.target.value) >= parseFloat(RoomsNumberMin)
-                                                ? event.target.value
-                                                : RoomsNumberMax === ""
-                                                    ? parseFloat(RoomsNumberMin)
-                                                    : "")
-                                        : setRoomsNumberMax(event.target.value);
-                                }}
+                                onChange={handleRoomMax}
 
                                 value={RoomsNumberMax}
                             />
@@ -324,11 +371,7 @@ const HutFilter = (props) => {
                                 type="number"
                                 min="0"
                                 placeholder="Min"
-                                onChange={(event) => {
-                                    if (parseFloat(event.target.value) >= parseFloat(bedsNumberMax))
-                                        setBedNumberMax(event.target.value);
-                                    setBedNumberMin(event.target.value);
-                                }}
+                                onChange={handleBedMin}
                                 value={bedsNumberMin}
                             />
                         </Form>
@@ -338,17 +381,7 @@ const HutFilter = (props) => {
                                 type="number"
                                 min={bedsNumberMin ? bedsNumberMin : 0}
                                 placeholder="Max"
-                                onChange={(event) => {
-                                    bedsNumberMin && event.target.value
-                                        ? setBedNumberMax(
-                                            parseFloat(event.target.value) >= parseFloat(bedsNumberMin)
-                                                ? event.target.value
-                                                : bedsNumberMax === ""
-                                                    ? parseFloat(bedsNumberMin)
-                                                    : ""
-                                        )
-                                        : setBedNumberMax(event.target.value);
-                                }}
+                                onChange={handleBedMax}
                                 value={bedsNumberMax}
                             />
                         </Form>
@@ -363,11 +396,7 @@ const HutFilter = (props) => {
                                 type="number"
                                 min="0"
                                 placeholder="Min"
-                                onChange={(event) => {
-                                    if (parseFloat(event.target.value) >= parseFloat(altitudeMax))
-                                        setAltitudeMax(event.target.value);
-                                    setAltitudeMin(event.target.value);
-                                }}
+                                onChange={handleAltitudeMin}
                                 value={altitudeMin}
                             />
                         </Form>
@@ -377,17 +406,7 @@ const HutFilter = (props) => {
                                 type="number"
                                 min={altitudeMax ? altitudeMax : 0}
                                 placeholder="Max"
-                                onChange={(event) => {
-                                    altitudeMin && event.target.value
-                                        ? setAltitudeMax(
-                                            parseFloat(event.target.value) >= parseFloat(altitudeMin)
-                                                ? event.target.value
-                                                : altitudeMax === ""
-                                                    ? parseFloat(altitudeMin)
-                                                    : ""
-                                        )
-                                        : setAltitudeMax(event.target.value);
-                                }}
+                                onChange={handleAltitudeMax}
                                 value={altitudeMax}
                             />
                         </Form>
@@ -397,11 +416,11 @@ const HutFilter = (props) => {
                     <Button variant="secondary" className="mt-3 me-3" onClick={handleReset} >
                         <BiReset /> Reset
                     </Button>
-                    <Button className="mt-3" onClick={() => { handleSearch(); }}>
+                    <Button className="mt-3" onClick={handleSearch}>
                         <BsSearch /> Search
                     </Button>
                     {parseInt(range) !== 0 &&
-                        <Button className='mt-3 ms-3' variant="info" onClick={() => { handlePosition() }}>
+                        <Button className='mt-3 ms-3' variant="info" onClick={handlePosition}>
                             <GiPositionMarker />Your Position
                         </Button>}
                 </Col>
