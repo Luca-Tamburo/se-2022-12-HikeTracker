@@ -50,7 +50,6 @@ const LocationMarker = (props) => {
             map.flyTo(e.latlng, map.getZoom());
             let c= null
             props.saveMarkers(L.marker(e.latlng, icon), c)
-            //c.addTo(map);
             setBbox(e.bounds.toBBoxString().split(","));
         });
     }, []); //eslint-disable-line react-hooks/exhaustive-deps

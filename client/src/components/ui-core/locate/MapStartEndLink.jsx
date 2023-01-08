@@ -32,8 +32,6 @@ const iconParking = L.icon({
     shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
 });
 const MapStartEndLink = (props) => {
-    let currentStart = props.currentStart;
-    let currentEnd = props.currentEnd;
     const startIcon = L.icon({
         iconUrl: require("../../../assets/mapIcons/start.png"),
         iconSize: [30, 30],
@@ -51,13 +49,11 @@ const MapStartEndLink = (props) => {
         iconSize: [30, 30],
     });
     const handleEndPoint = (point) => {
-        currentEnd= point;
         props.setEnd(point)
 
     }
 
     const handleStartPoint = (point) => {
-        currentStart = point;
         props.setStart(point)
     }
 
@@ -97,10 +93,10 @@ const MapStartEndLink = (props) => {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                     url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
                 />
-                {possibleStartEnd.map((point, index) => {
+                {possibleStartEnd.map((point) => {
                     if (props.currentStart.id !== point.id && props.currentEnd.id !== point.id) {
                         return (
-                            <Marker key={index} position={[point.latitude, point.longitude]} icon={point.type === 'hut' ? hutIcon : parkingIcon}>
+                            <Marker key={point.id} position={[point.latitude, point.longitude]} icon={point.type === 'hut' ? hutIcon : parkingIcon}>
                                 <Popup>
                                     <div className="d-flex flex-column">
                                         <p className="fw-bold my-2" style={{ fontSize: 15 }}>{point.name}</p>
@@ -112,10 +108,10 @@ const MapStartEndLink = (props) => {
                         )
                     }
                 })}
-                {possibleEnd.map((point, index) => {
+                {possibleEnd.map((point) => {
                     if (props.currentEnd.id !== point.id) {
                         return (
-                            <Marker key={index} position={[point.latitude, point.longitude]} icon={point.type === 'hut' ? iconHut : iconParking}>
+                            <Marker key={point.id} position={[point.latitude, point.longitude]} icon={point.type === 'hut' ? iconHut : iconParking}>
                                 <Popup>
                                     <div className="d-flex flex-column">
                                         <p className="fw-bold my-2" style={{ fontSize: 15 }}>{point.name}</p>
@@ -126,11 +122,11 @@ const MapStartEndLink = (props) => {
                         )
                     }
                 })}
-                {possibleStart.map((point, index) => {  
+                {possibleStart.map((point) => {  
 
                     if (props.currentStart.id !== point.id) {
                         return (
-                            <Marker key={index} position={[point.latitude, point.longitude]} icon={point.type === 'hut' ? iconHut : iconParking}>
+                            <Marker key={point} position={[point.latitude, point.longitude]} icon={point.type === 'hut' ? iconHut : iconParking}>
                                 <Popup>
                                     <div className="d-flex flex-column">
                                         <p className="fw-bold my-2" style={{ fontSize: 15 }}>{point.name}</p>
