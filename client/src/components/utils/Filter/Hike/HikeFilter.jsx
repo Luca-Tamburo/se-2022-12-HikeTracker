@@ -48,6 +48,22 @@ const icon = L.icon({
 });
 
 
+const HandleSelect = ({ children, onChange, disabled, testId, className, value }) => {
+  function handleSelect(event) {
+    onChange(event);
+  }
+  return (
+    <Form.Select
+      data-testid={testId}
+      className={className}
+      value={value}
+      disabled={disabled}
+      onChange={handleSelect}
+    >{children}
+    </Form.Select>
+  )
+}
+
 const Filter = (props) => {
   const ZOOM_LEVEL = 8;
 
@@ -290,8 +306,8 @@ const Filter = (props) => {
           </Form.Select>
         </Col>
         <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
-          <Form.Select
-            data-testid="city-select"
+          <HandleSelect
+            testId="city-select"
             className='mt-3 mt-sm-3'
             value={city}
             disabled={isCityUnselected}
@@ -303,7 +319,7 @@ const Filter = (props) => {
                 {c.nome}
               </option>
             ))}
-          </Form.Select>
+          </HandleSelect>
         </Col>
         <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
           <Form className='my-2 mt-sm-2 mt-lg-0'>
