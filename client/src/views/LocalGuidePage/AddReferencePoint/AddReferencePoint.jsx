@@ -11,7 +11,7 @@
  */
 
 // Imports
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 import { Row, Col, Spinner, Button, Form } from 'react-bootstrap'
 import { useNavigate, useParams } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
@@ -19,9 +19,6 @@ import getCityProvinceRegion from "../../../services/geoApi";
 
 // Components - uiCore
 import InfoPoint from '../../../components/ui-core/InfoPoint/InfoPoint';
-
-// Contexts
-import { AuthContext } from "../../../contexts/AuthContext";
 
 // Services
 import api from '../../../services/api';
@@ -74,13 +71,10 @@ const AddReferencePoint = () => {
     const [points, setPoints] = useState([]);
     const [newPoints, setnewPoints] = useState([]);
     const notify = useNotification();
-    const [currentStart, setCurrentStart] = useState();
-    const [currentEnd, setCurrentEnd] = useState();
     const [start, setStart] = useState();
     const [end, setEnd] = useState();
     const { hikeId } = useParams();
     const [pointName, setPointName] = useState("");
-    const [type, setType] = useState('0');
     const [hike, setHike] = useState(undefined);
     const [coordinates, setCoordinates] = useState(null);
     const [refPoint, setRefPoint] = useState(false);
@@ -131,13 +125,6 @@ const AddReferencePoint = () => {
 
     const AddReferencePoint = async () => {
 
-        //we need to parse the type from integer to the actual name
-
-        // if (type === '0') { notify.error('Select a reference point type') }
-        // else {
-        //     if (!isDisabled && pointName === '') { notify.error('Insert a reference point name') }
-        //     else {
-        //     }
         let point_result = points.find((point) => point.name === pointName)
         let new_point_result = newPoints.find((point) => point.name === pointName)
         if (pointName == '') { notify.error('Insert a reference point name') }
@@ -148,7 +135,6 @@ const AddReferencePoint = () => {
             let data = await getCityProvinceRegion(refPoint.lat, refPoint.lng);
             const point = {
                 name: pointName,
-                type: type,
                 latitude: refPoint.lat,
                 longitude: refPoint.lng,
                 region: data.region,
@@ -172,7 +158,7 @@ const AddReferencePoint = () => {
 
     const handleSubmit = () => {
         let pointList = [];
-        newPoints.map((point, index) => {
+        newPoints.map((point) => {
             let data = {
                 title: point.name,
                 latitude: point.latitude,
@@ -217,9 +203,9 @@ const AddReferencePoint = () => {
                             {points.length === 0 && newPoints.length === 0 && <p className='ms-3 fw-bold' style={{ fontSize: 30 }}>No reference point added</p>}
                             {points.length > 0 ?
                                 <>
-                                    {points.map((point, index) => {
+                                    {points.map((point) => {
                                         return (
-                                            <InfoPoint key={index} points={point} />
+                                            <InfoPoint key={point.id} points={point} />
                                         )
 
                                     })}
@@ -251,26 +237,7 @@ const AddReferencePoint = () => {
                                 onChange={(event) => { setPointName(event.target.value) }}
                                 value={pointName}
                             />
-                            {/* <Form.Select
-                                data-testid="type-select"
-                                value={type}
-                                className='ms-sm-5 me-sm-3 me-md-0'
-                                onChange={(event) => {
-                                    if (event.target.value === 'Hut' || event.target.value === 'Parking Lot') {
-                                        setIsDisabled(false);
-                                    } else {
-                                        setIsDisabled(true);
-                                        setPointName('');
-                                    }
-                                    setType(event.target.value);
-                                }}
-                            >
-                                <option value='0'>Point Type</option>
-                                <option value='Hut'>Hut</option>
-                                <option value='Parking Lot'>Parking Lot</option>
-                                <option value='GPS coordinate'>GPS coordinate</option>
-                                <option value='Location name'>Location name</option>
-                            </Form.Select> */}
+                            
                         </div>
                         <MapContainer center={start} zoom={13} scrollWheelZoom={true}>
                             <TileLayer
@@ -289,9 +256,9 @@ const AddReferencePoint = () => {
                             </Marker>
                             {points.length > 0 ?
                                 <>
-                                    {points.map((point, index) => {
+                                    {points.map((point) => {
                                         return (
-                                            <Marker key={index} icon={icon} position={[point.latitude, point.longitude]}>
+                                            <Marker key={point.id} icon={icon} position={[point.latitude, point.longitude]}>
                                                 <Popup>
                                                     <span className="fw-bold" style={{ fontSize: 15 }}>{point.name}</span><br />
                                                 </Popup>
@@ -303,9 +270,9 @@ const AddReferencePoint = () => {
                             }
                             {newPoints.length > 0 ?
                                 <>
-                                    {newPoints.map((point, index) => {
+                                    {newPoints.map((point) => {
                                         return (
-                                            <Marker key={index} icon={icon} position={[point.latitude, point.longitude]}>
+                                            <Marker key={point.id} icon={icon} position={[point.latitude, point.longitude]}>
                                                 <Popup>
                                                     <span className="fw-bold" style={{ fontSize: 15 }}>{point.name}</span><br />
                                                     <Button size="sm" variant='danger' onClick={() => { removeReferencePoint(point) }}><BsFillTrashFill className='me-2' />Remove</Button>
@@ -340,7 +307,7 @@ const AddReferencePoint = () => {
                                 <BiReset className='me-1' /> Reset
                             </Button>
                             {/* <Button onClick={() => { handleSave() }}> */}
-                            <Button onClick={handleSubmit}>
+                            <Button onClick={handleSubmit}>type
                                 <IoIosSend className='me-2' />Submit
                             </Button>
                         </div>
