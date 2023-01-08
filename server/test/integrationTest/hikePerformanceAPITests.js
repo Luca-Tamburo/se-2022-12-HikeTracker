@@ -34,6 +34,28 @@ describe("Edit.Hikes.APItesting", function () {
     before(async () => { await cleanDb(); });
     const hiker = request.agent(server);
 
+    step("Test0: GET - /myCompletedHikes - hiker not logged in",  async (done) => {
+
+        await hiker
+            .get(`/myCompletedHikes`)
+            .end((err, res) => {
+                res.should.have.status(401);
+                done();
+            });
+    });
+
+    step("Test0.1: GET - /myCompletedHikeTimes/:hikeId - hiker not logged in",  async (done) => {
+
+        const hikeId = 1;
+
+        await hiker
+            .get(`/myCompletedHikeTimes/${hikeId}`)
+            .end((err, res) => {
+                res.should.have.status(401);
+                done();
+            });
+    });
+
     step("Test0: POST - /startHike - hiker not logged in", async function () {
 
         await hiker
@@ -84,6 +106,65 @@ describe("Edit.Hikes.APItesting", function () {
                 done();
             });
     });
+
+    step("Test1: GET - /myCompletedHikes - success",  async (done) => {
+
+        await hiker
+            .get(`/myCompletedHikes`)
+            .end((err, res) => {
+                res.should.have.status(200);
+                done();
+            });
+    });
+
+    step("Test2: GET - /myCompletedHikeTimes/:hikeId - hikeId<0",  async (done) => {
+
+        const hikeId = -1;
+
+        await hiker
+            .get(`/myCompletedHikeTimes/${hikeId}`)
+            .end((err, res) => {
+                res.should.have.status(422);
+                done();
+            });
+    });
+
+    step("Test3: GET - /myCompletedHikeTimes/:hikeId - hikeId wrong format",  async (done) => {
+
+        const hikeId = "this shouldnt be a string";
+
+        await hiker
+            .get(`/myCompletedHikeTimes/${hikeId}`)
+            .end((err, res) => {
+                res.should.have.status(422);
+                done();
+            });
+    });
+
+    step("Test4: GET - /myCompletedHikeTimes/:hikeId - hike not found",  async (done) => {
+
+        const hikeId = 3;
+
+        await hiker
+            .get(`/myCompletedHikeTimes/${hikeId}`)
+            .end((err, res) => {
+                res.should.have.status(404);
+                done();
+            });
+    });
+
+    step("Test5: GET - /myCompletedHikeTimes/:hikeId - success",  async (done) => {
+
+        const hikeId = 1;
+
+        await hiker
+            .get(`/myCompletedHikeTimes/${hikeId}`)
+            .end((err, res) => {
+                res.should.have.status(200);
+                done();
+            });
+    });
+
 
     step("Test1: POST - /startHike - hikeID < 0", async function () {
 
