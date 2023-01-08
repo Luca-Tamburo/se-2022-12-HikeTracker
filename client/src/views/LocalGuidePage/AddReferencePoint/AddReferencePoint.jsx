@@ -156,7 +156,7 @@ const AddReferencePoint = () => {
         setnewPoints(p)
     }
 
-    const handleSubmit = () => {
+    function handleSubmit() {
         let pointList = [];
         newPoints.map((point) => {
             let data = {
@@ -183,11 +183,15 @@ const AddReferencePoint = () => {
             .finally(() => setLoading(false));
     }
 
-    const handleReset = () => {
+    function handleReset() {
         setnewPoints([]);
         setRefPoint(false);
         setPointName("");
 
+    }
+
+    function handleName(event) {
+        setPointName(event.target.value)
     }
 
     if (!loading) {
@@ -217,7 +221,7 @@ const AddReferencePoint = () => {
                                 <>
                                     {newPoints.map((point, index) => {
                                         return (
-                                            <InfoPoint key={index} points={point} />
+                                            <InfoPoint key={point.id} points={point} />
                                         )
 
                                     })}
@@ -234,10 +238,10 @@ const AddReferencePoint = () => {
                                 type="text"
                                 className='mb-3 mb-sm-0'
                                 placeholder="Point name..."
-                                onChange={(event) => { setPointName(event.target.value) }}
+                                onChange={handleName}
                                 value={pointName}
                             />
-                            
+
                         </div>
                         <MapContainer center={start} zoom={13} scrollWheelZoom={true}>
                             <TileLayer

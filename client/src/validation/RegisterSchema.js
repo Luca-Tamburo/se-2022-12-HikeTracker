@@ -17,7 +17,7 @@ YupPassword(Yup); // extend yup
 
 const RegisterSchema = Yup.object().shape({
     username: Yup.string().required("Username requested").matches(
-        /^[A-Za-z_][A-Za-z0-9_]+$/,
+        /^[A-Za-z_]\w+$/,
         "Not valid username"
     ),
     email: Yup.string().email("Email is not valid").required("Email needed"),

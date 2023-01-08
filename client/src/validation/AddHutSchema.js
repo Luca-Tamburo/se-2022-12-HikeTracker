@@ -14,7 +14,7 @@
 import * as Yup from 'yup';
 
 const url = /^(https?:\/\/)(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
-const mobileRegExp = /^(\+[1-9]{1,4}\s?)?[0-9]{3,12}$/
+const mobileRegExp = /^(\+[1-9]{1,4}\s?)?\d{3,12}$/
 
 const AddHutSchema = Yup.object().shape({
     title: Yup.string().required('Hut name requested'),
