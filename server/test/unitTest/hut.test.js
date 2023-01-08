@@ -5,9 +5,9 @@ const { iAmTesting, setTesting } = require('../mockDB/iAmTesting');
 setTesting(1);
 const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 
-const { addHut, getHuts, getAllHuts, getDetailsByHutId} = require('../../dao/hutDao'); //getAllHuts, getDetailsByHutId DA TESTARE
+const { addHut, getHuts, getAllHuts, getDetailsByHutId } = require('../../dao/hutDao'); //getAllHuts, getDetailsByHutId DA TESTARE
 const { addPoint } = require('../../dao/pointDao');
-const {getHutById}=require('./mockDAO')
+const { getHutById } = require('./mockDAO')
 
 const cleanDb = async () => {
     await deleteDatabase()
@@ -46,11 +46,11 @@ function testaddHut(roomsNumber, bedsNumber, whenIsOpen, phoneNumber, photoFile,
     });
 };
 
-function testgetAllHuts(){
-    test("test getAllHuts", async() => {
+function testgetAllHuts() {
+    test("test getAllHuts", async () => {
         await addPoint("nameofthepoint1", "description1", "hut", 44.574263943359256, 6.982647031545639, 1000, "city1", "province1", "region1");
         await addPoint("nameofthepoint2", "description2", "hut", 50.574263943359256, 8.982647031545639, 2000, "city2", "province2", "region2");
-        let hut2 = await addHut("name1", 3,6,"null","+393409728900","https://some/photo/linkzzz", "https://some/other/link",2);
+        let hut2 = await addHut("name1", 3, 6, "null", "+393409728900", "https://some/photo/linkzzz", "https://some/other/link", 2);
         let huts = await getAllHuts();
         expect(huts).toEqual(
             [{
@@ -61,10 +61,10 @@ function testgetAllHuts(){
                 "bedsNumber": 16,
                 "photoFile": "https://some/photo/link",
                 "altitude": 1000,
-                "latitude": 44.574263943359256, 
+                "latitude": 44.574263943359256,
                 "longitude": 6.982647031545639,
                 "city": "city1",
-                "province": "province1", 
+                "province": "province1",
                 "region": "region1"
             },
             {
@@ -75,10 +75,10 @@ function testgetAllHuts(){
                 "bedsNumber": 6,
                 "photoFile": "https://some/photo/linkzzz",
                 "altitude": 2000,
-                "latitude": 50.574263943359256, 
+                "latitude": 50.574263943359256,
                 "longitude": 8.982647031545639,
                 "city": "city2",
-                "province": "province2", 
+                "province": "province2",
                 "region": "region2"
             }
             ]
@@ -86,8 +86,8 @@ function testgetAllHuts(){
     });
 };
 
-function testgetHuts(){
-    test("test getHuts", async() => {
+function testgetHuts() {
+    test("test getHuts", async () => {
         let huts = await getHuts();
         expect(huts).toEqual(
             [{
@@ -103,25 +103,25 @@ function testgetHuts(){
     });
 };
 
-function testgetDetailsByHutId(){
-    test("test getDetailsByHutId", async() => {
+function testgetDetailsByHutId() {
+    test("test getDetailsByHutId", async () => {
         let result = await getDetailsByHutId(2);
         expect(result).toEqual({
-                "id": 2,
-                "name": "nameofthepoint2",
-                "description": "description2",
-                "roomsNumber": 3,
-                "bedsNumber": 6,
-                "photoFile": "https://some/photo/linkzzz",
-                "altitude": 2000,
-                "latitude": 50.574263943359256, 
-                "longitude": 8.982647031545639,
-                "website": "https://some/other/link",
-                "whenIsOpen": "null",
-                "phoneNumber": "+393409728900",
-                "city": "city2",
-                "province": "province2", 
-                "region": "region2"
+            "id": 2,
+            "name": "nameofthepoint2",
+            "description": "description2",
+            "roomsNumber": 3,
+            "bedsNumber": 6,
+            "photoFile": "https://some/photo/linkzzz",
+            "altitude": 2000,
+            "latitude": 50.574263943359256,
+            "longitude": 8.982647031545639,
+            "website": "https://some/other/link",
+            "whenIsOpen": "null",
+            "phoneNumber": "+393409728900",
+            "city": "city2",
+            "province": "province2",
+            "region": "region2"
         });
     });
 

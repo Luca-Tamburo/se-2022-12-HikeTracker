@@ -5,7 +5,7 @@ const { iAmTesting, setTesting } = require('../mockDB/iAmTesting');
 setTesting(1);
 const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 
-const { addPoint, getPointById, getPointByType} = require('../../dao/pointDao');
+const { addPoint, getPointById, getPointByType } = require('../../dao/pointDao');
 
 const cleanDb = async () => {
     await deleteDatabase()
@@ -14,7 +14,7 @@ const cleanDb = async () => {
 
 let addPoints = async () => {
     await addPoint("Monte Ferra", "Peak of Monte Ferra", "gpsCoordinates", 44.6020777802914, 6.98475264944136, 3094.14, null, null, null);
-  }
+}
 
 describe("test point", () => {
 
@@ -22,7 +22,7 @@ describe("test point", () => {
         await cleanDb();
         await addPoints();
     });
-    
+
     // Call tests
     testaddPoint("Rifugio Melezè - Bellino - Val Varaita", "The building was a ...", "parking lot", 44.5742508675903, 6.98268919251859, 1757.43, "Bellino", "Cuneo", "Piemonte")
     testgetPointByType("gpsCoordinates")

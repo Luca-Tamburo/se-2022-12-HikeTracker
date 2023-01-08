@@ -12,7 +12,7 @@ const setTesting = (x) => {
     x ? writeText(1) : writeText(0);
 }
 const iAmTesting = () => {
-    const testing=fs.readFileSync(`./test/mockDB/testing.txt`, "utf8");
+    const testing = fs.readFileSync(`./test/mockDB/testing.txt`, "utf8");
     return parseInt(testing);
 }
 

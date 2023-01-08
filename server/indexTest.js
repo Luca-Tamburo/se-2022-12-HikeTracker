@@ -15,7 +15,7 @@
 'use strict';
 
 
-const { setTesting }=require('./test/mockDB/iAmTesting');
+const { setTesting } = require('./test/mockDB/iAmTesting');
 setTesting(1);
 const { createDatabase, deleteDatabase } = require('./test/mockDB/mockDB');
 const cleanDb = async () => {
@@ -24,5 +24,5 @@ const cleanDb = async () => {
 }
 
 cleanDb();
-const app=require('./utils/appUtil');
+const app = require('./utils/appUtil');
 

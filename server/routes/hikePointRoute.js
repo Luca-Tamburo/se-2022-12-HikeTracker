@@ -23,7 +23,7 @@ const sessionUtil = require("../utils/sessionUtil");
 const isLoggedInLocalGuide = sessionUtil.isLoggedInLocalGuide;
 const fs = require('fs');
 const { getCityProvinceRegion } = require("../utils/geoUtils");
-const { isThisMyHike, isItNearEnough} = require("../utils/editHikesUtils");
+const { isThisMyHike, isItNearEnough } = require("../utils/editHikesUtils");
 const parseGpx = require('parse-gpx');
 const path = require('path');
 
@@ -55,16 +55,16 @@ router.post('/referencePoints',
             const indexes = []
             //Check that the reference point is not already in the list of points for that hike
             let ref_points = await hikePointDao.getRefPointsByHikeId(req.body.hikeId);
-            for (let i in req.body.pointsToLink){
+            for (let i in req.body.pointsToLink) {
                 indexes.push(i)
-                for (let ref_point of ref_points){
-                    if (ref_point.latitude === req.body.pointsToLink[i].latitude && ref_point.longitude ===  req.body.pointsToLink[i].longitude){
+                for (let ref_point of ref_points) {
+                    if (ref_point.latitude === req.body.pointsToLink[i].latitude && ref_point.longitude === req.body.pointsToLink[i].longitude) {
                         indexes.pop()
                     }
                 }
             }
-            
-            if (indexes.length == 0){
+
+            if (indexes.length == 0) {
                 return res.status(422).json({ error: `These points are already a reference point of the hike` });
             }
 
@@ -85,33 +85,33 @@ router.post('/referencePoints',
             let referencePointData = {};
             //For every 5 points in the hike track evaluate distance to the reference point, if near criteria is met close is changed to 1 (break could be included to make code more efficient)
             const indexes2 = []
-            for (let i of indexes){
+            for (let i of indexes) {
                 referencePointData = {
                     latitude: req.body.pointsToLink[i].latitude,
                     longitude: req.body.pointsToLink[i].longitude
                 }
                 for (let j = 0; j < trackPoints.length; j += 5) {
                     if (isItNearEnough(trackPoints[j], referencePointData, length)) {
-                            if (!indexes2.includes(i)){
-                                indexes2.push(i)
+                        if (!indexes2.includes(i)) {
+                            indexes2.push(i)
                         }
                     }
                 }
             }
-            if (indexes2.length == 0){
+            if (indexes2.length == 0) {
                 return res.status(422).json({ error: `Reference points are not close enough` })
             };
-           
-            for (let i of indexes2){
+
+            for (let i of indexes2) {
                 //Obtain city, province, region
                 const cpr = await getCityProvinceRegion(req.body.pointsToLink[i].latitude, req.body.pointsToLink[i].longitude);
                 //Create point with no altitude
                 const pointId = await pointDao.addPoint(req.body.pointsToLink[i].title, "", cpr.type, req.body.pointsToLink[i].latitude, req.body.pointsToLink[i].longitude, 0, cpr.city, cpr.province, cpr.region);
-                 //Associate point to hike
+                //Associate point to hike
                 await pointDao.addPointHike(req.body.hikeId, pointId)
             }
 
-            return res.status(201).json({ message: "Reference points inserted in the system"});
+            return res.status(201).json({ message: "Reference points inserted in the system" });
         } catch (error) {
             res.status(503).json({ error: `Service unavailable` });
         }

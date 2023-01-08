@@ -283,7 +283,7 @@ describe("Link.Huts.APItesting", function () {
         await localGuide
             .put(`hikeLinkHuts/${hikeId}`)
             .send({
-                "hutsToLink":[1,2,15,1,2,16,50]
+                "hutsToLink": [1, 2, 15, 1, 2, 16, 50]
             })
             .then(function (res) {
                 res.should.have.status(403);
@@ -297,7 +297,7 @@ describe("Link.Huts.APItesting", function () {
         await localGuide
             .put(`hikeLinkHuts/${hikeId}`)
             .send({
-                "hutsToLink":[1,2,15,1,2,16,50]
+                "hutsToLink": [1, 2, 15, 1, 2, 16, 50]
             })
             .then(function (res) {
                 res.should.have.status(422);
@@ -322,7 +322,7 @@ describe("Link.Huts.APItesting", function () {
         await localGuide
             .put(`hikeLinkHuts/${hikeId}`)
             .send({
-                "hutsToLink":[1,2,15,1,2,16,50]
+                "hutsToLink": [1, 2, 15, 1, 2, 16, 50]
             })
             .then(function (res) {
                 res.should.have.status(422);
@@ -336,7 +336,7 @@ describe("Link.Huts.APItesting", function () {
         await localGuide
             .put(`hikeLinkHuts/${hikeId}`)
             .send({
-                "hutsoLink":[1,2,15,1,2,16,50]
+                "hutsoLink": [1, 2, 15, 1, 2, 16, 50]
             })
             .then(function (res) {
                 res.should.have.status(422);
@@ -410,7 +410,7 @@ describe("Link.Huts.APItesting", function () {
         await localGuide
             .put(`hikeLinkHuts/${hikeId}`)
             .send({
-                "hutsToLink":[15,16,50]
+                "hutsToLink": [15, 16, 50]
             })
             .then(function (res) {
                 res.should.have.status(404);
@@ -424,14 +424,14 @@ describe("Link.Huts.APItesting", function () {
         await hiker
             .put(`hikeLinkHuts/${hikeId}`)
             .send({
-                "hutsToLink":[15,16,50]
+                "hutsToLink": [15, 16, 50]
             })
             .then(function (res) {
                 res.should.have.status(401);
             });
     });
 
-    
+
 
     step("Test14: PUT - /hikeLinkHuts/:hikeId - user not authorized (local guide but didnt upload the hike) ", async function () {
 
@@ -440,7 +440,7 @@ describe("Link.Huts.APItesting", function () {
         await localGuide2
             .put(`hikeLinkHuts/${hikeId}`)
             .send({
-                "hutsToLink":[1]
+                "hutsToLink": [1]
             })
             .then(function (res) {
                 res.should.have.status(403);
@@ -454,14 +454,14 @@ describe("Link.Huts.APItesting", function () {
         await localGuide
             .put(`hikeLinkHuts/${hikeId}`)
             .send({
-                "hutsToLink":[3]
+                "hutsToLink": [3]
             })
             .then(function (res) {
                 res.should.have.status(422);
             });
     });
 
-    
+
     step("Test16: PUT - /hikeLinkHuts/:hikeId - success ", async function () {
 
         const hikeId = 1;
@@ -469,13 +469,13 @@ describe("Link.Huts.APItesting", function () {
         await localGuide
             .put(`hikeLinkHuts/${hikeId}`)
             .send({
-                "hutsToLink":[4,5]
+                "hutsToLink": [4, 5]
             })
             .then(function (res) {
                 res.should.have.status(204);
             });
     });
-    
+
 
 
 

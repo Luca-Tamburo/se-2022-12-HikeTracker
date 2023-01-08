@@ -39,7 +39,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/startHike`)
             .field({
-                "hikeId":1,
+                "hikeId": 1,
                 "startTime": "2022-05-04 22:12:13"
             })
             .then(function (res) {
@@ -52,7 +52,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/terminateHike`)
             .field({
-                "hikeId":1,
+                "hikeId": 1,
                 "terminateTime": "2022-05-04 23:12:13"
             })
             .then(function (res) {
@@ -60,7 +60,7 @@ describe("Edit.Hikes.APItesting", function () {
             });
     });
 
-    step("Test0.9: GET - /isHikeInProgress/:hikeId - hiker not logged in",  async (done) => {
+    step("Test0.9: GET - /isHikeInProgress/:hikeId - hiker not logged in", async (done) => {
         let hikeId = 2;
 
         await hiker
@@ -90,7 +90,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/startHike`)
             .field({
-                "hikeId":-1,
+                "hikeId": -1,
                 "startTime": "2022-05-04 22:12:13"
             })
             .then(function (res) {
@@ -103,7 +103,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/terminateHike`)
             .field({
-                "hikeId":-1,
+                "hikeId": -1,
                 "terminateTime": "2022-05-04 23:12:13"
             })
             .then(function (res) {
@@ -111,7 +111,7 @@ describe("Edit.Hikes.APItesting", function () {
             });
     });
 
-    step("Test1.9: GET - /isHikeInProgress/:hikeId - hike id < 0",  async (done) => {
+    step("Test1.9: GET - /isHikeInProgress/:hikeId - hike id < 0", async (done) => {
         let hikeId = -1;
 
         await hiker
@@ -128,7 +128,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/startHike`)
             .field({
-                "hikeId":"This shouldnt be a string",
+                "hikeId": "This shouldnt be a string",
                 "startTime": "2022-05-04 22:12:13"
             })
             .then(function (res) {
@@ -141,7 +141,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/terminateHike`)
             .field({
-                "hikeId":"This shouldnt be a string",
+                "hikeId": "This shouldnt be a string",
                 "terminateTime": "2022-05-04 23:12:13"
             })
             .then(function (res) {
@@ -149,7 +149,7 @@ describe("Edit.Hikes.APItesting", function () {
             });
     });
 
-    step("Test2.9: GET - /isHikeInProgress/:hikeId - hike not found",  async (done) => {
+    step("Test2.9: GET - /isHikeInProgress/:hikeId - hike not found", async (done) => {
         let hikeId = 5;
 
         await hiker
@@ -166,7 +166,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/startHike`)
             .field({
-                "hikeId":5,
+                "hikeId": 5,
                 "startTime": "2022-05-04 22:12:13"
             })
             .then(function (res) {
@@ -179,7 +179,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/terminateHike`)
             .field({
-                "hikeId":5,
+                "hikeId": 5,
                 "terminateTime": "2022-05-04 23:12:13"
             })
             .then(function (res) {
@@ -194,7 +194,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/startHike`)
             .field({
-                "hikeId":5,
+                "hikeId": 5,
                 "startTime": "202205-04 22:12:13"
             })
             .then(function (res) {
@@ -207,7 +207,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/terminateHike`)
             .field({
-                "hikeId":5,
+                "hikeId": 5,
                 "terminateTime": "202205-04 23:12:13"
             })
             .then(function (res) {
@@ -221,7 +221,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/startHike`)
             .field({
-                "hikeId":5,
+                "hikeId": 5,
                 "startTime": 12
             })
             .then(function (res) {
@@ -234,7 +234,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/terminateHike`)
             .field({
-                "hikeId":5,
+                "hikeId": 5,
                 "terminateTime": 12
             })
             .then(function (res) {
@@ -248,7 +248,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/startHike`)
             .field({
-                "hikeId":1,
+                "hikeId": 1,
                 "startTime": "2023-05-04 22:12:13"
             })
             .then(function (res) {
@@ -261,7 +261,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/terminateHike`)
             .field({
-                "hikeId":1,
+                "hikeId": 1,
                 "terminateTime": "2023-05-04 22:12:13"
             })
             .then(function (res) {
@@ -274,7 +274,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/terminateHike`)
             .field({
-                "hikeId":1,
+                "hikeId": 1,
                 "terminateTime": "2022-05-04 22:12:13"
             })
             .then(function (res) {
@@ -287,7 +287,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/terminateHike`)
             .field({
-                "hikeId":2,
+                "hikeId": 2,
                 "terminateTime": "2022-05-04 22:12:13"
             })
             .then(function (res) {
@@ -295,7 +295,7 @@ describe("Edit.Hikes.APItesting", function () {
             });
     });
 
-    step("Test6.9: GET - /isHikeInProgress/:hikeId - success",  async (done) => {
+    step("Test6.9: GET - /isHikeInProgress/:hikeId - success", async (done) => {
         let hikeId = 1;
 
         await hiker
@@ -306,7 +306,7 @@ describe("Edit.Hikes.APItesting", function () {
             });
     });
 
-    
+
 
     step("Test7: POST - /startHike - success", async function () {
 
@@ -314,7 +314,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/startHike`)
             .field({
-                "hikeId":1,
+                "hikeId": 1,
                 "startTime": "2022-05-04 22:12:13"
             })
             .then(function (res) {
@@ -327,7 +327,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/terminateHike`)
             .field({
-                "hikeId":2,
+                "hikeId": 2,
                 "terminateTime": "2022-05-04 22:12:13"
             })
             .then(function (res) {
@@ -340,7 +340,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/terminateHike`)
             .field({
-                "hikeId":1,
+                "hikeId": 1,
                 "terminateTime": "2021-05-04 22:12:13"
             })
             .then(function (res) {
@@ -355,7 +355,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/startHike`)
             .field({
-                "hikeId":2,
+                "hikeId": 2,
                 "startTime": "2022-05-04 22:12:13"
             })
             .then(function (res) {
@@ -368,7 +368,7 @@ describe("Edit.Hikes.APItesting", function () {
         await hiker
             .post(`/terminateHike`)
             .field({
-                "hikeId":1,
+                "hikeId": 1,
                 "terminateTime": "2022-05-04 23:12:13"
             })
             .then(function (res) {

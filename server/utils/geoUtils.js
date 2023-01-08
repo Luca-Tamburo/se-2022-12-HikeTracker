@@ -20,10 +20,10 @@ const getCityProvinceRegion = async (latitude, longitude) => {
 
     const data = await (await fetch(URL + `${longitude},${latitude}`)).json();
     const whatWeNeed = {
-        city: data.address.City?data.address.City:undefined,
-        province: data.address.Subregion?data.address.Subregion:undefined,
-        region: data.address.Region?data.address.Region:undefined,
-        name: data.address.Match_addr?data.address.Match_addr:undefined,
+        city: data.address.City ? data.address.City : undefined,
+        province: data.address.Subregion ? data.address.Subregion : undefined,
+        region: data.address.Region ? data.address.Region : undefined,
+        name: data.address.Match_addr ? data.address.Match_addr : undefined,
         type: typeFormatter(data.address.Addr_type)
     }
     return whatWeNeed;

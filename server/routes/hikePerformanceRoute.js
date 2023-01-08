@@ -232,7 +232,7 @@ router.get('/myCompletedHikeTimes/:hikeId',
                 return res.status(404).json({ error: `Hike not found` });
 
             //prendi tutte le hikes :hikeid completate da quell'utente
-            const hikes = await hikePerformanceDao.getCompletedHikeTimes(hikeId,userId);
+            const hikes = await hikePerformanceDao.getCompletedHikeTimes(hikeId, userId);
 
             return res.status(200).json(hikes); //Return object with all the information
         } catch (error) {
