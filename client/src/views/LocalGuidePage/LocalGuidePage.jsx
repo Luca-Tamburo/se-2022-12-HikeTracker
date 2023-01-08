@@ -34,7 +34,11 @@ const LocalGuidePage = () => {
         <>
             <Col xs={{ span: 10, offset: 1 }} className="mt-5">
                 <div className="d-flex justify-content-center">
-                    {userInfo.gender === 'M' ? <img alt='avatar' src={maleAvatar} style={{ width: 180 }} /> : userInfo.gender === 'F' ? <img alt='avatar' src={femaleAvatar} style={{ width: 180 }} /> : <></>}
+                    {userInfo.gender === 'M' ? 
+                    <img alt='avatar' src={maleAvatar} style={{ width: 180 }} /> : <></>}
+                    {userInfo.gender === 'F' ? 
+                    <img alt='avatar' src={femaleAvatar} style={{ width: 180 }} /> : 
+                    <></>}
                     <h1 className="display-5 fw-bold mt-5">Welcome {userInfo.name}</h1>
                 </div>
                 <Row className="justify-content-center mt-3">
