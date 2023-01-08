@@ -53,7 +53,7 @@ const Hut = () => {
                 <Row>
                     {hutsDisplay.length === 0 ? <h2 className='d-flex justify-content-center fw-bold mb-3 mt-4'>No Matched Huts</h2> : hutsDisplay.map((hut, index) => {
                         return (
-                            <HutCard key={index} hut={hut} loading={loading} />
+                            <HutCard key={hut.id} hut={hut} loading={loading} />
                         )
                     })}
                 </Row>

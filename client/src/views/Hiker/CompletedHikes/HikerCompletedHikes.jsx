@@ -54,7 +54,7 @@ const HikerCompletedHikes = () => {
                             <h2 className='d-flex justify-content-center fw-bold mb-3'>You have not yet completed any hike.</h2>
                             : myCompletedHikes.map((completedHike, index) => {
                                 return (
-                                    <CompletedHikeInfo key={index} completedHikes={completedHike} eventKeyNumber={index} />
+                                    <CompletedHikeInfo key={completedHike.id} completedHikes={completedHike} eventKeyNumber={index} />
                                 )
                             })}
                     </Row>

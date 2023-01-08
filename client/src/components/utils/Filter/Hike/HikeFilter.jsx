@@ -190,7 +190,6 @@ const Filter = (props) => {
     setMarker(newMarkerCoords);
     setCircle(circle);
   };
-
   return (
     <>
       <Row>
@@ -273,13 +272,14 @@ const Filter = (props) => {
             <option value={0}>Difficulty</option>
             {constFilter[2].map((item, index) => {
               return (
-                <option key={index} value={item.title}>
+                <option key={item.value} value={item.title}>
                   {item.title}
                 </option>
               );
             })}
           </Form.Select>
         </Col>
+
         <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
           <p className='fw-bold my-2 my-sm-2 mt-md-0 mb-0'>Ascent (mt)</p>
           <div className="d-flex">
@@ -438,7 +438,7 @@ const Filter = (props) => {
                   />
                   {props.hikes.map((hike, index) => {
                     return (
-                      <Marker key={index} position={[hike.latitude, hike.longitude]} icon={icon}>
+                      <Marker key={hike.id} position={[hike.latitude, hike.longitude]} icon={icon}>
                         <Popup>
                           <div className="d-flex flex-column">
                             <span className="fw-bold mb-2" style={{ fontSize: 18 }}>{hike.title}</span>

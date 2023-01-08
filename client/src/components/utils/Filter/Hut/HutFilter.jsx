@@ -91,22 +91,22 @@ const HutFilter = (props) => {
             let v = [];
             for (let value of result) {
                 let dst =
-                  6372.795477598 *
-                  1000 *
-                  Math.acos(
-                    Math.sin((value.latitude * Math.PI) / 180) *
-                    Math.sin((marker.getLatLng().lat * Math.PI) / 180) +
-                    Math.cos((value.latitude * Math.PI) / 180) *
-                    Math.cos((marker.getLatLng().lat * Math.PI) / 180) *
-                    Math.cos(
-                      (value.longitude * Math.PI) / 180 -
-                      (marker.getLatLng().lng * Math.PI) / 180
-                    )
-                  );
+                    6372.795477598 *
+                    1000 *
+                    Math.acos(
+                        Math.sin((value.latitude * Math.PI) / 180) *
+                        Math.sin((marker.getLatLng().lat * Math.PI) / 180) +
+                        Math.cos((value.latitude * Math.PI) / 180) *
+                        Math.cos((marker.getLatLng().lat * Math.PI) / 180) *
+                        Math.cos(
+                            (value.longitude * Math.PI) / 180 -
+                            (marker.getLatLng().lng * Math.PI) / 180
+                        )
+                    );
                 if (dst <= range) {
-                  v.push(value);
+                    v.push(value);
                 }
-              }
+            }
             result = v;
         }
         if (hutName) {
@@ -422,7 +422,7 @@ const HutFilter = (props) => {
                                     />
                                     {props.huts.map((hut, index) => {
                                         return (
-                                            <Marker key={index} position={[hut.latitude, hut.longitude]} icon={icon}>
+                                            <Marker key={hut.id} position={[hut.latitude, hut.longitude]} icon={icon}>
                                                 <Popup>
                                                     <div className="d-flex flex-column">
                                                         <span className="fw-bold mb-2" style={{ fontSize: 18 }}>{hut.name}</span>

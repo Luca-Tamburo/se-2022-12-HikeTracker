@@ -24,6 +24,7 @@ import { FaParking, FaListUl } from 'react-icons/fa'
 
 const LocalGuideService = [
     {
+        id: '1',
         addName: 'My hikes',
         url: 'localGuide/hikes',
         title: 'My Hikes',
@@ -32,6 +33,7 @@ const LocalGuideService = [
         icon: FaListUl
     },
     {
+        id: '2',
         addName: 'Add hike',
         url: 'addHike',
         title: 'Add hike',
@@ -40,6 +42,7 @@ const LocalGuideService = [
         icon: GiMountainRoad
     },
     {
+        id: '3',
         addName: 'Add hut',
         url: 'addHut',
         title: 'Add hut',
@@ -48,6 +51,7 @@ const LocalGuideService = [
         icon: BsHouseFill
     },
     {
+        id: '4',
         addName: 'Add parking',
         url: 'addParking',
         title: 'Add parking lot',

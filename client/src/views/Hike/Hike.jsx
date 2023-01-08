@@ -52,7 +52,7 @@ const Hike = () => {
                 <Row>
                     {hikesDisplay.length === 0 ? <h2 className='d-flex justify-content-center fw-bold mb-3 mt-4'>No Matched Hikes</h2> : hikesDisplay.map((hike, index) => {
                         return (
-                            <HikeCard key={index} hike={hike} loading={loading} />
+                            <HikeCard key={hike.id} hike={hike} loading={loading} />
                         )
                     })}
                 </Row>
