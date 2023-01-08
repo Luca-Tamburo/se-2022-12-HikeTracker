@@ -59,7 +59,7 @@ const HikeDetails = () => {
   const [hike, setHike] = useState(undefined);
   const [start, setStart] = useState(null);
   const [pointList, setPointList] = useState(null);
-  const [hutList,sethutList] = useState([])
+  const [hutList, sethutList] = useState([])
   const { userInfo, isloggedIn } = useContext(AuthContext);
   const { hikeId } = useParams();
   const notify = useNotification();
@@ -89,10 +89,10 @@ const HikeDetails = () => {
         let hList = [];
         hikes.pointList.map((hike) => {
           if (hike.id !== startPoint.id && hike.id !== endPoint.id) {
-            if(hike.type === 'hut'){
+            if (hike.type === 'hut') {
               hList.push(hike)
             }
-            else{
+            else {
               pList.push(hike)
             }
           }
@@ -125,7 +125,7 @@ const HikeDetails = () => {
       })
       .finally(() => setLoading(false));
 
-    if (userInfo.role === 'hiker') {
+    if (userInfo && userInfo.role === 'hiker') {
       api.getMyCompletedHikeTimes(hikeId)
         .then(myCompletedHikeTimes => {
           setMyCompletedHikeTimes(myCompletedHikeTimes);
@@ -138,7 +138,7 @@ const HikeDetails = () => {
     }
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
-  console.log(pointList)  
+  console.log(pointList)
   if (!loading) {
     return (
       <>
@@ -177,7 +177,7 @@ const HikeDetails = () => {
                       <h5 className="fw-bold mt-3">DIFFICULTY</h5>{" "}
                       {hike.difficulty}
                       {/* Aggiungere start ed end time */}
-                     
+
                       <h5 className="fw-bold mt-3">START POINT</h5>{" "}
                       {hike.pointList.find(p => p.id === hike.startPointId).name}
                       <h5 className="fw-bold mt-3">END POINT</h5>{" "}
@@ -193,7 +193,7 @@ const HikeDetails = () => {
                       <h5 className="fw-bold mt-3">EXPECTED TIME</h5>{" "}
                       {hike.expectedTime} {""} hr
                       <h5 className="fw-bold mt-3">HISTORY HIKE COMPLETED</h5>{" "}
-                      {(userInfo.role === 'hiker' && myCompletedHikeTimes.length !== 0) ?
+                      {(isloggedIn && userInfo.role === 'hiker' && myCompletedHikeTimes.length !== 0) ?
                         <>
                           <Button variant="success" size='sm' onClick={() => setLgShow(true)}>
                             Show your history hike completed
