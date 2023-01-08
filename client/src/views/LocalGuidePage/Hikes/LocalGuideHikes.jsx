@@ -53,7 +53,7 @@ const LocalGuideHikes = () => {
                         <h2 className='d-flex justify-content-center fw-bold mb-3'>You have not yet entered any hike.</h2>
                         : myHikes.map((hike, index) => {
                             return (
-                                <HikeCard key={index} hike={hike} loading={loading} />
+                                <HikeCard key={hike.id} hike={hike} loading={loading} />
                             )
                         })}
                 </Row>

@@ -96,10 +96,11 @@ const AddParking = (props) => {
                                     <Row>
                                         {AddParkingForm.map((input, index) => {
                                             return (
-                                                <Col xs={input.xsCol} sm={input.smCol} md={input.mdCol} key={index}>
+                                                <Col xs={input.xsCol} sm={input.smCol} md={input.mdCol} key={input.id}>
                                                     <CustomField.Input
                                                         className='mt-3'
                                                         type='text'
+                                                        key={input.id}
                                                         id={input.idName}
                                                         name={input.idName}
                                                         placeholder={input.placeholder}

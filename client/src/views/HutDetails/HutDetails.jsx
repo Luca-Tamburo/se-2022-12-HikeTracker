@@ -30,7 +30,6 @@ import useNotification from "../../hooks/useNotification";
 
 const L = require("leaflet");
 
-
 const HutDetails = () => {
 
   const { isloggedIn } = useContext(AuthContext);
@@ -38,15 +37,11 @@ const HutDetails = () => {
   const [hut, setHut] = useState([]);
   const notify = useNotification();
   const [loading, setLoading] = useState(false);
-  const center = { lat: 45.072384, lng: 7.6414976 };
-
 
   const hutIcon = L.icon({
     iconUrl: require("../../assets/mapIcons/hut.png"),
     iconSize: [30, 30],
   });
-
-
 
   useEffect(() => {
     api.getHutDetails(hutId)
@@ -59,7 +54,6 @@ const HutDetails = () => {
       })
       .finally(() => setLoading(false));
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
-
 
   if (!loading) {
     return (

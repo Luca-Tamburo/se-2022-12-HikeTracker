@@ -62,34 +62,28 @@ const SingleDigit = styled.span`
 
 
 export default function DigitHour({ value, title }) {
-    // const leftDigit = value >= 10 ? value.toString()[0] : '0';
-    // const rightDigit = value >= 10 ? value.toString()[1] : value.toString();
+  // Getting the string as a parameter and typecasting it into an integer
+  let myFunc = num => Number(num);
 
-    console.log(typeof (value));
+  var intArr = Array.from(String(value), myFunc);
 
-    // Getting the string as a parameter and typecasting it into an integer
-    let myFunc = num => Number(num);
-
-    var intArr = Array.from(String(value), myFunc);
-    console.log(intArr);
-
-    return (
-        <Container>
-            <Title>{title}</Title>
-            <DigitContainer>
-                {value ?
-                    intArr.map((digit, index) => {
-                        return (
-                            <SingleDigit key={index}>
-                                {digit}
-                            </SingleDigit>
-                        );
-                    }) : <>
-                        <SingleDigit>0</SingleDigit>
-                        <SingleDigit>0</SingleDigit>
-                    </>
-                }
-            </DigitContainer>
-        </Container>
-    );
+  return (
+    <Container>
+      <Title>{title}</Title>
+      <DigitContainer>
+        {value ?
+          intArr.map((digit, index) => {
+            return (
+              <SingleDigit key={index}>
+                {digit}
+              </SingleDigit>
+            );
+          }) : <>
+            <SingleDigit>0</SingleDigit>
+            <SingleDigit>0</SingleDigit>
+          </>
+        }
+      </DigitContainer>
+    </Container>
+  );
 }

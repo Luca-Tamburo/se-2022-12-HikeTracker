@@ -138,7 +138,6 @@ const HikeDetails = () => {
     }
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
-  console.log(pointList)
   if (!loading) {
     return (
       <>
@@ -176,8 +175,6 @@ const HikeDetails = () => {
                       {hike.ascent} {""} mt
                       <h5 className="fw-bold mt-3">DIFFICULTY</h5>{" "}
                       {hike.difficulty}
-                      {/* Aggiungere start ed end time */}
-
                       <h5 className="fw-bold mt-3">START POINT</h5>{" "}
                       {hike.pointList.find(p => p.id === hike.startPointId).name}
                       <h5 className="fw-bold mt-3">END POINT</h5>{" "}
@@ -185,7 +182,7 @@ const HikeDetails = () => {
                       <h5 className="fw-bold mt-3">REFERENCE POINTS</h5>
                       {hike.pointList.map((point, index) => {
                         return (
-                          <div key={index}>
+                          <div key={point.id}>
                             <span>{point.name}</span>
                           </div>
                         );
@@ -250,7 +247,7 @@ const HikeDetails = () => {
                     </Marker>
                     {pointList.map((point, index) => {
                       return (
-                        <Marker key={index} icon={icon} position={[point.latitude, point.longitude]}>
+                        <Marker key={point.id} icon={icon} position={[point.latitude, point.longitude]}>
                           <Popup>
                             <span className="fw-bold">{point.name}</span><br />
                           </Popup>
@@ -258,7 +255,7 @@ const HikeDetails = () => {
                     })}
                     {hutList.map((point, index) => {
                       return (
-                        <Marker key={index} icon={hutIcon} position={[point.latitude, point.longitude]}>
+                        <Marker key={point.id} icon={hutIcon} position={[point.latitude, point.longitude]}>
                           <Popup>
                             <span className="fw-bold">{point.name}</span><br />
                           </Popup>

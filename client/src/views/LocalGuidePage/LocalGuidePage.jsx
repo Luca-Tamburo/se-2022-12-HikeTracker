@@ -40,7 +40,7 @@ const LocalGuidePage = () => {
                 <Row className="justify-content-center mt-3">
                     {LocalGuideService.map((info, index) => {
                         return (
-                            <Col xs={12} sm={6} lg={3} key={index}>
+                            <Col xs={12} sm={6} lg={3} key={info.id}>
                                 <LocalGuideServiceCard info={info} />
                             </Col>
                         )

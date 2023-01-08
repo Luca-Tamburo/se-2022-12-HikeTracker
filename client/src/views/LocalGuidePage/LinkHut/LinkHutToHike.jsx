@@ -13,7 +13,7 @@
 // Imports
 import { useState, useEffect } from 'react'
 import { Row, Col, Spinner, Button } from 'react-bootstrap'
-import { useNavigate,useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 // Components - uiCore
 import InfoPoint from '../../../components/ui-core/InfoPoint/InfoPoint';
@@ -117,7 +117,7 @@ const LinkHutToHike = () => {
                         {currentLinkedHuts.length !== 0 ?
                             currentLinkedHuts.map((point, index) => {
                                 return (
-                                    <InfoPoint key={index} points={point} eventKeyNumber={index} hikeId={hikeId} />
+                                    <InfoPoint key={point.id} points={point} eventKeyNumber={index} hikeId={hikeId} />
                                 )
                             })
                             : <p className='ms-3 fw-bold' style={{ fontSize: 30 }}>No hut linked</p>}
