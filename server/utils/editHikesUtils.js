@@ -16,4 +16,4 @@ const isItNearEnough = (trackPoint, point, length) => {
     const lengthToUse = (length < 10 ? length / 2 : 5);
     return calcDist(trackPoint, point) <= lengthToUse;
 }
-module.exports = { isThisMyHike,calcDist,isItNearEnough };
+module.exports = { isThisMyHike, calcDist, isItNearEnough };

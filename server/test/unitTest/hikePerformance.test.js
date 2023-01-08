@@ -8,7 +8,7 @@ const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 const { addHike } = require("../../dao/hikeDao");
 const { addPoint } = require('../../dao/pointDao');
 const { addUser } = require('../../dao/userDao');
-const { addHikePerformance, terminateHikePerformance, getTerminatedHikes, getStartedHikeByUserId ,getCompletedHikesDetails,getCompletedHikeTimes} = require('../../dao/hikePerformanceDao');
+const { addHikePerformance, terminateHikePerformance, getTerminatedHikes, getStartedHikeByUserId, getCompletedHikesDetails, getCompletedHikeTimes } = require('../../dao/hikePerformanceDao');
 
 
 const cleanDb = async () => {
@@ -19,7 +19,7 @@ const cleanDb = async () => {
 const addHikes = async () => {
     const p1 = await addPoint("Rifugio Melezè - Bellino - Val Varaita", "The building was a ...", "hut", 44.5742508675903, 6.98268919251859, 1757.43, "Bellino", "Cuneo", "Piemonte");
     const p2 = await addPoint("Monte Ferra", "Peak of Monte Ferra", "gpsCoordinates", 44.6020777802914, 6.98475264944136, 3094.14, null, null, null);
-    const u = await addUser("antonioconte@gmail.com", "antonioconte", "localGuide", "antonio", "conte", "M","+393333333333", "password", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFudG9uaW9jb2xlbGxpMTk5OEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFudG9jb2xlIn0.Vq9N8p9_6t-2yXJSKWzf4gm44TQ0k0zZJiA87Sh8Oog")
+    const u = await addUser("antonioconte@gmail.com", "antonioconte", "localGuide", "antonio", "conte", "M", "+393333333333", "password", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFudG9uaW9jb2xlbGxpMTk5OEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFudG9jb2xlIn0.Vq9N8p9_6t-2yXJSKWzf4gm44TQ0k0zZJiA87Sh8Oog")
     const h1 = await addHike("Trail to MONTE FERRA", "Leaving the car in the large parking lot ...", 13, 5, 1336.71, "Professional Hiker", p1, p2, u, "2022-01-10", "https://images.unsplash.com/1");
     const h2 = await addHike("Trail to ROCCA PATANUA", "Patanua means naked in Piedmontese, ...", 9, 5.5, 923.62, "Professional Hiker", p1, p2, u, "2022-04-12", "https://images.unsplash.com/2");
     const id = await addHikePerformance(10, h1, u); // started
@@ -33,18 +33,18 @@ describe("test hikes", () => {
         await cleanDb();
         await addHikes();
     });
-    
+
     // Call tests
     testgetTerminatedHikes(4) // userId
     testgetStartedHikeByUserId(4, 2) // userId, wronguserId
     testterminateHikePerformance(5, 2) // terminateTime,id
     testaddHikePerformance(9, 1, 1) //startTime, hikeId, userId
     testgetCompletedHikesDetails(4) // userId
-    testgetCompletedHikeTimes(2,4) //hikeId, userId
+    testgetCompletedHikeTimes(2, 4) //hikeId, userId
 });
 
-function testgetStartedHikeByUserId(userId,wronguserId) {
-    test("test getStartedHikeByUserId", async () => {   
+function testgetStartedHikeByUserId(userId, wronguserId) {
+    test("test getStartedHikeByUserId", async () => {
         let data = await getStartedHikeByUserId(userId);
         expect(data).toEqual(
             {
@@ -56,7 +56,7 @@ function testgetStartedHikeByUserId(userId,wronguserId) {
             }
         );
     });
-    
+
     test("test getStartedHikeByUserId wrong user id (not null termination, or not that author on the table)", async () => {
         let data2 = await getStartedHikeByUserId(wronguserId);
         expect(data2).toEqual(undefined);
@@ -64,7 +64,7 @@ function testgetStartedHikeByUserId(userId,wronguserId) {
 };
 
 function testgetTerminatedHikes(userId) {
-    test("test getTerminatedHikes", async () => {   
+    test("test getTerminatedHikes", async () => {
         let data = await getTerminatedHikes(userId);
         expect(data).toEqual([
             {
@@ -78,9 +78,9 @@ function testgetTerminatedHikes(userId) {
     });
 };
 
-function testterminateHikePerformance(terminateTime,id) {
-    test("test terminateHikePerformance", async () => {   
-        await terminateHikePerformance(terminateTime,id);
+function testterminateHikePerformance(terminateTime, id) {
+    test("test terminateHikePerformance", async () => {
+        await terminateHikePerformance(terminateTime, id);
         let data = await getTerminatedHikes(4);
         expect(data).toEqual([
             {
@@ -89,7 +89,7 @@ function testterminateHikePerformance(terminateTime,id) {
                 "terminateTime": "12",
                 "hikeId": 1,
                 "userId": 4
-            },{
+            }, {
                 "id": 2,
                 "startTime": "3",
                 "terminateTime": "5",
@@ -102,7 +102,7 @@ function testterminateHikePerformance(terminateTime,id) {
 };
 
 function testaddHikePerformance(startTime, hikeId, userId) {
-    test("test addHikePerformance", async () => {   
+    test("test addHikePerformance", async () => {
         let id = await addHikePerformance(startTime, hikeId, userId);
         let data = await getStartedHikeByUserId(userId);
         expect(data).toEqual(
@@ -118,7 +118,7 @@ function testaddHikePerformance(startTime, hikeId, userId) {
 };
 
 function testgetCompletedHikesDetails(userId) {
-    test("test getCompletedHikesDetails", async () => {   
+    test("test getCompletedHikesDetails", async () => {
         let data = await getCompletedHikesDetails(userId);
         expect(data).toEqual([
             {
@@ -146,7 +146,7 @@ function testgetCompletedHikesDetails(userId) {
 };
 
 function testgetCompletedHikeTimes(hikeId, userId) {
-    test("test getCompletedHikeTimes", async () => {   
+    test("test getCompletedHikeTimes", async () => {
         let data = await getCompletedHikeTimes(hikeId, userId);
         expect(data).toEqual([
             {

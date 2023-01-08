@@ -99,34 +99,34 @@ describe("Edit.Hikes.APItesting", function () {
         let hikeId = 1;
 
         await localGuide
-        .get(`hikeStartEnd/${hikeId}`)
-        .then(function (res) {
-            res.should.have.status(200);
-        });
-            
+            .get(`hikeStartEnd/${hikeId}`)
+            .then(function (res) {
+                res.should.have.status(200);
+            });
+
     });
 
     step("Test2: GET - /hikeStartEnd/:hikeId - no id in the db (local guide doesn't have to know that is not present, he only has to know that he did not do it)", async function () {
         let hikeId = 2;
 
         await localGuide
-        .get(`hikeStartEnd/${hikeId}`)
-        .then(function (res) {
-            res.should.have.status(403);
-        });
+            .get(`hikeStartEnd/${hikeId}`)
+            .then(function (res) {
+                res.should.have.status(403);
+            });
     });
 
     step("Test3: GET - /hikeStartEnd/:hikeId - wrong hikeId format", async function () {
         let hikeId = "this shouldnt be a string";
 
         await localGuide
-        .get(`hikeStartEnd/${hikeId}`)
-        .then(function (res) {
-            res.should.have.status(422);
-        });
+            .get(`hikeStartEnd/${hikeId}`)
+            .then(function (res) {
+                res.should.have.status(422);
+            });
     });
 
-    
+
 
     //We register a hiker tho check that the user is actually a local guide
 
@@ -186,10 +186,10 @@ describe("Edit.Hikes.APItesting", function () {
         let hikeId = 1;
 
         await hiker
-        .get(`hikeStartEnd/${hikeId}`)
-        .then(function (res) {
-            res.should.have.status(401);
-        });
+            .get(`hikeStartEnd/${hikeId}`)
+            .then(function (res) {
+                res.should.have.status(401);
+            });
     });
 
     //We register a second local guide to check that no local guide can edit the hikes of other ones
@@ -246,10 +246,10 @@ describe("Edit.Hikes.APItesting", function () {
         let hikeId = 1;
 
         await localGuide2
-        .get(`hikeStartEnd/${hikeId}`)
-        .then(function (res) {
-            res.should.have.status(403);
-        });
+            .get(`hikeStartEnd/${hikeId}`)
+            .then(function (res) {
+                res.should.have.status(403);
+            });
     });
 
 
@@ -263,8 +263,8 @@ describe("Edit.Hikes.APItesting", function () {
         await localGuide
             .put(`hikeStartEnd/${hikeId}`)
             .field({
-                "startPointId":1,
-                "endPointId":2
+                "startPointId": 1,
+                "endPointId": 2
             })
             .then(function (res) {
                 res.should.have.status(403);
@@ -278,8 +278,8 @@ describe("Edit.Hikes.APItesting", function () {
         await localGuide
             .put(`hikeStartEnd/${hikeId}`)
             .field({
-                "startPointId":"this shouldnt be a string",
-                "endPointId":2
+                "startPointId": "this shouldnt be a string",
+                "endPointId": 2
             })
             .then(function (res) {
                 res.should.have.status(422);
@@ -293,8 +293,8 @@ describe("Edit.Hikes.APItesting", function () {
         await localGuide
             .put(`hikeStartEnd/${hikeId}`)
             .field({
-                "startPointId":1,
-                "endointId":2
+                "startPointId": 1,
+                "endointId": 2
             })
             .then(function (res) {
                 res.should.have.status(422);
@@ -308,8 +308,8 @@ describe("Edit.Hikes.APItesting", function () {
         await localGuide2
             .put(`hikeStartEnd/${hikeId}`)
             .field({
-                "startPointId":1,
-                "endPointId":2
+                "startPointId": 1,
+                "endPointId": 2
             })
             .then(function (res) {
                 res.should.have.status(403);
@@ -334,8 +334,8 @@ describe("Edit.Hikes.APItesting", function () {
         await localGuide
             .put(`hikeStartEnd/${hikeId}`)
             .field({
-                "startPointId":1,
-                "endPointId":2
+                "startPointId": 1,
+                "endPointId": 2
             })
             .then(function (res) {
                 res.should.have.status(422);
@@ -351,8 +351,8 @@ describe("Edit.Hikes.APItesting", function () {
         await localGuide
             .put(`hikeStartEnd/${hikeId}`)
             .field({
-                "startPointId":4,
-                "endPointId":2
+                "startPointId": 4,
+                "endPointId": 2
             })
             .then(function (res) {
                 res.should.have.status(404);
@@ -366,7 +366,7 @@ describe("Edit.Hikes.APItesting", function () {
         await localGuide
             .put(`hikeStartEnd/${hikeId}`)
             .field({
-                "startPointId":2
+                "startPointId": 2
             })
             .then(function (res) {
                 res.should.have.status(422);
@@ -380,7 +380,7 @@ describe("Edit.Hikes.APItesting", function () {
         await localGuide
             .put(`hikeStartEnd/${hikeId}`)
             .field({
-                "endPointId":2
+                "endPointId": 2
             })
             .then(function (res) {
                 res.should.have.status(422);
@@ -396,7 +396,7 @@ describe("Edit.Hikes.APItesting", function () {
         await localGuide
             .put(`hikeStartEnd/${hikeId}`)
             .field({
-                "endPointId":4
+                "endPointId": 4
             })
             .then(function (res) {
                 res.should.have.status(404);
@@ -410,7 +410,7 @@ describe("Edit.Hikes.APItesting", function () {
         await localGuide
             .put(`hikeStartEnd/${hikeId}`)
             .field({
-                "endPointId":2
+                "endPointId": 2
             })
             .then(function (res) {
                 res.should.have.status(422);
@@ -446,7 +446,7 @@ describe("Edit.Hikes.APItesting", function () {
         await localGuide
             .put(`hikeStartEnd/${hikeId}`)
             .field({
-                "endPointId":3
+                "endPointId": 3
             })
             .then(function (res) {
                 res.should.have.status(422);
@@ -496,14 +496,14 @@ describe("Edit.Hikes.APItesting", function () {
         await localGuide
             .put(`hikeStartEnd/${hikeId}`)
             .field({
-                "startPointId":4,
-                "endPointId":4
+                "startPointId": 4,
+                "endPointId": 4
             })
             .then(function (res) {
                 res.should.have.status(204);
             });
     });
-    
+
 
     ////////////////
 

@@ -49,4 +49,4 @@ const photoUrlValidator = async (photoUrl) => {
     return ret;
 }
 
-module.exports = {  difficultyValidator, difficultyFormatter, photoUrlValidator };
+module.exports = { difficultyValidator, difficultyFormatter, photoUrlValidator };

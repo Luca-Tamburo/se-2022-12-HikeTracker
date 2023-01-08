@@ -40,21 +40,21 @@ describe("Hike.Points.APItesting", function () {
         await localGuide
             .post('referencePoints')
             .send({
-                "hikeId":5, 
-                "pointsToLink": 
-                [
-                    {
-                    "title": "POINT 1",
-                    "latitude": 44.93603, 
-                    "longitude": 6.73868
-                    },
-                    {
-                    "title": "POINT 2",
-                    "latitude": 44.96452393010258, 
-                    "longitude": 6.75131052732467666
-                    }
-                ]
-              })
+                "hikeId": 5,
+                "pointsToLink":
+                    [
+                        {
+                            "title": "POINT 1",
+                            "latitude": 44.93603,
+                            "longitude": 6.73868
+                        },
+                        {
+                            "title": "POINT 2",
+                            "latitude": 44.96452393010258,
+                            "longitude": 6.75131052732467666
+                        }
+                    ]
+            })
             .then(function (res) {
                 res.should.have.status(401);
             });
@@ -97,21 +97,21 @@ describe("Hike.Points.APItesting", function () {
 
         await localGuide
             .post('referencePoints')
-            .send({ 
-                "pointsToLink": 
-                [
-                    {
-                    "title": "POINT 1",
-                    "latitude": 44.93603, 
-                    "longitude": 6.73868
-                    },
-                    {
-                    "title": "POINT 2",
-                    "latitude": 44.96452393010258, 
-                    "longitude": 6.75131052732467666
-                    }
-                ]
-              })
+            .send({
+                "pointsToLink":
+                    [
+                        {
+                            "title": "POINT 1",
+                            "latitude": 44.93603,
+                            "longitude": 6.73868
+                        },
+                        {
+                            "title": "POINT 2",
+                            "latitude": 44.96452393010258,
+                            "longitude": 6.75131052732467666
+                        }
+                    ]
+            })
             .then(function (res) {
                 res.should.have.status(422);
             });
@@ -121,22 +121,22 @@ describe("Hike.Points.APItesting", function () {
 
         await localGuide
             .post('referencePoints')
-            .send({ 
-                "hikeId":-1,
-                "pointsToLink": 
-                [
-                    {
-                    "title": "POINT 1",
-                    "latitude": 44.93603, 
-                    "longitude": 6.73868
-                    },
-                    {
-                    "title": "POINT 2",
-                    "latitude": 44.96452393010258, 
-                    "longitude": 6.75131052732467666
-                    }
-                ]
-              })
+            .send({
+                "hikeId": -1,
+                "pointsToLink":
+                    [
+                        {
+                            "title": "POINT 1",
+                            "latitude": 44.93603,
+                            "longitude": 6.73868
+                        },
+                        {
+                            "title": "POINT 2",
+                            "latitude": 44.96452393010258,
+                            "longitude": 6.75131052732467666
+                        }
+                    ]
+            })
             .then(function (res) {
                 res.should.have.status(422);
             });
@@ -146,22 +146,22 @@ describe("Hike.Points.APItesting", function () {
 
         await localGuide
             .post('referencePoints')
-            .send({ 
-                "hikeId":"this shouldnt be a string",
-                "pointsToLink": 
-                [
-                    {
-                    "title": "POINT 1",
-                    "latitude": 44.93603, 
-                    "longitude": 6.73868
-                    },
-                    {
-                    "title": "POINT 2",
-                    "latitude": 44.96452393010258, 
-                    "longitude": 6.75131052732467666
-                    }
-                ]
-              })
+            .send({
+                "hikeId": "this shouldnt be a string",
+                "pointsToLink":
+                    [
+                        {
+                            "title": "POINT 1",
+                            "latitude": 44.93603,
+                            "longitude": 6.73868
+                        },
+                        {
+                            "title": "POINT 2",
+                            "latitude": 44.96452393010258,
+                            "longitude": 6.75131052732467666
+                        }
+                    ]
+            })
             .then(function (res) {
                 res.should.have.status(422);
             });
@@ -171,22 +171,22 @@ describe("Hike.Points.APItesting", function () {
 
         await localGuide
             .post('referencePoints')
-            .send({ 
-                "hiked":2,
-                "pointsToLink": 
-                [
-                    {
-                    "title": "POINT 1",
-                    "latitude": 44.93603, 
-                    "longitude": 6.73868
-                    },
-                    {
-                    "title": "POINT 2",
-                    "latitude": 44.96452393010258, 
-                    "longitude": 6.75131052732467666
-                    }
-                ]
-              })
+            .send({
+                "hiked": 2,
+                "pointsToLink":
+                    [
+                        {
+                            "title": "POINT 1",
+                            "latitude": 44.93603,
+                            "longitude": 6.73868
+                        },
+                        {
+                            "title": "POINT 2",
+                            "latitude": 44.96452393010258,
+                            "longitude": 6.75131052732467666
+                        }
+                    ]
+            })
             .then(function (res) {
                 res.should.have.status(422);
             });
@@ -196,9 +196,9 @@ describe("Hike.Points.APItesting", function () {
 
         await localGuide
             .post('referencePoints')
-            .send({ 
-                "hikeId":2,
-              })
+            .send({
+                "hikeId": 2,
+            })
             .then(function (res) {
                 res.should.have.status(422);
             });
@@ -208,10 +208,10 @@ describe("Hike.Points.APItesting", function () {
 
         await localGuide
             .post('referencePoints')
-            .send({ 
-                "hikeId":2,
-                "pointsToLink":[]
-              })
+            .send({
+                "hikeId": 2,
+                "pointsToLink": []
+            })
             .then(function (res) {
                 res.should.have.status(422);
             });
@@ -221,22 +221,22 @@ describe("Hike.Points.APItesting", function () {
 
         await localGuide
             .post('referencePoints')
-            .send({ 
-                "hikeId":2,
-                "pointsToLink": 
-                [
-                    {
-                    "tite": "POINT 1",
-                    "latitude": 44.93603, 
-                    "longitude": 6.73868
-                    },
-                    {
-                    "ttle": "POINT 2",
-                    "latitude": 44.96452393010258, 
-                    "longitude": 6.75131052732467666
-                    }
-                ]
-              })
+            .send({
+                "hikeId": 2,
+                "pointsToLink":
+                    [
+                        {
+                            "tite": "POINT 1",
+                            "latitude": 44.93603,
+                            "longitude": 6.73868
+                        },
+                        {
+                            "ttle": "POINT 2",
+                            "latitude": 44.96452393010258,
+                            "longitude": 6.75131052732467666
+                        }
+                    ]
+            })
             .then(function (res) {
                 res.should.have.status(422);
             });
@@ -246,22 +246,22 @@ describe("Hike.Points.APItesting", function () {
 
         await localGuide
             .post('referencePoints')
-            .send({ 
-                "hikeId":2,
-                "pointsToLink": 
-                [
-                    {
-                    "title": "POINT 1",
-                    "latiude": 44.93603, 
-                    "longitude": 6.73868
-                    },
-                    {
-                    "title": "POINT 2",
-                    "ltitude": 44.96452393010258, 
-                    "longitude": 6.75131052732467666
-                    }
-                ]
-              })
+            .send({
+                "hikeId": 2,
+                "pointsToLink":
+                    [
+                        {
+                            "title": "POINT 1",
+                            "latiude": 44.93603,
+                            "longitude": 6.73868
+                        },
+                        {
+                            "title": "POINT 2",
+                            "ltitude": 44.96452393010258,
+                            "longitude": 6.75131052732467666
+                        }
+                    ]
+            })
             .then(function (res) {
                 res.should.have.status(422);
             });
@@ -271,22 +271,22 @@ describe("Hike.Points.APItesting", function () {
 
         await localGuide
             .post('referencePoints')
-            .send({ 
-                "hikeId":2,
-                "pointsToLink": 
-                [
-                    {
-                    "title": "POINT 1",
-                    "latitude": 44.93603, 
-                    "longitde": 6.73868
-                    },
-                    {
-                    "title": "POINT 2",
-                    "latitude": 44.96452393010258, 
-                    "longitude": 6.75131052732467666
-                    }
-                ]
-              })
+            .send({
+                "hikeId": 2,
+                "pointsToLink":
+                    [
+                        {
+                            "title": "POINT 1",
+                            "latitude": 44.93603,
+                            "longitde": 6.73868
+                        },
+                        {
+                            "title": "POINT 2",
+                            "latitude": 44.96452393010258,
+                            "longitude": 6.75131052732467666
+                        }
+                    ]
+            })
             .then(function (res) {
                 res.should.have.status(422);
             });
@@ -296,22 +296,22 @@ describe("Hike.Points.APItesting", function () {
 
         await localGuide
             .post('referencePoints')
-            .send({ 
-                "hikeId":2,
-                "pointsToLink": 
-                [
-                    {
-                    "title": 1,
-                    "latitude": 44.93603, 
-                    "longitude": 6.73868
-                    },
-                    {
-                    "title": "POINT 2",
-                    "latitude": 44.96452393010258, 
-                    "longitude": 6.75131052732467666
-                    }
-                ]
-              })
+            .send({
+                "hikeId": 2,
+                "pointsToLink":
+                    [
+                        {
+                            "title": 1,
+                            "latitude": 44.93603,
+                            "longitude": 6.73868
+                        },
+                        {
+                            "title": "POINT 2",
+                            "latitude": 44.96452393010258,
+                            "longitude": 6.75131052732467666
+                        }
+                    ]
+            })
             .then(function (res) {
                 res.should.have.status(422);
             });
@@ -321,22 +321,22 @@ describe("Hike.Points.APItesting", function () {
 
         await localGuide
             .post('referencePoints')
-            .send({ 
-                "hikeId":2,
-                "pointsToLink": 
-                [
-                    {
-                    "title": "POINT 1",
-                    "latitude": 44.93603, 
-                    "longitude": 6.73868
-                    },
-                    {
-                    "title": "POINT 2",
-                    "latitude": "shouldnt be a string", 
-                    "longitude": 6.75131052732467666
-                    }
-                ]
-              })
+            .send({
+                "hikeId": 2,
+                "pointsToLink":
+                    [
+                        {
+                            "title": "POINT 1",
+                            "latitude": 44.93603,
+                            "longitude": 6.73868
+                        },
+                        {
+                            "title": "POINT 2",
+                            "latitude": "shouldnt be a string",
+                            "longitude": 6.75131052732467666
+                        }
+                    ]
+            })
             .then(function (res) {
                 res.should.have.status(422);
             });
@@ -346,22 +346,22 @@ describe("Hike.Points.APItesting", function () {
 
         await localGuide
             .post('referencePoints')
-            .send({ 
-                "hikeId":2,
-                "pointsToLink": 
-                [
-                    {
-                    "title": "POINT 1",
-                    "latitude": 44.93603, 
-                    "longitude": "shouldnt be a string"
-                    },
-                    {
-                    "title": "POINT 2",
-                    "latitude": 44.96452393010258, 
-                    "longitude": 6.75131052732467666
-                    }
-                ]
-              })
+            .send({
+                "hikeId": 2,
+                "pointsToLink":
+                    [
+                        {
+                            "title": "POINT 1",
+                            "latitude": 44.93603,
+                            "longitude": "shouldnt be a string"
+                        },
+                        {
+                            "title": "POINT 2",
+                            "latitude": 44.96452393010258,
+                            "longitude": 6.75131052732467666
+                        }
+                    ]
+            })
             .then(function (res) {
                 res.should.have.status(422);
             });
@@ -371,22 +371,22 @@ describe("Hike.Points.APItesting", function () {
 
         await localGuide
             .post('referencePoints')
-            .send({ 
-                "hikeId":1,
-                "pointsToLink": 
-                [
-                    {
-                    "title": "POINT 1",
-                    "latitude": 44.93603, 
-                    "longitude": 6.73868
-                    },
-                    {
-                    "title": "POINT 2",
-                    "latitude": 44.96452393010258, 
-                    "longitude": 6.75131052732467666
-                    }
-                ]
-              })
+            .send({
+                "hikeId": 1,
+                "pointsToLink":
+                    [
+                        {
+                            "title": "POINT 1",
+                            "latitude": 44.93603,
+                            "longitude": 6.73868
+                        },
+                        {
+                            "title": "POINT 2",
+                            "latitude": 44.96452393010258,
+                            "longitude": 6.75131052732467666
+                        }
+                    ]
+            })
             .then(function (res) {
                 res.should.have.status(422);
             });
@@ -396,47 +396,47 @@ describe("Hike.Points.APItesting", function () {
 
         await localGuide
             .post('referencePoints')
-            .send({ 
-                "hikeId":5,
-                "pointsToLink": 
-                [
-                    {
-                    "title": "POINT 1",
-                    "latitude": 44.93603, 
-                    "longitude": 6.73868
-                    },
-                    {
-                    "title": "POINT 2",
-                    "latitude": 44.96452393010258, 
-                    "longitude": 6.75131052732467666
-                    }
-                ]
-              })
+            .send({
+                "hikeId": 5,
+                "pointsToLink":
+                    [
+                        {
+                            "title": "POINT 1",
+                            "latitude": 44.93603,
+                            "longitude": 6.73868
+                        },
+                        {
+                            "title": "POINT 2",
+                            "latitude": 44.96452393010258,
+                            "longitude": 6.75131052732467666
+                        }
+                    ]
+            })
             .then(function (res) {
                 res.should.have.status(404);
             });
-    }); 
+    });
 
     step("Test16: points too far from the hike", async function () {
 
         await localGuide
             .post('referencePoints')
-            .send({ 
-                "hikeId":2,
-                "pointsToLink": 
-                [
-                    {
-                    "title": "POINT 1",
-                    "latitude": 42.93603, 
-                    "longitude": 5.73868
-                    },
-                    {
-                    "title": "POINT 2",
-                    "latitude": 41.96452393010258, 
-                    "longitude": 3.75131052732467666
-                    }
-                ]
-              })
+            .send({
+                "hikeId": 2,
+                "pointsToLink":
+                    [
+                        {
+                            "title": "POINT 1",
+                            "latitude": 42.93603,
+                            "longitude": 5.73868
+                        },
+                        {
+                            "title": "POINT 2",
+                            "latitude": 41.96452393010258,
+                            "longitude": 3.75131052732467666
+                        }
+                    ]
+            })
             .then(function (res) {
                 res.should.have.status(422);
             });
@@ -447,22 +447,22 @@ describe("Hike.Points.APItesting", function () {
 
         await localGuide
             .post('referencePoints')
-            .send({ 
-                "hikeId":2,
-                "pointsToLink": 
-                [
-                    {
-                    "title": "POINT 1",
-                    "latitude": 44.574263272807777, 
-                    "longitude": 6.982655916363777
-                    },
-                    {
-                    "title": "POINT 2",
-                    "latitude": 44.574180711060777, 
-                    "longitude": 6.981207858771777
-                    }
-                ]
-              })
+            .send({
+                "hikeId": 2,
+                "pointsToLink":
+                    [
+                        {
+                            "title": "POINT 1",
+                            "latitude": 44.574263272807777,
+                            "longitude": 6.982655916363777
+                        },
+                        {
+                            "title": "POINT 2",
+                            "latitude": 44.574180711060777,
+                            "longitude": 6.981207858771777
+                        }
+                    ]
+            })
             .then(function (res) {
                 res.should.have.status(201);
             });
@@ -472,43 +472,43 @@ describe("Hike.Points.APItesting", function () {
 
         await localGuide
             .post('referencePoints')
-            .send({ 
-                "hikeId":2,
-                "pointsToLink": 
-                [
-                    {
-                        "title": "POINT 1",
-                        "latitude": 44.574263272807777, 
-                        "longitude": 6.982655916363777
+            .send({
+                "hikeId": 2,
+                "pointsToLink":
+                    [
+                        {
+                            "title": "POINT 1",
+                            "latitude": 44.574263272807777,
+                            "longitude": 6.982655916363777
                         },
                         {
-                        "title": "POINT 2",
-                        "latitude": 44.574180711060777, 
-                        "longitude": 6.981207858771777
+                            "title": "POINT 2",
+                            "latitude": 44.574180711060777,
+                            "longitude": 6.981207858771777
                         }
-                ]
-              })
+                    ]
+            })
             .then(function (res) {
                 res.should.have.status(422);
             });
     });
 
-        ////////////////
+    ////////////////
 
-        step('Elimina tutti i file creati', async function () {
-            const hikes = await hikeDao.getHikes();
-            for (let hike of hikes) {
-                fs.unlink(`./utils/gpxFiles/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.gpx`, function (err, results) {
-                    if (err) console.log(`./utils/gpxFiles/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.gpx not found`);
-                    else console.log(`./utils/gpxFiles/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.gpx deleted`);
-                });
-                fs.unlink(`./utils/images/hikes/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.png`, function (err, results) {
-                    if (err) console.log(`./utils/images/hikes/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.png not found`);
-                    else console.log(`./utils/images/hikes/${hike.id}.png deleted`);
-                });
-            }
-        });
-    
+    step('Elimina tutti i file creati', async function () {
+        const hikes = await hikeDao.getHikes();
+        for (let hike of hikes) {
+            fs.unlink(`./utils/gpxFiles/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.gpx`, function (err, results) {
+                if (err) console.log(`./utils/gpxFiles/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.gpx not found`);
+                else console.log(`./utils/gpxFiles/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.gpx deleted`);
+            });
+            fs.unlink(`./utils/images/hikes/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.png`, function (err, results) {
+                if (err) console.log(`./utils/images/hikes/${hike.id}_${hike.title.replace(/[ \n\t\r]/g, '_')}.png not found`);
+                else console.log(`./utils/images/hikes/${hike.id}.png deleted`);
+            });
+        }
+    });
 
-    
+
+
 });

@@ -93,9 +93,9 @@ exports.getParkingLotById = (id) => {
             else {
                 resolve(
                     {
-                        id : r.id,
-                        capacity : r.capacity,
-                        pointId : r.pointId
+                        id: r.id,
+                        capacity: r.capacity,
+                        pointId: r.pointId
                     }
                 );
             }

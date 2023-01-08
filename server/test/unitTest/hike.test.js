@@ -5,7 +5,7 @@ const { iAmTesting, setTesting } = require('../mockDB/iAmTesting');
 setTesting(1);
 const { createDatabase, deleteDatabase } = require('../mockDB/mockDB');
 
-const { getHikes, addHike, getDetailsByHikeId, getGpxByHikeId , getPointsByHikeId, getHikeAuthor, getStartEndPointDistanceData, getHikesOfAuthor} = require("../../dao/hikeDao");
+const { getHikes, addHike, getDetailsByHikeId, getGpxByHikeId, getPointsByHikeId, getHikeAuthor, getStartEndPointDistanceData, getHikesOfAuthor } = require("../../dao/hikeDao");
 const { addPoint } = require('../../dao/pointDao');
 const { addUser } = require('../../dao/userDao');
 
@@ -18,7 +18,7 @@ const cleanDb = async () => {
 const addHikes = async () => {
     const p1 = await addPoint("Rifugio Melezè - Bellino - Val Varaita", "The building was a ...", "hut", 44.5742508675903, 6.98268919251859, 1757.43, "Bellino", "Cuneo", "Piemonte");
     const p2 = await addPoint("Monte Ferra", "Peak of Monte Ferra", "gpsCoordinates", 44.6020777802914, 6.98475264944136, 3094.14, null, null, null);
-    const u = await addUser("antonioconte@gmail.com", "antonioconte", "localGuide", "antonio", "conte", "M","+393333333333", "password", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFudG9uaW9jb2xlbGxpMTk5OEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFudG9jb2xlIn0.Vq9N8p9_6t-2yXJSKWzf4gm44TQ0k0zZJiA87Sh8Oog")
+    const u = await addUser("antonioconte@gmail.com", "antonioconte", "localGuide", "antonio", "conte", "M", "+393333333333", "password", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFudG9uaW9jb2xlbGxpMTk5OEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFudG9jb2xlIn0.Vq9N8p9_6t-2yXJSKWzf4gm44TQ0k0zZJiA87Sh8Oog")
     //title, description, length, expectedTime, ascent, difficulty, startPointId, endPointId, authorId, uploadDate, photoFile
     const h1 = await addHike("Trail to MONTE FERRA", "Leaving the car in the large parking lot ...", 13, 5, 1336.71, "Professional Hiker", p1, p2, u, "2022-01-10", "https://images.unsplash.com/1");
     const h2 = await addHike("Trail to ROCCA PATANUA", "Patanua means naked in Piedmontese, ...", 9, 5.5, 923.62, "Professional Hiker", p1, p2, u, "2022-04-12", "https://images.unsplash.com/2");
@@ -30,7 +30,7 @@ describe("test hikes", () => {
         await cleanDb();
         await addHikes();
     });
-    
+
     // Call tests
     testgetHikes()
     testgetDetailsByHikeId(1, 3) // hike id, wrongId
@@ -55,7 +55,7 @@ function testgetHikes() {
                 "difficulty": "Professional Hiker",
                 "authorName": "Antonio",
                 "authorSurname": "Conte",
-                "authorId":4,
+                "authorId": 4,
                 "uploadDate": "2022-01-10",
                 "photoFile": "https://images.unsplash.com/1",
                 "latitude": 44.5742508675903,
@@ -75,7 +75,7 @@ function testgetHikes() {
                 "difficulty": "Professional Hiker",
                 "authorName": "Antonio",
                 "authorSurname": "Conte",
-                "authorId":4,
+                "authorId": 4,
                 "uploadDate": "2022-04-12",
                 "photoFile": "https://images.unsplash.com/2",
                 "latitude": 44.5742508675903,
@@ -103,7 +103,7 @@ function testgetDetailsByHikeId(id, wongId) {
                 "description": "Leaving the car in the large parking lot ...",
                 "authorName": "Antonio",
                 "authorSurname": "Conte",
-                "authorId":4,
+                "authorId": 4,
                 "uploadDate": "2022-01-10",
                 "photoFile": "https://images.unsplash.com/1",
                 "length": 13,
@@ -180,7 +180,7 @@ function testgetHikeAuthor(id, wongId) {
     test("test getHikeAuthor wrong id", async () => {
         let authorId2 = await getHikeAuthor(wongId);
         expect(authorId2).toEqual(undefined);
-    });    
+    });
 }
 
 function testgetStartEndPointDistanceData(id, wongId) {
@@ -198,7 +198,7 @@ function testgetStartEndPointDistanceData(id, wongId) {
     test("test getStartEndPointDistanceData wrong id", async () => {
         let StartEndPointDistanceData2 = await getStartEndPointDistanceData(wongId);
         expect(StartEndPointDistanceData2).toEqual(undefined);
-    });    
+    });
 }
 
 function testgetHikesOfAuthor(authorId) {
