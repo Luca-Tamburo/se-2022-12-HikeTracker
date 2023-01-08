@@ -11,7 +11,7 @@
  */
 
 // Imports
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Row, Col, ListGroup, Button, Spinner, Modal, Table } from "react-bootstrap";
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
@@ -138,13 +138,9 @@ const HikeDetails = () => {
     }
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
-  function handleLgShowTrue() {
-    setLgShow(true);
-  }
+  const handleLgShowTrue = useCallback(() => setLgShow(true), [])
 
-  function handleLgShowFalse() {
-    setLgShow(false);
-  }
+  const handleLgShowFalse = useCallback(() => setLgShow(false), [])
 
   if (!loading) {
     return (
@@ -197,41 +193,45 @@ const HikeDetails = () => {
                       })}
                       <h5 className="fw-bold mt-3">EXPECTED TIME</h5>{" "}
                       {hike.expectedTime} {""} hr
-                      <h5 className="fw-bold mt-3">HISTORY HIKE COMPLETED</h5>{" "}
-                      {(isloggedIn && userInfo.role === 'hiker' && myCompletedHikeTimes.length !== 0) ?
-                        <>
-                          <Button variant="success" size='sm' onClick={handleLgShowTrue}>
-                            Show your history hike completed
-                          </Button>
-                          <Modal size="lg" show={lgShow} onHide={handleLgShowFalse}>
-                            <Modal.Header className="p-2">
-                              <Modal.Title className="fw-bold ms-2">History hike completed</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body className="pb-1">
-                              <Table bordered hover>
-                                <thead>
-                                  <tr>
-                                    <th>#</th>
-                                    <th>Start Time</th>
-                                    <th>End Time</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {myCompletedHikeTimes.map((completedHikeTimes, index) => {
-                                    return (
-                                      <tr key={index}>
-                                        <td>{index}</td>
-                                        <td className="fst-italic">{completedHikeTimes.startTime}</td>
-                                        <td className="fst-italic">{completedHikeTimes.terminateTime}</td>
-                                      </tr>
-                                    );
-                                  })}
-                                </tbody>
-                              </Table>
-                            </Modal.Body>
-                          </Modal>
-                        </>
-                        : <span>You have not yet completed this hike.</span>}
+                      {isloggedIn && userInfo.role === 'hiker' ?
+                        (myCompletedHikeTimes.length !== 0 ?
+                          <>
+                            <h5 className="fw-bold mt-3">HISTORY HIKE COMPLETED</h5>{" "}
+                            <Button variant="success" size='sm' onClick={handleLgShowTrue}>
+                              Show your history hike completed
+                            </Button>
+                            <Modal size="lg" show={lgShow} onHide={handleLgShowFalse}>
+                              <Modal.Header className="p-2">
+                                <Modal.Title className="fw-bold ms-2">History hike completed</Modal.Title>
+                              </Modal.Header>
+                              <Modal.Body className="pb-1">
+                                <Table bordered hover>
+                                  <thead>
+                                    <tr>
+                                      <th>#</th>
+                                      <th>Start Time</th>
+                                      <th>End Time</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {myCompletedHikeTimes.map((completedHikeTimes, index) => {
+                                      return (
+                                        <tr key={index}>
+                                          <td>{index}</td>
+                                          <td className="fst-italic">{completedHikeTimes.startTime}</td>
+                                          <td className="fst-italic">{completedHikeTimes.terminateTime}</td>
+                                        </tr>
+                                      );
+                                    })}
+                                  </tbody>
+                                </Table>
+                              </Modal.Body>
+                            </Modal>
+                          </>
+                          : <span>You have not yet completed this hike.</span>
+                        )
+                        : <></>
+                      }
                     </ListGroup.Item>
                   </ListGroup>
                 </div>

@@ -14,7 +14,7 @@
 import "./HutFilter.css";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { Link } from 'react-router-dom';
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer, Circle, } from "react-leaflet";
 import L from "leaflet";
 
@@ -152,13 +152,10 @@ const HutFilter = (props) => {
         setAltitudeMax("")
         setHutName("")
         setMarker(false)
-
-
-
         props.setHutsDisplay(props.huts);
     };
 
-    function handleRegion(event) {
+    const handleRegion = useCallback((event) => {
         if (event.target.value === "0") {
             setIsProvinceUnselected(true);
             setIsCityUnselected(true);
@@ -169,9 +166,9 @@ const HutFilter = (props) => {
             setRegion(event.target.value);
             setIsProvinceUnselected(false);
         }
-    };
+    }, [])
 
-    function handleProvince(event) {
+    const handleProvince = useCallback((event) => {
         if (event.target.value === "0") {
             setIsCityUnselected(true);
             setCity("City");
@@ -181,91 +178,62 @@ const HutFilter = (props) => {
             setIsProvinceUnselected(false);
             setIsCityUnselected(false);
         }
-    };
-    function handleCity(event) {
-        setCity(event.target.value);
-    }
+    }, [])
 
-    function handleRange(event) {
-        setRange(event.target.value);
-    }
+    const handleCity = useCallback((event) => setCity(event.target.value), [])
 
-    function handleHutName(event) {
-        setHutName(event.target.value);
-    }
+    const handleRange = useCallback((event) => setRange(event.target.value), [])
 
-    function handleRoomMin(event) {
+    const handleHutName = useCallback((event) => setHutName(event.target.value), [])
+
+    const handleRoomMin = useCallback((event) => {
         if (parseFloat(event.target.value) >= parseFloat(RoomsNumberMax))
             setRoomsNumberMax(event.target.value);
         setRoomsNumberMin(event.target.value);
-    }
-    function handleRoomMax(event) {
+    }, []) //eslint-disable-line react-hooks/exhaustive-deps
+
+    const handleRoomMax = useCallback((event) => {
         RoomsNumberMin && event.target.value
-            ? setRoomsNumberMax(
-                parseFloat(event.target.value) >= parseFloat(RoomsNumberMin)
-                    ? event.target.value
-                    : RoomsNumberMax === ""
-                        ? parseFloat(RoomsNumberMin)
-                        : "")
+            ? setRoomsNumberMax(parseFloat(event.target.value) >= parseFloat(RoomsNumberMin) ? event.target.value : RoomsNumberMax === "" ? parseFloat(RoomsNumberMin) : "")
             : setRoomsNumberMax(event.target.value);
-    }
-    function handleBedMin(event) {
-        console.log(event.target.value)
+    }, []) //eslint-disable-line react-hooks/exhaustive-deps
+
+    const handleBedMin = useCallback((event) => {
         if (parseFloat(event.target.value) >= parseFloat(bedsNumberMax))
             setBedNumberMax(event.target.value);
         setBedNumberMin(event.target.value);
-    }
-    function handleBedMax(event) {
-        bedsNumberMin && event.target.value
-            ? setBedNumberMax(
-                parseFloat(event.target.value) >= parseFloat(bedsNumberMin)
-                    ? event.target.value
-                    : bedsNumberMax === ""
-                        ? parseFloat(bedsNumberMin)
-                        : ""
-            )
-            : setBedNumberMax(event.target.value);
-    }
+    }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
-    function handleAltitudeMin(event) {
-        console.log(event.target.value)
+    const handleBedMax = useCallback((event) => {
+        bedsNumberMin && event.target.value
+            ? setBedNumberMax(parseFloat(event.target.value) >= parseFloat(bedsNumberMin) ? event.target.value : bedsNumberMax === "" ? parseFloat(bedsNumberMin) : "")
+            : setBedNumberMax(event.target.value);
+    }, []) //eslint-disable-line react-hooks/exhaustive-deps
+
+    const handleAltitudeMin = useCallback((event) => {
         if (parseFloat(event.target.value) >= parseFloat(altitudeMax))
             setAltitudeMax(event.target.value);
         setAltitudeMin(event.target.value);
-    }
-    function handleAltitudeMax(event) {
+    }, []) //eslint-disable-line react-hooks/exhaustive-deps
+
+    const handleAltitudeMax = useCallback((event) => {
         altitudeMin && event.target.value
-            ? setAltitudeMax(
-                parseFloat(event.target.value) >= parseFloat(altitudeMin)
-                    ? event.target.value
-                    : altitudeMax === ""
-                        ? parseFloat(altitudeMin)
-                        : ""
-            )
+            ? setAltitudeMax(parseFloat(event.target.value) >= parseFloat(altitudeMin) ? event.target.value : altitudeMax === "" ? parseFloat(altitudeMin) : "")
             : setAltitudeMax(event.target.value);
-    }
+    }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
-    function handlePosition() {
-        setCurrentPosition(true);
-    };
+    const handlePosition = useCallback(() => setCurrentPosition(true), []);
 
-    function saveMarkers(newMarkerCoords, circle) {
+    const saveMarkers = useCallback((newMarkerCoords, circle) => {
         setMarker(newMarkerCoords);
         setCircle(circle);
-    };
-
-    // Map --> Min e Max
+    }, [])
 
     return (
         <>
             <Row>
                 <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
-                    <Form.Select
-                        data-testid="region-select"
-                        value={region}
-                        className='mt-3 mt-sm-3'
-                        onChange={handleRegion}
-                    >
+                    <Form.Select data-testid="region-select" value={region} className='mt-3 mt-sm-3' onChange={handleRegion}>
                         <option value={0}>Region</option>
                         {__REGIONS.map((r) => (
                             <option key={r.regione} value={r.regione}>
@@ -275,13 +243,7 @@ const HutFilter = (props) => {
                     </Form.Select>
                 </Col>
                 <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
-                    <Form.Select
-                        data-testid="province-select"
-                        value={province}
-                        className='mt-3 mt-sm-3'
-                        disabled={isProvinceUnselected}
-                        onChange={(event) => handleProvince(event)}
-                    >
+                    <Form.Select data-testid="province-select" value={province} className='mt-3 mt-sm-3' disabled={isProvinceUnselected} onChange={(event) => handleProvince(event)}>
                         <option value={0}>Province</option>
                         {getProvinceForRegion(parseInt(region)).map((p) => (
                             <option key={p.provincia} value={p.provincia}>
@@ -291,13 +253,7 @@ const HutFilter = (props) => {
                     </Form.Select>
                 </Col>
                 <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
-                    <Form.Select
-                        data-testid="city-select"
-                        className='mt-3 mt-sm-3'
-                        value={city}
-                        disabled={isCityUnselected}
-                        onChange={handleCity}
-                    >
+                    <Form.Select data-testid="city-select" className='mt-3 mt-sm-3' value={city} disabled={isCityUnselected} onChange={handleCity}>
                         <option value={0}>City</option>
                         {getCitiesForProvince(parseInt(province)).map((c) => (
                             <option key={c.comune} value={c.nome}>
@@ -311,13 +267,7 @@ const HutFilter = (props) => {
                         <span>
                             Range of  {range} mt
                         </span>
-                        <Form.Range
-                            data-testid="range-select"
-                            value={range}
-                            min="0"
-                            max="100000"
-                            onChange={handleRange}
-                        />
+                        <Form.Range data-testid="range-select" value={range} min="0" max="100000" onChange={handleRange} />
                     </Form>
                 </Col>
             </Row>
@@ -326,14 +276,7 @@ const HutFilter = (props) => {
                     <p className='fw-bold my-sm-2 mt-md-0 mb-0'>Hut name</p>
                     <div className="w-100">
                         <Form className="pe-2">
-                            <Form.Control
-                                data-testid="name-select"
-                                type="text"
-                                placeholder="Name..."
-                                onChange={handleHutName}
-                                value={hutName}
-                                className='w-100'
-                            />
+                            <Form.Control data-testid="name-select" type="text" placeholder="Name..." onChange={handleHutName} value={hutName} className='w-100' />
                         </Form>
                     </div>
                 </Col>
@@ -341,25 +284,10 @@ const HutFilter = (props) => {
                     <p className='fw-bold my-2 my-sm-2 mb-0'>Rooms number</p>
                     <div className="d-flex">
                         <Form className="pe-2">
-                            <Form.Control
-                                data-testid="rooms-select-min"
-                                type="number"
-                                min="0"
-                                placeholder="Min"
-                                onChange={handleRoomMin}
-                                value={RoomsNumberMin}
-                            />
+                            <Form.Control data-testid="rooms-select-min" type="number" min="0" placeholder="Min" onChange={handleRoomMin} value={RoomsNumberMin} />
                         </Form>
                         <Form>
-                            <Form.Control
-                                data-testid="rooms-select-max"
-                                type="number"
-                                min="0"
-                                placeholder="Max"
-                                onChange={handleRoomMax}
-
-                                value={RoomsNumberMax}
-                            />
+                            <Form.Control data-testid="rooms-select-max" type="number" min="0" placeholder="Max" onChange={handleRoomMax} value={RoomsNumberMax} />
                         </Form>
                     </div>
                 </Col>
@@ -367,24 +295,10 @@ const HutFilter = (props) => {
                     <p className='fw-bold my-2 my-sm-2 mt-md-0 mb-0'>Beds number</p>
                     <div className="d-flex">
                         <Form className="pe-2">
-                            <Form.Control
-                                data-testid="beds-select-min"
-                                type="number"
-                                min="0"
-                                placeholder="Min"
-                                onChange={handleBedMin}
-                                value={bedsNumberMin}
-                            />
+                            <Form.Control data-testid="beds-select-min" type="number" min="0" placeholder="Min" onChange={handleBedMin} value={bedsNumberMin} />
                         </Form>
                         <Form>
-                            <Form.Control
-                                data-testid="beds-select-max"
-                                type="number"
-                                min={bedsNumberMin ? bedsNumberMin : 0}
-                                placeholder="Max"
-                                onChange={handleBedMax}
-                                value={bedsNumberMax}
-                            />
+                            <Form.Control data-testid="beds-select-max" type="number" min={bedsNumberMin ? bedsNumberMin : 0} placeholder="Max" onChange={handleBedMax} value={bedsNumberMax} />
                         </Form>
                     </div>
                 </Col>
@@ -392,24 +306,10 @@ const HutFilter = (props) => {
                     <p className='fw-bold my-2 my-sm-2 mt-md-0 mb-0'>Altitude</p>
                     <div className="d-flex">
                         <Form className="pe-2">
-                            <Form.Control
-                                data-testid="altitude-select-min"
-                                type="number"
-                                min="0"
-                                placeholder="Min"
-                                onChange={handleAltitudeMin}
-                                value={altitudeMin}
-                            />
+                            <Form.Control data-testid="altitude-select-min" type="number" min="0" placeholder="Min" onChange={handleAltitudeMin} value={altitudeMin} />
                         </Form>
                         <Form>
-                            <Form.Control
-                                data-testid="altitude-select-max"
-                                type="number"
-                                min={altitudeMax ? altitudeMax : 0}
-                                placeholder="Max"
-                                onChange={handleAltitudeMax}
-                                value={altitudeMax}
-                            />
+                            <Form.Control data-testid="altitude-select-max" type="number" min={altitudeMax ? altitudeMax : 0} placeholder="Max" onChange={handleAltitudeMax} value={altitudeMax} />
                         </Form>
                     </div>
                 </Col>

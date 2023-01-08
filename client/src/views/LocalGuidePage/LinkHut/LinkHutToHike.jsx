@@ -11,7 +11,7 @@
  */
 
 // Imports
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Row, Col, Spinner, Button } from 'react-bootstrap'
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -77,6 +77,7 @@ const LinkHutToHike = () => {
                 notify.error(err.error);
             })
     }, []); //eslint-disable-line react-hooks/exhaustive-deps
+
 
     function handleReset() {
         setCurrentLinkedHuts(points.currentLinkedHuts)

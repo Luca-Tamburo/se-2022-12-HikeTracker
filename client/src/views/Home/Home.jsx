@@ -37,7 +37,7 @@ const Home = () => {
                 <h1 className='text-center fw-bold fst-italic mb-4'>Welcome to HikeTracker </h1>
                 <div className='d-flex flex-column flex-md-row mb-5'>
                     <Link to={"/hikes"}>
-                        <Button className="btn-home ms-0 ms-sm-5" variant='light' size='lg'>
+                        <Button className="btn-home" variant='light' size='lg'>
                             <FaMountain className='me-2 mb-1' size={25} />
                             Hikes list
                         </Button>

@@ -11,7 +11,7 @@
 */
 
 // Imports
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Button, Form, Row, Col } from 'react-bootstrap'
 import { useStopwatch } from 'react-timer-hook';
 import dayjs from "dayjs"
@@ -113,19 +113,15 @@ const MyTime = (props) => {
 
     }
 
+    const handleDisableDate = useCallback(() => setDisableDate(!disableDate), [disableDate])
+
     return (
         <Row className='mt-2'>
             <Col xs={12} md={5} xl={5}>
                 {hikeTime.inProgress === 0 &&
                     <>
                         <Form>
-                            <Form.Check
-                                type="switch"
-                                id="custom-switch"
-                                label="Customize date"
-                                value={!disableDate}
-                                onChange={() => setDisableDate(!disableDate)}
-                            />
+                            <Form.Check type="switch" id="custom-switch" label="Customize date" value={!disableDate} onChange={handleDisableDate} />
                         </Form>
                         <Button variant="success" className='me-4 my-2 mb-2' onClick={handleAddHikeTimeInfo}><IoPlay className="me-2" />Start hike</Button>
                         <DateTimePicker disabled={disableDate} onChange={onChange} value={value} className='datepicker' />
@@ -133,13 +129,7 @@ const MyTime = (props) => {
                 }
                 {hikeTime.inProgress === 1 && <>
                     <Form>
-                        <Form.Check
-                            type="switch"
-                            id="custom-switch"
-                            label="Customize date"
-                            value={!disableDate}
-                            onChange={() => setDisableDate(!disableDate)}
-                        />
+                        <Form.Check type="switch" id="custom-switch" label="Customize date" value={!disableDate} onChange={handleDisableDate} />
                     </Form>
                     <Button variant="danger" className='me-4 my-2 mb-2' onClick={handleTerminateHikeTimeInfo}><GiStopSign className="me-2" />Stop hike</Button>
                     <DateTimePicker disabled={disableDate} onChange={onChange} value={value} className='datepicker' />

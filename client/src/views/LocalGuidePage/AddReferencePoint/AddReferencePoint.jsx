@@ -11,7 +11,7 @@
  */
 
 // Imports
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Row, Col, Spinner, Button, Form } from 'react-bootstrap'
 import { useNavigate, useParams } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
@@ -61,9 +61,6 @@ const iconRed = L.icon({
     iconSize: [41, 41],
 });
 
-
-
-
 const AddReferencePoint = () => {
 
     const navigate = useNavigate(); // Navigation handler
@@ -79,7 +76,6 @@ const AddReferencePoint = () => {
     const [coordinates, setCoordinates] = useState(null);
     const [refPoint, setRefPoint] = useState(false);
 
-    console.log(hike)
     useEffect(() => {
         api
             .getHikeDetails(hikeId)
@@ -171,8 +167,6 @@ const AddReferencePoint = () => {
             pointsToLink: pointList,
         }
 
-        console.log(dataApi)
-
         //Api AddReferencePoint
         api.addReferencePoint(dataApi)
             .then(() => {
@@ -183,16 +177,14 @@ const AddReferencePoint = () => {
             .finally(() => setLoading(false));
     }
 
-    function handleReset() {
+    const handleReset = useCallback(() => {
         setnewPoints([]);
         setRefPoint(false);
         setPointName("");
+    }, [])
 
-    }
 
-    function handleName(event) {
-        setPointName(event.target.value)
-    }
+    const handleName = useCallback((event) => setPointName(event.target.value), [])
 
     if (!loading) {
         return (
@@ -233,15 +225,7 @@ const AddReferencePoint = () => {
                     </Col>
                     <Col xs={11} md={6} className='ms-3 mt-md-3'>
                         <div className='d-flex flex-column flex-sm-row mb-3'>
-                            <Form.Control
-                                data-testid="name-select"
-                                type="text"
-                                className='mb-3 mb-sm-0'
-                                placeholder="Point name..."
-                                onChange={handleName}
-                                value={pointName}
-                            />
-
+                            <Form.Control data-testid="name-select" type="text" className='mb-3 mb-sm-0' placeholder="Point name..." onChange={handleName} value={pointName} />
                         </div>
                         <MapContainer center={start} zoom={13} scrollWheelZoom={true}>
                             <TileLayer

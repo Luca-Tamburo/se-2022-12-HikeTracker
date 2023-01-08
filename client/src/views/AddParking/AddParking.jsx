@@ -11,7 +11,7 @@
  */
 
 //Imports
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Button, Spinner, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
@@ -73,9 +73,9 @@ const AddParking = (props) => {
         }
     };
 
-    const saveMarkers = (newMarkerCoords) => {
-        setMarker(newMarkerCoords)
-    };
+    const saveMarkers = useCallback((newMarkerCoords) => setMarker(newMarkerCoords), [])
+
+    const handleLocation = useCallback(() => setLocation(true), [])
 
     return (
         <div>
@@ -97,15 +97,7 @@ const AddParking = (props) => {
                                         {AddParkingForm.map((input, index) => {
                                             return (
                                                 <Col xs={input.xsCol} sm={input.smCol} md={input.mdCol} key={input.id}>
-                                                    <CustomField.Input
-                                                        className='mt-3'
-                                                        type='text'
-                                                        key={input.id}
-                                                        id={input.idName}
-                                                        name={input.idName}
-                                                        placeholder={input.placeholder}
-                                                        label={input.label}
-                                                    />
+                                                    <CustomField.Input className='mt-3' type='text' key={input.id} id={input.idName} name={input.idName} placeholder={input.placeholder} label={input.label} />
                                                 </Col>
                                             );
                                         })}
@@ -128,7 +120,7 @@ const AddParking = (props) => {
                                 </MapContainer>
                                 <Row>
                                     <div className="d-flex justify-content-evenly mt-2">
-                                        <Button onClick={() => { setLocation(true) }}>Center Your Position</Button>
+                                        <Button onClick={handleLocation}>Center Your Position</Button>
                                     </div>
                                 </Row>
                             </Col>

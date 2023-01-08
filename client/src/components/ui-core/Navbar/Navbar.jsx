@@ -30,13 +30,13 @@ const Navbar = (props) => {
     <MyNavbar collapseOnSelect bg="light" variant="light" className="shadow p-2 bg-white sticky-top">
       <Container fluid>
         <MyNavbar.Brand as={Link} to="/" data-testid='home-logo-button'>
-          <img src={logo} alt="Logo Icon" width="200" />
+          <img src={logo} alt="Logo Icon" width="200" className="me-sm-5" />
         </MyNavbar.Brand>
         <Link to={"/"} data-testid='home-icon-button' className="pe-3 me-3 pe-sm-5 me-sm-5">
           <FaHome className="home-icon-navbar" />
         </Link>
         {!isloggedIn ?
-          (<div className="d-flex d-sm-block flex-column justify-content-center align-items-center pe-3">
+          (<div className="d-flex d-sm-block flex-column justify-content-center align-items-center">
             <Link to={"/signup"}>
               <Button variant="secondary" className="btn-navbar mb-2 mb-sm-0">
                 SignUp

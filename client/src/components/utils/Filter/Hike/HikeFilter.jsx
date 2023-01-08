@@ -184,84 +184,58 @@ const Filter = (props) => {
 
   const handleCity = useCallback((event) => setCity(event.target.value), []);
 
-  function handleRange(event) {
-    setRange(event.target.value);
-  }
+  const handleRange = useCallback((event) => setRange(event.target.value), []);
 
-  function handleDifficulty(event) {
-    setDifficulty(event.target.value);
-  }
+  const handleDifficulty = useCallback((event) => setDifficulty(event.target.value), [])
 
-  function handleAscentMin(event) {
+  const handleAscentMin = useCallback((event) => {
     if (parseFloat(event.target.value) >= parseFloat(ascentMax))
       setAscentMax(event.target.value);
-    setAscentMin(event.target.value);;
-  }
+    setAscentMin(event.target.value);
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
-  function handleAscentMax(event) {
+  const handleAscentMax = useCallback((event) => {
     ascentMin && event.target.value
-      ? setAscentMax(
-        parseFloat(event.target.value) >= parseFloat(ascentMin)
-          ? event.target.value
-          : ascentMax === ""
-            ? parseFloat(ascentMin)
-            : ""
-      )
+      ? setAscentMax(parseFloat(event.target.value) >= parseFloat(ascentMin) ? event.target.value : ascentMax === "" ? parseFloat(ascentMin) : "")
       : setAscentMax(event.target.value);
-  }
+  }, [])//eslint-disable-line react-hooks/exhaustive-deps
 
-  function handleExpectideTimeMin(event) {
+  const handleExpectideTimeMin = useCallback((event) => {
     if (parseFloat(event.target.value) >= parseFloat(expectedTimeMax))
       setExpectedTimeMax(event.target.value);
     setExpectedTimeMin(event.target.value);
-  }
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
-  function handleExpectideTimeMax(event) {
+  const handleExpectideTimeMax = useCallback((event) => {
     expectedTimeMin && event.target.value
-      ? setExpectedTimeMax(
-        parseFloat(event.target.value) >= parseFloat(expectedTimeMin)
-          ? event.target.value
-          : expectedTimeMax === ""
-            ? parseFloat(expectedTimeMin)
-            : "")
+      ? setExpectedTimeMax(parseFloat(event.target.value) >= parseFloat(expectedTimeMin) ? event.target.value : expectedTimeMax === "" ? parseFloat(expectedTimeMin) : "")
       : setExpectedTimeMax(event.target.value);
-  }
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
-  function handleLengthMin(event) {
+  const handleLengthMin = useCallback((event) => {
     if (parseFloat(event.target.value) >= parseFloat(lengthMax))
       setLengthMax(event.target.value);
     setLengthMin(event.target.value);
-  }
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
-  function handleLengthMax(event) {
+  const handleLengthMax = useCallback((event) => {
     lengthMin && event.target.value
-      ? setLengthMax(
-        parseFloat(event.target.value) >= parseFloat(lengthMin)
-          ? event.target.value
-          : lengthMax === ""
-            ? parseFloat(lengthMin)
-            : "")
+      ? setLengthMax(parseFloat(event.target.value) >= parseFloat(lengthMin) ? event.target.value : lengthMax === "" ? parseFloat(lengthMin) : "")
       : setLengthMax(event.target.value);
-  }
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
-  function handlePosition() {
-    setCurrentPosition(true);
-  };
+  const handlePosition = useCallback(() => setCurrentPosition(true), [])
 
-  function saveMarkers(newMarkerCoords, circle) {
+  const saveMarkers = useCallback((newMarkerCoords, circle) => {
     setMarker(newMarkerCoords);
     setCircle(circle);
-  };
+  }, [])
+
   return (
     <>
       <Row>
         <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
-          <Form.Select
-            data-testid="region-select"
-            value={region}
-            className='mt-3 mt-sm-3'
-            onChange={handleRegion}
-          >
+          <Form.Select data-testid="region-select" value={region} className='mt-3 mt-sm-3' onChange={handleRegion}>
             <option value={0}>Region</option>
             {__REGIONS.map((r) => (
               <option key={r.regione} value={r.regione}>
@@ -271,13 +245,7 @@ const Filter = (props) => {
           </Form.Select>
         </Col>
         <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
-          <Form.Select
-            data-testid="province-select"
-            value={province}
-            className='mt-3 mt-sm-3'
-            disabled={isProvinceUnselected}
-            onChange={handleProvince}
-          >
+          <Form.Select data-testid="province-select" value={province} className='mt-3 mt-sm-3' disabled={isProvinceUnselected} onChange={handleProvince}>
             <option value={0}>Province</option>
             {getProvinceForRegion(parseInt(region)).map((p) => (
               <option key={p.provincia} value={p.provincia}>
@@ -287,13 +255,7 @@ const Filter = (props) => {
           </Form.Select>
         </Col>
         <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
-          <Form.Select
-            data-testid="city-select"
-            className='mt-3 mt-sm-3'
-            value={city}
-            disabled={isCityUnselected}
-            onChange={handleCity}
-          >
+          <Form.Select data-testid="city-select" className='mt-3 mt-sm-3' value={city} disabled={isCityUnselected} onChange={handleCity}>
             <option value={0}>City</option>
             {getCitiesForProvince(parseInt(province)).map((c) => (
               <option key={c.comune} value={c.nome}>
@@ -307,24 +269,14 @@ const Filter = (props) => {
             <span>
               Range of {range} {""} mt
             </span>
-            <Form.Range
-              data-testid="range-select"
-              value={range}
-              min="0"
-              max="100000"
-              onChange={handleRange}
-            />
+            <Form.Range data-testid="range-select" value={range} min="0" max="100000" onChange={handleRange} />
           </Form>
         </Col>
       </Row>
       {/* Other filters*/}
       <Row className="align-items-end mt-sm-2 mt-md-0">
         <Col xs={{ span: 12 }} md={{ span: 6 }} lg={{ span: 3 }} xl={{ span: 2 }} >
-          <Form.Select
-            data-testid="difficulty-select"
-            value={difficulty}
-            onChange={handleDifficulty}
-          >
+          <Form.Select data-testid="difficulty-select" value={difficulty} onChange={handleDifficulty}>
             <option value={0}>Difficulty</option>
             {constFilter[2].map((item, index) => {
               return (
@@ -340,24 +292,10 @@ const Filter = (props) => {
           <p className='fw-bold my-2 my-sm-2 mt-md-0 mb-0'>Ascent (mt)</p>
           <div className="d-flex">
             <Form className="pe-2">
-              <Form.Control
-                data-testid="ascent-select-min"
-                type="number"
-                min="0"
-                placeholder="Min"
-                onChange={handleAscentMin}
-                value={ascentMin}
-              />
+              <Form.Control data-testid="ascent-select-min" type="number" min="0" placeholder="Min" onChange={handleAscentMin} value={ascentMin} />
             </Form>
             <Form>
-              <Form.Control
-                data-testid="ascent-select-max"
-                type="number"
-                min={ascentMin ? ascentMin : 0}
-                placeholder="Max"
-                onChange={handleAscentMax}
-                value={ascentMax}
-              />
+              <Form.Control data-testid="ascent-select-max" type="number" min={ascentMin ? ascentMin : 0} placeholder="Max" onChange={handleAscentMax} value={ascentMax} />
             </Form>
           </div>
         </Col>
@@ -365,24 +303,10 @@ const Filter = (props) => {
           <p className='fw-bold my-2 my-sm-2 mb-0'>Expected time (hr)</p>
           <div className="d-flex">
             <Form className="pe-2">
-              <Form.Control
-                data-testid="expectedTime-select-min"
-                type="number"
-                min="0"
-                placeholder="Min"
-                onChange={handleExpectideTimeMin}
-                value={expectedTimeMin}
-              />
+              <Form.Control data-testid="expectedTime-select-min" type="number" min="0" placeholder="Min" onChange={handleExpectideTimeMin} value={expectedTimeMin} />
             </Form>
             <Form>
-              <Form.Control
-                data-testid="expectedTime-select-max"
-                type="number"
-                min="0"
-                placeholder="Max"
-                onChange={handleExpectideTimeMax}
-                value={expectedTimeMax}
-              />
+              <Form.Control data-testid="expectedTime-select-max" type="number" min="0" placeholder="Max" onChange={handleExpectideTimeMax} value={expectedTimeMax} />
             </Form>
           </div>
         </Col>
@@ -390,24 +314,10 @@ const Filter = (props) => {
           <p className='fw-bold my-2 my-sm-2 mb-0'>Length (km)</p>
           <div className="d-flex">
             <Form className="pe-2">
-              <Form.Control
-                data-testid="length-select-min"
-                type="number"
-                min="0"
-                placeholder="Min"
-                onChange={handleLengthMin}
-                value={lengthMin}
-              />
+              <Form.Control data-testid="length-select-min" type="number" min="0" placeholder="Min" onChange={handleLengthMin} value={lengthMin} />
             </Form>
             <Form>
-              <Form.Control
-                data-testid="length-select-max"
-                type="number"
-                min="0"
-                placeholder="Max"
-                onChange={handleLengthMax}
-                value={lengthMax}
-              />
+              <Form.Control data-testid="length-select-max" type="number" min="0" placeholder="Max" onChange={handleLengthMax} value={lengthMax} />
             </Form>
           </div>
         </Col>
