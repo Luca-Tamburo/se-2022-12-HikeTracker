@@ -1,5 +1,6 @@
 FROM node:18
 WORKDIR /app
+ENV TZ="Europe/Rome"
 COPY package.json /app
 RUN npm install 
 COPY . .

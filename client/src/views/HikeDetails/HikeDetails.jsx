@@ -228,7 +228,10 @@ const HikeDetails = () => {
                               </Modal.Body>
                             </Modal>
                           </>
-                          : <span>You have not yet completed this hike.</span>
+                          : <>
+                              <h5 className="fw-bold mt-3">HISTORY HIKE COMPLETED</h5>{" "}
+                              <span>You have not yet completed this hike.</span>
+                          </>
                         )
                         : <></>
                       }
