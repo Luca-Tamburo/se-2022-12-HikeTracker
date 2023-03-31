@@ -1131,11 +1131,11 @@ npm run test_integration
 
 ## Team members
 
-| Matricola   |   Surname   | Name        |
-| :---------: | :---------  | :---------- |
-| s301146     | Colelli     | Antonio     |
-| s294427     | Hevia       | Adriana     |
-| s305925     | Miccono     | Edoardo     |
-| s303399     | Sambin      | Gabriele    |
-| s303907     | Tamburo     | Luca        |
-| s301587     | Trovero     | Fabio       |
+| Surname   | Name        |
+| :---------  | :---------- |
+| Colelli     | Antonio     |
+| Hevia       | Adriana     |
+| Miccono     | Edoardo     |
+| Sambin      | Gabriele    |
+| Tamburo     | Luca        |
+| Trovero     | Fabio       |
